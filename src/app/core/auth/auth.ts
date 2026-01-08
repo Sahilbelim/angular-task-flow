@@ -26,7 +26,7 @@ export class Auth {
       throw error;
     }
   }
-  async login(email: string, password: string) {
+  async login(email: string , password: string) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       this.user.set(userCredential.user);
