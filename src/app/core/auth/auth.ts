@@ -7,12 +7,14 @@ import { auth } from '../../../environments/firebase.config';
 })
 export class Auth {
 
-  user =signal<any>(null);
+  user =signal<User | null>(null);
   isLoggedIn = signal<boolean>(false);
   
   constructor() {
     auth.onAuthStateChanged((user: User | null) => {
       this.user.set(user);
+      this.isLoggedIn.set(!!user);
+ 
   });
   }
   

@@ -37,23 +37,6 @@ export class Login {
     }
   }
 
-  async signin() {
-    try {
-      await this.authService.register(this.userForm.value.email!, this.userForm.value.password!);
-      console.log('Registration successful');
-      alert("Registration successfull")
-    } catch (error) {
-      console.error('Registration failed:', error);
-    } 
-  }
 
-  async logout() {
-    try {
-      await this.authService.logout();
-      console.log('Logout successful');
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
-  }
 
 }
