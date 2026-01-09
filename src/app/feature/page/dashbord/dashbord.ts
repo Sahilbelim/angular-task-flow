@@ -1,7 +1,9 @@
-import { Component, effect } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { ReactiveFormsModule,FormBuilder, Validators } from '@angular/forms';
 import { TaskService } from '../../../core/service/task';
 import { Auth } from '../../../core/auth/auth';
+import { PostService } from '../../../core/service/post';
+import { Post } from '../../../core/models/post.model';
 
 type TaskStatus = 'pending' | 'in-progress' | 'completed';
 
@@ -14,17 +16,19 @@ type TaskStatus = 'pending' | 'in-progress' | 'completed';
   
  
 
-export class Dashbord {
+export class Dashbord implements OnInit  {
 
   popupVisible = false;
   // tasks;
   taskForm;
-  
+  user:any;
+  posts: Post[] = [];
 
   constructor(
     private fb: FormBuilder,
     public taskService: TaskService,
-    private auth: Auth
+    private auth: Auth,
+    public postService:PostService
   ) { 
     this.taskForm = this.fb.nonNullable.group({
       title: ['', Validators.required],
@@ -35,18 +39,28 @@ export class Dashbord {
 
     effect(() => {
       console.log("effect call")
-      const user = this.auth.user()?.uid;
-      if (user) {
-          this.taskService.loadTasks(user);
-        // console.log(this.tasks)
-      }
+      //  this.user = this.auth.user()?.uid;
+      // if (this.user) {
+      //     this.taskService.loadTasks(this.user);
+      //   // console.log(this.tasks)
+      //   // console.log(this.taskService.tasks())
+      // }
     });
    
 
-    console.log(this.taskService.tasks)
 
   }
 
+  ngOnInit(): void {
+    console.log("ng init work")
+    this.user = this.auth.user()?.uid;
+    if (this.user) {
+      this.taskService.loadTasks(this.user);
+      console.log("hi")
+    }
+    console.log(this.taskService.tasks())
+  }
+ 
 
   togglePopup() {
     this.popupVisible = !this.popupVisible;
@@ -75,5 +89,20 @@ export class Dashbord {
     this.togglePopup();
   }
 
+   getpost() {
+     this.postService.getPost().subscribe(data => {
+       this.posts = data;
+       console.log(data)
+     })
+    
+    this.postService.getPostById(5).subscribe(data => {
+      console.log(data)
+      this.postService.updatePost(7, data).subscribe(res => {
+        console.log(res);
+      })
+    })
+    console.log(this.posts)
+    
+  }
   
 }
