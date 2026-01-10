@@ -59,9 +59,13 @@ focus:ring-2 focus:ring-blue-400 focus:border-blue-400 " type="password" formCon
 
             <!-- Email -->
             <div class="flex flex-col gap-1">
+
                 <label for="email" class="text-sm font-semibold text-blue-700">
                     Email Address
                 </label>
+
+           
+                
 
                 <input id="email" type="email" formControlName="email" placeholder="you@example.com" class="w-full rounded-xl
                  bg-blue-50
@@ -71,6 +75,22 @@ focus:ring-2 focus:ring-blue-400 focus:border-blue-400 " type="password" formCon
                  focus:outline-none
                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                  transition" />
+                @if(userForm.get('email')?.touched && userForm.get('email')?.invalid){
+                
+                <div class="text-red-500 text-sm mt-1">
+                
+                    @if(userForm.get('email')?.errors?.['required'] && userForm.get('email')?.touched ){
+                
+                    <div>Email is required</div>
+                    }
+                    @if(userForm.get('email')?.errors?.['email']){
+                
+                
+                    <div>Invalid email</div>
+                    }
+                
+                </div>
+                }
             </div>
 
             <!-- Password -->
@@ -87,6 +107,18 @@ focus:ring-2 focus:ring-blue-400 focus:border-blue-400 " type="password" formCon
                  focus:outline-none
                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                  transition" />
+
+
+                 
+                @if (userForm.get('password')?.touched && userForm.get('password')?.invalid) {
+                
+                    <div class="text-red-500 text-sm mt-1"> password is requed</div>
+                }
+
+
+
+                 
+                 
             </div>
 
             <!-- Button -->

@@ -8,7 +8,8 @@ import {
   orderBy,
   onSnapshot,
   deleteDoc,
-  doc
+  doc,
+  updateDoc
 } from 'firebase/firestore';
 import { firebaseApp } from '../../../environments/firebase.config';
 import { Auth } from '../auth/auth';
@@ -62,4 +63,10 @@ export class TaskService {
   async deleteTask(id: any) {
     await deleteDoc(doc(this.db, 'tasks', id));
   }
+  // 🔹 UPDATE
+  async updateTask(id: string, data: Partial<Task>) {
+    const ref = doc(this.db, 'tasks', id);
+    await updateDoc(ref, data);
+  }
+
 }

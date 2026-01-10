@@ -1,122 +1,167 @@
 <div class="relative">
-<div class="min-h-screen w-full flex justify-center bg-gradient-to-br from-blue-100 via-sky-100 to-indigo-200 ">
-    <div class="w-full max-w-7xl mx-auto p-6 mt-36">
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="min-h-screen w-full flex justify-center bg-gradient-to-br from-blue-100 via-sky-100 to-indigo-200 ">
+        <div class="w-full max-w-7xl mx-auto p-6 mt-36">
 
-            <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                <div class="absolute top-5 right-5"><i class='bx text-3xl text-blue-300 bx-check-shield'></i></div>
-                <p class="text-sm font-medium text-blue-600 mb-1">
-                    Total Tasks
-                </p>
-                
-                <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
-                    5
-                </h3>
-                
-                <p class="text-sm text-gray-500">
-                    Tasks created so far
-                </p> 
-            </div>
-             
-            <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                <div class="absolute top-5 right-5"><i class='bx text-3xl text-green-300 bx-clock-dashed-half'></i></div>
-                <p class="text-sm font-medium text-green-600 mb-1">
-                    Complated Tasks
-                </p>
-            
-                <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
-                    3
-                </h3>
-            
-                <p class="text-sm text-gray-500">
-                    Tasks created so far
-                </p>
-            </div>
-            <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                <div class="absolute top-5 right-5"><i class='bx text-3xl text-orange-200  bx-skull'></i></div>
-                <p class="text-sm font-medium text-orange-600 mb-1">
-                    Panddding Tasks
-                </p>
-            
-                <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
-                    2
-                </h3>
-            
-                <p class="text-sm text-gray-500">
-                    Tasks created so far
-                </p>
-            </div>
-        </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
 
-        <div class="mt-5 w-full  max-w-7xl bg-white/90 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(59,130,246,0.25)]
+                <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                    <div class="absolute top-5 right-5"><i class='bx text-3xl text-blue-300 bx-check-shield'></i></div>
+                    <p class="text-sm font-medium text-blue-600 mb-1">
+                        Total Tasks
+                    </p>
+
+                    <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                        {{this.totalTasks}}
+                    </h3>
+
+                    <p class="text-sm text-gray-500">
+                        Tasks created so far
+                    </p>
+                </div>
+
+                <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                    <div class="absolute top-5 right-5"><i class='bx text-3xl text-green-300 bx-clock-dashed-half'></i>
+                    </div>
+                    <p class="text-sm font-medium text-green-600 mb-1">
+                        Complated Tasks
+                    </p>
+
+                    <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                        {{this.complatedTasks}}
+                    </h3>
+
+                    <p class="text-sm text-gray-500">
+                        Tasks created so far
+                    </p>
+                </div>
+                <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                    <div class="absolute top-5 right-5"><i class='bx text-3xl text-orange-200  bx-bolt-alt'></i></div>
+                    <p class="text-sm font-medium text-orange-400 mb-1">
+                        In Progress Tasks
+                    </p>
+
+                    <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                        {{this.inprogressTasks}}
+                    </h3>
+
+                    <p class="text-sm text-gray-500">
+                        Tasks created so far
+                    </p>
+                </div>
+                <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                    <div class="absolute top-5 right-5"><i class='bx text-3xl text-red-200  bx-skull'></i></div>
+                    <p class="text-sm font-medium text-red-600 mb-1">
+                        Panddding Tasks
+                    </p>
+                
+                    <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                        {{this.pendingTasks}}
+                    </h3>
+                
+                    <p class="text-sm text-gray-500">
+                        Tasks created so far
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-5 w-full  max-w-7xl bg-white/90 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(59,130,246,0.25)]
            border border-blue-100 p-8 transition-all duration-300 hover:shadow-[0_25px_70px_rgba(59,130,246,0.35)]  ">
-            
-           <div class="w-full justify-between flex  md:flex-row gap-4  border-b border-blue-200 p-4  ">
-            <input class="border border-blue-200 p-4 rounded-xl w-2/3" type="text" name="" id="" placeholder="Search">
-            <button (click)="togglePopup()" class="font-semibold bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-xl">Add Task</button><button (click)="getpost()" class="font-semibold bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-xl">Get Post</button>
-           </div>
-           
-           <div>
-            <table class="w-full table-auto border-0">
-                <thead>
-                    <tr class="bg-white border-b text-left">
-                        <th class="px-4 py-2">Task</th>
-                        <th class="px-4 py-2">Status</th>
-                        <th class="px-4 py-2">Due Date</th>
-                        <th class="px-4 py-2">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for(task of taskService.tasks(); track task.id ){
-                    <tr class="border-b border-blue-200">
-                        <td class="px-4 py-2">{{task.title}}</td>
-                        <td class="px-4 py-2">{{task.status}}</td>
-                        <td class="px-4 py-2">{{task.dueDate}}</td>
-                        <td class="px-4 py-2">
-                            <button class="text-blue-600 hover:underline mr-2">Edit</button>
-                            <button (click)="taskService.deleteTask(task.id)" class="text-red-600 hover:underline">Delete</button>
-                        </td>
-                    </tr>
-                }
-                  
-                </tbody>
-            </table>
-           </div>
+
+                <div class="w-full justify-between flex  md:flex-row gap-4  border-b border-blue-200 p-4  ">
+                    <input class="border border-blue-200 p-4 rounded-xl w-2/3" type="text" name="" id=""
+                        placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="filterBySearch()">
+
+                <input type="text" class="border border-blue-200 p-4 rounded-xl" ngxDaterangepickerMd [formControl]="dateRangeControl"
+                    placeholder="Filter by date range"  />
+
+                    <button (click)="togglePopup()"
+                        class="font-semibold bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-xl">Add
+                        Task</button>
+                        
+                        <!-- <button (click)="getpost()"
+                        class="font-semibold bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-xl">Get
+                        Post</button> -->
+                </div>
+
+                <div>
+                    <table class="w-full table-auto border-0">
+                        <thead>
+                            <tr class="bg-white border-b text-left">
+                                <th class="px-4 py-2">Task</th>
+
+                            <th class="px-4 py-2">
+                                <select class=" border-blue-200 bg-white text-md  py-1" [(ngModel)]="statusFilter"
+                                    (ngModelChange)="filterByStatus()">
+                                    
+                                    <option value="all">Satus</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </th>
+
+                                <th (click)="clearDateFilter()" class="px-4 py-2 cursor-pointer">
+                                    
+                                    Due Date
+                                    
+                                </th>
+                                <th class="px-4 py-2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for(task of filteredTasks; track task.id)
+                            {
+                            <tr class="border-b border-blue-200">
+                                <td class="px-4 py-2">{{task.title}}</td>
+                                <td class="px-4 py-2">{{task.status}}</td>
+                                <td class="px-4 py-2">{{task.dueDate}}</td>
+                                <td class="px-4 py-2">
+                                    <button class="text-blue-600 hover:underline mr-2" (click)="editTask(task)">Edit</button>
+                                    <button (click)="taskService.deleteTask(task.id)"
+                                        class="text-red-600 hover:underline">Delete</button>
+                                </td>
+                            </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
+
+
+
     </div>
-
-  
-
-</div>
-@if(popupVisible){
+    @if(popupVisible){
 
 
-<div class="fixed inset-0 z-40
+    <div class="fixed inset-0 z-40
            bg-black/30
            backdrop-blur-md
            transition-opacity duration-300" (click)="togglePopup()">
-</div>
-
-<div class=" absolute z-50 top-0 left-0  w-full h-screen flex items-center justify-center">
-    
-    <div class=" relative border border-blue-200 bg-white/90 backdrop-blur-xl rounded-2xl p-6 shadow-[0_20px_50px_rgba(59,130,246,0.25)]
-           transition-all duration-300 hover:shadow-[0_25px_70px_rgba(59,130,246,0.35)]">
-        <h2 class="text-center text-xl font-semibold ">Add task</h2>
-        <form [formGroup]="taskForm" (ngSubmit)="addTask()" class="flex flex-col gap-4 mt-4">
-            <input type="text" formControlName="title" placeholder="Task Name" class="border border-blue-200 px-4 py-2 rounded-xl w-64">
-            <input formControlName="dueDate" type="date" class="border border-blue-200 px-4 py-2 rounded-xl w-64">
-            <select formControlName="status" class="border border-blue-200 px-4 py-2 rounded-xl w-64">
-                <option value="" disabled selected>Select Status</option>
-                <option value="pending">Pending</option>
-                <option value="in-progress">In Progress</option>
-                <option value="completed">Completed</option>
-            </select>
-            <button type="submit" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-xl w-64 font-semibold">Add Task</button>
-        </form>
-
-        <button (click)="togglePopup()" class="absolute top-4 right-4"><i class='bx  bx-x'></i>  </button>
     </div>
-</div>
-}
+
+    <div class=" absolute z-50 top-0 left-0  w-full h-screen flex items-center justify-center">
+
+        <div class=" relative border border-blue-200 bg-white/90 backdrop-blur-xl rounded-2xl p-6 shadow-[0_20px_50px_rgba(59,130,246,0.25)]
+           transition-all duration-300 hover:shadow-[0_25px_70px_rgba(59,130,246,0.35)]">
+            <h2 class="text-center text-xl font-semibold ">Add task</h2>
+            <form [formGroup]="taskForm" (ngSubmit)="saveTask()" class="flex flex-col gap-4 mt-4">
+                <input type="text" formControlName="title" placeholder="Task Name"
+                    class="border border-blue-200 px-4 py-2 rounded-xl w-64">
+                <input formControlName="dueDate" type="date" class="border border-blue-200 px-4 py-2 rounded-xl w-64">
+                <select formControlName="status" class="border border-blue-200 px-4 py-2 rounded-xl w-64">
+                    <option value="" disabled selected>Select Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+                <button type="submit"
+                    class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-xl w-64 font-semibold">{{ editingTask ? 'Update Task' : 'Add Task' }}</button>
+            </form>
+
+            <button (click)="togglePopup()" class="absolute top-4 right-4"><i class='bx  bx-x'></i> </button>
+        </div>
+    </div>
+    }
 </div>
