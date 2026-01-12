@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class Login {
   userForm;
-  
+  showPassword = false;
   constructor(private authService: Auth, private fb: FormBuilder, private router: Router, private toastr: ToastrService) {
 
     this.userForm = this.fb.group({
@@ -34,7 +34,8 @@ export class Login {
   successMessage: string = '';
   async login() {
     if (this.userForm.invalid) {
-      this.toastr.warning("Please fill in all fields correctly");
+      // this.toastr.warning("Please fill in all fields correctly");
+      this.userForm.markAllAsTouched();
       console.log('Please fill in all fields correctly');
       return;
     }

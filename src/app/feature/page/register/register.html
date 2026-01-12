@@ -1,9 +1,8 @@
-
 <div class="min-h-screen w-full flex items-center justify-center
          bg-gradient-to-br from-blue-100 via-sky-100 to-indigo-200
          px-4">
 
-    
+
     <div class="w-full max-w-md
            bg-white/90 backdrop-blur-xl
            rounded-2xl
@@ -12,7 +11,7 @@
            p-8
            transition-all duration-300
            hover:shadow-[0_25px_70px_rgba(59,130,246,0.35)]">
- 
+
         <h2 class="text-3xl font-extrabold
              text-center
              text-blue-800
@@ -22,13 +21,13 @@
         </h2>
 
         <p class="text-center text-blue-500 text-sm mb-8">
-            Register your account to continue  
+            Register your account to continue
         </p>
 
-       
+
         <form [formGroup]="userForm" (ngSubmit)="signin()" class="space-y-6">
 
-            
+
             <div class="flex flex-col gap-1">
                 <label for="email" class="text-sm font-semibold text-blue-700">
                     Email Address
@@ -44,28 +43,29 @@
                  transition" />
 
                 @if(userForm.get('email')?.touched && userForm.get('email')?.invalid){
-                
+
                 <div class="text-red-500 text-sm mt-1">
-                
+
                     @if(userForm.get('email')?.errors?.['required'] && userForm.get('email')?.touched ){
-                
+
                     <div>Email is required</div>
                     }
                     @if(userForm.get('email')?.errors?.['email']){
-                
+
                     <div>Email is invalid</div>
                     }
                 </div>
                 }
             </div>
 
-            
+
             <div class="flex flex-col gap-1">
                 <label for="password" class="text-sm font-semibold text-blue-700">
                     Password
                 </label>
-
-                <input id="password" type="password" formControlName="password" placeholder="••••••••" class="w-full rounded-xl
+                <div class="relative">
+                    <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                        placeholder="••••••••" class="w-full rounded-xl
                  bg-blue-50
                  border border-blue-200
                  px-4 py-3
@@ -74,40 +74,66 @@
                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                  transition" />
 
-                @if (userForm.get('password')?.touched && userForm.get('password')?.invalid) {
-                               
-                <div class="mt-2 space-y-1 text-sm">
-                
-                    <div [class.text-green-600]="hasUppercase" [class.text-red-500]="!hasUppercase">
-                        • One uppercase letter
-                    </div>
-                
-                    <div [class.text-green-600]="hasLowercase" [class.text-red-500]="!hasLowercase">
-                        • One lowercase letter
-                    </div>
-                
-                    <div [class.text-green-600]="hasNumber" [class.text-red-500]="!hasNumber">
-                        • One number
-                    </div>
-                
-                    <div [class.text-green-600]="hasSpecialChar" [class.text-red-500]="!hasSpecialChar">
-                        • One special character
-                    </div>
-                
-                    <div [class.text-green-600]="hasMinLength" [class.text-red-500]="!hasMinLength">
-                        • Minimum 8 characters
-                    </div>
-                
+                    <button type="button" (click)="showPassword = !showPassword" class="absolute inset-y-0 right-4 flex items-center
+                             text-blue-500 hover:text-blue-700 transition" tabindex="-1">
+                        <i class="bx" [class.bx-eye-slash]="!showPassword" [class.bx-eye]="showPassword"></i>
+                    </button>
                 </div>
-            }
+                @if (userForm.get('password')?.value=='' && userForm.get('password')?.touched &&
+                userForm.get('confrimpassword')?.invalid) {
+
+                <div class="text-red-500 text-sm mt-1"> password is requed</div>
+
+                }
+                @if (userForm.get('password')?.value!=='' && userForm.get('password')?.touched &&
+                userForm.get('password')?.invalid) {
+
+                <div class="mt-3 space-y-1 text-sm">
+
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasUppercase"
+                        [class.text-red-500]="!hasUppercase">
+                        <i class="bx" [class.bx-check-circle]="hasUppercase" [class.bx-x-circle]="!hasUppercase"></i>
+                        At least one uppercase letter (A-Z)
+                    </div>
+
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasLowercase"
+                        [class.text-red-500]="!hasLowercase">
+                        <i class="bx" [class.bx-check-circle]="hasLowercase" [class.bx-x-circle]="!hasLowercase"></i>
+                        <span>At least one lowercase letter (a-z)</span>
+                    </div>
+
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasNumber"
+                        [class.text-red-500]="!hasNumber">
+                        <i class="bx" [class.bx-check-circle]="hasNumber" [class.bx-x-circle]="!hasNumber"></i>
+                        At least one number (0-9)
+                    </div>
+
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasSpecialChar"
+                        [class.text-red-500]="!hasSpecialChar">
+                        <i class="bx" [class.bx-check-circle]="hasSpecialChar"
+                            [class.bx-x-circle]="!hasSpecialChar"></i>
+                        At least one special character (!@#$%^&*)
+                    </div>
+
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasMinLength"
+                        [class.text-red-500]="!hasMinLength">
+                        <i class="bx" [class.bx-check-circle]="hasMinLength" [class.bx-x-circle]="!hasMinLength"></i>
+                        Minimum 8 characters in length
+                    </div>
+
+                </div>
+                }
             </div>
 
             <div class="flex flex-col gap-1">
                 <label for="confrimpassword" class="text-sm font-semibold text-blue-700">
-                   Confirm Password
+                    Confirm Password
                 </label>
-            
-                <input id="confrimpassword" type="password" formControlName="confrimpassword" placeholder="••••••••" class="w-full rounded-xl
+
+                <div class="relative">
+
+                    <input id="confrimpassword" [type]="showConfirmPassword ? 'text' : 'password'"
+                        formControlName="confrimpassword" placeholder="••••••••" class="w-full rounded-xl
                              bg-blue-50
                              border border-blue-200
                              px-4 py-3
@@ -115,18 +141,27 @@
                              focus:outline-none
                              focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                              transition" />
+                    <button (click)="showConfirmPassword =! showConfirmPassword"
+                        class="absolute inset-y-0 right-4 flex items-center text-blue-500 hover:text-blue-700 transition"
+                        tabindex="-1" tabindex="-1">
+                        <i class="bx" [class.bx-eye-slash]="!showConfirmPassword"
+                            [class.bx-eye]="showConfirmPassword"></i>
 
-                @if (userForm.get('confrimpassword')?.touched && userForm.get('confrimpassword')?.invalid) {
-                
+                    </button>
+                </div>
+                @if (userForm.get('confrimpassword')?.value=='' && userForm.get('confrimpassword')?.touched &&
+                userForm.get('confrimpassword')?.invalid) {
+
                 <div class="text-red-500 text-sm mt-1"> password is requed</div>
 
                 }
-                @if(userForm.get('confrimpassword')?.value !== userForm.get('password')?.value){
-                
+                @if(userForm.get('confrimpassword')?.value!=='' && userForm.get('confrimpassword')?.value !==
+                userForm.get('password')?.value){
+
                 <div class="text-red-500 text-sm mt-1"> Passwords do not match</div>
                 }
             </div>
-          
+
             <button type="submit" class="w-full
                bg-gradient-to-r from-blue-600 to-indigo-600
                hover:from-blue-700 hover:to-indigo-700
@@ -151,5 +186,3 @@
         </form>
     </div>
 </div>
-
-

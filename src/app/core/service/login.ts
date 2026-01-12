@@ -1,13 +1,16 @@
 import { Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Login {
-  constructor() { }
+  
+  constructor( private router: Router) { }
   
   user = signal<any>(null);
   isLoggedIn = signal<boolean>(false);
+  
 
   login(user: any) {
     
@@ -19,6 +22,8 @@ export class Login {
   logout() {
     this.user.set(null);
     sessionStorage.removeItem('user');
+    this.isLoggedIn.set(false);
+ 
 
   }
   checkLoginStatus() {

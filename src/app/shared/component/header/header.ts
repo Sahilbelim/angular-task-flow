@@ -1,6 +1,7 @@
 import { Component ,effect} from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Auth } from '../../../core/auth/auth';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,7 @@ import { Auth } from '../../../core/auth/auth';
 export class Header { 
 
   isLoggedIn = false;
-  constructor(private authService: Auth) {
+  constructor(private authService: Auth,private router: Router,private toststr: ToastrService) {
 
     effect(() => { 
       this.isLoggedIn = this.authService.isLoggedIn();
@@ -23,9 +24,12 @@ export class Header {
   async logout() {
     try {
       await this.authService.logout();
+      this.router.navigate(['/login']);
+      this.toststr.success('Logout successful');
       console.log('Logout successful');
     } catch (error) {
       console.error('Logout failed:', error);
+
     }
   }
 }

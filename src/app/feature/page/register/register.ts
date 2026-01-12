@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators,ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { Auth } from '../../../core/auth/auth';
 import { ToastrService } from 'ngx-toastr';
@@ -12,8 +12,10 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class Register {
 
-  errorMessage: string = '';  
+  errorMessage: string = '';
   successMessage: string = '';
+  showPassword = false;
+  showConfirmPassword = false;
 
   userForm;
 
@@ -22,19 +24,21 @@ export class Register {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required,
-        Validators.minLength(8),
-        Validators.pattern(/[A-Z]/),
-        Validators.pattern(/[a-z]/),
-        Validators.pattern(/\d/),
-        Validators.pattern(/[@$!%*?&#]/),]],
+      Validators.minLength(8),
+      Validators.pattern(/[A-Z]/),
+      Validators.pattern(/[a-z]/),
+      Validators.pattern(/\d/),
+      Validators.pattern(/[@$!%*?&#]/),]],
       confrimpassword: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
 
   async signin() {
+    //
     if (this.userForm.invalid) {
-      this.toastr.warning("Please fill in all fields correctly");
+      // this.toastr.warning("Please fill in all fields correctly");
+      this.userForm.markAllAsTouched();
       return;
     }
     if (this.userForm.value.password !== this.userForm.value.confrimpassword) {
@@ -42,21 +46,19 @@ export class Register {
       return;
     }
     try {
-      
+
       await this.authService.register(this.userForm.value.email!, this.userForm.value.password!);
       console.log('Registration successful');
-      this.successMessage="Registration successfull";
+      this.successMessage = "Registration successfull";
       this.toastr.success("Registration successfull")
       this.router.navigate(['/login']);
-    } catch (error:any) {
+    } catch (error: any) {
       console.error('Registration failed:', error.code);
-      if (error.code = 'auth/email-already-in-use')
-      {
+      if (error.code = 'auth/email-already-in-use') {
         this.toastr.error('Email already in Exists', 'Registration Failed');
-        this.errorMessage="Email already in Exists";
+        this.errorMessage = "Email already in Exists";
       }
-      else
-      {
+      else {
         this.toastr.error('Something went wrong. Try again.', 'Error');
       }
       // console.log(error.messsage);

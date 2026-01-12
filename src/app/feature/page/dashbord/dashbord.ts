@@ -5,13 +5,15 @@ import { Auth } from '../../../core/auth/auth';
 import { PostService } from '../../../core/service/post';
 import { Post } from '../../../core/models/post.model';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
-
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 type TaskStatus = 'pending' | 'in-progress' | 'completed';
 
 @Component({
   selector: 'app-dashbord',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, NgxDaterangepickerMd],
+  imports: [ReactiveFormsModule, FormsModule, NgxDaterangepickerMd, NgxPaginationModule,CommonModule],
   templateUrl: './dashbord.html',
   styleUrl: './dashbord.css',
 })
@@ -32,58 +34,114 @@ export class Dashbord implements OnInit  {
   dateRangeControl = new FormControl(null);
 
   editingTask: any = null;
-
-
+  deletingTask: boolean =false ;
+deleteId: any;
   tasks: any[] = [];           
   totalTasks: number = 0;
   complatedTasks: number = 0;
   inprogressTasks: number = 0;
   pendingTasks: number = 0;
 
+  p = 1;                 // current page
+  itemsPerPage = 1;      // items per page
+  pageSizeOptions = [1, 2, 5, 20];
+  // constructor(
+  //   private fb: FormBuilder,
+  //   public taskService: TaskService,
+  //   private auth: Auth,
+  //   public postService: PostService,
+  //   private toststr: ToastrService
+  // ) { 
+  //   this.taskForm = this.fb.nonNullable.group({
+  //     title: ['', Validators.required],
+  //     dueDate: ['', Validators.required],
+  //     status: ['pending' as TaskStatus, Validators.required],
+  //     deleteId: [null],
+  //   });
+  //   effect(() => {
+  //     const data = this.taskService.tasks();
+
+  //     this.tasks = [...data];
+  //     this.filteredTasks = [...data];
+
+  //     // 🔢 Stats update
+  //     this.totalTasks = data.length;
+  //     this.complatedTasks = data.filter(t => t.status === 'completed').length;
+  //     this.inprogressTasks = data.filter(t => t.status === 'in-progress').length;
+  //     this.pendingTasks = data.filter(t => t.status === 'pending').length;
+  //   });
+
+   
+  // }
+
+  // ngOnInit(): void {
+  //   this.user = this.auth.user()?.uid;
+
+  //   if (this.user) {
+  //     this.taskService.loadTasks(this.user);
+  //   }
+
+  //   this.dateRangeControl.valueChanges.subscribe(range => {
+  //     this.applyDateFilter(range);
+  //   });
+  // }
+
   constructor(
     private fb: FormBuilder,
     public taskService: TaskService,
     private auth: Auth,
-    public postService:PostService
-  ) { 
+    public postService: PostService,
+    private toststr: ToastrService
+  ) {
     this.taskForm = this.fb.nonNullable.group({
       title: ['', Validators.required],
       dueDate: ['', Validators.required],
       status: ['pending' as TaskStatus, Validators.required],
+      deleteId: [null],
     });
+
+    // ✅ REACT TO AUTH STATE
+    effect(() => {
+      const user = this.auth.user();
+
+      if (user?.uid) {
+        console.log('Auth ready → loading tasks');
+        this.taskService.loadTasks(user.uid);
+      }
+    });
+
+    // ✅ REACT TO TASK CHANGES
     effect(() => {
       const data = this.taskService.tasks();
 
       this.tasks = [...data];
       this.filteredTasks = [...data];
 
-      // 🔢 Stats update
       this.totalTasks = data.length;
       this.complatedTasks = data.filter(t => t.status === 'completed').length;
       this.inprogressTasks = data.filter(t => t.status === 'in-progress').length;
       this.pendingTasks = data.filter(t => t.status === 'pending').length;
     });
-
-   
   }
 
   ngOnInit(): void {
-    this.user = this.auth.user()?.uid;
-
-    if (this.user) {
-      this.taskService.loadTasks(this.user);
-    }
-
     this.dateRangeControl.valueChanges.subscribe(range => {
       this.applyDateFilter(range);
     });
   }
 
 
-
   togglePopup() {
     this.popupVisible = !this.popupVisible;
+
+    if (this.popupVisible) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+      this.resetForm();
+    }
   }
+
 
   // async addTask() {
   //   if (this.taskForm.invalid) return;
@@ -109,7 +167,10 @@ export class Dashbord implements OnInit  {
   // }
 
   async saveTask() {
-    if (this.taskForm.invalid) return;
+    if (this.taskForm.invalid) {
+      this.taskForm.markAllAsTouched();
+      return
+    }
 
     const { title, dueDate, status } = this.taskForm.getRawValue();
 
@@ -120,6 +181,7 @@ export class Dashbord implements OnInit  {
         dueDate,
         status,
       });
+      this.toststr.success('Task updated successfully');
     }
     
     else {
@@ -130,6 +192,7 @@ export class Dashbord implements OnInit  {
         createdAt: Date.now(),
         userId: this.auth.user()!.uid,
       });
+      this.toststr.success('Task added successfully');
     }
 
     this.resetForm();
@@ -138,7 +201,7 @@ export class Dashbord implements OnInit  {
   editTask(task: any) {
     this.editingTask = task;         
     this.popupVisible = true;
-
+    document.body.classList.add('overflow-hidden');
     this.taskForm.patchValue({      
       title: task.title,
       dueDate: task.dueDate,
@@ -146,6 +209,32 @@ export class Dashbord implements OnInit  {
     });
   }
 
+  deleteTask(task: any) {
+    this.deletingTask = true;
+    this.deleteId = task.id;
+    console.log(task)
+    document.body.classList.add('overflow-hidden');
+    this.taskForm.patchValue({
+      title: task.title,
+      dueDate: task.dueDate,
+      status: task.status,
+    });
+    this.taskForm.disable();
+    // this.taskService.deleteTask(task.id).then(() => {
+    //   this.deletingTask = false;
+    // });
+    
+  }
+  confirmDelete( ) {
+    this.deletingTask = false;
+    this.taskService.deleteTask(this.deleteId).then(() => {
+      this.toststr.success('Task deleted successfully');
+      this.resetForm();
+      this.deleteId = null;
+    });
+   
+    this.taskForm.enable();
+  }
   resetForm() {
     this.taskForm.reset({
       title: '',
@@ -215,6 +304,11 @@ export class Dashbord implements OnInit  {
 
     
 
+  }
+
+  closeDeleteModal() {
+    this.deletingTask = false;
+    document.body.classList.remove('overflow-hidden');
   }
 
   clearDateFilter() {

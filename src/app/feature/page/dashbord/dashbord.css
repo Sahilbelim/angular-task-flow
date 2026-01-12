@@ -1,0 +1,92 @@
+:host ::ng-deep .ngx-pagination li a {
+    background: #e0e7ff;
+    color: #1e3a8a;
+    border-radius: 10px;
+}
+
+:host ::ng-deep .ngx-pagination .current {
+    background: #2563eb;
+    color: white;
+}
+
+:host ::ng-deep .md-drppicker .drp-clear {
+    display: none !important;
+}
+
+/* Footer alignment */
+/* ===============================
+   Buttons container
+   =============================== */
+:host ::ng-deep .md-drppicker .buttons {
+    padding: 12px 14px;
+}
+
+:host ::ng-deep .md-drppicker .buttons_input {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+}
+
+
+:host ::ng-deep .md-drppicker .buttons_input button {
+    min-width: 96px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+ 
+ 
+/* Default (desktop) */
+:host ::ng-deep .md-drppicker {
+    width: auto;
+}
+
+/* Desktop: side-by-side calendars */
+:host ::ng-deep .md-drppicker .calendar {
+    display: inline-block;
+    vertical-align: top;
+}
+
+ 
+@media (max-width: 768px) {
+
+    :host ::ng-deep .md-drppicker {
+        width: 100% !important;
+    }
+
+    :host ::ng-deep .md-drppicker .calendar {
+        width: 100% !important;
+        display: block;
+    }
+
+    :host ::ng-deep .md-drppicker .buttons_input {
+        flex-direction: column;
+    }
+
+    :host ::ng-deep .md-drppicker .buttons_input button {
+        width: 100%;
+        height: 44px;
+    }
+}
+
+:host ::ng-deep .md-drppicker .buttons_input button:nth-of-type(1) {
+    background-color: #ef4444 !important;
+    color: #ffffff !important;
+}
+
+:host ::ng-deep .md-drppicker .buttons_input button:nth-of-type(1):hover {
+    background-color: #dc2626 !important;
+}
+
+/* 🔵 APPLY — second button */
+:host ::ng-deep .md-drppicker .buttons_input button:nth-of-type(2) {
+    background: linear-gradient(to right, #2563eb, #4f46e5) !important;
+    color: #ffffff !important;
+}

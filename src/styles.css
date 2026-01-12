@@ -4,3 +4,78 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ngx-pagination base */
+.ngx-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 0;
+}
+
+/* page numbers */
+.ngx-pagination li a {
+    /* padding: 8px 14px; */
+    border-radius: 10px;
+    background: #e0e7ff;
+    /* indigo-100 */
+    color: #1e3a8a;
+    /* indigo-900 */
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+/* hover */
+.ngx-pagination li a:hover {
+    background: #c7d2fe;
+    /* indigo-200 */
+}
+
+/* current page */
+.ngx-pagination .current {
+    /* padding: 8px 14px; */
+    border-radius: 10px;
+    /* background: linear-gradient(to right, #6987c8, #4f46e5); */
+    background-color:aqua ;
+    color: #ffffff !important;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+}
+
+/* REMOVE trash icon completely */
+.daterangepicker .drp-clear {
+    display: none !important;
+}
+
+/* Footer layout */
+.daterangepicker .drp-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 12px;
+}
+
+/* CLEAR button (red) */
+.daterangepicker .cancelBtn {
+    background: #ef4444 !important;
+    /* red-500 */
+    color: #ffffff !important;
+    border-radius: 10px;
+    padding: 6px 18px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.daterangepicker .cancelBtn:hover {
+    background: #dc2626 !important;
+    /* red-600 */
+}
+
+/* APPLY button (blue) */
+.daterangepicker .applyBtn {
+    background: linear-gradient(to right, #2563eb, #4f46e5) !important;
+    color: #ffffff !important;
+    border-radius: 10px;
+    padding: 6px 18px;
+    font-weight: 600;
+}
