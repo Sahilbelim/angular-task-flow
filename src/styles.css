@@ -36,7 +36,7 @@
     /* padding: 8px 14px; */
     border-radius: 10px;
     /* background: linear-gradient(to right, #6987c8, #4f46e5); */
-    background-color:aqua ;
+    background-color: aqua;
     color: #ffffff !important;
     font-weight: 600;
     box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
@@ -78,4 +78,13 @@
     border-radius: 10px;
     padding: 6px 18px;
     font-weight: 600;
+}
+
+
+.md-drppicker .clear svg {
+    display: none !important;
+    
+}
+.md-drppicker {
+    display: flex;
 }

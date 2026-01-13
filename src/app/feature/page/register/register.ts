@@ -24,7 +24,8 @@ export class Register {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required,
-      Validators.minLength(8),
+        Validators.minLength(8),
+      Validators.maxLength(32),
       Validators.pattern(/[A-Z]/),
       Validators.pattern(/[a-z]/),
       Validators.pattern(/\d/),
@@ -88,6 +89,10 @@ export class Register {
 
   get hasMinLength(): boolean {
     return this.passwordValue.length >= 8;
+  }
+
+  get hasMaxLength(): boolean {
+    return this.passwordValue.length <= 32;
   }
 
 }

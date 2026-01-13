@@ -9,84 +9,81 @@
     color: white;
 }
 
-:host ::ng-deep .md-drppicker .drp-clear {
-    display: none !important;
+::ng-deep .dashboard-drpicker .md-drppicker.shown {
+    width: 560px !important;
+    top: 100px !important;
 }
 
-/* Footer alignment */
-/* ===============================
-   Buttons container
-   =============================== */
-:host ::ng-deep .md-drppicker .buttons {
-    padding: 12px 14px;
+
+::ng-deep .md-drppicker {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    background-color: #fcfeff !important;
+    max-width: 100%;
 }
 
-:host ::ng-deep .md-drppicker .buttons_input {
+::ng-deep .md-drppicker.ltr .calendar.left .calendar-table ,
+::ng-deep .md-drppicker.ltr .calendar.right .calendar-table
+{
+background-color: #fcfeff !important;
+}
+
+::ng-deep .md-drppicker .calendar {
+    flex: 1 1 300px;
+    /* border: 2px solid #1d479a; */
+ 
+    
+}
+
+ ::ng-deep .md-drppicker .buttons {
+    width: 100%;
+    order: 10;
+   
+}
+
+ ::ng-deep .md-drppicker .buttons_input {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
     gap: 12px;
+    
+    /* border-top: 1px solid #e5e7eb; */
+   
 }
 
-
-:host ::ng-deep .md-drppicker .buttons_input button {
-    min-width: 96px;
-    height: 40px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-}
-
- 
- 
-/* Default (desktop) */
-:host ::ng-deep .md-drppicker {
-    width: auto;
-}
-
-/* Desktop: side-by-side calendars */
-:host ::ng-deep .md-drppicker .calendar {
-    display: inline-block;
-    vertical-align: top;
-}
-
- 
-@media (max-width: 768px) {
-
-    :host ::ng-deep .md-drppicker {
-        width: 100% !important;
-    }
-
-    :host ::ng-deep .md-drppicker .calendar {
-        width: 100% !important;
-        display: block;
-    }
-
-    :host ::ng-deep .md-drppicker .buttons_input {
-        flex-direction: column;
-    }
-
-    :host ::ng-deep .md-drppicker .buttons_input button {
-        width: 100%;
-        height: 44px;
-    }
-}
-
-:host ::ng-deep .md-drppicker .buttons_input button:nth-of-type(1) {
+ ::ng-deep .md-drppicker .buttons_input button.btn-default {
     background-color: #ef4444 !important;
-    color: #ffffff !important;
+    color: white !important;
+    border-radius: 10px;
+    /* padding: 8px 20px; */
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-:host ::ng-deep .md-drppicker .buttons_input button:nth-of-type(1):hover {
-    background-color: #dc2626 !important;
-}
-
-/* 🔵 APPLY — second button */
-:host ::ng-deep .md-drppicker .buttons_input button:nth-of-type(2) {
+::ng-deep .md-drppicker .buttons_input button.btn:not(.btn-default) {
     background: linear-gradient(to right, #2563eb, #4f46e5) !important;
-    color: #ffffff !important;
+    color: white !important;
+    border-radius: 10px;
+    /* padding: 8px 20px; */
+    font-weight: 400;
+}
+
+::ng-deep .md-drppicker td.active, .md-drppicker td.active:hover {
+    background: linear-gradient(to right, #2563eb, #4f46e5) !important;
+    color: white !important;
+}
+::ng-deep .md-drppicker td.available:hover, .md-drppicker th.available:hover , .md-drppicker td.in-range{
+   background-color: #4f46e5;
+}
+ 
+@media (max-width: 640px) {
+
+::ng-deep .dashboard-drpicker .md-drppicker.shown {
+        width: 250px !important;
+        max-width: 100vw !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+
 }

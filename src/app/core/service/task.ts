@@ -28,7 +28,7 @@ export class TaskService {
 
   private db = getFirestore(firebaseApp);
   tasks = signal<Task[]>([]);
-
+  loaded = signal(false);
   constructor(private auth: Auth) {
     // this.loadTasks();
   }
@@ -47,6 +47,7 @@ export class TaskService {
       })) as Task[];
 
       this.tasks.set(data);
+      this.loaded.set(true);
       console.log(data)
     });
     

@@ -41,10 +41,14 @@ deleteId: any;
   complatedTasks: number = 0;
   inprogressTasks: number = 0;
   pendingTasks: number = 0;
+  loading = true;
 
   p = 1;                 // current page
-  itemsPerPage = 1;      // items per page
-  pageSizeOptions = [1, 2, 5, 20];
+  itemsPerPage = 5;      // items per page
+  pageSizeOptions = [5, 10, 20, 'All']; 
+
+  selectedPageSize: number | 'All' = 5;
+
   // constructor(
   //   private fb: FormBuilder,
   //   public taskService: TaskService,
@@ -112,7 +116,11 @@ deleteId: any;
 
     // ✅ REACT TO TASK CHANGES
     effect(() => {
+
+      this.loading = !this.taskService.loaded();
       const data = this.taskService.tasks();
+     
+
 
       this.tasks = [...data];
       this.filteredTasks = [...data];
@@ -128,6 +136,16 @@ deleteId: any;
     this.dateRangeControl.valueChanges.subscribe(range => {
       this.applyDateFilter(range);
     });
+  }
+
+  onPageSizeChange(value: number | 'All') {
+    this.p = 1;
+
+    if (value === 'All') {
+      this.itemsPerPage = this.filteredTasks.length || 1;
+    } else {
+      this.itemsPerPage = value;
+    }
   }
 
 
@@ -174,7 +192,7 @@ deleteId: any;
 
     const { title, dueDate, status } = this.taskForm.getRawValue();
 
-    
+    document.body.classList.remove('overflow-hidden');
     if (this.editingTask) {
       await this.taskService.updateTask(this.editingTask.id, {
         title,
