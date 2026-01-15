@@ -23,7 +23,7 @@ export interface LoginPayload {
     providedIn: 'root',
 })
 export class AuthService {
-    private API_URL = 'http://localhost:5000/api/auth';
+    private API_URL = 'http://localhost:5000/api';
 
     // 🔹 Global auth state
     user = signal<any>(null);
@@ -33,12 +33,12 @@ export class AuthService {
 
     // ✅ REGISTER
     register(data: RegisterPayload) {
-        return this.http.post(`${this.API_URL}/register`, data);
+        return this.http.post(`${this.API_URL}/auth/register`, data);
     }
 
     // ✅ LOGIN
     login(data: LoginPayload) {
-        return this.http.post<any>(`${this.API_URL}/login`, data).pipe(
+        return this.http.post<any>(`${this.API_URL}/auth/login`, data).pipe(
             tap((res) => {
                 localStorage.setItem('token', res.token);
                 localStorage.setItem('user', JSON.stringify(res.user));

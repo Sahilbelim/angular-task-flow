@@ -8,12 +8,13 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { AdminAddUser } from "../admin-add-user/admin-add-user";
 type TaskStatus = 'pending' | 'in-progress' | 'completed';
 
 @Component({
   selector: 'app-dashbord',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, NgxDaterangepickerMd, NgxPaginationModule,CommonModule],
+  imports: [ReactiveFormsModule, FormsModule, NgxDaterangepickerMd, NgxPaginationModule, CommonModule, AdminAddUser],
   templateUrl: './dashbord.html',
   styleUrl: './dashbord.css',
 })
