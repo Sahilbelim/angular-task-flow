@@ -1,18 +1,4 @@
-<!-- <nav class="flex gap-6 p-4 bg-gray-900 text-white">
-
-    <a routerLink="/" routerLinkActive="underline" class="hover:text-blue-400">
-        Home
-    </a>
-
-    <a routerLink="/login" routerLinkActive="underline" class="hover:text-blue-400">
-        Login
-    </a>
-
-    <a routerLink="/dashboard" routerLinkActive="underline" class="hover:text-blue-400">
-        Dashboard
-    </a>
-
-</nav> -->
+<!-- 
 
 <nav class="sticky top-0 z-50
          bg-white/80 backdrop-blur-xl
@@ -35,10 +21,10 @@
     
         <div class="flex items-center gap-8 text-sm font-semibold">
 
-            <!-- <a routerLink="/" routerLinkActive="text-blue-600"
+            <a routerLink="/" routerLinkActive="text-blue-600"
                 class="text-gray-700 hover:text-blue-600 transition-colors">
                 Home
-            </a> -->
+            </a>
 @if(isLoggedIn){
 
 
@@ -73,4 +59,93 @@
         }
         </div>
     </div>
+</nav> -->
+
+<nav class="sticky top-0 z-50
+         bg-white/80 backdrop-blur-xl
+         border-b border-blue-100
+         shadow-[0_10px_30px_rgba(59,130,246,0.15)]
+         px-4 md:px-6 py-4">
+
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+
+        <!-- LOGO -->
+        <a routerLink="/" (click)="closeMenu()" class="text-2xl font-extrabold tracking-tight
+              bg-gradient-to-r from-blue-600 to-indigo-600
+              bg-clip-text text-transparent">
+            TaskFlow
+        </a>
+
+        <!-- DESKTOP MENU -->
+        <div class="hidden md:flex items-center gap-8 text-sm font-semibold">
+
+            @if (isLoggedIn) {
+            <a routerLink="/dashboard" routerLinkActive="text-blue-600"
+                class="text-gray-700 hover:text-blue-600 transition">
+                Dashboard
+            </a>
+
+            <button (click)="logout()" class="px-4 py-2 rounded-xl
+                       bg-gradient-to-r from-orange-500 to-red-600
+                       text-white shadow-md hover:scale-105 transition">
+                Logout
+            </button>
+            }
+
+            @if (!isLoggedIn) {
+            <a routerLink="/login" class="px-4 py-2 rounded-xl
+                  bg-gradient-to-r from-blue-600 to-indigo-600
+                  text-white shadow-md hover:scale-105 transition">
+                Login
+            </a>
+            }
+        </div>
+
+        <!-- MOBILE MENU ICON -->
+        <button class="md:hidden text-3xl text-gray-700" (click)="toggleMenu()">
+            <i class="bx" [class.bx-menu]="!menuOpen" [class.bx-x]="menuOpen"></i>
+        </button>
+
+        
+
+    </div>
 </nav>
+
+@if (menuOpen) {
+
+<!-- BACKDROP -->
+<div class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" (click)="closeMenu()">
+</div>
+
+<!-- MOBILE MENU -->
+<div class="fixed top-[69px] left-0 right-0 z-50
+              bg-gray-200 border-t border-blue-100
+              shadow-lg
+              p-6
+              flex flex-col gap-4
+              text-sm font-semibold">
+
+    @if (isLoggedIn) {
+    <a routerLink="/dashboard" (click)="closeMenu()" class="text-gray-700  hover:text-blue-600 transition">
+        Dashboard
+    </a>
+<a routerLink="/dashboard" (click)="closeMenu()" class="text-gray-700  hover:text-blue-600 transition">
+    User
+</a>
+    <button (click)="logout(); closeMenu()" class="w-full px-4 py-2 rounded-xl
+                     bg-gradient-to-r from-orange-500 to-red-600
+                     text-white shadow-md">
+        Logout
+    </button>
+    }
+
+    @if (!isLoggedIn) {
+    <a routerLink="/login" (click)="closeMenu()" class="w-full text-center px-4 py-2 rounded-xl
+                bg-gradient-to-r from-blue-600 to-indigo-600
+                text-white shadow-md">
+        Login
+    </a>
+    }
+
+</div>
+}

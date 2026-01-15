@@ -110,12 +110,15 @@
                     <input class="border border-blue-200 p-4 rounded-xl  md:w-2/3" type="text" name="" id=""
                         placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="filterBySearch()">
 
-                    <input type="text" ngxDaterangepickerMd [formControl]="dateRangeControl" [showClearButton]="true"
-                        placeholder="Filter by date range" class="w-full md:w-72 rounded-xl border border-blue-200
-                     bg-blue-50 px-4 py-3
-                     text-blue-900 placeholder-blue-400
-                     focus:ring-2 focus:ring-blue-500 transition" />
+                        <div class="">
 
+                            <input type="text" ngxDaterangepickerMd [formControl]="dateRangeControl" [showClearButton]="true"
+                            placeholder="Filter by date range" class="w-full md:w-72 rounded-xl border border-blue-200
+                            bg-blue-50 px-4 py-3
+                            text-blue-900 placeholder-blue-400
+                            focus:ring-2 focus:ring-blue-500 transition" />
+                            
+                        </div>
 
                     <button (click)="togglePopup()" class="font-semibold whitespace-nowrap
                      bg-gradient-to-r from-blue-500 to-indigo-600
@@ -174,7 +177,7 @@
                             @if (loading) {
 
                             @for(i of [1,2,3,4,5]; track $index) {
-                            <tr class="border-b animate-pulse">
+                            <tr class="border-b animate-pulse" >
                                 <td class="px-4 py-4">
                                     <div class="h-4 w-40 bg-gray-200 rounded"></div>
                                 </td>
@@ -200,10 +203,10 @@
                             @for(task of filteredTasks | paginate :{itemsPerPage: itemsPerPage, currentPage: p } ; track
                             task.id)
                             {
-                            <tr class="border-b border-blue-200 hover:bg-blue-50">
-                                <td class="px-4 py-2">{{task.title}}</td>
+                            <tr class="border-b border-blue-200 hover:bg-blue-50" >
+                                <td class="px-4 py-2" (click)="viewTask(task)">{{task.title}}</td>
 
-                                <td class="px-4 py-2 text-center align-middle">
+                                <td class="px-4 py-2 text-center align-middle" (click)="viewTask(task)">
                                     <span
                                         class="inline-flex items-center  px-3 py-1 rounded-full text-xs font-semibold capitalize"
                                         [ngClass]="{
@@ -216,7 +219,7 @@
                                 </td>
 
 
-                                <td class="px-4 py-2">{{task.dueDate}}</td>
+                                <td class="px-4 py-2" (click)="viewTask(task)">{{task.dueDate}}</td>
                                 <td class="px-4 py-2">
                                     <button class="text-blue-600 hover:underline mr-2"
                                         (click)="editTask(task)">Edit</button>
@@ -237,26 +240,32 @@
                         </tbody>
 
 
-                        @if (this.filteredTasks.length !== 0){
-                        <tfoot>
-                            <tr class="">
-                                <td colspan="3"></td>
-                                <td class=" mt-3 pt-3 text-blue-600"> Total Result : {{this.filteredTasks.length}}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class=" text-center">
-                                    @if (selectedPageSize !== 'All' && selectedPageSize <= this.filteredTasks.length) {
-                                        <pagination-controls (pageChange)="p = $event" previousLabel="Prev"
-                                        nextLabel="Next" class="flex justify-center mt-4 text-sm">
-                                        </pagination-controls>
-                                        }
-                                </td>
-                            </tr>
-
-                        </tfoot>
-                        }
+                      
                     </table>
+
+                    
                 </div>
+                @if (filteredTasks.length !== 0) {
+                <div class="mt-4 flex flex-col gap-3
+                           sm:flex-row sm:items-center sm:justify-between">
+                
+                    <!-- TOTAL RESULT -->
+                    <div class="text-blue-600 text-sm font-medium
+                             text-center sm:text-left">
+                        Total Results: {{ filteredTasks.length }}
+                    </div>
+                
+                    <!-- PAGINATION -->
+                    @if (selectedPageSize !== 'All' && selectedPageSize < filteredTasks.length) { <div
+                        class="flex justify-center sm:justify-center w-full sm:w-auto">
+                        <pagination-controls (pageChange)="p = $event" previousLabel="Prev" nextLabel="Next" class="text-sm">
+                        </pagination-controls>
+                </div>
+                }
+                
+                </div>
+                }
+
             </div>
         </div>
 
@@ -277,19 +286,15 @@
     <div class="fixed inset-0 z-50 flex items-center justify-center px-4">
 
         <!-- MODAL CARD -->
-        <div class="relative w-3/2
-         w-3/2
-         sm:max-w-md md:max-w-md
-           bg-white/90 backdrop-blur-xl
-           border border-blue-200
-           rounded-2xl
-           shadow-[0_20px_50px_rgba(59,130,246,0.25)]
-           transition-all duration-300
-           max-h-[90vh] overflow-y-auto p-6">
+        <div class="relative w-full max-w-sm bg-white/90 backdrop-blur-xl border border-blue-200 rounded-2xl shadow-[0_20px_50px_rgba(59,130,246,0.25)] transition-all duration-300 max-h-[90vh] overflow-y-auto p-6">
 
             <h2 class="text-center text-xl font-semibold mb-4">
                 {{ editingTask ? 'Edit Task' : 'Add Task' }}
             </h2>
+
+            <p class="text-center text-sm text-gray-600 mb-4">
+               {{ editingTask ? 'Update the details of your task below.' : 'Fill in the details of your new task below.' }}
+            </p>
 
             <form [formGroup]="taskForm" (ngSubmit)="saveTask()" class="flex flex-col gap-4">
 
@@ -349,30 +354,39 @@
     <!-- MODAL CARD -->
     <div class="relative w-full max-w-sm
            bg-white/90 backdrop-blur-xl
-           border border-red-200
-           rounded-2xl
-           shadow-[0_20px_50px_rgba(239,68,68,0.25)]
+           border 
+           rounded-2xl 
            max-h-[90vh] overflow-y-auto
-           p-6">
+           p-6"
+           [ngClass]="{
+    'shadow-[0_20px_50px_rgba(239,68,68,0.25)]  border-red-800': deleteId != null,
+    'shadow-[0_20px_50px_rgba(59,130,246,0.25)] border-indigo-400': deleteId == null
+  }"
+          >
 
-        <h2 class="text-center text-xl font-semibold text-red-600 mb-4">
-            Delete Task
+        <h2 class="text-center text-xl font-semibold   mb-4"
+        [class.text-red-600]="deleteId!=null"
+        [class.text-gray-800]="deleteId==null">
+        {{deleteId!=null?"Delete Task":"View Task"}}   
         </h2>
 
-        <p class="text-center text-sm text-gray-600 mb-4">
-            Are you sure you want to delete this task? This action cannot be undone.
-        </p>
+        @if (deleteId!=null) {
+
+            <p class="text-center text-sm text-gray-600 mb-4">
+                Are you sure you want to delete this task? This action cannot be undone.
+            </p>
+        }
 
         <form [formGroup]="taskForm" class="flex flex-col gap-4">
 
             <input type="text" formControlName="title"
-                class="border border-red-200 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
+                class="border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
 
             <input type="date" formControlName="dueDate"
-                class="border border-red-200 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
+                class="border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
 
             <select formControlName="status"
-                class="border border-red-200 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
+                class="border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
                 <option value="pending">Pending</option>
                 <option value="in-progress">In Progress</option>
                 <option value="completed">Completed</option>
@@ -380,14 +394,17 @@
 
             <div class="flex gap-3 mt-4">
                 <button type="button" (click)="closeDeleteModal()"
-                    class="w-1/2 border border-gray-300 text-gray-700 py-2 rounded-xl font-semibold hover:bg-gray-100">
+                    class=" border bg-gray-400 border-gray-300 text-gray-700 py-2 rounded-xl font-semibold hover:bg-gray-100" [class.w-full]="deleteId == null"
+  [class.w-1/2]="deleteId != null">
                     Cancel
                 </button>
+@if (deleteId!=null) {
 
-                <button type="button" (click)="confirmDelete()"
-                    class="w-1/2 bg-gradient-to-r from-red-500 to-red-600 text-white py-2 rounded-xl font-semibold">
-                    Delete
-                </button>
+    <button type="button" (click)="confirmDelete()"
+    class="w-1/2 bg-gradient-to-r from-red-500 to-red-600 text-white py-2 rounded-xl font-semibold">
+    Delete
+</button>
+}
             </div>
 
         </form>

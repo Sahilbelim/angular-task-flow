@@ -35,7 +35,7 @@ export class Dashbord implements OnInit  {
 
   editingTask: any = null;
   deletingTask: boolean =false ;
-deleteId: any;
+  deleteId: string | null = null;
   tasks: any[] = [];           
   totalTasks: number = 0;
   complatedTasks: number = 0;
@@ -216,6 +216,7 @@ deleteId: any;
     this.resetForm();
   }
 
+  
   editTask(task: any) {
     this.editingTask = task;         
     this.popupVisible = true;
@@ -227,9 +228,21 @@ deleteId: any;
     });
   }
 
-  deleteTask(task: any) {
+  viewTask(task: any) {
+    console.log(task)
     this.deletingTask = true;
+    this.deleteId = null;
+    document.body.classList.add('overflow-hidden');
+    this.taskForm.patchValue({
+      title: task.title,
+      dueDate: task.dueDate,
+      status: task.status,
+    });
+    this.taskForm.disable();
+  }
+  deleteTask(task: any) {
     this.deleteId = task.id;
+    this.deletingTask = true;
     console.log(task)
     document.body.classList.add('overflow-hidden');
     this.taskForm.patchValue({
@@ -326,6 +339,8 @@ deleteId: any;
 
   closeDeleteModal() {
     this.deletingTask = false;
+    this.deleteId = null;
+    this.taskForm.enable();
     document.body.classList.remove('overflow-hidden');
   }
 

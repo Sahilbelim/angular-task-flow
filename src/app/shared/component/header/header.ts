@@ -1,6 +1,6 @@
 import { Component ,effect} from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { Auth } from '../../../core/auth/auth';
+import { AuthService } from '../../../core/service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -12,13 +12,24 @@ import { ToastrService } from 'ngx-toastr';
 export class Header { 
 
   isLoggedIn = false;
-  constructor(private authService: Auth,private router: Router,private toststr: ToastrService) {
+  menuOpen = false;
+  constructor(private authService: AuthService,private router: Router,private toststr: ToastrService) {
 
     effect(() => { 
       this.isLoggedIn = this.authService.isLoggedIn();
     })
    }
   
+  
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu() {
+    this.menuOpen = false;
+  }
+
  
 
   async logout() {
