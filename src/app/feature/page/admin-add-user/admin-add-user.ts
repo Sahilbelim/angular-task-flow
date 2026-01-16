@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../core/service/auth.service';
+import { UserService } from '../../../core/service/user';
 
 @Component({
   selector: 'app-admin-add-user',
@@ -11,6 +12,7 @@ import { AuthService } from '../../../core/service/auth.service';
   templateUrl: './admin-add-user.html',
 })
 export class AdminAddUser {
+  @Output() close = new EventEmitter<void>();
 
   loading = false;
   showPassword = false;
@@ -19,7 +21,8 @@ export class AdminAddUser {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private userService: UserService
   ) { 
 
     this.adminForm = this.fb.group({
@@ -34,16 +37,27 @@ export class AdminAddUser {
         Validators.pattern(/\d/),         // number
         Validators.pattern(/[@$!%*?&#]/), // special char
       ]],
+      role: ['user'],
       create: [false],
       edit: [false],
       delete: [false],
     });
 
+    this.adminForm.get('role')?.valueChanges.subscribe(role => {
+      if (role === 'admin') {
+        this.adminForm.patchValue({
+          role: 'admin',
+          create: true,
+          edit: true,
+          delete: true,
+        });
+      }
+    });
   }
 
   submit() {
+    this.adminForm.markAllAsTouched();
     if (this.adminForm.invalid) {
-      this.adminForm.markAllAsTouched();
       this.toastr.warning('Please fill all fields correctly');
       return;
     }
@@ -56,16 +70,20 @@ export class AdminAddUser {
       name: form.name,
       email: form.email,
       password: form.password,
+      role: form.role,
       permissions: {
         create: form.create,
         edit: form.edit,
         delete: form.delete,
       },
     };
-
+    console.log('Payload:', payload);
     this.authService.adminCreateUser(payload).subscribe({
+ 
       next: () => {
         this.toastr.success('User created successfully');
+        this.close.emit()
+        this.userService.triggerRefresh();
         this.adminForm.reset({
           create: false,
           edit: false,

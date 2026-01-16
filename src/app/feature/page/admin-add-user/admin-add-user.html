@@ -1,4 +1,4 @@
-<div class="min-h-screen flex items-center justify-center
+<!-- <div class="min-h-screen flex items-center justify-center
      bg-gradient-to-br from-blue-100 via-sky-100 to-indigo-200 px-4">
 
     <div class="w-full max-w-md
@@ -17,21 +17,21 @@
 
         <form [formGroup]="adminForm" (ngSubmit)="submit()" class="space-y-5">
 
-            <!-- NAME -->
+  
             <div>
                 <label class="text-sm font-semibold text-blue-700">Full Name</label>
                 <input formControlName="name" placeholder="John Doe" class="w-full mt-1 rounded-xl bg-blue-50 border border-blue-200
                  px-4 py-3 focus:ring-2 focus:ring-blue-500 transition" />
             </div>
 
-            <!-- EMAIL -->
+      
             <div>
                 <label class="text-sm font-semibold text-blue-700">Email</label>
                 <input type="email" formControlName="email" placeholder="user@example.com" class="w-full mt-1 rounded-xl bg-blue-50 border border-blue-200
                  px-4 py-3 focus:ring-2 focus:ring-blue-500 transition" />
             </div>
 
-            <!-- PASSWORD -->
+     
             <div>
                 <label class="text-sm font-semibold text-blue-700">Password</label>
                 <div class="relative mt-1">
@@ -44,7 +44,11 @@
                     </button>
                 </div>
 
-                <!-- PASSWORD RULES -->
+                @if(adminForm.get('password')?.touched && adminForm.get('password')?.value == '') {
+                <p class="text-red-500 text-xs mt-1">Password does not meet the requirements.</p>
+                }
+                @if(adminForm.get('password')?.touched && adminForm.get('password')?.value != '') {
+              
                 <div class="mt-3 text-xs space-y-1">
                     <div [class.text-green-600]="hasUppercase" [class.text-red-500]="!hasUppercase">• Uppercase letter
                     </div>
@@ -58,31 +62,41 @@
                         • 8–32 characters
                     </div>
                 </div>
+            }
             </div>
 
-            <!-- PERMISSIONS -->
-            <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-3">
-                <p class="text-sm font-semibold text-blue-700">
-                    Task Permissions
-                </p>
+      
+                <div>
+                    <label class="text-sm font-semibold text-blue-700">Role</label>
+                    <select formControlName="role" class="w-full rounded-xl bg-blue-50 border border-blue-200 px-4 py-3
+                                 focus:ring-2 focus:ring-blue-500 transition">
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
+                
+    
+                @if (adminForm.get('role')?.value === 'user') {
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-3">
+                    <p class="text-sm font-semibold text-blue-700">User Permissions</p>
+                
+                    <label class="flex items-center gap-3 text-sm">
+                        <input type="checkbox" formControlName="create" /> Can Create Task
+                    </label>
+                
+                    <label class="flex items-center gap-3 text-sm">
+                        <input type="checkbox" formControlName="edit" /> Can Edit Task
+                    </label>
+                
+                    <label class="flex items-center gap-3 text-sm">
+                        <input type="checkbox" formControlName="delete" /> Can Delete Task
+                    </label>
+                </div>
+                }
 
-                <label class="flex items-center gap-3 text-sm text-blue-800">
-                    <input type="checkbox" formControlName="create" />
-                    Can Create Task
-                </label>
+         
 
-                <label class="flex items-center gap-3 text-sm text-blue-800">
-                    <input type="checkbox" formControlName="edit" />
-                    Can Edit Task
-                </label>
-
-                <label class="flex items-center gap-3 text-sm text-blue-800">
-                    <input type="checkbox" formControlName="delete" />
-                    Can Delete Task
-                </label>
-            </div>
-
-            <!-- SUBMIT -->
+  
             <button type="submit" [disabled]="loading" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
                hover:from-blue-700 hover:to-indigo-700
                text-white font-semibold py-3 rounded-xl
@@ -93,4 +107,210 @@
 
         </form>
     </div>
+</div> -->
+<!-- 
+<div class="h-full flex flex-col">
+
+  
+    <div class="flex items-center justify-between px-6 py-4 border-b">
+        <h2 class="text-xl font-extrabold text-blue-700">
+            Create User
+        </h2>
+
+        <button (click)="close.emit()" class="text-xl text-gray-500 hover:text-red-500">
+            ✕
+        </button>
+    </div>
+
+ 
+    <form [formGroup]="adminForm" (ngSubmit)="submit()" class="flex-1 overflow-y-auto px-6 py-6 space-y-5">
+
+        <input formControlName="name" placeholder="Full Name" class="input" />
+
+        <input formControlName="email" placeholder="Email" class="input" />
+
+        <div class="relative">
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Password"
+                class="input" />
+            <button type="button" (click)="showPassword = !showPassword" class="absolute right-4 top-3 text-blue-500">
+                👁
+            </button>
+        </div>
+
+        <select formControlName="role" class="input">
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+        </select>
+
+      
+        <div *ngIf="adminForm.get('role')?.value === 'user'" class="bg-blue-50 border rounded-xl p-4 space-y-3 text-sm">
+
+            <label class="flex gap-3">
+                <input type="checkbox" formControlName="create" /> Create Task
+            </label>
+
+            <label class="flex gap-3">
+                <input type="checkbox" formControlName="edit" /> Edit Task
+            </label>
+
+            <label class="flex gap-3">
+                <input type="checkbox" formControlName="delete" /> Delete Task
+            </label>
+        </div>
+
+        <button type="submit" [disabled]="loading" class="w-full py-3 rounded-xl text-white font-semibold
+             bg-gradient-to-r from-blue-600 to-indigo-600
+             disabled:opacity-60">
+            {{ loading ? 'Creating...' : 'Create User' }}
+        </button>
+
+    </form>
+</div> -->
+
+<div class="h-full flex flex-col bg-white  ">
+
+    <!-- HEADER -->
+    <div class="flex items-center justify-between px-6 py-4 border-b bg-white/80 backdrop-blur">
+        <h2 class="text-lg font-extrabold text-blue-700">
+            Create User
+        </h2>
+
+        <button (click)="close.emit()" class="text-xl text-gray-400 hover:text-red-500 transition">
+            ✕
+        </button>
+    </div>
+
+    <!-- FORM -->
+    <form [formGroup]="adminForm" (ngSubmit)="submit()" class="flex-1 overflow-y-auto px-6 py-6 space-y-6
+          ">
+
+        <!-- NAME -->
+        <div>
+            <label class="text-sm font-semibold text-blue-700 mb-1 block">
+                Full Name
+            </label>
+            <input formControlName="name" placeholder="John Doe" class="w-full rounded-xl bg-blue-50 border border-blue-200
+               px-4 py-3
+               focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+               transition" />
+
+            @if(adminForm.get('name')?.touched && adminForm.get('name')?.invalid){
+            <p class="text-xs text-red-500 mt-1">Name is required</p>
+            }
+        </div>
+
+        <!-- EMAIL -->
+        <div>
+            <label class="text-sm font-semibold text-blue-700 mb-1 block">
+                Email Address
+            </label>
+            <input type="email" formControlName="email" placeholder="user@example.com" class="w-full rounded-xl bg-blue-50 border border-blue-200
+               px-4 py-3
+               focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+               transition" />
+
+            @if(adminForm.get('email')?.touched && adminForm.get('email')?.invalid){
+            <p class="text-xs text-red-500 mt-1">Valid email is required</p>
+            }
+        </div>
+
+        <!-- PASSWORD -->
+        <div>
+            <label class="text-sm font-semibold text-blue-700 mb-1 block">
+                Password
+            </label>
+
+            <div class="relative">
+                <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••"
+                    class="w-full rounded-xl bg-blue-50 border border-blue-200
+                 px-4 py-3 pr-12
+                 focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                 transition" />
+
+                <button type="button" (click)="showPassword = !showPassword" class="absolute inset-y-0 right-4 flex items-center
+                 text-blue-500 hover:text-blue-700 transition">
+                    <i class="bx" [class.bx-eye]="showPassword" [class.bx-eye-slash]="!showPassword"></i>
+                </button>
+            </div>
+
+            <!-- PASSWORD ERRORS -->
+            @if(adminForm.get('password')?.touched && adminForm.get('password')?.value === ''){
+            <p class="text-xs text-red-500 mt-1">
+                Password is required
+            </p>
+            }
+
+            <!-- PASSWORD RULES -->
+            @if(adminForm.get('password')?.touched && adminForm.get('password')?.value !== '' && adminForm.get('password')?.invalid){
+            <div class="mt-3 text-xs space-y-1">
+                <div [class.text-green-600]="hasUppercase" [class.text-red-500]="!hasUppercase">
+                    • Uppercase letter
+                </div>
+                <div [class.text-green-600]="hasLowercase" [class.text-red-500]="!hasLowercase">
+                    • Lowercase letter
+                </div>
+                <div [class.text-green-600]="hasNumber" [class.text-red-500]="!hasNumber">
+                    • Number
+                </div>
+                <div [class.text-green-600]="hasSpecialChar" [class.text-red-500]="!hasSpecialChar">
+                    • Special character
+                </div>
+                <div [class.text-green-600]="hasMinLength && hasMaxLength"
+                    [class.text-red-500]="!hasMinLength || !hasMaxLength">
+                    • 8–32 characters
+                </div>
+            </div>
+            }
+        </div>
+
+        <!-- ROLE -->
+        <div>
+            <label class="text-sm font-semibold text-blue-700 mb-1 block">
+                Role
+            </label>
+            <select formControlName="role" class="w-full rounded-xl bg-blue-50 border border-blue-200
+               px-4 py-3
+               focus:ring-2 focus:ring-blue-500 transition">
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+            </select>
+        </div>
+
+        <!-- USER PERMISSIONS -->
+        @if (adminForm.get('role')?.value === 'user') {
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4
+               space-y-3 animate-fadeIn">
+
+            <p class="text-sm font-semibold text-blue-700">
+                User Permissions
+            </p>
+
+            <label class="flex items-center gap-3 text-sm text-blue-800">
+                <input type="checkbox" formControlName="create" />
+                Can Create Task
+            </label>
+
+            <label class="flex items-center gap-3 text-sm text-blue-800">
+                <input type="checkbox" formControlName="edit" />
+                Can Edit Task
+            </label>
+
+            <label class="flex items-center gap-3 text-sm text-blue-800">
+                <input type="checkbox" formControlName="delete" />
+                Can Delete Task
+            </label>
+        </div>
+        }
+
+        <!-- SUBMIT -->
+        <button type="submit" [disabled]="loading" class="w-full py-3 rounded-xl font-semibold text-white
+             bg-gradient-to-r from-blue-600 to-indigo-600
+             hover:from-blue-700 hover:to-indigo-700
+             shadow-md hover:shadow-lg
+             active:scale-[0.98]
+             transition disabled:opacity-60">
+            {{ loading ? 'Creating...' : 'Create User' }}
+        </button>
+
+    </form>
 </div>

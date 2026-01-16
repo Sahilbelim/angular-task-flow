@@ -13,9 +13,14 @@ export class Header {
 
   isLoggedIn = false;
   menuOpen = false;
+  user: any = null;
   constructor(private authService: AuthService,private router: Router,private toststr: ToastrService) {
 
+    // console.log('Header initialized');
+    this.user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
+    
     effect(() => { 
+      // console.log('Header User:', this.user);
       this.isLoggedIn = this.authService.isLoggedIn();
     })
    }

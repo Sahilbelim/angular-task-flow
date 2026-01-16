@@ -1,0 +1,103 @@
+<!-- <div class="max-w-7xl mx-auto p-6">
+
+    <h2 class="text-2xl font-bold mb-4">Tasks</h2>
+
+    @if (loading) {
+    <p class="text-gray-500">Loading tasks...</p>
+    }
+
+    @if (!loading && tasks.length === 0) {
+    <p class="text-gray-500">No tasks found</p>
+    }
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        @for (task of tasks; track task._id) {
+        <div class="bg-white rounded-xl border p-4 shadow">
+
+            <h3 class="font-semibold text-lg">{{ task.title }}</h3>
+            <p class="text-sm text-gray-600">{{ task.description }}</p>
+
+            <p class="text-sm mt-2">
+                <span class="font-semibold">Status:</span>
+                {{ task.status }}
+            </p>
+
+            <p class="text-sm">
+                <span class="font-semibold">Due:</span>
+                {{ task.dueDate  }}
+            </p>
+
+            <div class="flex gap-3 mt-4">
+                @if (canEdit(task)) {
+                <button class="text-blue-600 hover:underline">
+                    Edit
+                </button>
+                }
+
+                @if (canDelete(task)) {
+                <button class="text-red-600 hover:underline" (click)="deleteTask(task._id!)">
+                    Delete
+                </button>
+                }
+            </div>
+
+        </div>
+        }
+    </div>
+</div> -->
+
+<div class="max-w-5xl mx-auto p-6">
+
+    <!-- CREATE / UPDATE FORM -->
+    @if (canCreate()) {
+    <form [formGroup]="taskForm" (ngSubmit)="submit()" class="bg-white p-4 rounded-xl shadow mb-6 space-y-3">
+
+        <input formControlName="title" placeholder="Task title" class="w-full border p-2 rounded" />
+
+        <textarea formControlName="description" placeholder="Description" class="w-full border p-2 rounded"></textarea>
+
+        <select formControlName="status" class="w-full border p-2 rounded">
+            <option value="pending">Pending</option>
+            <option value="in-progress">In Progress</option>
+            <option value="completed">Completed</option>
+        </select>
+
+        <button class="bg-blue-600 text-white px-4 py-2 rounded">
+            {{ editingTask ? 'Update Task' : 'Add Task' }}
+        </button>
+    </form>
+    }
+
+    <!-- TASK LIST -->
+    <div class="bg-white rounded-xl shadow">
+        <table class="w-full">
+            <thead>
+                <tr class="border-b">
+                    <th class="p-3 text-left">Title</th>
+                    <th>Status</th>
+                    <th class="text-right p-3">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (task of tasks; track $index) {
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="p-3">{{ task.title }}</td>
+                    <td>{{ task.status }}</td>
+
+                    <td class="p-3 text-right space-x-2">
+                        @if (canEdit()) {
+                        <button (click)="edit(task)" class="text-blue-600">Edit</button>
+                        }
+
+                        @if (canDelete()) {
+                        <button (click)="remove(task._id)" class="text-red-600">Delete</button>
+                        }
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

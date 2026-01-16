@@ -40,15 +40,33 @@ export class AuthService {
     login(data: LoginPayload) {
         return this.http.post<any>(`${this.API_URL}/auth/login`, data).pipe(
             tap((res) => {
+                // console.log('Login response:', res.user);
                 localStorage.setItem('token', res.token);
                 localStorage.setItem('user', JSON.stringify(res.user));
                 this.token.set(res.token);
                 this.user.set(res.user);
+
+                // console.log('User logged in:', res.user);
             })
         );
     }
+    // adminCreateUser(data: any) {
+    //     return this.http.post(`${this.API_URL}/admin/create-user`, data);
+    // }
+
+
     adminCreateUser(data: any) {
-        return this.http.post(`${this.API_URL}/admin/create-user`, data);
+        const token = localStorage.getItem('token');
+
+        return this.http.post(
+            `${this.API_URL}/admin/create-user`,
+            data,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
     }
 
     // ✅ LOGOUT
@@ -82,5 +100,22 @@ export class AuthService {
         localStorage.setItem('token', token);
     }
 
-    
+    hasPermission(permission: 'create' | 'edit' | 'delete'): boolean {
+        const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
+        // console.log('Checking permission:', permission, 'for user:', user);
+
+        // ✅ user not loaded yet
+        if (!user) {
+            return false;
+        }
+
+        // ✅ admin has all permissions
+        if (user.role === 'admin') {
+            return true;
+        }
+
+        // ✅ normal user permissions
+        return !!user.permissions?.[permission];
+    }
+
 }

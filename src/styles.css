@@ -36,10 +36,10 @@
     /* padding: 8px 14px; */
     border-radius: 10px;
     /* background: linear-gradient(to right, #6987c8, #4f46e5); */
-    background-color: aqua;
+    background: linear-gradient(to right, #2563eb, #4f46e5) !important;
     color: #ffffff !important;
     font-weight: 600;
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+    /* box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35); */
 }
 
 /* REMOVE trash icon completely */
@@ -87,4 +87,16 @@
 }
 .md-drppicker {
     display: flex;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }

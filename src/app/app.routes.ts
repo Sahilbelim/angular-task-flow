@@ -4,6 +4,8 @@ import { Home } from './feature/page/home/home';
 import { Dashbord } from './feature/page/dashbord/dashbord';
 import { Register } from './feature/page/register/register';
 import { authGuard } from './core/guards/auth-guard';
+import { AdminUsers } from './feature/page/admin-users/admin-users';
+import { AdminUsersPage } from './feature/page/admin-users-page/admin-users-page';
 export const routes: Routes = [
     { path: '', component:Home },
     { path: 'login',   component: Login },
@@ -12,5 +14,11 @@ export const routes: Routes = [
         path: 'dashboard',
         canActivate: [authGuard],
         component: Dashbord
+    },
+    {
+        path: 'admin/users',
+        component: AdminUsersPage,
+        canActivate: [authGuard]
     }
+
 ];
