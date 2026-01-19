@@ -373,8 +373,13 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ToastrService } from 'ngx-toastr';
 
-import { NewTaskService } from '../../../core/service/newtask';
-import { AuthService } from '../../../core/service/auth.service';
+import { NewTaskService } from '../../../core/service/mocapi/task';
+import { AuthService } from '../../../core/service/mocapi/auth';
+
+import { NgSelectModule } from '@ng-select/ng-select';
+import { UserService } from '../../../core/service/mocapi/user';
+
+
 
 type TaskStatus = 'pending' | 'in-progress' | 'completed';
 
@@ -387,6 +392,7 @@ type TaskStatus = 'pending' | 'in-progress' | 'completed';
     FormsModule,
     NgxDaterangepickerMd,
     NgxPaginationModule,
+    NgSelectModule
   ],
   templateUrl: './dashbord.html',
 })
@@ -421,6 +427,9 @@ export class Dashbord implements OnInit {
 
   /** FORM */
   taskForm: any;
+  assignableUsers: string[] = [];
+  currentUser: any;
+  assignedUserMap: Record<string, { id: string; name: string; email: string }[]> = {};
 
 
   constructor(
@@ -433,25 +442,113 @@ export class Dashbord implements OnInit {
       title: ['', Validators.required],
       dueDate: ['', Validators.required],
       status: ['pending' as TaskStatus],
+      assignedUsers: [[] as string[]],
+
     });
+    this.loadTasks();
   }
 
-  ngOnInit() {
-    this.loadTasks();
+  // ngOnInit() {
+  //   this.loadTasks();
 
-    this.dateRangeControl.valueChanges.subscribe((range) =>
+  //   this.dateRangeControl.valueChanges.subscribe((range) =>
+  //     this.applyDateFilter(range)
+  //   );
+  // }
+  ngOnInit() {
+    this.currentUser = this.auth.user();
+    this.loadAssignableUsers();
+    this.loadTasks();
+    console.log('Assigned users:', this.assignedUserMap);
+    this.tasks.forEach(task => this.resolveAssignedUsers(task));
+    console.log('Assigned users after resolving:', this.assignedUserMap);
+    this.dateRangeControl.valueChanges.subscribe(range =>
       this.applyDateFilter(range)
     );
   }
 
+
   // ======================
   // 🔄 LOAD TASKS (API)
   // ======================
+
+  // loadAssignableUsers() {
+  //   const me = this.auth.user();
+  //   if (!me) return;
+
+  //   this.taskService.getUsers().subscribe((users: any[]) => {
+  //     this.assignableUsers = users.filter(u =>
+  //       u.id !== me.id &&
+  //       (
+  //         u.parentId === me.id ||            // my children
+  //         (me.parentId && u.parentId === me.parentId) // my siblings
+  //       )
+  //     );
+  //   });
+  // }
+  resolveAssignedUsers(task: any) {
+    if (!task.assignedTo || task.assignedTo.length === 0) {
+      this.assignedUserMap[task.id] = [];
+      return;
+    }
+
+    this.taskService
+      .getUsersByIds(task.assignedTo)
+      .subscribe(res => {
+        this.assignedUserMap[task.id] = res;
+      });
+  }
+
+  loadAssignableUsers() {
+    const me = this.auth.user();
+    if (!me) return;
+
+    const myId = String(me.id);
+    const myParentId = me.parentId ? String(me.parentId) : null;
+
+    this.taskService.getUsers().subscribe((users: any[]) => {
+      this.assignableUsers = users.filter(u => {
+        const userId = String(u.id);
+        const userParentId = u.parentId ? String(u.parentId) : null;
+
+        // ❌ cannot assign to myself
+        if (userId === myId) return false;
+
+        // ✅ my children
+        if (userParentId === myId) return true;
+
+        // ✅ my siblings
+        if (myParentId && userParentId === myParentId) return true;
+        
+
+        return false;
+      });
+    });
+  }
+  users: any[] = [];
+  userMap: Record<string, any> = {};
+
+  
+  getAssignedUsers(task: any): string {
+    if (!task.assignedTo || task.assignedTo.length === 0) {
+      return '—';
+    }
+
+    return task.assignedTo
+      .map((id: string) => {
+        const u = this.userMap[String(id)];
+        return u ? `${u.name} (${u.email})` : null;
+      })
+      .filter(Boolean)
+      .join(', ');
+  }
+
   loadTasks() {
     this.loading = true;
 
     this.taskService.getTasks().subscribe({
       next: (res: any[]) => {
+        console.log('Tasks loaded:', res);
         this.tasks = res;
         this.filteredTasks = [...res];
         this.updateStats(res);
@@ -467,43 +564,96 @@ export class Dashbord implements OnInit {
   // ======================
   // ➕ ADD / ✏️ UPDATE
   // ======================
+  // saveTask() {
+  //   if (this.taskForm.invalid) {
+  //     this.taskForm.markAllAsTouched();
+  //     return;
+  //   }
+
+  //   const payload = this.taskForm.value;
+
+  //   if (this.editingTask) {
+  //     console.log('Task updated:', payload);
+
+  //     this.taskService
+  //       .updateTask(this.editingTask.id, payload)
+  //       .subscribe((res) => {
+  //         console.log('Task updated:', res);
+  //         this.toastr.success('Task updated');
+  //         this.resetForm();
+  //         this.loadTasks();
+  //       });
+  //   } else {
+  //     this.taskService.createTask(payload).subscribe((res) => {
+  //       console.log('Task created:', res);
+  //       this.toastr.success('Task created');
+  //       this.resetForm();
+  //       this.loadTasks();
+  //     });
+  //   }
+  // }
+
   saveTask() {
     if (this.taskForm.invalid) {
       this.taskForm.markAllAsTouched();
       return;
     }
 
-    const payload = this.taskForm.value;
-
+    const payload = {
+      ...this.taskForm.value,
+      assignedTo: this.taskForm.value.assignedUsers,
+      createdBy: this.auth.user().id, // optional but recommended
+    };
+console.log('Saving task:',this.taskForm.value.assignedUsers);
+    console.log('Saving task:', payload);
     if (this.editingTask) {
       this.taskService
-        .updateTask(this.editingTask._id, payload)
+        .updateTask(this.editingTask.id, payload)
         .subscribe(() => {
           this.toastr.success('Task updated');
           this.resetForm();
           this.loadTasks();
         });
     } else {
-      this.taskService.createTask(payload).subscribe(() => {
-        this.toastr.success('Task created');
-        this.resetForm();
-        this.loadTasks();
-      });
+      this.taskService
+        .createTask(payload)
+        .subscribe((res) => {
+          console.log('Task created:', res);
+          this.toastr.success('Task created');
+          this.resetForm();
+          this.loadTasks();
+        });
     }
   }
 
-  editTask(task: any) {
-    this.editingTask = task;
-    this.popupVisible = true;
-    this.taskForm.patchValue(task);
-    document.body.classList.add('overflow-hidden');
-  }
+
+  // editTask(task: any) {
+  //   this.editingTask = task;
+  //   this.popupVisible = true;
+  //   this.taskForm.patchValue(task);
+  //   document.body.classList.add('overflow-hidden');
+  // }
 
   // ======================
   // 🗑 DELETE
   // ======================
+
+  editTask(task: any) {
+    this.editingTask = task;
+    this.popupVisible = true;
+
+    this.taskForm.patchValue({
+      title: task.title,
+      dueDate: task.dueDate,
+      status: task.status,
+      assignedUsers: task.assignedUsers || [],
+    });
+
+    document.body.classList.add('overflow-hidden');
+  }
+
   deleteTask(task: any) {
-    this.deleteId = task._id;
+    this.deleteId = task.id;
     console.log(task);
     this.deletingTask = true;
     document.body.classList.add('overflow-hidden');
@@ -589,17 +739,21 @@ export class Dashbord implements OnInit {
   // ======================
   // 🔐 PERMISSIONS
   // ======================
-  canCreate() {
-    return this.auth.hasPermission('create');
-  }
+  // canCreate() {
+  //   return this.auth.hasPermission('create');
+  // }
 
-  canEdit() {
-    return this.auth.hasPermission('edit');
-  }
+  // canEdit() {
+  //   return this.auth.hasPermission('edit');
+  // }
 
-  canDelete() {
-    return this.auth.hasPermission('delete');
-  }
+  // canDelete() {
+  //   return this.auth.hasPermission('delete');
+  // }
+
+  canCreate() { return this.auth.hasPermission('createTask'); }
+  canEdit() { return this.auth.hasPermission('editTask'); }
+  canDelete() { return this.auth.hasPermission('deleteTask'); }
 
   // ======================
   // 🧹 HELPERS

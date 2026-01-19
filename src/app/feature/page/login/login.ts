@@ -69,7 +69,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../../../core/service/auth.service';
+import { AuthService } from '../../../core/service/mocapi/auth';
 
 @Component({
   selector: 'app-login',
@@ -104,7 +104,7 @@ export class Login {
       return;
     }
 
-    this.auth.login(this.loginForm.value as any).subscribe({
+    this.auth.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
       next: (res) => {
         console.log('Login successful', res);
         this.toastr.success('Login successful');

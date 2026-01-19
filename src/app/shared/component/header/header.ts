@@ -1,6 +1,6 @@
 import { Component ,effect} from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../../../core/service/auth.service';
+import { AuthService } from '../../../core/service/mocapi/auth';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

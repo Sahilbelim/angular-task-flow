@@ -167,7 +167,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../../../core/service/auth.service';
+import { AuthService } from '../../../core/service/mocapi/auth';
 
 @Component({
   selector: 'app-register',
@@ -195,8 +195,7 @@ export class Register {
         name: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
 
-        password: [
-          '',
+        password: ['',
           [
             Validators.required,
             Validators.minLength(8),
@@ -210,25 +209,20 @@ export class Register {
 
         confrimpassword: ['', Validators.required],
 
-        role: ['user'],
-
-        create: [false],
-        edit: [false],
-        delete: [false],
       },
       { validators: this.passwordMatchValidator }
     );
 
     // Reset permissions when role is admin
-    this.registerForm.get('role')?.valueChanges.subscribe(role => {
-      if (role === 'admin') {
-        this.registerForm.patchValue({
-          create: false,
-          edit: false,
-          delete: false,
-        });
-      }
-    });
+    // this.registerForm.get('role')?.valueChanges.subscribe(role => {
+    //   if (role === 'admin') {
+    //     this.registerForm.patchValue({
+    //       create: false,
+    //       edit: false,
+    //       delete: false,
+    //     });
+    //   }
+    // });
   }
 
   // 🔐 Confirm password validator
@@ -249,21 +243,23 @@ export class Register {
 
     const payload: any = {
       name: form.name,
+     
       email: form.email,
       password: form.password,
-      role: form.role,
-    };
-
-    if (form.role === 'user') {
-      payload.permissions = {
-        create: form.create,
-        edit: form.edit,
-        delete: form.delete,
-      };
+      parentId: null,
+      bio: 'bio',
+      permissions: {
+        createTask: true,
+        editTask: true,
+        deleteTask: true,
+        createUser: true
+      },
     }
+    console.log(payload);
 
     this.auth.register(payload).subscribe({
-      next: () => {
+      next: (res) => {
+        console.log(res)
         this.toastr.success('Registration successful');
         this.router.navigate(['/login']);
       },

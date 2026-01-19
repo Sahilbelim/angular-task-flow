@@ -40,7 +40,7 @@
 
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, UrlTree } from '@angular/router';
-import { AuthService } from '../service/auth.service';
+import { AuthService } from '../service/mocapi/auth';
 
 export const authGuard: CanActivateFn = (): boolean | UrlTree => {
   const auth = inject(AuthService);

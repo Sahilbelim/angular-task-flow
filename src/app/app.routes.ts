@@ -6,6 +6,7 @@ import { Register } from './feature/page/register/register';
 import { authGuard } from './core/guards/auth-guard';
 import { AdminUsers } from './feature/page/admin-users/admin-users';
 import { AdminUsersPage } from './feature/page/admin-users-page/admin-users-page';
+import { UsersPage } from './feature/page/user/user';
 export const routes: Routes = [
     { path: '', component:Home },
     { path: 'login',   component: Login },
@@ -19,6 +20,10 @@ export const routes: Routes = [
         path: 'admin/users',
         component: AdminUsersPage,
         canActivate: [authGuard]
+    },
+       {
+        path: 'users',
+        component: UsersPage,
+        // canActivate: [authGuard]
     }
-
 ];

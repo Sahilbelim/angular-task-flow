@@ -1,19 +1,38 @@
+// export interface Task {
+//     _id?: string;
+//     title: string;
+//     description: string;
+//     dueDate: string;
+//     status: 'pending' | 'in-progress' | 'completed';
+//     createdBy: string;
+
+//     assignedTo: string[];
+
+//     permissions: {
+//         view: string[];
+//         edit: string[];
+//         delete: string[];
+//     };
+
+//     createdAt?: string;
+//     updatedAt?: string;
+// }
+
 export interface Task {
-    _id?: string;
+    id?: string;
+
     title: string;
-    description: string;
-    dueDate: string;
+    description?: string;
+
     status: 'pending' | 'in-progress' | 'completed';
-    createdBy: string;
+    priority?: 'low' | 'medium' | 'high';
 
-    assignedTo: string[];
+    dueDate: string;
 
-    permissions: {
-        view: string[];
-        edit: string[];
-        delete: string[];
-    };
+    createdBy: string;          // userId who created
+    parentId: string;           // root parent id (VERY IMPORTANT)
 
-    createdAt?: string;
-    updatedAt?: string;
+    assignedUsers: string[];    // array of userIds
+
+    createdAt: string;
 }

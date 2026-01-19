@@ -364,6 +364,7 @@
                 </div>
 
                 <!-- PASSWORD RULES -->
+                 @if(registerForm.get('password')?.touched && registerForm.get('password')?.invalid){
                 @if (registerForm.get('password')?.touched) {
                 <div class="mt-2 space-y-1 text-sm">
                     <div class="flex items-center gap-2" [class.text-green-600]="hasUppercase"
@@ -404,8 +405,8 @@
                     </div>
                 </div>
                 }
+            }
             </div>
-
             <!-- CONFIRM PASSWORD -->
             <div>
                 <label class="text-sm font-semibold text-blue-700">Confirm Password</label>
@@ -431,17 +432,17 @@
             </div>
 
             <!-- ROLE -->
-            <div>
+            <!-- <div>
                 <label class="text-sm font-semibold text-blue-700">Role</label>
                 <select formControlName="role" class="w-full rounded-xl bg-blue-50 border border-blue-200 px-4 py-3
                  focus:ring-2 focus:ring-blue-500 transition">
                     <option value="admin">Admin</option>
                     <option value="user">User</option>
                 </select>
-            </div>
+            </div> -->
 
             <!-- USER PERMISSIONS -->
-            @if (registerForm.get('role')?.value === 'user') {
+            <!-- @if (registerForm.get('role')?.value === 'user') {
             <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-3">
                 <p class="text-sm font-semibold text-blue-700">User Permissions</p>
 
@@ -457,7 +458,7 @@
                     <input type="checkbox" formControlName="delete" /> Can Delete Task
                 </label>
             </div>
-            }
+            } -->
 
             <!-- SUBMIT -->
             <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
