@@ -1,1 +1,248 @@
-<p>profile works!</p>
+<div class="min-h-screen flex pt-10 md:pt-0 items-start md:items-center
+         justify-center bg-[#f3f7ff] px-4">
+
+
+    <div class="relative w-full max-w-[420px] md:max-w-[520px]
+             bg-white rounded-3xl
+             shadow-[0_30px_80px_rgba(59,130,246,0.25)]
+             p-6 md:p-8 transition-all">
+
+
+       
+        <!-- @if(!flipped) {
+
+  
+        <button (click)="flipCard()" class="absolute top-5 right-16 w-10 h-10
+               rounded-full bg-blue-50 text-blue-600
+               flex items-center justify-center
+               hover:bg-blue-100 transition">
+            <i class="bx bx-edit-alt text-lg"></i>
+        </button>
+
+            <button (click)="logout()" class="absolute top-5 right-5 w-10 h-10
+                           rounded-full bg-red-50 text-red-600
+                           flex items-center justify-center
+                           hover:bg-red-100 transition">
+        <i class='bx  bx-arrow-out-right-square-half'></i>
+            </button>
+
+ 
+        <div class="flex gap-4 items-start">
+
+ 
+            @if(user?.avatar) {
+            <img [src]="user.avatar" class="w-20 h-20 rounded-full object-cover" />
+            } @else {
+            <div class="w-20 h-20 rounded-full
+                   bg-gradient-to-r from-blue-500 to-indigo-600
+                   flex items-center justify-center
+                   text-white text-xl font-bold">
+                {{ initials }}
+            </div>
+            }
+
+       
+            <div class="flex-1">
+                <h2 class="text-2xl font-extrabold text-gray-900">
+                    {{ user?.name }}
+                </h2>
+                <p class="text-sm text-gray-500">
+                    {{ user?.email }}
+                </p>
+            </div>
+        </div>
+ 
+        <p class="mt-4 text-gray-700 text-sm leading-relaxed
+                line-clamp-2">
+            {{ user?.bio || 'No bio provided' }}
+        </p>
+
+        <button class="text-blue-600 text-sm font-medium mt-1 hover:underline">
+            Read more
+        </button>
+
+    
+        <div class="mt-6 flex justify-between text-sm text-gray-500">
+            <span><b class="text-gray-800">25</b> Users</span>
+            <span><b class="text-gray-800">50</b> Tasks</span>
+            <span>Joined {{ joinedDate }}</span>
+        </div>
+
+        } -->
+
+        @if(!flipped) {
+        
+        <!-- EDIT -->
+        <button (click)="flipCard()" class="absolute top-5 right-16 w-11 h-11
+                 rounded-full bg-blue-50 text-blue-600
+                 flex items-center justify-center
+                 hover:bg-blue-100 transition">
+            <i class="bx bx-edit-alt text-xl"></i>
+        </button>
+        
+        <!-- LOGOUT -->
+        <button (click)="logout()" class="absolute top-5 right-5 w-11 h-11
+                 rounded-full bg-red-50 text-red-600
+                 flex items-center justify-center
+                 hover:bg-red-100 transition">
+        <i class='bx  bx-arrow-out-right-square-half text-xl'></i>
+        </button>
+        
+        <!-- HEADER -->
+        <div class="flex gap-5 items-start">
+        
+            @if(user?.avatar) {
+            <img [src]="user.avatar" class="w-20 h-20 md:w-24 md:h-24
+                   rounded-full object-cover ring-4 ring-blue-100" />
+            } @else {
+            <div class="w-20 h-20 md:w-24 md:h-24 rounded-full
+                   bg-gradient-to-r from-blue-500 to-indigo-600
+                   flex items-center justify-center
+                   text-white text-2xl font-bold">
+                {{ initials }}
+            </div>
+            }
+        
+            <div class="flex-1">
+                <h2 class="text-2xl md:text-3xl font-bold
+                     text-gray-700 leading-tight">
+                    {{ user?.name }}
+                </h2>
+                <p class="text-sm md:text-base text-gray-500 mt-1">
+                    {{ user?.email }}
+                </p>
+            </div>
+        </div>
+        
+        <!-- BIO -->
+        <p class="mt-5 text-gray-700 text-sm md:text-base
+                 leading-relaxed transition-all" [class.line-clamp-2]="!showFullBio">
+            {{ user?.bio || 'No bio provided' }}
+        </p>
+        
+        <button (click)="showFullBio = !showFullBio" class="text-blue-600 text-sm md:text-base
+                 font-medium mt-2 hover:underline">
+            {{ showFullBio ? 'Read less' : 'Read more' }}
+        </button>
+        
+        <!-- STATS -->
+        <div class="mt-7 flex justify-between text-sm md:text-base
+                 text-gray-500 border-t pt-5">
+        
+            <span>
+                <b class="text-gray-900 text-lg">25</b> Users
+            </span>
+        
+            <span>
+                <b class="text-gray-900 text-lg">50</b> Tasks
+            </span>
+        
+            <span>
+                Joined {{ joinedDate }}
+            </span>
+        </div>
+        
+        }
+
+        
+        <!-- @if(flipped) {
+
+      
+        <button (click)="flipCard()" class="absolute top-5 right-5 w-10 h-10
+               rounded-full bg-red-50 text-red-600
+               flex items-center justify-center
+               hover:bg-red-100 transition">
+            ✕
+        </button>
+
+        <h3 class="text-lg font-bold text-gray-900 mb-4">
+            Edit Profile
+        </h3>
+
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="space-y-4">
+
+            <input formControlName="name" placeholder="Full name" class="w-full rounded-xl border border-blue-200
+                 px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" />
+
+            <input formControlName="avatar" placeholder="Avatar image URL" class="w-full rounded-xl border border-blue-200
+                 px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none" />
+
+            <textarea rows="3" formControlName="bio" placeholder="Bio" class="w-full rounded-xl border border-blue-200
+                 px-4 py-2 focus:ring-2 focus:ring-blue-500
+                 resize-none outline-none">
+        </textarea>
+
+ 
+            <div class="relative">
+                <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="New password"
+                    class="w-full rounded-xl border border-blue-200
+                   px-4 py-2 pr-12
+                   focus:ring-2 focus:ring-blue-500 outline-none" />
+
+                <button type="button" (click)="showPassword = !showPassword"
+                    class="absolute right-3 top-2.5 text-gray-500 hover:text-blue-600">
+                    <i class="bx" [class.bx-show]="!showPassword" [class.bx-hide]="showPassword"></i>
+                </button>
+            </div>
+
+            <button type="submit" class="w-full py-2 rounded-xl font-semibold text-white
+                 bg-gradient-to-r from-blue-500 to-indigo-600
+                 hover:from-blue-600 hover:to-indigo-700 transition">
+                Save Changes
+            </button>
+        </form>
+        } -->
+
+        @if(flipped) {
+        
+        <button (click)="flipCard()" class="absolute top-5 right-5 w-11 h-11
+                 rounded-full bg-red-50 text-red-600
+                 flex items-center justify-center
+                 hover:bg-red-100 transition">
+            ✕
+        </button>
+        
+        <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-6">
+            Edit Profile
+        </h3>
+        
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="space-y-5">
+        
+            <input formControlName="name" placeholder="Full name" class="w-full rounded-xl border border-blue-200
+                   px-4 py-2.5 md:py-3
+                   focus:ring-2 focus:ring-blue-500 outline-none" />
+        
+            <input formControlName="avatar" placeholder="Avatar image URL" class="w-full rounded-xl border border-blue-200
+                   px-4 py-2.5 md:py-3
+                   focus:ring-2 focus:ring-blue-500 outline-none" />
+        
+            <textarea rows="4" formControlName="bio" placeholder="Bio" class="w-full rounded-xl border border-blue-200
+                   px-4 py-2.5 md:py-3
+                   focus:ring-2 focus:ring-blue-500
+                   resize-none outline-none">
+          </textarea>
+        
+            <!-- PASSWORD -->
+            <div class="relative">
+                <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="New password" class="w-full rounded-xl border border-blue-200
+                     px-4 py-2.5 md:py-3 pr-12
+                     focus:ring-2 focus:ring-blue-500 outline-none" />
+        
+                <button type="button" (click)="showPassword = !showPassword" class="absolute right-4 top-3.5 md:top-4
+                     text-gray-500 hover:text-blue-600">
+                    <i class="bx" [class.bx-show]="!showPassword" [class.bx-hide]="showPassword"></i>
+                </button>
+            </div>
+        
+            <button type="submit" class="w-full py-3 rounded-xl font-semibold text-white
+                   bg-gradient-to-r from-blue-500 to-indigo-600
+                   hover:from-blue-600 hover:to-indigo-700
+                   transition">
+                Save Changes
+            </button>
+        
+        </form>
+        }
+
+    </div>
+</div>

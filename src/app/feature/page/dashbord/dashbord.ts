@@ -382,6 +382,7 @@ import { UserService } from '../../../core/service/mocapi/user';
 
 
 type TaskStatus = 'pending' | 'in-progress' | 'completed';
+type TaskPriority = 'low' | 'medium' | 'high';
 
 @Component({
   selector: 'app-dashbord',
@@ -442,6 +443,7 @@ export class Dashbord implements OnInit {
       title: ['', Validators.required],
       dueDate: ['', Validators.required],
       status: ['pending' as TaskStatus],
+      priority: ['medium' as TaskPriority],
       assignedUsers: [[] as string[]],
 
     });
@@ -460,7 +462,7 @@ export class Dashbord implements OnInit {
     this.loadAssignableUsers();
     this.loadTasks();
     console.log('Assigned users:', this.assignedUserMap);
-    this.tasks.forEach(task => this.resolveAssignedUsers(task));
+    // this.tasks.forEach(task => this.resolveAssignedUsers(task));
     console.log('Assigned users after resolving:', this.assignedUserMap);
     this.dateRangeControl.valueChanges.subscribe(range =>
       this.applyDateFilter(range)
@@ -486,18 +488,18 @@ export class Dashbord implements OnInit {
   //     );
   //   });
   // }
-  resolveAssignedUsers(task: any) {
-    if (!task.assignedTo || task.assignedTo.length === 0) {
-      this.assignedUserMap[task.id] = [];
-      return;
-    }
+  // resolveAssignedUsers(task: any) {
+  //   if (!task.assignedTo || task.assignedTo.length === 0) {
+  //     this.assignedUserMap[task.id] = [];
+  //     return;
+  //   }
 
-    this.taskService
-      .getUsersByIds(task.assignedTo)
-      .subscribe(res => {
-        this.assignedUserMap[task.id] = res;
-      });
-  }
+  //   this.taskService
+  //     .getUsersByIds(task.assignedTo)
+  //     .subscribe(res => {
+  //       this.assignedUserMap[task.id] = res;
+  //     });
+  // }
 
   loadAssignableUsers() {
     const me = this.auth.user();
@@ -512,7 +514,7 @@ export class Dashbord implements OnInit {
         const userParentId = u.parentId ? String(u.parentId) : null;
 
         // ❌ cannot assign to myself
-        if (userId === myId) return false;
+        // if (userId === myId) return false;
 
         // ✅ my children
         if (userParentId === myId) return true;
@@ -529,19 +531,19 @@ export class Dashbord implements OnInit {
   userMap: Record<string, any> = {};
 
   
-  getAssignedUsers(task: any): string {
-    if (!task.assignedTo || task.assignedTo.length === 0) {
-      return '—';
-    }
+  // getAssignedUsers(task: any): string {
+  //   if (!task.assignedTo || task.assignedTo.length === 0) {
+  //     return '—';
+  //   }
 
-    return task.assignedTo
-      .map((id: string) => {
-        const u = this.userMap[String(id)];
-        return u ? `${u.name} (${u.email})` : null;
-      })
-      .filter(Boolean)
-      .join(', ');
-  }
+  //   return task.assignedTo
+  //     .map((id: string) => {
+  //       const u = this.userMap[String(id)];
+  //       return u ? `${u.name} (${u.email})` : null;
+  //     })
+  //     .filter(Boolean)
+  //     .join(', ');
+  // }
 
   loadTasks() {
     this.loading = true;
@@ -552,6 +554,9 @@ export class Dashbord implements OnInit {
         this.tasks = res;
         this.filteredTasks = [...res];
         this.updateStats(res);
+        this.resolveAssignedUsers(res); // ✅ IMPORTANT
+        console.log('Assigned users map:', this.assignedUsersMap);
+
         this.loading = false;
       },
       error: () => {
@@ -593,6 +598,60 @@ export class Dashbord implements OnInit {
   //   }
   // }
 
+
+  // resolveAssignedUsers(task: any) {
+  //   const ids = task.assignedTo || [];
+
+  //   console.log('Resolving for task:', task.id, ids);
+
+  //   this.taskService.getUsersByIds(ids).subscribe(users => {
+  //     this.assignedUserMap[task.id] = users;
+
+  //     console.log('Assigned users after resolving:', this.assignedUserMap);
+  //   });
+  // }
+
+  assignedUsersMap: Record<string, any[] | undefined> = {};
+
+  // resolveAssignedUsers() {
+  //   this.assignedUsersMap = {};
+
+  //   for (const task of this.tasks) {
+  //     const ids = task.assignedUsers || [];
+
+  //     this.taskService.getUsersByIds(ids).subscribe(users => {
+  //       this.assignedUsersMap[task.id] = users;
+  //     });
+  //     console.log('Assigned users map:', this.assignedUsersMap);
+  //   }
+  // }
+
+  resolveAssignedUsers(tasks: any[]) {
+    tasks.forEach(task => {
+
+      // SAFETY
+      if (!Array.isArray(task.assignedUsers) || task.assignedUsers.length === 0) {
+        this.assignedUsersMap[task.id] = [];
+        return;
+      }
+
+      this.taskService.getUsersByIds(task.assignedUsers).subscribe(users => {
+        this.assignedUsersMap[task.id] = users;
+      });
+
+    });
+  }
+
+  getAssignedUsers(taskId: string): any[] {
+    return this.assignedUsersMap[taskId] ?? [];
+  }
+
+
+  getSingleAssignedUser(task: any): any | null {
+    const users = this.getAssignedUsers(task);
+    return users.length === 1 ? users[0] : null;
+  }
+
   saveTask() {
     if (this.taskForm.invalid) {
       this.taskForm.markAllAsTouched();
@@ -602,6 +661,7 @@ export class Dashbord implements OnInit {
     const payload = {
       ...this.taskForm.value,
       assignedTo: this.taskForm.value.assignedUsers,
+      
       createdBy: this.auth.user().id, // optional but recommended
     };
 console.log('Saving task:',this.taskForm.value.assignedUsers);
@@ -646,6 +706,7 @@ console.log('Saving task:',this.taskForm.value.assignedUsers);
       title: task.title,
       dueDate: task.dueDate,
       status: task.status,
+      priority: task.priority || 'medium',
       assignedUsers: task.assignedUsers || [],
     });
 
@@ -779,4 +840,17 @@ console.log('Saving task:',this.taskForm.value.assignedUsers);
     this.itemsPerPage =
       size === 'All' ? this.filteredTasks.length || 1 : size;
   }
+
+  hasMultipleAssignedUsers(taskId: string): boolean {
+    return (this.assignedUserMap?.[taskId]?.length ?? 0) > 1;
+  }
+
+  hasSingleAssignedUser(taskId: string): boolean {
+    return (this.assignedUserMap?.[taskId]?.length ?? 0) === 1;
+  }
+
+  // getAssignedUsers(taskId: string) {
+  //   return this.assignedUserMap?.[taskId] ?? [];
+  // }
+
 }

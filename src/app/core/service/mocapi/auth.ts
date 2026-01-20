@@ -5,12 +5,28 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
-export class AuthService {
+export class AuthService  {
   private API = 'https://696dca5ad7bacd2dd7148b1a.mockapi.io/task';
 
   user = signal<any | null>(this.getUser());
 
-  constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) { }
+  // constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) { }
+
+  constructor(
+  private http: HttpClient,
+  private toastr: ToastrService,
+  private router: Router
+) {
+  // 🔁 Refresh permissions when tab/browser regains focus
+  window.addEventListener('focus', () => {
+    const u = this.user();
+    if (!u) return;
+
+    this.refreshCurrentUser(u.id).subscribe(updatedUser => {
+      this.setUser(updatedUser);
+    });
+  });
+}
 
   /** ---------- REGISTER ---------- */
   // register(payload: any) {
@@ -87,11 +103,21 @@ export class AuthService {
     return !!this.user();
   }
 
-  hasPermission(key: string) {
+  // hasPermission(key: string) {
+  //   const u = this.user();
+  //   if (!u) return false;
+
+  //   // parent always has full access
+  //   if (!u.parentId) return true;
+
+  //   return !!u.permissions?.[key];
+  // }
+
+  hasPermission(key: string): boolean {
     const u = this.user();
     if (!u) return false;
 
-    // parent always has full access
+    // parent always full access
     if (!u.parentId) return true;
 
     return !!u.permissions?.[key];
@@ -122,4 +148,10 @@ export class AuthService {
   //   const u = this.user();
   //   return !!u?.permissions?.[key];
   // }
+
+  refreshCurrentUser(userId: string) {
+    return this.http.get<any>(`${this.API}/user/${userId}`);
+  }
+
+
 }

@@ -166,17 +166,16 @@
 
     </form>
 </div> -->
-<div class="h-full flex flex-col bg-white">
 
-    <!-- HEADER -->
+<!-- <div class="h-full flex flex-col bg-white">
+ 
     <div class="flex justify-between px-6 py-4 border-b">
         <h2 class="font-bold text-blue-700">
             {{ isEditMode ? 'Edit User' : 'Create User' }}
         </h2>
         <button (click)="close.emit()">✕</button>
     </div>
-
-    <!-- FORM -->
+ 
     <form [formGroup]="adminForm" (ngSubmit)="submit()" class="p-6 space-y-5 overflow-y-auto">
 
         <input formControlName="name" placeholder="Name" class="input" />
@@ -185,7 +184,7 @@
 
         <input *ngIf="!isEditMode" type="password" formControlName="password" placeholder="Password" class="input" />
 
-        <!-- PERMISSIONS -->
+ 
         <div class="bg-blue-50 p-4 rounded-xl space-y-2">
 
             <label><input type="checkbox" formControlName="createUser"> Manage Users</label>
@@ -198,12 +197,132 @@
         <button class="btn-primary w-full">
             {{ isEditMode ? 'Update User' : 'Create User' }}
         </button>
-
-        <!-- DELETE -->
+ 
         <button *ngIf="isEditMode" type="button" (click)="deleteUser()"
             class="w-full text-red-600 border border-red-300 rounded-xl py-2">
             Delete User
         </button>
 
     </form>
+</div> -->
+
+<div class=" ">
+
+    <div class="w-full max-w-md
+       bg-white/90 backdrop-blur-xl
+       rounded-2xl border border-blue-100
+       shadow-[0_20px_50px_rgba(59,130,246,0.25)]
+       p-8">
+
+        <!-- HEADER -->
+        <div class="flex items-center justify-between mb-2">
+            <h2 class="text-2xl font-extrabold text-blue-800">
+                {{ isEditMode ? 'Edit User' : 'Create User' }}
+            </h2>
+
+            <button (click)="close.emit()" class="w-9 h-9 rounded-full
+               bg-red-50 text-red-600
+               flex items-center justify-center
+               hover:bg-red-100 transition">
+                ✕
+            </button>
+        </div>
+
+        <p class="text-sm text-blue-500 mb-6">
+            {{ isEditMode
+            ? 'Update user permissions and access'
+            : 'Create a new user and assign permissions'
+            }}
+        </p>
+
+        <!-- FORM -->
+        <form [formGroup]="adminForm" (ngSubmit)="submit()" class="space-y-5">
+
+            <!-- NAME -->
+            <div>
+                <label class="text-sm font-semibold text-blue-700">
+                    Full Name
+                </label>
+                <input formControlName="name" placeholder="John Doe" class="w-full mt-1 rounded-xl
+                 bg-blue-50 border border-blue-200
+                 px-4 py-3
+                 focus:ring-2 focus:ring-blue-500
+                 transition" />
+            </div>
+
+            <!-- EMAIL -->
+            <div>
+                <label class="text-sm font-semibold text-blue-700">
+                    Email
+                </label>
+                <input formControlName="email" placeholder="user@example.com" class="w-full mt-1 rounded-xl
+                 bg-blue-50 border border-blue-200
+                 px-4 py-3
+                 focus:ring-2 focus:ring-blue-500
+                 transition" />
+            </div>
+
+            <!-- PASSWORD (ONLY CREATE MODE) -->
+            @if (!isEditMode) {
+            <div>
+                <label class="text-sm font-semibold text-blue-700">
+                    Password
+                </label>
+                <input type="password" formControlName="password" placeholder="••••••••" class="w-full mt-1 rounded-xl
+                 bg-blue-50 border border-blue-200
+                 px-4 py-3
+                 focus:ring-2 focus:ring-blue-500
+                 transition" />
+            </div>
+            }
+
+            <!-- PERMISSIONS -->
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-3">
+                <p class="text-sm font-semibold text-blue-700">
+                    User Permissions
+                </p>
+
+                <label class="flex items-center gap-3 text-sm text-gray-700">
+                    <input type="checkbox" formControlName="createUser" />
+                    Manage Users
+                </label>
+
+                <label class="flex items-center gap-3 text-sm text-gray-700">
+                    <input type="checkbox" formControlName="createTask" />
+                    Create Tasks
+                </label>
+
+                <label class="flex items-center gap-3 text-sm text-gray-700">
+                    <input type="checkbox" formControlName="editTask" />
+                    Edit Tasks
+                </label>
+
+                <label class="flex items-center gap-3 text-sm text-gray-700">
+                    <input type="checkbox" formControlName="deleteTask" />
+                    Delete Tasks
+                </label>
+            </div>
+
+            <!-- SUBMIT -->
+            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
+               hover:from-blue-700 hover:to-indigo-700
+               text-white font-semibold py-3 rounded-xl
+               shadow-md hover:shadow-lg
+               transition">
+                {{ isEditMode ? 'Update User' : 'Create User' }}
+            </button>
+
+            <!-- DELETE (EDIT MODE ONLY) -->
+            @if (isEditMode) {
+            <button type="button" (click)="deleteUser()" class="w-full mt-2
+               border border-red-300
+               text-red-600
+               py-3 rounded-xl
+               hover:bg-red-50 transition">
+                Delete User
+            </button>
+            }
+
+        </form>
+    </div>
 </div>

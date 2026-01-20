@@ -20,43 +20,93 @@ export class NewTaskService {
     return this.http.get<any[]>(`${this.API}/user`);
   }
 
-  getUsersByIds(ids: string[]): Observable<{ id: string; name: string; email: string }[]> {
-    if (!ids || ids.length === 0) {
-    return [{ id: '', name: '', email: '' }] as any;
-    }
+  // getUsersByIds(ids: string[]): Observable<{ id: string; name: string; email: string }[]> {
+  //   if (!ids || ids.length === 0) {
+  //   return [{ id: '', name: '', email: '' }] as any;
+  //   }
 
-    return this.getUsers().pipe(
-      map(users =>
-        users
-          .filter(u => ids.includes(String(u.id)))
-          .map(u => ({
-            id: String(u.id),
-            name: u.name,
-            email: u.email,
-          }))
-      )
-    );
+  //   return this.getUsers().pipe(
+  //     map(users =>
+  //       users
+  //         .filter(u => ids.includes(String(u.id)))
+  //         .map(u => ({
+  //           id: String(u.id),
+  //           name: u.name,
+  //           email: u.email,
+  //         }))
+  //     )
+  //   );
+  // }
+
+  getUsersByIds(ids: string[]): Observable<any[]> {
+    return this.http
+      .get<any[]>('https://696dca5ad7bacd2dd7148b1a.mockapi.io/task/user')
+      .pipe(
+        map(users => users.filter(u => ids.includes(u.id)))
+      );
   }
+
+
 
   getTasks() {
     const user = this.auth.user();
     if (!user) throw new Error('Not authenticated');
 
-    const rootParentId = user.parentId ?? user.id;
+    return this.http.get<Task[]>(`${this.API}/tasks`).pipe(
+      map(tasks => {
+        const visibleTasks = tasks.filter(task => {
+          const createdByMe = task.createdBy === user.id;
+          const assignedToMe = task.assignedUsers?.includes(user.id);
 
-    return this.http
-      .get<Task[]>(`${this.API}/tasks`, {
-        params: { parentId: rootParentId }
+          const myParentTask =
+            !!user.parentId && task.createdBy === user.parentId;
+
+          const myChildTask =
+            task.parentId === user.id;
+
+          return (
+            createdByMe ||
+            assignedToMe ||
+            myParentTask ||
+            myChildTask
+          );
+        });
+
+        // ✅ REMOVE DUPLICATES SAFELY
+        const uniqueMap = new Map<string, Task>();
+
+        visibleTasks.forEach(task => {
+          if (task.id) {
+            uniqueMap.set(task.id, task);
+          }
+        });
+
+        return Array.from(uniqueMap.values());
       })
-      .pipe(
-        map(tasks =>
-          tasks.filter(task =>
-            task.createdBy === user.id ||
-            task.assignedUsers?.includes(user.id)
-          )
-        )
-      );
+    );
   }
+
+
+
+  // getTasks() {
+  //   const user = this.auth.user();
+  //   if (!user) throw new Error('Not authenticated');
+
+  //   const rootParentId = user.parentId ?? user.id;
+
+  //   return this.http
+  //     .get<Task[]>(`${this.API}/tasks`, {
+  //       params: { parentId: rootParentId }
+  //     })
+  //     .pipe(
+  //       map(tasks =>
+  //         tasks.filter(task =>
+  //           task.createdBy === user.id ||
+  //           task.assignedUsers?.includes(user.id)
+  //         )
+  //       )
+  //     );
+  // }
 
   // =========================
   // ➕ CREATE

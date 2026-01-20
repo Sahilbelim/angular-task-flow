@@ -36,6 +36,19 @@ export class Header {
   }
 
  
+  userMenuOpen = false;
+
+ 
+
+  toggleUserMenu() {
+    this.userMenuOpen = !this.userMenuOpen;
+  }
+
+  closeUserMenu() {
+    this.userMenuOpen = false;
+  }
+
+ 
 
   async logout() {
     try {

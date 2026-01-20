@@ -7,6 +7,7 @@ import { authGuard } from './core/guards/auth-guard';
 import { AdminUsers } from './feature/page/admin-users/admin-users';
 import { AdminUsersPage } from './feature/page/admin-users-page/admin-users-page';
 import { UsersPage } from './feature/page/user/user';
+import { ProfilePage } from './feature/page/profile/profile';
 export const routes: Routes = [
     { path: '', component:Home },
     { path: 'login',   component: Login },
@@ -25,5 +26,12 @@ export const routes: Routes = [
         path: 'users',
         component: UsersPage,
         // canActivate: [authGuard]
-    }
+    },{
+        path: 'profile',
+        component: ProfilePage,
+    },
+    {
+        path: '**',
+        redirectTo: '',
+    },
 ];

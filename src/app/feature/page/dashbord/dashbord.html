@@ -136,17 +136,18 @@
                         </div>
 
                         <!-- BUTTON -->
-                        <button (click)="togglePopup()" class="h-12 min-w-[110px]
-                           rounded-xl
-                           bg-gradient-to-r from-blue-500 to-indigo-600
-                           text-white font-semibold
-                           flex items-center justify-center
-                           px-5
-                           hover:scale-[1.02]
-                           active:scale-[0.98]
-                           transition">
-                            Add Task
-                        </button>
+                    <button (click)="canCreate() && togglePopup()" [disabled]="!canCreate()" class="h-12 min-w-[110px]
+                             rounded-xl
+                             bg-gradient-to-r from-blue-500 to-indigo-600
+                             text-white font-semibold
+                             flex items-center justify-center
+                             px-5
+                             transition
+                             disabled:opacity-50
+                             disabled:cursor-not-allowed">
+                        Add Task
+                    </button>
+
 
                     </div>
 
@@ -158,7 +159,7 @@
                 </div>
 
 
-                <div class="overflow-x-auto">
+                <div class="table-wrapper overflow-x-auto">
                     <table class="min-w-[700px] w-full table-auto border-0">
                         <thead>
                             <tr class="bg-white border-b text-left">
@@ -184,7 +185,8 @@
                                         <option value="completed">Completed</option>
                                     </select>
                                 </th>
-                                <th>hi</th>
+                                <th class="px-4 py-2">Assigned Users</th>
+                                <th class="px-4 py-2 text-center">Priority</th>
 
                                 <th (click)="clearDateFilter()" class="px-4 py-2 cursor-pointer">
 
@@ -236,36 +238,116 @@
                                         {{ task.status }}
                                     </span>
                                 </td>
-<td class="px-4 py-2 text-sm text-gray-700">
-    @if (assignedUserMap[task.id]?.length === 1) {
-    {{ assignedUserMap[task.id][0].name }}
-    ({{ assignedUserMap[task.id][0].email }})
-    }
-
-    @if (assignedUserMap[task.id]?.length != 1) {
-    <select class="border rounded px-2 py-1">
-        @for (u of assignedUserMap[task.id]; track u.id) {
-        <option>
-            {{ u.name }} ({{ u.email }})
-        </option>
-        }
-    </select>
-    }
-
-    @if (!assignedUserMap[task.id]?.length) {
-    —
-    }
-</td>
+                         
 
 
+                                <!-- <td class="px-4 py-2">
 
+                                    <ng-select [items]="assignedUsersMap[task.id] ?? []" bindLabel="name" bindValue="id"
+                                        [clearable]="false" [ngModel]="getSingleAssignedUser(task)" [searchable]="false"
+                                       placeholder="user ">
+ >
+                                        <ng-template ng-option-tmp let-item="item" let-index="index" class="">
+
+                                            <div class="flex flex-col">
+                                                <span class="font-medium">
+                                                    {{ item.name }}
+                                                </span>
+                                                <span class="text-xs text-gray-500">
+                                                    {{ item.email }}
+                                                </span>
+                                            </div>
+
+                                        </ng-template>
+
+                                    </ng-select>
+
+                                </td> -->
+
+                                <td class="px-4 py-2">
+                                
+                                    <!-- NO USERS -->
+                                    @if (getAssignedUsers(task.id).length === 0) {
+                                    <span class="italic text-gray-400 text-sm">
+                                        No users assigned
+                                    </span>
+                                    }
+                                
+                                    <!-- ONE OR MORE USERS -->
+                                    @else {
+                                <!-- <ng-select class="w-48 text-sm" [items]="getAssignedUsers(task.id)" bindLabel="name" bindValue="id"
+                                    [ngModel]="getAssignedUsers(task.id)[0].id" [clearable]="false" [searchable]="false" [closeOnSelect]="false"
+                                    [dropdownPosition]="'bottom'">
+                         
+                                    <ng-template ng-option-tmp let-item="item">
+                                        <div class="flex flex-col py-1">
+                                            <span class="font-medium text-gray-800">
+                                                {{ item.name }}
+                                            </span>
+                                            <span class="text-xs text-gray-500">
+                                                {{ item.email }}
+                                            </span>
+                                        </div>
+                                    </ng-template>
+                           
+                                    <ng-template ng-label-tmp let-item="item">
+                                        <span class="font-medium text-gray-800">
+                                            {{ item.name }}
+                                        </span>
+                                    </ng-template>
+                                
+                                </ng-select> -->
+
+                        <ng-select class="assigned-users-select w-44" [items]="assignedUsersMap[task.id] ?? []" bindLabel="name" bindValue="id"
+                            [ngModel]="assignedUsersMap[task.id]?.[0]?.id" [clearable]="false" [searchable]="false" [closeOnSelect]="false"
+                            [appendTo]="'body'">
+                        
+                            <ng-template ng-option-tmp let-item="item">
+                                <div class="flex flex-col py-1">
+                                    <span class="font-medium text-gray-800">
+                                        {{ item.name }}
+                                    </span>
+                                    <span class="text-xs text-gray-500">
+                                        {{ item.email }}
+                                    </span>
+                                </div>
+                            </ng-template>
+                        
+                        </ng-select>
+
+
+                                    }
+                                
+                                </td>
+                                <!-- PRIORITY -->
+                                <td class="px-4 py-2 text-center">
+                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold capitalize border"
+                                        [ngClass]="{
+                                                                  'bg-green-100 text-green-700 border-green-300': task.priority === 'low',
+                                                                  'bg-yellow-100 text-yellow-700 border-yellow-300': task.priority === 'medium',
+                                                                  'bg-red-100 text-red-700 border-red-300': task.priority === 'high'
+                                                                }">
+                                
+                                
+                                
+                                        {{ task.priority || 'medium' }}
+                                    </span>
+                                </td>
 
                                 <td class="px-4 py-2">{{task.dueDate}}</td>
                                 <td class="px-4 py-2">
-                                    <button class="text-blue-600 hover:underline mr-2"
-                                        (click)="editTask(task)">Edit</button>
-                                    <button (click)="deleteTask(task)"
-                                        class="text-red-600 hover:underline">Delete</button>
+                                <button class="text-blue-600 hover:underline mr-2
+                                         disabled:opacity-40
+                                         disabled:cursor-not-allowed" [disabled]="!canEdit()" (click)="canEdit() && editTask(task)">
+                                    Edit
+                                </button>
+
+                                    <button class="text-red-600 hover:underline
+                                             disabled:opacity-40
+                                             disabled:cursor-not-allowed" [disabled]="!canDelete()" (click)="canDelete() && deleteTask(task)">
+                                        Delete
+                                    </button>
+
                                 </td>
                             </tr>
                             }
@@ -357,7 +439,7 @@
             <ng-select formControlName="assignedUsers" [items]="assignableUsers" bindLabel="name" bindValue="id"
                 [multiple]="true" placeholder=" " class="w-full">
             </ng-select>
- 
+
 
 
             <select formControlName="status" class="border border-blue-200 px-4 py-2 rounded-xl w-full">
@@ -366,6 +448,14 @@
                 <option value="in-progress">In Progress</option>
                 <option value="completed">Completed</option>
             </select>
+
+            <select formControlName="priority" class="border border-blue-200 px-4 py-2 rounded-xl w-full">
+                <option value="" disabled>Select Priority</option>
+                <option value="low">🟢 Low Priority</option>
+                <option value="medium">🟡 Medium Priority</option>
+                <option value="high">🔴 High Priority</option>
+            </select>
+
             <div class="flex gap-3 mt-4">
                 <button type="button" (click)="togglePopup()"
                     class="w-1/2 border border-gray-300 text-gray-700 py-2 rounded-xl font-semibold hover:bg-gray-100">

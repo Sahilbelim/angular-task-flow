@@ -339,6 +339,12 @@ export class AdminAddUser implements OnChanges {
         .updateUserPermissions(this.editUser.id, permissions)
         .subscribe({
           next: () => {
+            if (this.editUser.id === this.auth.user()?.id) {
+              this.auth.refreshCurrentUser(this.editUser.id)
+                .subscribe(updatedUser => {
+                  this.auth.setUser(updatedUser); // ✅ instant permission update
+                });
+            }
             this.toastr.success('User updated');
             this.finish();
           },

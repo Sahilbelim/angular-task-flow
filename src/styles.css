@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 /* @import "~@ng-select/ng-select/themes/default.theme.css"; */
 @import 'ngx-toastr/toastr';
+@import "@ng-select/ng-select/themes/default.theme.css";
 /* @import 'ngx-daterangepicker-material/daterangepicker.css'; */
 @tailwind base;
 @tailwind components;
@@ -100,4 +101,32 @@
         opacity: 1;
         transform: translateX(0);
     }
+}
+/* ng-select dropdown should escape table */
+/* ===== NG-SELECT FINAL SAFE STYLES ===== */
+
+.ng-dropdown-panel {
+    z-index: 10000;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+    background: white;
+}
+
+/* dropdown height */
+.ng-dropdown-panel-items {
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+/* keep table scroll, but don’t clip dropdown */
+.table-wrapper {
+    overflow-x: auto;
+    position: relative;
+}
+/* line clamp */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
