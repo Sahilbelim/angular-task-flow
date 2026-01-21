@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProfileService {
@@ -24,9 +24,29 @@ export class ProfileService {
   }
 
   /** 🔐 CHANGE PASSWORD */
-  changePassword(userId: string, newPassword: string): Observable<any> {
-    return this.http.put(`${this.API}/${userId}`, {
-      password: newPassword
-    });
+  // changePassword(userId: string, newPassword: string): Observable<any> {
+  //   return this.http.put(`${this.API}/${userId}`, {
+  //     password: newPassword
+  //   });
+  // }
+
+  changePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string
+  ) {
+    return this.getProfile(userId).pipe(
+      switchMap((user: any) => {
+        if (user.password !== currentPassword) {
+          throw new Error('Current password is incorrect');
+        }
+
+        return this.http.put(
+          `${this.API}/${userId}`,
+          { password: newPassword }
+        );
+      })
+    );
   }
+
 }

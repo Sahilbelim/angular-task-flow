@@ -8,12 +8,14 @@ import { AdminUsers } from './feature/page/admin-users/admin-users';
 import { AdminUsersPage } from './feature/page/admin-users-page/admin-users-page';
 import { UsersPage } from './feature/page/user/user';
 import { ProfilePage } from './feature/page/profile/profile';
+import { ChangePasswordPage } from './feature/page/change-password/change-password';
 export const routes: Routes = [
-    { path: '', component:Home },
+   
+    { path: 'dashboard', component: Home, canActivate: [authGuard], },
     { path: 'login',   component: Login },
     { path: 'register', component: Register },
     {
-        path: 'dashboard',
+        path: 'tasks',
         canActivate: [authGuard],
         component: Dashbord
     },
@@ -31,7 +33,13 @@ export const routes: Routes = [
         component: ProfilePage,
     },
     {
-        path: '**',
-        redirectTo: '',
+        path: 'change-password',
+        component: ChangePasswordPage,
     },
+    {
+        path: '**',
+        redirectTo: 'dashboard',
+    },
+   
+
 ];

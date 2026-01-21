@@ -1,5 +1,5 @@
- 
-<nav class="sticky top-0 z-50
+<!-- ================= NAVBAR ================= -->
+<nav class="fixed top-0 left-0 right-0 z-50
             bg-white/80 backdrop-blur-xl
             border-b border-blue-100
             shadow-[0_10px_30px_rgba(59,130,246,0.12)]
@@ -8,9 +8,9 @@
     <div class="max-w-7xl mx-auto flex items-center justify-between">
 
         <!-- LOGO -->
-        <a routerLink="/" class="text-2xl font-extrabold tracking-tight
-       bg-gradient-to-r from-blue-600 to-indigo-600
-       bg-clip-text text-transparent">
+        <a routerLink="/dashboard" class="text-2xl font-extrabold tracking-tight
+           bg-gradient-to-r from-blue-600 to-indigo-600
+           bg-clip-text text-transparent">
             TaskFlow
         </a>
 
@@ -19,9 +19,13 @@
 
             @if (isLoggedIn) {
 
-            <a routerLink="/dashboard" routerLinkActive="text-blue-600"
-                class="text-gray-700 hover:text-blue-600 transition">
+            <a routerLink="/dashboard" routerLinkActive="text-blue-600" class="text-gray-700 hover:text-blue-600 transition">
                 Dashboard
+            </a>
+
+            <a routerLink="/tasks" routerLinkActive="text-blue-600"
+                class="text-gray-700 hover:text-blue-600 transition">
+                Tasks
             </a>
 
             <a routerLink="/users" routerLinkActive="text-blue-600"
@@ -32,39 +36,37 @@
             <!-- USER DROPDOWN -->
             <div class="relative">
 
-                <button (click)="toggleUserMenu()" class="flex items-center gap-2
-                         px-3 py-2 rounded-full
-                         hover:bg-blue-50 transition">
-
-               
-
-                    <div   class="w-8 h-8 rounded-full
-                        bg-gradient-to-r from-blue-500 to-indigo-600
-                        text-white flex items-center justify-center
-                        font-bold">
-                    <i class='bx  bx-user text-xl'></i>
+                <button (click)="toggleUserMenu()" class="flex items-center    ">
+                    <div class="w-8 h-8 rounded-full
+                                bg-gradient-to-r from-blue-500 to-indigo-600
+                                text-white flex items-center justify-center">
+                        <i class="bx bx-user text-lg"></i>
                     </div>
 
-                    <i class="bx bx-chevron-down text-gray-500"></i>
+                    <!-- <i class="bx bx-chevron-down text-gray-500 text-sm"></i> -->
                 </button>
+
+                <!-- CLICK-OUTSIDE BACKDROP -->
+            
 
                 <!-- DROPDOWN -->
                 @if (userMenuOpen) {
-                <div class="absolute right-0 mt-3 w-44
-                      bg-white rounded-xl shadow-lg
-                      border border-blue-100
-                      overflow-hidden">
+                <div class="absolute right-0 mt-3 w-44 z-50
+                            bg-white rounded-xl shadow-lg
+                            border border-blue-100 overflow-hidden">
 
                     <a routerLink="/profile" (click)="closeUserMenu()" class="flex items-center gap-2 px-4 py-3
-                      text-gray-700 hover:bg-blue-50 transition">
-                       
+                              text-gray-700 hover:bg-blue-50 transition">
                         Profile
+                    </a>
+                    <a routerLink="/change-password" (click)="closeUserMenu()" class="flex items-center gap-2 px-4 py-3
+                                                  text-gray-700 hover:bg-yellow-50 transition">
+                        Chnage Password
                     </a>
 
                     <button (click)="logout(); closeUserMenu()" class="w-full text-left flex items-center gap-2
-                           px-4 py-3
-                           text-red-600 hover:bg-red-50 transition">
-                        <i class="bx bx-log-out"></i>
+                                   px-4 py-3 text-red-600
+                                   hover:bg-red-50 transition">
                         Logout
                     </button>
 
@@ -75,14 +77,15 @@
 
             @if (!isLoggedIn) {
             <a routerLink="/login" class="px-4 py-2 rounded-xl
-                  bg-gradient-to-r from-blue-600 to-indigo-600
-                  text-white shadow-md hover:scale-105 transition">
+                      bg-gradient-to-r from-blue-600 to-indigo-600
+                      text-white shadow-md
+                      hover:scale-105 transition">
                 Login
             </a>
             }
         </div>
 
-        <!-- MOBILE ICON -->
+        <!-- MOBILE MENU ICON -->
         <button class="md:hidden text-3xl text-gray-700" (click)="toggleMenu()">
             <i class="bx" [class.bx-menu]="!menuOpen" [class.bx-x]="menuOpen"></i>
         </button>
@@ -90,65 +93,68 @@
     </div>
 </nav>
 
+<!-- PAGE OFFSET FOR FIXED NAVBAR -->
+    @if (userMenuOpen) {
+    <div class="fixed inset-0 z-40 border border-red-800" (click)="closeUserMenu()"></div>
+    }
+
+<!-- ================= MOBILE MENU ================= -->
 @if (menuOpen) {
 
 <!-- BACKDROP -->
-<div class="fixed inset-0 z-40" (click)="closeMenu()">
-</div>
+<div class="fixed inset-0 z-40" (click)="closeMenu()"></div>
 
-<!-- SIMPLE MOBILE DROPDOWN -->
-<div class="fixed right-4 top-[72px] z-50
-         w-48
-         bg-white
-         rounded-lg
-         border border-gray-200
-         shadow-[0_12px_24px_rgba(0,0,0,0.15)]
-         overflow-hidden
-         text-sm font-medium">
+<!-- MOBILE DROPDOWN -->
+<div class="fixed right-4 top-[72px] z-50 w-48
+            bg-white rounded-lg
+            border border-gray-200
+            shadow-[0_12px_24px_rgba(0,0,0,0.15)]
+            overflow-hidden
+            text-sm font-semibold">
 
     @if (isLoggedIn) {
 
-    <a routerLink="/dashboard" (click)="closeMenu()" class="flex items-center gap-3
-             px-4 py-2.5
-             text-gray-700
-             hover:bg-blue-50 transition">
-        <i class="bx bx-grid-alt text-blue-600"></i>
+    <a routerLink="/dashboard" (click)="closeMenu()" class="flex items-center gap-3 px-4 py-2.5
+              text-gray-700 hover:bg-blue-50 transition">
+        <!-- <i class="bx bx-grid-alt text-blue-600"></i> -->
         Dashboard
     </a>
-
-    <a routerLink="/users" (click)="closeMenu()" class="flex items-center gap-3
-             px-4 py-2.5
-             text-gray-700
-             hover:bg-blue-50 transition">
-        <i class="bx bx-group text-indigo-600"></i>
+<a routerLink="/tasks" (click)="closeMenu()" class="flex items-center gap-3 px-4 py-2.5
+              text-gray-700 hover:bg-blue-50 transition">
+    <!-- <i class="bx bx-grid-alt text-blue-600"></i> -->
+    Tasks
+</a>
+    <a routerLink="/users" (click)="closeMenu()" class="flex items-center gap-3 px-4 py-2.5
+              text-gray-700 hover:bg-blue-50 transition">
+        <!-- <i class="bx bx-group text-indigo-600"></i> -->
         Users
     </a>
 
-    <a routerLink="/profile" (click)="closeMenu()" class="flex items-center gap-3
-             px-4 py-2.5
-             text-gray-700
-             hover:bg-blue-50 transition">
-        <i class="bx bx-user text-sky-600"></i>
+    <a routerLink="/profile" (click)="closeMenu()" class="flex items-center gap-3 px-4 py-2.5
+              text-gray-700 hover:bg-blue-50 transition">
+        <!-- <i class="bx bx-user text-sky-600"></i> -->
         Profile
+    </a>
+    <a routerLink="/change-password" (click)="closeMenu()" class="flex items-center gap-3 font-semibold px-4 py-2.5
+                  text-gray-700 hover:bg-blue-50 transition">
+        <!-- <i class="bx bx-user text-sky-600"></i> -->
+        Change Password
     </a>
 
     <div class="border-t border-gray-100"></div>
 
-    <button (click)="logout(); closeMenu()" class="w-full flex items-center gap-3
-             px-4 py-2.5
-             text-red-600
-             hover:bg-red-50 transition">
-        <i class="bx bx-log-out"></i>
+    <button (click)="logout(); closeMenu()" class="w-full flex items-center gap-3 px-4 py-2.5
+                   text-red-600 hover:bg-red-50 transition font-semibold">
+        <!-- <i class="bx bx-log-out"></i> -->
         Logout
     </button>
 
     }
 
     @if (!isLoggedIn) {
-    <a routerLink="/login" (click)="closeMenu()" class="block px-4 py-2.5
-             text-center
-             text-blue-600 font-semibold
-             hover:bg-blue-50 transition">
+    <a routerLink="/login" (click)="closeMenu()" class="block px-4 py-2.5 text-center
+              text-blue-600 font-semibold
+              hover:bg-blue-50 transition">
         Login
     </a>
     }

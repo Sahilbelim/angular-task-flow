@@ -57,15 +57,22 @@
 
             <!-- PASSWORD (ONLY CREATE MODE) -->
             @if (!isEditMode) {
-            <div>
+                <div>
                 <label class="text-sm font-semibold text-blue-700">
                     Password
                 </label>
-                <input type="password" formControlName="password" placeholder="••••••••" class="w-full mt-1 rounded-xl
+            <div class="relative">
+               
+                <input  [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••" class="w-full mt-1 rounded-xl
                  bg-blue-50 border border-blue-200
                  px-4 py-3
                  focus:ring-2 focus:ring-blue-500
                  transition" />
+                <button type="button" (click)="showPassword = !showPassword" class="absolute right-4 top-1/2 -translate-y-1/2
+                                 text-gray-500 hover:text-blue-600">
+                    <i class="bx" [class.bx-eye]="!showPassword" [class.bx-eye-slash]="showPassword"></i>
+                </button>
+            </div>
             </div>
             }
 

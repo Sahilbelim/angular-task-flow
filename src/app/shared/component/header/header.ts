@@ -15,7 +15,10 @@ export class Header {
   menuOpen = false;
   user: any = null;
   constructor(private authService: AuthService,private router: Router,private toststr: ToastrService) {
-
+    this.router.events.subscribe(() => {
+      this.userMenuOpen = false;
+      this.menuOpen = false;
+    });
     // console.log('Header initialized');
     this.user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
     
