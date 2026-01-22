@@ -111,15 +111,35 @@ export class NewTaskService {
   // =========================
   // ➕ CREATE
   // =========================
+  // createTask(task: Partial<Task>) {
+  //   if (!this.auth.hasPermission('createTask')) {
+  //     console.log('Permission denied');
+  //     throw new Error('Permission denied');
+  //   }
+
+  //   const user = this.auth.user();
+  //   console.log('Creating task for user:', user);
+
+
+  //   const payload: Task = {
+  //     ...task,
+  //     createdBy: user.id,
+  //     parentId: user.parentId ?? user.id,
+  //     assignedUsers: task.assignedUsers ?? [],
+  //     createdAt: new Date().toISOString(),
+  //   } as Task;
+  //   console.log('Task payload:', payload);
+
+  //   return this.http.post(`${this.API}/tasks`, payload);
+  // }
+
+
   createTask(task: Partial<Task>) {
     if (!this.auth.hasPermission('createTask')) {
-      console.log('Permission denied');
       throw new Error('Permission denied');
     }
 
     const user = this.auth.user();
-    console.log('Creating task for user:', user);
-
 
     const payload: Task = {
       ...task,
@@ -127,8 +147,10 @@ export class NewTaskService {
       parentId: user.parentId ?? user.id,
       assignedUsers: task.assignedUsers ?? [],
       createdAt: new Date().toISOString(),
+
+      // ✅ NEW: order_id (timestamp-based, newest first)
+      order_id: Date.now()
     } as Task;
-    console.log('Task payload:', payload);
 
     return this.http.post(`${this.API}/tasks`, payload);
   }

@@ -35,4 +35,6 @@ export interface Task {
     assignedUsers: string[];    // array of userIds
 
     createdAt: string;
+    
+    order_id?: number;
 }
