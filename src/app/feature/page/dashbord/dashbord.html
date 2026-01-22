@@ -140,10 +140,10 @@
                             </div>
 
                             <!-- BUTTON -->
-                    <div class="flex flex-wrap items-center gap-2 justify-end">
-                    
-                        <!-- ADD TASK BUTTON -->
-                        <button (click)="canCreate() && togglePopup()" [disabled]="!canCreate()" class="
+                            <div class="flex flex-wrap items-center gap-2 justify-end">
+
+                                <!-- ADD TASK BUTTON -->
+                                <button (click)="canCreate() && togglePopup()" [disabled]="!canCreate()" class="
                           h-10 sm:h-11
                           px-3 sm:px-5
                           rounded-xl
@@ -155,49 +155,44 @@
                           disabled:opacity-50 disabled:cursor-not-allowed
                           min-w-[42px] sm:min-w-[120px]
                         ">
-                            <i class="bx bx-plus text-lg sm:text-base"></i>
-                            <span class="hidden sm:inline">Add Task</span>
-                        </button>
-                    
-                        <!-- VIEW TOGGLE -->
-                        <div class="
+                                    <i class="bx bx-plus text-lg sm:text-base"></i>
+                                    <span class="hidden sm:inline">Add Task</span>
+                                </button>
+
+                                <!-- VIEW TOGGLE -->
+                                <div class="
                           flex
                           h-10 sm:h-11
                           rounded-xl
                           border border-blue-200
                           overflow-hidden
                         ">
-                            <button (click)="viewMode = 'table'" class="
+                                    <button (click)="viewMode = 'table'" class="
                             w-10 sm:w-11
                             flex items-center justify-center
                             text-base
                             transition
                           " [class.bg-blue-600]="viewMode === 'table'" [class.text-white]="viewMode === 'table'"
-                                [class.text-blue-600]="viewMode !== 'table'">
-                                <i class="bx bx-table"></i>
-                            </button>
-                    
-                            <button (click)="viewMode = 'board'" class="
+                                        [class.text-blue-600]="viewMode !== 'table'">
+                                        <i class="bx bx-table"></i>
+                                    </button>
+
+                                    <button (click)="viewMode = 'board'" class="
                             w-10 sm:w-11
                             flex items-center justify-center
                             text-base
                             transition
                           " [class.bg-blue-600]="viewMode === 'board'" [class.text-white]="viewMode === 'board'"
-                                [class.text-blue-600]="viewMode !== 'board'">
-                                <i class="bx bx-columns"></i>
-                            </button>
-                        </div>
-                    
-                    </div>
+                                        [class.text-blue-600]="viewMode !== 'board'">
+                                        <i class="bx bx-columns"></i>
+                                    </button>
+                                </div>
 
-
-
+                            </div>
 
                         </div>
-
 
                         }
-
 
                     </div>
 
@@ -205,12 +200,10 @@
                     <div class="overflow-x-auto">
                         @if (viewMode === 'table') {
                         <table class="min-w-[900px] w-full table-auto border-collapse text-sm">
-
-                
                             <thead>
                                 <tr class="bg-white border-b border-blue-200 text-gray-700">
 
-                            
+
                                     <th class="px-5 py-3 font-semibold">
                                         <div class="flex items-center gap-2">
                                             <span (click)="toggleSortBy('order')">No. Task</span>
@@ -225,7 +218,7 @@
                                         </div>
                                     </th>
 
-    
+
                                     <th class="px-5 py-3 text-center font-semibold">
                                         <select
                                             class="rounded-lg border border-blue-200 bg-white px-3 py-1 text-xs font-semibold focus:ring-2 focus:ring-blue-500"
@@ -247,139 +240,11 @@
 
                                     <th class="px-5 py-3 text-right font-semibold">Actions</th>
                                 </tr>
-                            </thead  >
+                            </thead>
 
-                            <!-- ================= BODY ================= -->
-                            <!-- <tbody cdkDropList [cdkDropListData]="filteredTasks" [cdkDropListDisabled]="selectedPageSize !== 'All'" (cdkDropListDropped)="onTableDrop($event)"> -->
-<!-- 
-<tbody cdkDropList [cdkDropListData]="filteredTasks" (cdkDropListDropped)="onTableDrop($event)" >
+                            <tbody cdkDropList [cdkDropListData]="filteredTasks"
+                                (cdkDropListDropped)="onTableDrop($event)" class="relative">
 
- 
-                                @if (loading) {
-                                @for (i of [1,2,3,4,5]; track $index) {
-                                <tr class="border-b animate-pulse">
-                                    <td class="px-5 py-4">
-                                        <div class="h-4 w-44 bg-gray-200 rounded"></div>
-                                    </td>
-                                    <td class="px-5 py-4 text-center">
-                                        <div class="h-6 w-24 bg-gray-200 rounded-full mx-auto"></div>
-                                    </td>
-                                    <td class="px-5 py-4">
-                                        <div class="h-4 w-32 bg-gray-200 rounded"></div>
-                                    </td>
-                                    <td class="px-5 py-4 text-center">
-                                        <div class="h-5 w-20 bg-gray-200 rounded-full mx-auto"></div>
-                                    </td>
-                                    <td class="px-5 py-4">
-                                        <div class="h-4 w-28 bg-gray-200 rounded"></div>
-                                    </td>
-                                    <td class="px-5 py-4">
-                                        <div class="h-4 w-28 bg-gray-200 rounded"></div>
-                                    </td>
-                                    <td class="px-5 py-4"></td>
-                                </tr>
-                                }
-                                }
-
-                                @else {
-
-             @for (task of filteredTasks  ;  track task.id) {
-                                
-
-                                <tr cdkDrag  class="border-b border-blue-100 hover:bg-blue-50 transition">
-
-                                   
-                                    <td class="px-5 py-3 font-medium text-gray-900 flex items-center gap-2">
-                                    
-                                       
-                                    
-                                        <span  >
-                                            {{ task.title }}
-                                        </span>
-                                    
-                                    </td>
-
-                                   
-                                    <td class="px-5 py-3 text-center">
-                                        <span
-                                            class="inline-flex px-3 py-1 rounded-full text-xs font-semibold capitalize border"
-                                            [ngClass]="{
-                            'bg-green-100 text-green-700 border-green-300': task.status === 'completed',
-                            'bg-yellow-100 text-yellow-700 border-yellow-300': task.status === 'in-progress',
-                            'bg-red-100 text-red-700 border-red-300': task.status === 'pending'
-                          }">
-                                            {{ task.status }}
-                                        </span>
-                                    </td>
-
-                          
-                                    <td class="px-5 py-3">
-                                        @if (getAssignedUsers(task.id).length === 0) {
-                                        <span class="italic text-gray-400 text-xs">No users assigned</span>
-                                        } @else {
-                                        <ng-select class="assigned-users-select w-48 text-xs"
-                                            [items]="assignedUsersMap[task.id] ?? []" bindLabel="name" bindValue="id"
-                                            [ngModel]="assignedUsersMap[task.id]?.[0]?.id" [clearable]="false"
-                                            [searchable]="false" [closeOnSelect]="false" [appendTo]="'body'">
-
-                                            <ng-template ng-option-tmp let-item="item">
-                                                <div class="flex flex-col py-1">
-                                                    <span class="font-medium text-gray-800">{{ item.name }}</span>
-                                                    <span class="text-[11px] text-gray-500">{{ item.email }}</span>
-                                                </div>
-                                            </ng-template>
-
-                                        </ng-select>
-                                        }
-                                    </td>
- 
-                                    <td class="px-5 py-3 text-center">
-                                        <span
-                                            class="inline-flex px-3 py-1 rounded-full text-xs font-semibold capitalize border"
-                                            [ngClass]="{
-                            'bg-green-100 text-green-700 border-green-300': task.priority === 'low',
-                            'bg-yellow-100 text-yellow-700 border-yellow-300': task.priority === 'medium',
-                            'bg-red-100 text-red-700 border-red-300': task.priority === 'high'
-                          }">
-                                            {{ task.priority || 'medium' }}
-                                        </span>
-                                    </td>
-
-                         
-                                    <td class="px-5 py-3 text-gray-600">
-                                        {{ task.dueDate }}
-                                    </td>
-
-                          
-                                    <td class="px-5 py-3 text-right space-x-3">
-                                        <button class="text-blue-600 hover:underline disabled:opacity-40"
-                                            [disabled]="!canEdit()" (click)="canEdit() && editTask(task)">
-                                            Edit
-                                        </button>
-
-                                        <button class="text-red-600 hover:underline disabled:opacity-40"
-                                            [disabled]="!canDelete()" (click)="canDelete() && deleteTask(task)">
-                                            Delete
-                                        </button>
-                                    </td>
-
-                                </tr>
-                                }
-
-                                @if (filteredTasks.length === 0) {
-                                <tr>
-                                    <td colspan="6" class="py-8 text-center text-gray-500">
-                                        No Task Found
-                                    </td>
-                                </tr>
-                                }
-
-                                }
-
-                            </tbody> -->
-
-                            <tbody cdkDropList [cdkDropListData]="filteredTasks" (cdkDropListDropped)="onTableDrop($event)" class="relative">
-                            
                                 @if (loading) {
                                 @for (i of [1,2,3,4,5]; track $index) {
                                 <tr class="border-b animate-pulse">
@@ -395,31 +260,33 @@
                                 }
                                 }
                                 @else {
-                            
+
                                 @for (task of filteredTasks; track task.id) {
-                            
+
                                 <tr cdkDrag cdkDragLockAxis="y" class="border-b border-blue-100 hover:bg-blue-50">
-                            
+
                                     <!-- DRAG PLACEHOLDER -->
                                     <ng-template cdkDragPlaceholder>
                                 <tr class="h-[52px] border border-dashed border-blue-300"></tr>
                                 </ng-template>
-                            
+
                                 <!-- DRAG PREVIEW -->
                                 <ng-template cdkDragPreview>
                                     <div class="bg-white shadow-lg border rounded px-4 py-2">
                                         {{ task.title }}
                                     </div>
                                 </ng-template>
-                            
+
                                 <!-- TITLE -->
                                 <td class="px-5 py-3 font-medium text-gray-900">
                                     {{ task.title }}
                                 </td>
-                            
+
                                 <!-- STATUS -->
                                 <td class="px-5 py-3 text-center">
-                                    <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold capitalize border" [ngClass]="{
+                                    <span
+                                        class="inline-flex px-3 py-1 rounded-full text-xs font-semibold capitalize border"
+                                        [ngClass]="{
                                           'bg-green-100 text-green-700 border-green-300': task.status === 'completed',
                                           'bg-yellow-100 text-yellow-700 border-yellow-300': task.status === 'in-progress',
                                           'bg-red-100 text-red-700 border-red-300': task.status === 'pending'
@@ -427,35 +294,34 @@
                                         {{ task.status }}
                                     </span>
                                 </td>
-                            
+
                                 <!-- ASSIGNED USERS -->
-                                <!-- <td class="px-5 py-3">
-                                    <span *ngIf="getAssignedUsers(task.id).length === 0" class="italic text-gray-400 text-xs">
-                                        No users assigned
-                                    </span>
-                                </td> -->
+
                                 <td class="px-5 py-3">
                                     @if (getAssignedUsers(task.id).length === 0) {
                                     <span class="italic text-gray-400 text-xs">No users assigned</span>
                                     } @else {
-                                    <ng-select class="assigned-users-select w-48 text-xs" [items]="assignedUsersMap[task.id] ?? []" bindLabel="name"
-                                        bindValue="id" [ngModel]="assignedUsersMap[task.id]?.[0]?.id" [clearable]="false" [searchable]="false"
-                                        [closeOnSelect]="false" [appendTo]="'body'">
-                                
+                                    <ng-select class="assigned-users-select w-48 text-xs"
+                                        [items]="assignedUsersMap[task.id] ?? []" bindLabel="name" bindValue="id"
+                                        [ngModel]="assignedUsersMap[task.id]?.[0]?.id" [clearable]="false"
+                                        [searchable]="false" [closeOnSelect]="false" [appendTo]="'body'">
+
                                         <ng-template ng-option-tmp let-item="item">
                                             <div class="flex flex-col py-1">
                                                 <span class="font-medium text-gray-800">{{ item.name }}</span>
                                                 <span class="text-[11px] text-gray-500">{{ item.email }}</span>
                                             </div>
                                         </ng-template>
-                                
+
                                     </ng-select>
                                     }
                                 </td>
-                            
+
                                 <!-- PRIORITY -->
                                 <td class="px-5 py-3 text-center">
-                                    <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold capitalize border" [ngClass]="{
+                                    <span
+                                        class="inline-flex px-3 py-1 rounded-full text-xs font-semibold capitalize border"
+                                        [ngClass]="{
                                           'bg-green-100 text-green-700 border-green-300': task.priority === 'low',
                                           'bg-yellow-100 text-yellow-700 border-yellow-300': task.priority === 'medium',
                                           'bg-red-100 text-red-700 border-red-300': task.priority === 'high'
@@ -463,12 +329,12 @@
                                         {{ task.priority || 'medium' }}
                                     </span>
                                 </td>
-                            
+
                                 <!-- DUE DATE -->
                                 <td class="px-5 py-3 text-gray-600">
                                     {{ task.dueDate }}
                                 </td>
-                            
+
                                 <!-- ACTIONS -->
                                 <td class="px-5 py-3 text-right space-x-3">
                                     <button class="text-blue-600 hover:underline" (click)="editTask(task)">
@@ -478,10 +344,10 @@
                                         Delete
                                     </button>
                                 </td>
-                            
+
                                 </tr>
                                 }
-                            
+
                                 @if (filteredTasks.length === 0) {
                                 <tr>
                                     <td colspan="6" class="py-8 text-center text-gray-500">
@@ -489,16 +355,16 @@
                                     </td>
                                 </tr>
                                 }
-                            
+
                                 }
-                            
+
                             </tbody>
 
                         </table>
                         }
                         @if (viewMode === 'board') {
 
-                    <div class="mt-6
+                        <div class="mt-6
                              flex gap-4
                              overflow-x-auto
                              md:grid md:grid-cols-3 md:gap-6
@@ -509,11 +375,11 @@
 
 
                             <!-- COLUMN -->
-                            <ng-container *ngFor="let col of boardColumns" class="scrollbar-thin scrollbar-thumb-blue-300" style="scrollbar-width: thin;"
->
+                            <ng-container *ngFor="let col of boardColumns"
+                                class="scrollbar-thin scrollbar-thumb-blue-300" style="scrollbar-width: thin;">
 
 
-                                <div  class="bg-white rounded-2xl border border-blue-100 shadow
+                                <div class="bg-white rounded-2xl border border-blue-100 shadow
                                          p-4
                                          min-w-[280px] sm:min-w-[320px]
                                          md:min-w-0
@@ -522,7 +388,7 @@
                                          shrink-0">
 
 
-                                 
+
                                     <div class="flex items-center justify-between mb-4">
                                         <h3 class="font-semibold text-gray-800">
                                             {{ col.title }} ({{ col.data.length }})
@@ -534,58 +400,17 @@
                                         </button>
                                     </div>
 
-                                
+
                                     <!-- <div class="space-y-3 overflow-y-auto pr-1 flex-1"> -->
 
-                                    <div cdkDropList [id]="col.status" [cdkDropListData]="col.data" [cdkDropListConnectedTo]="connectedDropLists"
-                                        (cdkDropListDropped)="onTaskDrop($event, col.status)" class="space-y-3 overflow-y-auto pr-1 flex-1">
-
-
-                                    <!-- <div *ngFor="let task of col.data" class="cursor-pointer
-                                             w-full
-                                             break-words
-                                             bg-blue-50/80
-                                             border border-blue-200
-                                             rounded-xl
-                                             p-3
-                                             space-y-1
-                                             hover:shadow-lg
-                                             hover:-translate-y-[1px]
-                                             transition-all duration-200">
+                                    <div cdkDropList [id]="col.status" [cdkDropListData]="col.data"
+                                        [cdkDropListConnectedTo]="connectedDropLists"
+                                        (cdkDropListDropped)="onTaskDrop($event, col.status)"
+                                        class="space-y-3 overflow-y-auto pr-1 flex-1">
 
 
 
-                                            <p class="font-semibold text-gray-800">
-                                                {{ task.title }}
-                                            </p>
-
-                                            <p class="text-xs text-gray-500 mt-1">
-                                                Due: {{ task.dueDate }}
-                                            </p>
-
-                                            <span class="inline-block mt-2 text-xs px-2 py-0.5 rounded-full" [ngClass]="{
-                          'bg-red-100 text-red-700': col.status==='pending',
-                          'bg-yellow-100 text-yellow-700': col.status==='in-progress',
-                          'bg-green-100 text-green-700': col.status==='completed'
-                        }">
-                                                {{ task.priority }}
-                                            </span>
-
-                                        </div> -->
-
-                                <!-- <div *ngFor="let task of col.data" class="relative group cursor-pointer
-                                            w-full
-                                            break-words
-                                            bg-blue-50/80
-                                            border border-blue-200
-                                            rounded-xl
-                                            p-3
-                                            space-y-1
-                                            hover:shadow-lg
-                                            hover:-translate-y-[1px]
-                                            transition-all duration-200"> -->
-
-                                            <div *ngFor="let task of col.data;trackBy: trackByTaskId" cdkDrag class="relative group cursor-pointer
+                                        <div *ngFor="let task of col.data;trackBy: trackByTaskId" cdkDrag class="relative group cursor-pointer
                                                      w-full
                                                      break-words
                                                      bg-blue-50/80
@@ -597,45 +422,47 @@
                                                      hover:-translate-y-[1px]
                                                      transition-all duration-200">
 
-                                
-                                    <!-- EDIT / DELETE BUTTONS -->
-                                    <div class="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition">
-                                        <button (click)="editTask(task); $event.stopPropagation()" class="h-6 w-6 flex items-center justify-center rounded-full
+
+                                            <!-- EDIT / DELETE BUTTONS -->
+                                            <div
+                                                class="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition">
+                                                <button (click)="editTask(task); $event.stopPropagation()" class="h-6 w-6 flex items-center justify-center rounded-full
                                                    bg-white border border-blue-200
                                                    text-blue-600 hover:bg-blue-100">
-                                            <i class="bx bx-edit text-xs"></i>
-                                        </button>
-                                
-                                        <button (click)="deleteTask(task); $event.stopPropagation()" class="h-6 w-6 flex items-center justify-center rounded-full
+                                                    <i class="bx bx-edit text-xs"></i>
+                                                </button>
+
+                                                <button (click)="deleteTask(task); $event.stopPropagation()" class="h-6 w-6 flex items-center justify-center rounded-full
                                                    bg-white border border-red-200
                                                    text-red-600 hover:bg-red-100">
-                                            <i class="bx bx-trash text-xs"></i>
-                                        </button>
-                                    </div>
-                                
-                                    <!-- TITLE -->
-                                    <p class="font-semibold text-gray-800 pr-10">
-                                        {{ task.title }}
-                                    </p>
-                                <!-- <div cdkDragPreview class="rounded-xl bg-white shadow-lg p-3">
+                                                    <i class="bx bx-trash text-xs"></i>
+                                                </button>
+                                            </div>
+
+                                            <!-- TITLE -->
+                                            <p class="font-semibold text-gray-800 pr-10">
+                                                {{ task.title }}
+                                            </p>
+                                            <!-- <div cdkDragPreview class="rounded-xl bg-white shadow-lg p-3">
                                     {{ task.title }}
                                 </div> -->
 
-                                    <!-- DUE DATE -->
-                                    <p class="text-xs text-gray-500 mt-1">
-                                        Due: {{ task.dueDate }}
-                                    </p>
-                                
-                                    <!-- PRIORITY (FIXED COLORS) -->
-                                    <span class="inline-block mt-2 text-xs px-2 py-0.5 rounded-full border" [ngClass]="{
+                                            <!-- DUE DATE -->
+                                            <p class="text-xs text-gray-500 mt-1">
+                                                Due: {{ task.dueDate }}
+                                            </p>
+
+                                            <!-- PRIORITY (FIXED COLORS) -->
+                                            <span class="inline-block mt-2 text-xs px-2 py-0.5 rounded-full border"
+                                                [ngClass]="{
                                             'bg-red-100 text-red-700 border-red-300': task.priority === 'high',
                                             'bg-orange-100 text-orange-700 border-orange-300': task.priority === 'medium',
                                             'bg-green-100 text-green-700 border-green-300': task.priority === 'low'
                                           }">
-                                        {{ task.priority }}
-                                    </span>
-                                
-                                </div>
+                                                {{ task.priority }}
+                                            </span>
+
+                                        </div>
 
                                     </div>
 
@@ -645,8 +472,8 @@
 
                         </div>
                         }
-                        
-                        
+
+
 
 
                     </div>
@@ -662,117 +489,108 @@
                         </div>
 
                         <!-- PAGINATION -->
-                        <!-- @if (selectedPageSize !== 'All' && selectedPageSize < filteredTasks.length) { <div
-                            class="flex justify-center sm:justify-center w-full sm:w-auto">
-                            <pagination-controls (pageChange)="p = $event" previousLabel="Prev" nextLabel="Next"
-                                class="text-sm">
-                            </pagination-controls>
+
                     </div>
-                    } -->
+                    }
 
                 </div>
-                }
-
             </div>
         </div>
 
+        @if (popupVisible) {
+
+        <!-- BACKDROP -->
+        <div class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" (click)="togglePopup()">
+        </div>
+
+        <!-- MODAL WRAPPER -->
+        <div class="fixed inset-0 z-50 flex items-center justify-center px-4">
+
+            <!-- MODAL CARD -->
+            <div
+                class="relative w-full max-w-sm bg-white/90 backdrop-blur-xl border border-blue-200 rounded-2xl shadow-[0_20px_50px_rgba(59,130,246,0.25)] transition-all duration-300 max-h-[90vh] overflow-y-auto p-6">
+
+                <h2 class="text-center text-xl font-semibold mb-4">
+                    {{ editingTask ? 'Edit Task' : 'Add Task' }}
+                </h2>
+
+                <p class="text-center text-sm text-gray-600 mb-4">
+                    {{ editingTask ? 'Update the details of your task below.' : 'Fill in the details of your new task
+                    below.' }}
+                </p>
+
+                <form [formGroup]="taskForm" (ngSubmit)="saveTask()" class="flex flex-col gap-4">
+
+                    <input type="text" formControlName="title" placeholder="Task Name"
+                        class="border border-blue-200 px-4 py-2 rounded-xl w-full">
+
+                    @if(taskForm.get('title')?.invalid && taskForm.get('title')?.touched){
+                    <div class="text-red-500 text-sm">Title is required</div>
+                    }
+
+                    <input type="date" formControlName="dueDate"
+                        class="border border-blue-200 px-4 py-2 rounded-xl w-full">
+
+                    @if(taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched){
+                    <div class="text-red-500 text-sm">Date is required</div>
+                    }
+
+                    <ng-select formControlName="assignedUsers" [items]="assignableUsers" bindLabel="name" bindValue="id"
+                        [multiple]="true" placeholder=" " class="w-full">
+                    </ng-select>
 
 
+
+                    <select formControlName="status" class="border border-blue-200 px-4 py-2 rounded-xl w-full">
+                        <option value="" disabled>Select Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+
+                    <select formControlName="priority" class="border border-blue-200 px-4 py-2 rounded-xl w-full">
+                        <option value="" disabled>Select Priority</option>
+                        <option value="low">🟢 Low Priority</option>
+                        <option value="medium">🟡 Medium Priority</option>
+                        <option value="high">🔴 High Priority</option>
+                    </select>
+
+                    <div class="flex gap-3 mt-4">
+                        <button type="button" (click)="togglePopup()"
+                            class="w-1/2 border border-gray-300 text-gray-700 py-2 rounded-xl font-semibold hover:bg-gray-100">
+                            Cancel
+                        </button>
+
+
+                        <button type="submit"
+                            class="w-1/2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-xl font-semibold">
+                            {{ editingTask ? 'Update Task' : 'Save Task' }}
+                        </button>
+                    </div>
+
+                </form>
+
+                <!-- CLOSE BUTTON -->
+                <button type="button" (click)="togglePopup()"
+                    class="absolute top-4 right-4 text-xl text-gray-500 hover:text-red-500">
+                    <i class="bx bx-x"></i>
+                </button>
+            </div>
+        </div>
+        }
     </div>
 
-    @if (popupVisible) {
+    @if (deletingTask) {
 
     <!-- BACKDROP -->
-    <div class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" (click)="togglePopup()">
+    <div class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" (click)="closeDeleteModal()">
     </div>
 
     <!-- MODAL WRAPPER -->
     <div class="fixed inset-0 z-50 flex items-center justify-center px-4">
 
         <!-- MODAL CARD -->
-        <div
-            class="relative w-full max-w-sm bg-white/90 backdrop-blur-xl border border-blue-200 rounded-2xl shadow-[0_20px_50px_rgba(59,130,246,0.25)] transition-all duration-300 max-h-[90vh] overflow-y-auto p-6">
-
-            <h2 class="text-center text-xl font-semibold mb-4">
-                {{ editingTask ? 'Edit Task' : 'Add Task' }}
-            </h2>
-
-            <p class="text-center text-sm text-gray-600 mb-4">
-                {{ editingTask ? 'Update the details of your task below.' : 'Fill in the details of your new task
-                below.' }}
-            </p>
-
-            <form [formGroup]="taskForm" (ngSubmit)="saveTask()" class="flex flex-col gap-4">
-
-                <input type="text" formControlName="title" placeholder="Task Name"
-                    class="border border-blue-200 px-4 py-2 rounded-xl w-full">
-
-                @if(taskForm.get('title')?.invalid && taskForm.get('title')?.touched){
-                <div class="text-red-500 text-sm">Title is required</div>
-                }
-
-                <input type="date" formControlName="dueDate" class="border border-blue-200 px-4 py-2 rounded-xl w-full">
-
-                @if(taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched){
-                <div class="text-red-500 text-sm">Date is required</div>
-                }
-
-                <ng-select formControlName="assignedUsers" [items]="assignableUsers" bindLabel="name" bindValue="id"
-                    [multiple]="true" placeholder=" " class="w-full">
-                </ng-select>
-
-
-
-                <select formControlName="status" class="border border-blue-200 px-4 py-2 rounded-xl w-full">
-                    <option value="" disabled>Select Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                </select>
-
-                <select formControlName="priority" class="border border-blue-200 px-4 py-2 rounded-xl w-full">
-                    <option value="" disabled>Select Priority</option>
-                    <option value="low">🟢 Low Priority</option>
-                    <option value="medium">🟡 Medium Priority</option>
-                    <option value="high">🔴 High Priority</option>
-                </select>
-
-                <div class="flex gap-3 mt-4">
-                    <button type="button" (click)="togglePopup()"
-                        class="w-1/2 border border-gray-300 text-gray-700 py-2 rounded-xl font-semibold hover:bg-gray-100">
-                        Cancel
-                    </button>
-
-
-                    <button type="submit"
-                        class="w-1/2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 rounded-xl font-semibold">
-                        {{ editingTask ? 'Update Task' : 'Save Task' }}
-                    </button>
-                </div>
-
-            </form>
-
-            <!-- CLOSE BUTTON -->
-            <button type="button" (click)="togglePopup()"
-                class="absolute top-4 right-4 text-xl text-gray-500 hover:text-red-500">
-                <i class="bx bx-x"></i>
-            </button>
-        </div>
-    </div>
-    }
-</div>
-
-@if (deletingTask) {
-
-<!-- BACKDROP -->
-<div class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" (click)="closeDeleteModal()">
-</div>
-
-<!-- MODAL WRAPPER -->
-<div class="fixed inset-0 z-50 flex items-center justify-center px-4">
-
-    <!-- MODAL CARD -->
-    <div class="relative w-full max-w-sm
+        <div class="relative w-full max-w-sm
            bg-white/90 backdrop-blur-xl
            border 
            rounded-2xl 
@@ -782,58 +600,58 @@
     'shadow-[0_20px_50px_rgba(59,130,246,0.25)] border-indigo-400': deleteId == null
   }">
 
-        <h2 class="text-center text-xl font-semibold   mb-4" [class.text-red-600]="deleteId!=null"
-            [class.text-gray-800]="deleteId==null">
-            {{deleteId!=null?"Delete Task":"View Task"}}
-        </h2>
+            <h2 class="text-center text-xl font-semibold   mb-4" [class.text-red-600]="deleteId!=null"
+                [class.text-gray-800]="deleteId==null">
+                {{deleteId!=null?"Delete Task":"View Task"}}
+            </h2>
 
-        @if (deleteId!=null) {
+            @if (deleteId!=null) {
 
-        <p class="text-center text-sm text-gray-600 mb-4">
-            Are you sure you want to delete this task? This action cannot be undone.
-        </p>
-        }
+            <p class="text-center text-sm text-gray-600 mb-4">
+                Are you sure you want to delete this task? This action cannot be undone.
+            </p>
+            }
 
-        <form [formGroup]="taskForm" class="flex flex-col gap-4">
+            <form [formGroup]="taskForm" class="flex flex-col gap-4">
 
-            <input type="text" formControlName="title"
-                class="border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
+                <input type="text" formControlName="title"
+                    class="border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
 
-            <input type="date" formControlName="dueDate"
-                class="border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
+                <input type="date" formControlName="dueDate"
+                    class="border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
 
-            <select formControlName="status"
-                class="border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
-                <option value="pending">Pending</option>
-                <option value="in-progress">In Progress</option>
-                <option value="completed">Completed</option>
-            </select>
+                <select formControlName="status"
+                    class="border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
+                    <option value="pending">Pending</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
 
-            <div class="flex gap-3 mt-4">
-                <button type="button" (click)="closeDeleteModal()"
-                    class=" border bg-gray-400 border-gray-300 text-gray-700 py-2 rounded-xl font-semibold hover:bg-gray-100"
-                    [class.w-full]="deleteId == null" [class.w-1/2]="deleteId != null">
-                    Cancel
-                </button>
-                @if (deleteId!=null) {
+                <div class="flex gap-3 mt-4">
+                    <button type="button" (click)="closeDeleteModal()"
+                        class=" border bg-gray-400 border-gray-300 text-gray-700 py-2 rounded-xl font-semibold hover:bg-gray-100"
+                        [class.w-full]="deleteId == null" [class.w-1/2]="deleteId != null">
+                        Cancel
+                    </button>
+                    @if (deleteId!=null) {
 
-                <button type="button" (click)="confirmDelete()"
-                    class="w-1/2 bg-gradient-to-r from-red-500 to-red-600 text-white py-2 rounded-xl font-semibold">
-                    Delete
-                </button>
-                }
-            </div>
+                    <button type="button" (click)="confirmDelete()"
+                        class="w-1/2 bg-gradient-to-r from-red-500 to-red-600 text-white py-2 rounded-xl font-semibold">
+                        Delete
+                    </button>
+                    }
+                </div>
 
-        </form>
+            </form>
 
-        <!-- CLOSE ICON -->
-        <button type="button" (click)="closeDeleteModal()"
-            class="absolute top-4 right-4 text-xl text-gray-500 hover:text-red-600">
-            <i class="bx bx-x"></i>
-        </button>
+            <!-- CLOSE ICON -->
+            <button type="button" (click)="closeDeleteModal()"
+                class="absolute top-4 right-4 text-xl text-gray-500 hover:text-red-600">
+                <i class="bx bx-x"></i>
+            </button>
 
+        </div>
     </div>
-</div>
-}
+    }
 
 </div>
