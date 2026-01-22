@@ -586,23 +586,42 @@ console.log('Saving task:',this.taskForm.value.assignedUsers);
   //   // ✅ keep board view synced
   //   this.updateBoardColumns();
   // }
+  // onTableDrop(event: CdkDragDrop<any[]>) {
+  //   console.log('DROP FIRED', event.previousIndex, event.currentIndex);
+
+  //   // if (this.selectedPageSize !== 'All') return;
+
+  //   moveItemInArray(
+  //     this.filteredTasks,
+  //     event.previousIndex,
+  //     event.currentIndex
+  //   );
+
+  //   // this.filteredTasks.forEach((task, index) => {
+  //   //   task.order_id = index;
+  //   // });
+
+  //   // this.persistOrder(this.filteredTasks);
+  //   // this.updateBoardColumns();
+  // }
+
   onTableDrop(event: CdkDragDrop<any[]>) {
-    console.log('DROP FIRED', event.previousIndex, event.currentIndex);
-
-    // if (this.selectedPageSize !== 'All') return;
-
     moveItemInArray(
       this.filteredTasks,
       event.previousIndex,
       event.currentIndex
     );
 
-    // this.filteredTasks.forEach((task, index) => {
-    //   task.order_id = index;
-    // });
+    // reassign order_id
+    this.filteredTasks.forEach((task, index) => {
+      task.order_id = index;
+    });
 
-    // this.persistOrder(this.filteredTasks);
-    // this.updateBoardColumns();
+    // persist sequentially
+    this.persistOrder(this.filteredTasks);
+
+    // sync board view
+    this.updateBoardColumns();
   }
 
   private persistOrder(tasks: any[]) {
