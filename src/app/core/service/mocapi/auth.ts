@@ -150,6 +150,8 @@ export class AuthService  {
   // }
 
   refreshCurrentUser(userId: string) {
+
+    console.log('refreshing user');
     return this.http.get<any>(`${this.API}/user/${userId}`);
   }
 
