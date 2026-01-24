@@ -4,35 +4,69 @@ import { switchMap, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
+
 @Injectable({ providedIn: 'root' })
 export class AuthService  {
   private API = 'https://696dca5ad7bacd2dd7148b1a.mockapi.io/task';
+
+  // add this property at top of class
+  private isRefreshing = false;
 
   user = signal<any | null>(this.getUser());
 
   // constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) { }
 
+//   constructor(
+//   private http: HttpClient,
+//   private toastr: ToastrService,
+//   private router: Router
+// ) {
+//   // 🔁 Refresh permissions when tab/browser regains focus
+//   window.addEventListener('focus', () => {
+//     const u = this.user();
+//     if (!u) return;
+
+//     this.refreshCurrentUser(u.id).subscribe(updatedUser => {
+//       this.setUser(updatedUser);
+//     });
+//   });
+// }
+
   constructor(
-  private http: HttpClient,
-  private toastr: ToastrService,
-  private router: Router
-) {
-  // 🔁 Refresh permissions when tab/browser regains focus
-  window.addEventListener('focus', () => {
-    const u = this.user();
-    if (!u) return;
+    private http: HttpClient,
+    private toastr: ToastrService,
+    private router: Router
+  ) {
+    window.addEventListener('focus', () => {
+      const u = this.user();
+      if (!u || this.isRefreshing) return;
 
-    this.refreshCurrentUser(u.id).subscribe(updatedUser => {
-      this.setUser(updatedUser);
+      // ⛔ prevent frequent refresh (5 min)
+      if (!this.shouldRefresh(u)) return;
+
+      this.isRefreshing = true;
+
+      this.refreshCurrentUser(u.id).subscribe({
+        next: updatedUser => this.setUser(updatedUser),
+        complete: () => (this.isRefreshing = false),
+        error: () => (this.isRefreshing = false)
+      });
     });
-  });
-}
+  }
 
+  
   /** ---------- REGISTER ---------- */
   // register(payload: any) {
   //   return this.http.post(`${this.API}/user`, payload);
   // }
 
+  private shouldRefresh(user: any): boolean {
+    const last = user?._lastSync;
+    if (!last) return true;
+
+    const FIVE_MIN = 5 * 60 * 1000;
+    return Date.now() - last > FIVE_MIN;
+  }
 
   register(payload: any) {
     // STEP 1: check if email exists
@@ -58,36 +92,60 @@ export class AuthService  {
   //   return this.http.get<any[]>(`${this.API}/user?email=${email}`);
   // }
 
-  login(email: any, password: any) {
+  // login(email: any, password: any) {
+  //   return this.http.get<any[]>(`${this.API}/user`, {
+  //     params: { email }
+  //   }).pipe(
+  //     switchMap(users => {
+  //       console.log(users);
+  //       if (users.length === 0) {
+          
+  //         return throwError(() => ({ message: 'User not found' }));
+  //       }
+
+  //       const user = users[0];
+  //       console.log(user);
+  //       console.log(user.password,password);
+
+  //       if (user.password !== password) {
+  //         return throwError(() => ({ message: 'Invalid password' }));
+  //       }
+
+  //       console.log('Login successful');
+  //       // ✅ save session
+  //       localStorage.setItem('user', JSON.stringify(user));
+  //       this.user.set(user);
+
+       
+       
+   
+   
+
+  //       return this.http.get<any[]>(`${this.API}/user?email=${email}`);
+  //     })
+  //   );
+  // }
+
+  login(email: string, password: string) {
     return this.http.get<any[]>(`${this.API}/user`, {
       params: { email }
     }).pipe(
       switchMap(users => {
-        console.log(users);
-        if (users.length === 0) {
-          
-          return throwError(() => ({ message: 'User not found' }));
+        if (!users.length) {
+          return throwError(() => new Error('User not found'));
         }
 
         const user = users[0];
-        console.log(user);
-        console.log(user.password,password);
 
         if (user.password !== password) {
-          return throwError(() => ({ message: 'Invalid password' }));
+          return throwError(() => new Error('Invalid password'));
         }
 
-        console.log('Login successful');
-        // ✅ save session
-        localStorage.setItem('user', JSON.stringify(user));
-        this.user.set(user);
+        // ✅ save session once
+        this.setUser(user);
 
-       
-       
-   
-   
-
-        return this.http.get<any[]>(`${this.API}/user?email=${email}`);
+        // ✅ return user, NOT another API call
+        return [user];
       })
     );
   }

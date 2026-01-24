@@ -84,153 +84,138 @@
 
 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
 
+    @if (loading) {
+
+    @for (i of [1,2,3,4,5]; track $index) {
+    <div class="bg-white rounded-2xl px-4 py-4
+               border border-blue-100
+               shadow-[0_10px_30px_rgba(59,130,246,0.12)]
+               animate-pulse
+               flex items-center justify-between">
+
+        <div class="space-y-2">
+            <div class="h-3 w-20 bg-gray-200 rounded"></div>
+            <div class="h-6 w-14 bg-gray-300 rounded"></div>
+        </div>
+
+        <div class="w-10 h-10 rounded-xl bg-gray-200"></div>
+    </div>
+    }
+
+    } @else {
+
     <!-- TOTAL TASKS -->
     <div class="bg-white rounded-2xl px-4 py-4
                 shadow-[0_10px_30px_rgba(59,130,246,0.12)]
                 border border-blue-100
                 flex items-center justify-between">
-
         <div>
-            <p class="text-xs font-semibold tracking-wide text-gray-500">
-                Total Tasks
-            </p>
+            <p class="text-xs font-semibold tracking-wide text-gray-500">Total Tasks</p>
             <h3 class="text-2xl font-extrabold text-gray-900 mt-1">
                 {{ taskStats.total }}
             </h3>
         </div>
-
-        <div class="w-10 h-10 rounded-xl
-                    bg-blue-50 text-blue-600
-                    flex items-center justify-center">
+        <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
             <i class="bx bx-task text-xl"></i>
         </div>
     </div>
 
     <!-- COMPLETED -->
-    <div class="bg-white rounded-2xl px-4 py-4
-                shadow-[0_10px_30px_rgba(59,130,246,0.12)]
-                border border-blue-100
-                flex items-center justify-between">
-
+    <div class="bg-white rounded-2xl px-4 py-4 border border-blue-100 flex items-center justify-between">
         <div>
-            <p class="text-xs font-semibold tracking-wide text-gray-500">
-                Completed
-            </p>
+            <p class="text-xs font-semibold text-gray-500">Completed</p>
             <h3 class="text-2xl font-extrabold text-green-600 mt-1">
                 {{ taskStats.completed }}
             </h3>
         </div>
-
-        <div class="w-10 h-10 rounded-xl
-                    bg-green-50 text-green-600
-                    flex items-center justify-center">
+        <div class="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center">
             <i class="bx bx-check-circle text-xl"></i>
         </div>
     </div>
 
     <!-- IN PROGRESS -->
-    <div class="bg-white rounded-2xl px-4 py-4
-                shadow-[0_10px_30px_rgba(59,130,246,0.12)]
-                border border-blue-100
-                flex items-center justify-between">
-
+    <div class="bg-white rounded-2xl px-4 py-4 border border-blue-100 flex items-center justify-between">
         <div>
-            <p class="text-xs font-semibold tracking-wide text-gray-500">
-                In Progress
-            </p>
+            <p class="text-xs font-semibold text-gray-500">In Progress</p>
             <h3 class="text-2xl font-extrabold text-yellow-600 mt-1">
                 {{ taskStats.inProgress }}
             </h3>
         </div>
-
-        <div class="w-10 h-10 rounded-xl
-                    bg-yellow-50 text-yellow-600
-                    flex items-center justify-center">
-        <i class='bx  bx-clock-dashed-half'></i>
+        <div class="w-10 h-10 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center">
+            <i class="bx bx-clock-dashed-half"></i>
         </div>
     </div>
 
     <!-- PENDING -->
-    <div class="bg-white rounded-2xl px-4 py-4
-                shadow-[0_10px_30px_rgba(59,130,246,0.12)]
-                border border-blue-100
-                flex items-center justify-between">
-
+    <div class="bg-white rounded-2xl px-4 py-4 border border-blue-100 flex items-center justify-between">
         <div>
-            <p class="text-xs font-semibold tracking-wide text-gray-500">
-                Pending
-            </p>
+            <p class="text-xs font-semibold text-gray-500">Pending</p>
             <h3 class="text-2xl font-extrabold text-red-600 mt-1">
                 {{ taskStats.pending }}
             </h3>
         </div>
-
-        <div class="w-10 h-10 rounded-xl
-                    bg-red-50 text-red-600
-                    flex items-center justify-center">
-        <i class='bx  bx-alert-circle'></i>
+        <div class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+            <i class="bx bx-alert-circle"></i>
         </div>
     </div>
 
     <!-- USERS -->
-    <div class="bg-white rounded-2xl px-4 py-4
-                shadow-[0_10px_30px_rgba(59,130,246,0.12)]
-                border border-blue-100
-                flex items-center justify-between">
-
+    <div class="bg-white rounded-2xl px-4 py-4 border border-blue-100 flex items-center justify-between">
         <div>
-            <p class="text-xs font-semibold tracking-wide text-gray-500">
-                Users
-            </p>
+            <p class="text-xs font-semibold text-gray-500">Users</p>
             <h3 class="text-2xl font-extrabold text-indigo-600 mt-1">
                 {{ userStats.totalUsers }}
             </h3>
         </div>
-
-        <div class="w-10 h-10 rounded-xl
-                    bg-indigo-50 text-indigo-600
-                    flex items-center justify-center">
+        <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
             <i class="bx bx-group text-xl"></i>
         </div>
     </div>
 
+    }
+
 </div>
 
 
+
     <!-- ================= CHARTS GRID ================= -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        <!-- TASK STATUS (PIE) -->
-        <div class="bg-white rounded-2xl p-4
-             shadow-[0_15px_40px_rgba(59,130,246,0.15)]
-             border border-blue-100
-             flex flex-col">
+    @if (loading) {
 
-            <p class="text-sm font-semibold text-gray-700 mb-2">
-                Task Status
-            </p>
-
-            <div class="relative h-[260px] md:h-[320px] lg:h-[380px] w-full">
-                <canvas id="taskPie"></canvas>
-            </div>
-        </div>
-
-        <!-- USER PERMISSIONS (BAR) -->
-        <div class="bg-white rounded-2xl p-4
-             shadow-[0_15px_40px_rgba(59,130,246,0.15)]
-             border border-blue-100
-             flex flex-col
-             lg:col-span-2">
-
-            <p class="text-sm font-semibold text-gray-700 mb-2">
-                User Permissions
-            </p>
-
-            <div class="relative h-[260px] md:h-[320px] lg:h-[380px] w-full">
-                <canvas id="userBar"></canvas>
-            </div>
-        </div>
-
+    <!-- PIE CHART SKELETON -->
+    <div class="bg-white rounded-2xl p-4 border border-blue-100 animate-pulse">
+        <div class="h-4 w-32 bg-gray-200 rounded mb-4"></div>
+        <div class="h-[260px] md:h-[320px] lg:h-[380px] w-full bg-gray-200 rounded-xl"></div>
     </div>
+
+    <!-- BAR CHART SKELETON -->
+    <div class="bg-white rounded-2xl p-4 border border-blue-100 animate-pulse lg:col-span-2">
+        <div class="h-4 w-40 bg-gray-200 rounded mb-4"></div>
+        <div class="h-[260px] md:h-[320px] lg:h-[380px] w-full bg-gray-200 rounded-xl"></div>
+    </div>
+
+    } @else {
+
+    <!-- TASK STATUS -->
+    <div class="bg-white rounded-2xl p-4 border border-blue-100 flex flex-col">
+        <p class="text-sm font-semibold text-gray-700 mb-2">Task Status</p>
+        <div class="relative h-[260px] md:h-[320px] lg:h-[380px] w-full">
+            <canvas id="taskPie"></canvas>
+        </div>
+    </div>
+
+    <!-- USER PERMISSIONS -->
+    <div class="bg-white rounded-2xl p-4 border border-blue-100 flex flex-col lg:col-span-2">
+        <p class="text-sm font-semibold text-gray-700 mb-2">User Permissions</p>
+        <div class="relative h-[260px] md:h-[320px] lg:h-[380px] w-full">
+            <canvas id="userBar"></canvas>
+        </div>
+    </div>
+
+    }
+
+</div>
+
 </div>
 </div></div>

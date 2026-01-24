@@ -370,6 +370,7 @@ import { Subscription } from 'rxjs';
 import { ApiService } from '../../../core/service/mocapi/api/api';
 import { AdminAddUser } from '../admin-add-user/admin-add-user';
 
+import { Renderer2, inject } from '@angular/core';
 @Component({
   selector: 'app-users-page',
   standalone: true,
@@ -411,6 +412,7 @@ export class UsersPage implements OnInit, OnDestroy {
 
   private sub!: Subscription;
 
+  private renderer = inject(Renderer2);
   constructor(
     private api: ApiService,
     private toastr: ToastrService
@@ -424,7 +426,13 @@ export class UsersPage implements OnInit, OnDestroy {
     this.sub = this.api.getUsers$().subscribe(users => {
       this.users = users;
       this.applyFilter();
-      this.loading = false;
+      const start = Date.now();
+
+      setTimeout(() => {
+        this.loading = false;
+      }, Math.max(300 - (Date.now() - start), 0));
+
+      // this.loading = false;
     });
   }
 
@@ -443,6 +451,7 @@ export class UsersPage implements OnInit, OnDestroy {
 
     this.editUser = null;
     this.sidebarOpen = true;
+    this.renderer.addClass(document.body, 'overflow-hidden');
   }
 
   /* =====================
@@ -461,6 +470,7 @@ export class UsersPage implements OnInit, OnDestroy {
   closeSidebar() {
     this.sidebarOpen = false;
     this.editUser = null;
+    this.renderer.removeClass(document.body, 'overflow-hidden');
     // ✅ NO reload, store already updated
   }
 

@@ -981,6 +981,8 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { combineLatest } from 'rxjs';
+
 
 type TaskStatus = 'pending' | 'in-progress' | 'completed';
 type TaskPriority = 'low' | 'medium' | 'high';
@@ -1070,11 +1072,11 @@ export class Dashbord implements OnInit {
 
   // VIEW MODE (table | board)
   viewMode: 'table' | 'board' = 'table';
-
+  
   constructor(
     private fb: FormBuilder,
     private api: ApiService,
-    public auth: AuthService,
+    // public auth: AuthService,
     private toastr: ToastrService
   ) { 
     this.taskForm = this.fb.group({
@@ -1097,8 +1099,77 @@ export class Dashbord implements OnInit {
   //     this.applyDateFilter(range)
   //   );
   // }
+  // ngOnInit() {
+  //   this.api.getTasks$().subscribe(tasks => {
+  //     this.tasks = [...tasks].sort(
+  //       (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
+  //     );
+
+  //     this.applyAllFilters();
+  //     this.buildAssignedUsersMap();
+  //     this.updateStats(this.tasks);
+  //     this.rebuildBoard();
+
+  //     this.loading = false;
+  //   });
+
+  //   this.api.getUsers$().subscribe(users => {
+  //     users.forEach(u => (this.userMap[u.id] = u));
+  //     this.assignableUsers = users;
+  //   });
+
+  //   this.dateRangeControl.valueChanges.subscribe(r =>
+  //     this.applyDateFilter(r)
+  //   );
+  // }
+
+  // ngOnInit() {
+  //   this.loading = true;
+
+  //   combineLatest([
+  //     this.api.getTasks$(),
+  //     this.api.getUsers$()
+  //   ]).subscribe(([tasks, users]) => {
+
+  //     /* ---------- USERS ---------- */
+  //     this.userMap = {};
+  //     users.forEach(u => (this.userMap[u.id] = u));
+  //     this.assignableUsers = users;
+
+  //     /* ---------- TASKS ---------- */
+  //     this.tasks = [...tasks].sort(
+  //       (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
+  //     );
+
+  //     /* ---------- DERIVED STATE ---------- */
+  //     this.applyAllFilters();
+  //     this.buildAssignedUsersMap();
+  //     this.updateStats(this.tasks);
+  //     this.rebuildBoard();
+
+  //     this.loading = false;
+  //   });
+
+  //   this.dateRangeControl.valueChanges.subscribe(r =>
+  //     this.applyDateFilter(r)
+  //   );
+  // }
+
   ngOnInit() {
-    this.api.getTasks$().subscribe(tasks => {
+    this.loading = true;
+
+    const start = Date.now();
+
+    combineLatest([
+      this.api.getTasks$(),
+      this.api.getUsers$()
+    ]).subscribe(([tasks, users]) => {
+
+      // existing logic (UNCHANGED)
+      this.userMap = {};
+      users.forEach(u => (this.userMap[u.id] = u));
+      this.assignableUsers = users;
+
       this.tasks = [...tasks].sort(
         (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
       );
@@ -1108,17 +1179,14 @@ export class Dashbord implements OnInit {
       this.updateStats(this.tasks);
       this.rebuildBoard();
 
-      this.loading = false;
-    });
+      // ⏱ ensure skeleton shows at least 400ms
+      const elapsed = Date.now() - start;
+      const remaining = Math.max(0, 400 - elapsed);
 
-    this.api.getUsers$().subscribe(users => {
-      users.forEach(u => (this.userMap[u.id] = u));
-      this.assignableUsers = users;
+      setTimeout(() => {
+        this.loading = false;
+      }, remaining);
     });
-
-    this.dateRangeControl.valueChanges.subscribe(r =>
-      this.applyDateFilter(r)
-    );
   }
 
 
@@ -1126,7 +1194,7 @@ export class Dashbord implements OnInit {
      LOAD USERS (ONCE)
   ===================== */
   private loadUsersOnce() {
-    const me = this.auth.user();
+    const me = this.api.user();
     if (!me) return;
 
     this.api.getUsers$().subscribe((users: any[]) => {
@@ -1134,7 +1202,7 @@ export class Dashbord implements OnInit {
         this.userMap[u.id] = u;
       });
 
-      const me = this.auth.user();
+      const me = this.api.user();
       if (!me) return;
 
       const myId = String(me.id);
@@ -1272,11 +1340,33 @@ export class Dashbord implements OnInit {
   /* =====================
      DELETE
   ===================== */
+  // deleteTask(task: any) {
+  //   this.deleteId = task.id;
+  //   this.deletingTask = true;
+  //   this.taskForm.disable();
+  // }
+
+
   deleteTask(task: any) {
     this.deleteId = task.id;
     this.deletingTask = true;
+    // this.popupVisible = true;
+
+    // ✅ PATCH FIRST
+    this.taskForm.patchValue({
+      title: task.title,
+      dueDate: task.dueDate,
+      status: task.status,
+      priority: task.priority,
+      assignedUsers: task.assignedUsers || []
+    });
+
+    // ✅ THEN DISABLE (read-only mode)
     this.taskForm.disable();
+
+    document.body.classList.add('overflow-hidden');
   }
+
 
   // confirmDelete() {
   //   if (!this.deleteId) return;
@@ -1297,10 +1387,22 @@ export class Dashbord implements OnInit {
     });
   }
 
+  // closeDeleteModal() {
+  //   this.deleteId = null;
+  //   this.deletingTask = false;
+  //   this.taskForm.enable();
+  //   document.body.classList.remove('overflow-hidden');
+  // }
+
+
   closeDeleteModal() {
     this.deleteId = null;
     this.deletingTask = false;
-    this.taskForm.enable();
+    // this.popupVisible = false;
+
+    this.taskForm.enable(); // ✅ restore form
+    this.taskForm.reset({ status: 'pending' });
+
     document.body.classList.remove('overflow-hidden');
   }
 
@@ -1548,7 +1650,8 @@ export class Dashbord implements OnInit {
     return t.id;
   }
 
-  canCreate() { return this.auth.hasPermission('createTask'); }
-  canEdit() { return this.auth.hasPermission('editTask'); }
-  canDelete() { return this.auth.hasPermission('deleteTask'); }
+  canCreate() { return this.api.hasPermission('createTask'); }
+  canEdit() { return this.api.hasPermission('editTask'); }
+  canDelete() { return this.api.hasPermission('deleteTask'); }
+
 }

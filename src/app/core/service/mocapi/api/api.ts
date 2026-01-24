@@ -333,6 +333,19 @@ export class ApiService {
     return !!u.permissions?.[key];
   }
 
+  // register(payload: any) {
+  //   return this.http.get<any[]>(`${this.API}/user`, {
+  //     params: { email: payload.email }
+  //   }).pipe(
+  //     switchMap(users => {
+  //       if (users.length) {
+  //         return throwError(() => new Error('Email already registered'));
+  //       }
+  //       return this.http.post<any>(`${this.API}/user`, payload);
+  //     })
+  //   );
+  // }
+
   register(payload: any) {
     return this.http.get<any[]>(`${this.API}/user`, {
       params: { email: payload.email }
@@ -341,10 +354,39 @@ export class ApiService {
         if (users.length) {
           return throwError(() => new Error('Email already registered'));
         }
-        return this.http.post<any>(`${this.API}/user`, payload);
+
+        return this.http.post<any>(`${this.API}/user`, {
+          ...payload,
+          createdAt: new Date().toISOString()
+        });
+      }),
+      tap(user => {
+        // ✅ auto login after register
+        this.setUser(user);
       })
     );
   }
+
+  // login(email: string, password: string) {
+  //   return this.http.get<any[]>(`${this.API}/user`, {
+  //     params: { email }
+  //   }).pipe(
+  //     switchMap(users => {
+  //       if (!users.length) {
+  //         return throwError(() => new Error('User not found'));
+  //       }
+
+  //       const user = users[0];
+
+  //       if (user.password !== password) {
+  //         return throwError(() => new Error('Invalid password'));
+  //       }
+
+  //       this.setUser(user);
+  //       return [user]; // ✅ no second API call
+  //     })
+  //   );
+  // }
 
   login(email: string, password: string) {
     return this.http.get<any[]>(`${this.API}/user`, {
@@ -572,10 +614,10 @@ export class ApiService {
      🧠 INTERNAL HELPERS
   ===================================================== */
 
-  private setUser(user: any) {
-    localStorage.setItem('user', JSON.stringify(user));
-    this.user.set(user);
-  }
+  // private setUser(user: any) {
+  //   localStorage.setItem('user', JSON.stringify(user));
+  //   this.user.set(user);
+  // }
 
   private getStoredUser() {
     const raw = localStorage.getItem('user');
@@ -646,6 +688,16 @@ export class ApiService {
         this.http.put(`${this.API}/tasks/${p.id}`, p.changes).toPromise()
       )
     );
+  }
+
+  private setUser(user: any) {
+    const withMeta = {
+      ...user,
+      _lastSync: Date.now()
+    };
+
+    localStorage.setItem('user', JSON.stringify(withMeta));
+    this.user.set(withMeta);
   }
 
 }
