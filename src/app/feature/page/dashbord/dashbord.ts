@@ -1091,70 +1091,7 @@ export class Dashbord implements OnInit {
   /* =====================
      INIT
   ===================== */
-  // ngOnInit() {
-  //   this.loadUsersOnce();
-  //   this.loadTasks();
-
-  //   this.dateRangeControl.valueChanges.subscribe(range =>
-  //     this.applyDateFilter(range)
-  //   );
-  // }
-  // ngOnInit() {
-  //   this.api.getTasks$().subscribe(tasks => {
-  //     this.tasks = [...tasks].sort(
-  //       (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
-  //     );
-
-  //     this.applyAllFilters();
-  //     this.buildAssignedUsersMap();
-  //     this.updateStats(this.tasks);
-  //     this.rebuildBoard();
-
-  //     this.loading = false;
-  //   });
-
-  //   this.api.getUsers$().subscribe(users => {
-  //     users.forEach(u => (this.userMap[u.id] = u));
-  //     this.assignableUsers = users;
-  //   });
-
-  //   this.dateRangeControl.valueChanges.subscribe(r =>
-  //     this.applyDateFilter(r)
-  //   );
-  // }
-
-  // ngOnInit() {
-  //   this.loading = true;
-
-  //   combineLatest([
-  //     this.api.getTasks$(),
-  //     this.api.getUsers$()
-  //   ]).subscribe(([tasks, users]) => {
-
-  //     /* ---------- USERS ---------- */
-  //     this.userMap = {};
-  //     users.forEach(u => (this.userMap[u.id] = u));
-  //     this.assignableUsers = users;
-
-  //     /* ---------- TASKS ---------- */
-  //     this.tasks = [...tasks].sort(
-  //       (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
-  //     );
-
-  //     /* ---------- DERIVED STATE ---------- */
-  //     this.applyAllFilters();
-  //     this.buildAssignedUsersMap();
-  //     this.updateStats(this.tasks);
-  //     this.rebuildBoard();
-
-  //     this.loading = false;
-  //   });
-
-  //   this.dateRangeControl.valueChanges.subscribe(r =>
-  //     this.applyDateFilter(r)
-  //   );
-  // }
-
+ 
   ngOnInit() {
     this.loading = true;
 
@@ -1252,20 +1189,7 @@ export class Dashbord implements OnInit {
   getAssignedUsers(taskId: string) {
     return this.assignedUsersMap[taskId] || [];
   }
-  // applyAllFilters() {
-  //   let data = [...this.tasks];
-
-  //   if (this.searchText) {
-  //     const t = this.searchText.toLowerCase();
-  //     data = data.filter(x => x.title.toLowerCase().includes(t));
-  //   }
-
-  //   if (this.statusFilter !== 'all') {
-  //     data = data.filter(x => x.status === this.statusFilter);
-  //   }
-
-  //   this.filteredTasks = data;
-  // }
+   
 
   applyAllFilters() {
     let data = [...this.tasks];
@@ -1286,25 +1210,7 @@ export class Dashbord implements OnInit {
   /* =====================
      SAVE / UPDATE
   ===================== */
-  // saveTask() {
-  //   if (this.taskForm.invalid) return;
-
-  //   const payload = {
-  //     ...this.taskForm.value,
-  //     createdBy: this.auth.user().id,
-  //   };
-
-  //   const req$ = this.editingTask
-  //     ? this.taskService.updateTask(this.editingTask.id, payload)
-  //     : this.taskService.createTask(payload);
-
-  //   req$.subscribe(() => {
-  //     this.toastr.success(this.editingTask ? 'Task updated' : 'Task created');
-  //     this.resetForm();
-  //     this.loadTasks();
-  //   });
-  // }
-
+  
   saveTask() {
     if (this.taskForm.invalid) return;
 
@@ -1340,11 +1246,7 @@ export class Dashbord implements OnInit {
   /* =====================
      DELETE
   ===================== */
-  // deleteTask(task: any) {
-  //   this.deleteId = task.id;
-  //   this.deletingTask = true;
-  //   this.taskForm.disable();
-  // }
+  
 
 
   deleteTask(task: any) {
@@ -1368,16 +1270,7 @@ export class Dashbord implements OnInit {
   }
 
 
-  // confirmDelete() {
-  //   if (!this.deleteId) return;
-
-  //   this.taskService.deleteTask(this.deleteId).subscribe(() => {
-  //     this.toastr.success('Task deleted');
-  //     this.closeDeleteModal();
-  //     this.loadTasks();
-  //   });
-  // }
-
+ 
   confirmDelete() {
     if (!this.deleteId) return;
 
@@ -1387,12 +1280,7 @@ export class Dashbord implements OnInit {
     });
   }
 
-  // closeDeleteModal() {
-  //   this.deleteId = null;
-  //   this.deletingTask = false;
-  //   this.taskForm.enable();
-  //   document.body.classList.remove('overflow-hidden');
-  // }
+ 
 
 
   closeDeleteModal() {
@@ -1409,61 +1297,7 @@ export class Dashbord implements OnInit {
   /* =====================
      DRAG & DROP
   ===================== */
-  // onTaskDrop(event: CdkDragDrop<any[]>, status: TaskStatus) {
-  //   if (event.previousContainer === event.container) {
-  //     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-  //   } else {
-  //     transferArrayItem(
-  //       event.previousContainer.data,
-  //       event.container.data,
-  //       event.previousIndex,
-  //       event.currentIndex
-  //     );
-  //   }
-
-  //   [...event.container.data, ...event.previousContainer.data].forEach(
-  //     (task, i) => (task.order_id = i)
-  //   );
-
-  //   this.persistOrder([...event.container.data, ...event.previousContainer.data]);
-  //   this.rebuildBoard();
-  // }
-
-  // onTaskDrop(event: CdkDragDrop<any[]>, targetStatus: TaskStatus) {
-
-  //   const source = event.previousContainer.data;
-  //   const target = event.container.data;
-
-  //   if (event.previousContainer === event.container) {
-  //     moveItemInArray(target, event.previousIndex, event.currentIndex);
-  //   } else {
-  //     transferArrayItem(
-  //       source,
-  //       target,
-  //       event.previousIndex,
-  //       event.currentIndex
-  //     );
-  //   }
-
-  //   const patches: { id: string; changes: any }[] = [];
-
-  //   [...source, ...target].forEach((task, index) => {
-  //     task.order_id = index;
-
-  //     const changes: any = { order_id: index };
-
-  //     if (target.includes(task)) {
-  //       changes.status = targetStatus;
-  //       task.status = targetStatus;
-  //     }
-
-  //     patches.push({ id: task.id, changes });
-  //   });
-
-  //   // 🔥 optimistic UI already done
-  //   this.api.batchUpdateTasks(patches);
-  // }
-
+ 
   onTaskDrop(event: CdkDragDrop<any[]>, status: TaskStatus) {
     const source = event.previousContainer.data;
     const target = event.container.data;

@@ -1,296 +1,298 @@
 <div class="pt-[60px]" [class.overflow-hidden]="sidebarOpen">
-<div class="min-h-screen bg-gradient-to-br from-blue-100 via-sky-100 to-indigo-200">
+    <div class="min-h-screen bg-gradient-to-br from-blue-100 via-sky-100 to-indigo-200">
 
-    <div class="w-full max-w-7xl mx-auto p-6">
+        <div class="w-full max-w-7xl mx-auto p-6">
 
-        <!-- STATS -->
-        
+            <!-- STATS -->
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
-        
-        
-            @if (loading) {
-        
-            @for(i of [1,2,3]; track $index) {
-            <div class="rounded-2xl bg-white/80 p-6 animate-pulse">
-                <div class="h-4 w-24 bg-gray-200 rounded mb-3"></div>
-                <div class="h-8 w-16 bg-gray-300 rounded mb-2"></div>
-                <div class="h-3 w-32 bg-gray-200 rounded"></div>
-            </div>
-            }
-        
-            }
-            @else {
-        
-            <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                <div class="absolute top-5 right-5"><i class='bx text-3xl text-blue-300 bx-check-shield'></i></div>
-                <p class="text-sm font-medium text-blue-600 mb-1">
-                    Total Users
-                </p>
-        
-                <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
-                {{ totalUsers }}
-                </h3>
-        
-                <p class="text-sm text-gray-500">
-                    Tasks created so far
-                </p>
-            </div>
-        
-            <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                <div class="absolute top-5 right-5"><i class='bx text-3xl text-green-300 bx-clock-dashed-half'></i>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
+
+
+                @if (loading) {
+
+                @for(i of [1,2,3]; track $index) {
+                <div class="rounded-2xl bg-white/80 p-6 animate-pulse">
+                    <div class="h-4 w-24 bg-gray-200 rounded mb-3"></div>
+                    <div class="h-8 w-16 bg-gray-300 rounded mb-2"></div>
+                    <div class="h-3 w-32 bg-gray-200 rounded"></div>
                 </div>
-                <p class="text-sm font-medium text-green-600 mb-1">
-                    Admin 
-                </p>
-        
-                <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
-                    {{ adminCount }}
-                </h3>
-        
-                <p class="text-sm text-gray-500">
-                    Tasks created so far
-                </p>
-            </div>
-            <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                <div class="absolute top-5 right-5"><i class='bx text-3xl text-orange-200  bx-bolt-alt'></i></div>
-                <p class="text-sm font-medium text-orange-400 mb-1">
-                    Normal Users
-                </p>
-        
-                <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
-                {{ normalUserCount }}
-                </h3>
-        
-                <p class="text-sm text-gray-500">
-                    Tasks created so far
-                </p>
-            </div>
-             
-        
-            }
-        
-        
-        </div>
+                }
 
-        <!-- TABLE CARD -->
-        <div class="bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 shadow">
+                }
+                @else {
 
-<!-- FILTER BAR -->
-<div class="flex flex-col gap-4
+                <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                    <div class="absolute top-5 right-5"><i class='bx text-3xl text-blue-300 bx-check-shield'></i></div>
+                    <p class="text-sm font-medium text-blue-600 mb-1">
+                        Total Users
+                    </p>
+
+                    <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                        {{ totalUsers }}
+                    </h3>
+
+                    <p class="text-sm text-gray-500">
+                        Tasks created so far
+                    </p>
+                </div>
+
+                <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                    <div class="absolute top-5 right-5"><i class='bx text-3xl text-green-300 bx-clock-dashed-half'></i>
+                    </div>
+                    <p class="text-sm font-medium text-green-600 mb-1">
+                        Admin
+                    </p>
+
+                    <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                        {{ adminCount }}
+                    </h3>
+
+                    <p class="text-sm text-gray-500">
+                        Tasks created so far
+                    </p>
+                </div>
+                <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                    <div class="absolute top-5 right-5"><i class='bx text-3xl text-orange-200  bx-bolt-alt'></i></div>
+                    <p class="text-sm font-medium text-orange-400 mb-1">
+                        Normal Users
+                    </p>
+
+                    <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                        {{ normalUserCount }}
+                    </h3>
+
+                    <p class="text-sm text-gray-500">
+                        Tasks created so far
+                    </p>
+                </div>
+
+
+                }
+
+
+            </div>
+
+            <!-- TABLE CARD -->
+            <div class="bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 shadow">
+
+                <!-- FILTER BAR -->
+                <div class="flex flex-col gap-4
             md:flex-row md:items-center md:justify-between
             border-b border-blue-100 pb-5">
 
-    @if (loading) {
-    <div class="flex flex-col gap-3 sm:flex-row w-full animate-pulse">
+                    @if (loading) {
+                    <div class="flex flex-col gap-3 sm:flex-row w-full animate-pulse">
 
-        <div class="h-12 w-full sm:flex-1 rounded-xl bg-gray-200"></div>
-        <div class="h-12 w-full sm:w-36 rounded-xl bg-gray-200"></div>
-        <div class="h-12 w-full sm:w-[130px] rounded-xl bg-gray-300"></div>
+                        <div class="h-12 w-full sm:flex-1 rounded-xl bg-gray-200"></div>
+                        <div class="h-12 w-full sm:w-36 rounded-xl bg-gray-200"></div>
+                        <div class="h-12 w-full sm:w-[130px] rounded-xl bg-gray-300"></div>
 
-    </div>
-    } @else {
+                    </div>
+                    } @else {
 
-    <!-- EXISTING FILTER BAR (UNCHANGED) -->
-    <!-- LEFT SIDE -->
-    <div class="flex flex-col gap-3
+                    <!-- EXISTING FILTER BAR (UNCHANGED) -->
+                    <!-- LEFT SIDE -->
+                    <div class="flex flex-col gap-3
                 sm:flex-row sm:items-center
                 w-full md:w-auto md:flex-1">
 
-        <input type="text" placeholder="Search by name or email" [(ngModel)]="searchText"
-            (ngModelChange)="filterBySearch()"
-            class="h-12 w-full sm:flex-1 rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm focus:ring-2 focus:ring-blue-500 transition" />
+                        <input type="text" placeholder="Search by name or email" [(ngModel)]="searchText"
+                            (ngModelChange)="filterBySearch()"
+                            class="h-12 w-full sm:flex-1 rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm focus:ring-2 focus:ring-blue-500 transition" />
 
-        <select [(ngModel)]="selectedPageSize" (ngModelChange)="onPageSizeChange($event)"
-            class="h-12 w-full sm:w-36 rounded-xl border border-blue-200 bg-white px-4 text-sm focus:ring-2 focus:ring-blue-500 transition">
-            @for (size of pageSizeOptions; track $index) {
-            <option [value]="size">{{ size }}</option>
-            }
-        </select>
-    </div>
+                        <select [(ngModel)]="selectedPageSize" (ngModelChange)="onPageSizeChange($event)"
+                            class="h-12 w-full sm:w-36 rounded-xl border border-blue-200 bg-white px-4 text-sm focus:ring-2 focus:ring-blue-500 transition">
+                            @for (size of pageSizeOptions; track $index) {
+                            <option [value]="size">{{ size }}</option>
+                            }
+                        </select>
+                    </div>
 
-    <!-- RIGHT -->
-    <div class="w-full sm:w-auto">
-        <button (click)="openAdd()"
-            class="h-12 w-full sm:w-auto min-w-[130px] rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-md hover:shadow-lg transition">
-            Add User
-        </button>
-    </div>
+                    <!-- RIGHT -->
+                    <div class="w-full sm:w-auto">
+                        <button (click)="openAdd()"
+                            class="h-12 w-full sm:w-auto min-w-[130px] rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-md hover:shadow-lg transition">
+                            Add User
+                        </button>
+                    </div>
 
-    }
-</div>
+                    }
+                </div>
 
 
 
-            <!-- TABLE -->
-        <div class="overflow-x-auto mt-4">
-            <table class="min-w-[900px] w-full table-auto border-collapse text-sm">
-        
-                <!-- ================= HEADER ================= -->
-                <thead>
-                    <tr class="bg-white border-b border-blue-200 text-gray-700">
-        
-                        <th class="px-5 py-3 text-left font-semibold">
-                            User
-                        </th>
-        
-                        <th class="px-5 py-3 text-center font-semibold">
-                            Email
-                        </th>
-        
-                        <th class="px-5 py-3 text-center font-semibold">
-                            Permissions
-                        </th>
-        
-                        <th class="px-5 py-3 text-right font-semibold">
-                            Actions
-                        </th>
-        
-                    </tr>
-                </thead>
-        
-                <!-- ================= BODY ================= -->
-            <tbody>
-            
-                @if (loading) {
-            
-                @for (i of [1,2,3,4,5]; track $index) {
-                <tr class="border-b animate-pulse">
-                    <td class="px-5 py-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-9 h-9 rounded-full bg-gray-300"></div>
-                            <div class="h-4 w-32 bg-gray-200 rounded"></div>
-                        </div>
-                    </td>
-            
-                    <td class="px-5 py-4">
-                        <div class="h-4 w-40 bg-gray-200 rounded mx-auto"></div>
-                    </td>
-            
-                    <td class="px-5 py-4">
-                        <div class="h-6 w-24 bg-gray-200 rounded-full mx-auto"></div>
-                    </td>
-            
-                    <td class="px-5 py-4 text-right">
-                        <div class="h-4 w-16 bg-gray-200 rounded ml-auto"></div>
-                    </td>
-                </tr>
-                }
-            
-                } @else {
-            
-                @for (user of filteredUsers | paginate:{ itemsPerPage: itemsPerPage, currentPage: p }; track user.id) {
-            
-                <!-- EXISTING ROW (UNCHANGED) -->
-                <tr class="border-b border-blue-100 hover:bg-blue-50 transition">
-            
-                    <td class="px-5 py-3">
-                        <div class="flex items-center gap-3">
-                            <img [src]="user.avatar || 'https://i.pravatar.cc/40'"
-                                class="w-9 h-9 rounded-full object-cover border border-blue-200" />
-                            <span class="font-medium text-gray-900">
-                                {{ user.name }}
-                            </span>
-                        </div>
-                    </td>
-            
-                    <td class="px-5 py-3 text-center text-gray-600">
-                        {{ user.email }}
-                    </td>
-            
-                    <td class="px-5 py-3 text-center">
-                        <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold border" [ngClass]="{
+                <!-- TABLE -->
+                <div class="overflow-x-auto mt-4">
+                    <table class="min-w-[900px] w-full table-auto border-collapse text-sm">
+
+                        <!-- ================= HEADER ================= -->
+                        <thead>
+                            <tr class="bg-white border-b border-blue-200 text-gray-700">
+
+                                <th class="px-5 py-3 text-left font-semibold">
+                                    User
+                                </th>
+
+                                <th class="px-5 py-3 text-center font-semibold">
+                                    Email
+                                </th>
+
+                                <th class="px-5 py-3 text-center font-semibold">
+                                    Permissions
+                                </th>
+
+                                <th class="px-5 py-3 text-right font-semibold">
+                                    Actions
+                                </th>
+
+                            </tr>
+                        </thead>
+
+                        <!-- ================= BODY ================= -->
+                        <tbody>
+
+                            @if (loading) {
+
+                            @for (i of [1,2,3,4,5]; track $index) {
+                            <tr class="border-b animate-pulse">
+                                <td class="px-5 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-full bg-gray-300"></div>
+                                        <div class="h-4 w-32 bg-gray-200 rounded"></div>
+                                    </div>
+                                </td>
+
+                                <td class="px-5 py-4">
+                                    <div class="h-4 w-40 bg-gray-200 rounded mx-auto"></div>
+                                </td>
+
+                                <td class="px-5 py-4">
+                                    <div class="h-6 w-24 bg-gray-200 rounded-full mx-auto"></div>
+                                </td>
+
+                                <td class="px-5 py-4 text-right">
+                                    <div class="h-4 w-16 bg-gray-200 rounded ml-auto"></div>
+                                </td>
+                            </tr>
+                            }
+
+                            } @else {
+
+                            @for (user of filteredUsers | paginate:{ itemsPerPage: itemsPerPage, currentPage: p }; track
+                            user.id) {
+
+                            <!-- EXISTING ROW (UNCHANGED) -->
+                            <tr class="border-b border-blue-100 hover:bg-blue-50 transition">
+
+                                <td class="px-5 py-3">
+                                    <div class="flex items-center gap-3">
+                                        <img [src]="user.avatar || 'https://i.pravatar.cc/40'"
+                                            class="w-9 h-9 rounded-full object-cover border border-blue-200" />
+                                        <span class="font-medium text-gray-900">
+                                            {{ user.name }}
+                                        </span>
+                                    </div>
+                                </td>
+
+                                <td class="px-5 py-3 text-center text-gray-600">
+                                    {{ user.email }}
+                                </td>
+
+                                <td class="px-5 py-3 text-center">
+                                    <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold border"
+                                        [ngClass]="{
                               'bg-green-100 text-green-700 border-green-300': user.permissions?.createUser,
                               'bg-gray-100 text-gray-600 border-gray-300': !user.permissions?.createUser
                             }">
-                            {{ user.permissions?.createUser ? 'Manage Users' : 'Limited' }}
-                        </span>
-                    </td>
-            
-                    <td class="px-5 py-3 text-right space-x-4">
-                        <button (click)="openEdit(user)" class="text-blue-600 hover:underline font-medium">
-                            Edit
-                        </button>
-                        <button (click)="deleteUser(user)" class="text-red-600 hover:underline font-medium">
-                            Delete
-                        </button>
-                    </td>
-            
-                </tr>
-            
-                }
-            
-                }
-            
-            </tbody>
+                                        {{ user.permissions?.createUser ? 'Manage Users' : 'Limited' }}
+                                    </span>
+                                </td>
 
-        
-            </table>
-            @if (!loading && filteredUsers.length === 0 ) {
-            <div class="flex flex-col items-center justify-center py-28 text-center">
-            
-                <!-- ICON CIRCLE -->
-                <div class="relative mb-6">
-                    <div class="h-28 w-28 rounded-full
+                                <td class="px-5 py-3 text-right space-x-4">
+                                    <button (click)="openEdit(user)" class="text-blue-600 hover:underline font-medium">
+                                        Edit
+                                    </button>
+                                    <button (click)="deleteUser(user)" class="text-red-600 hover:underline font-medium">
+                                        Delete
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                            }
+
+                            }
+
+                        </tbody>
+
+
+                    </table>
+                    @if (!loading && filteredUsers.length === 0 ) {
+                    <div class="flex flex-col items-center justify-center py-28 text-center">
+
+                        <!-- ICON CIRCLE -->
+                        <div class="relative mb-6">
+                            <div class="h-28 w-28 rounded-full
                               bg-gradient-to-br from-blue-100 to-indigo-200
                               flex items-center justify-center
                               shadow-inner">
-                        <i class="bx bx-user-x text-6xl text-indigo-500"></i>
-                    </div>
-            
-                    <!-- DECORATIVE DOT -->
-                    <span class="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-blue-400"></span>
-                </div>
-            
-                <h3 class="text-xl font-bold text-gray-800">
-                    No users yet
-                </h3>
-            
-                <p class="text-sm text-gray-500 mt-2 max-w-sm">
-                    Looks like your workspace is empty.
-                    Start by adding users to manage access and permissions.
-                </p>
-            
-                <button class="mt-6 px-6 py-2.5 rounded-xl
+                                <i class="bx bx-user-x text-6xl text-indigo-500"></i>
+                            </div>
+
+                            <!-- DECORATIVE DOT -->
+                            <span class="absolute -top-2 -right-2 h-4 w-4 rounded-full bg-blue-400"></span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-gray-800">
+                            No users yet
+                        </h3>
+
+                        <p class="text-sm text-gray-500 mt-2 max-w-sm">
+                            Looks like your workspace is empty.
+                            Start by adding users to manage access and permissions.
+                        </p>
+
+                        <button class="mt-6 px-6 py-2.5 rounded-xl
                          bg-gradient-to-r from-blue-600 to-indigo-600
                          text-white font-semibold text-sm
                          shadow-md hover:shadow-lg hover:scale-[1.03]
                          transition" (click)="openAdd()">
-                    <i class="bx bx-user-plus mr-1"></i>
-                    Add First User
-                </button>
-            </div>
-            }
+                            <i class="bx bx-user-plus mr-1"></i>
+                            Add First User
+                        </button>
+                    </div>
+                    }
 
+                </div>
+
+
+                <!-- PAGINATION -->
+                <div class="mt-4 flex justify-between items-center">
+                    <p class="text-sm text-blue-600">
+                        Total: {{ filteredUsers.length }}
+                    </p>
+
+                    <pagination-controls (pageChange)="p = $event" previousLabel="Prev" nextLabel="Next">
+                    </pagination-controls>
+                </div>
+
+            </div>
         </div>
 
-
-            <!-- PAGINATION -->
-            <div class="mt-4 flex justify-between items-center">
-                <p class="text-sm text-blue-600">
-                    Total: {{ filteredUsers.length }}
-                </p>
-
-                <pagination-controls (pageChange)="p = $event" previousLabel="Prev" nextLabel="Next">
-                </pagination-controls>
-            </div>
-
+        <!-- BACKDROP -->
+        @if (sidebarOpen) {
+        <div (click)="closeSidebar()" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40">
         </div>
-    </div>
 
-    <!-- BACKDROP -->
-    @if (sidebarOpen) {
-    <div (click)="closeSidebar()" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40">
-    </div>
-
-    <!-- SIDEBAR -->
-    <div class="fixed top-0 right-0 h-full w-full sm:w-[420px]
+        <!-- SIDEBAR -->
+        <div class="fixed top-0 right-0 h-full w-full sm:w-[420px]
              bg-white z-50 shadow-2xl
              transform transition-transform duration-300 animate-[slideIn_0.3s_ease-out]">
 
-        <app-admin-add-user [editUser]="editUser" (close)="closeSidebar()">
-        </app-admin-add-user>
+            <app-admin-add-user [editUser]="editUser" (close)="closeSidebar()">
+            </app-admin-add-user>
 
+        </div>
+        }
     </div>
-    }
-</div></div>
+</div>
