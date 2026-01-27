@@ -453,4 +453,25 @@ export class ApiService {
     this.user.set(withMeta);
   }
 
+  /* =====================
+   🔍 USER ↔ TASK CHECK
+===================== */
+  hasAssignedTasks(userId: string): boolean {
+    return this.tasksSnapshot.some(task =>
+      Array.isArray(task.assignedUsers) &&
+      task.assignedUsers.includes(userId)
+    );
+  }
+
+  /* =====================
+     🎯 TASK FILTER (REDIRECT)
+  ===================== */
+  private taskFilterUserSubject = new BehaviorSubject<string | null>(null);
+  taskFilterUser$ = this.taskFilterUserSubject.asObservable();
+
+  setTaskFilterUser(userId: string | null) {
+    this.taskFilterUserSubject.next(userId);
+  }
+
+
 }

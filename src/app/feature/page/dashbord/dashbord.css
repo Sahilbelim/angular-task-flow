@@ -167,3 +167,9 @@ tbody.cdk-drop-list-dragging tr:not(.cdk-drag-placeholder) {
     height: 32px !important;
     overflow: hidden;
 }
+
+::ng-deep .ng-select-container {
+    height: 44px !important;
+    border-radius: 0.75rem !important;
+}
+

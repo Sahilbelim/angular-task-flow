@@ -1072,7 +1072,12 @@ export class Dashbord implements OnInit {
 
   // VIEW MODE (table | board)
   viewMode: 'table' | 'board' = 'table';
-  
+
+  selectedUserFilter: string[] = [];
+
+  private redirectFilterApplied = false;
+  selectedDateRange: any = null;
+
   constructor(
     private fb: FormBuilder,
     private api: ApiService,
@@ -1092,38 +1097,204 @@ export class Dashbord implements OnInit {
      INIT
   ===================== */
  
+  // ngOnInit() {
+  //   this.loading = true;
+
+  //   const start = Date.now();
+
+  //   combineLatest([
+  //     this.api.getTasks$(),
+  //     this.api.getUsers$()
+  //   ]).subscribe(([tasks, users]) => {
+
+  //     // existing logic (UNCHANGED)
+  //     this.userMap = {};
+  //     users.forEach(u => (this.userMap[u.id] = u));
+  //     this.assignableUsers = users;
+
+  //     this.tasks = [...tasks].sort(
+  //       (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
+  //     );
+
+  //     this.applyAllFilters();
+  //     this.buildAssignedUsersMap();
+  //     this.updateStats(this.tasks);
+  //     this.rebuildBoard();
+
+  //     // ⏱ ensure skeleton shows at least 400ms
+  //     const elapsed = Date.now() - start;
+  //     const remaining = Math.max(0, 400 - elapsed);
+
+  //     setTimeout(() => {
+  //       this.loading = false;
+  //     }, remaining);
+  //   });
+  // }
+
+  // ngOnInit() {
+  //   this.loading = true;
+
+  //   combineLatest([
+  //     this.api.getTasks$(),
+  //     this.api.getUsers$(),
+  //     this.api.taskFilterUser$
+  //   ]).subscribe(([tasks, users, filterUserId]) => {
+
+  //     // build user map
+  //     this.userMap = {};
+  //     users.forEach(u => (this.userMap[u.id] = u));
+  //     this.assignableUsers = users;
+
+  //     this.tasks = [...tasks].sort(
+  //       (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
+  //     );
+
+  //     // 🔴 APPLY REDIRECT FILTER ONCE
+  //     if (filterUserId) {
+  //       this.selectedUserFilter = [filterUserId];
+  //       this.api.setTaskFilterUser(null); // clear after use
+  //     }
+
+  //     this.applyAllFilters();
+  //     this.buildAssignedUsersMap();
+  //     this.updateStats(this.tasks);
+  //     this.rebuildBoard();
+
+  //     this.loading = false;
+  //   });
+  // }
+
+  // ngOnInit() {
+  //   this.loading = true;
+
+  //   combineLatest([
+  //     this.api.getTasks$(),
+  //     this.api.getUsers$(),
+  //     this.api.taskFilterUser$
+  //   ]).subscribe(([tasks, users, filterUserId]) => {
+
+  //     // build user map
+  //     this.userMap = {};
+  //     users.forEach(u => (this.userMap[u.id] = u));
+  //     this.assignableUsers = users;
+
+  //     this.tasks = [...tasks].sort(
+  //       (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
+  //     );
+
+  //     // 🔥 APPLY REDIRECT FILTER ONCE
+  //     if (filterUserId) {
+  //       this.selectedUserFilter = [filterUserId];
+
+  //       // clear after first use
+  //       this.api.setTaskFilterUser(null);
+  //     }
+
+  //     this.applyAllFilters();
+  //     this.buildAssignedUsersMap();
+  //     this.updateStats(this.tasks);
+  //     this.rebuildBoard();
+
+  //     this.loading = false;
+  //   });
+  // }
+
+  // ngOnInit() {
+  //   this.loading = true;
+
+  //   combineLatest([
+  //     this.api.getTasks$(),
+  //     this.api.getUsers$(),
+  //     this.api.taskFilterUser$
+  //   ]).subscribe(([tasks, users, filterUserId]) => {
+
+  //     // build user map
+  //     this.userMap = {};
+  //     users.forEach(u => (this.userMap[u.id] = u));
+  //     this.assignableUsers = users;
+
+  //     // sort tasks
+  //     this.tasks = [...tasks].sort(
+  //       (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
+  //     );
+
+  //     // 🔥 APPLY USER FILTER HERE (CRITICAL FIX)
+  //     console.log('Redirect filter user:', filterUserId);
+  //     console.log('Filtered tasks:', this.filteredTasks);
+
+  //     if (filterUserId) {
+  //       this.selectedUserFilter = [filterUserId];
+
+  //       this.filteredTasks = this.tasks.filter(task =>
+  //         task.assignedUsers?.includes(filterUserId)
+  //       );
+
+  //       // ✅ clear after first use
+  //       this.api.setTaskFilterUser(null);
+  //     } else {
+  //       this.filteredTasks = [...this.tasks];
+  //     }
+
+  //     this.buildAssignedUsersMap();
+  //     this.updateStats(this.filteredTasks);
+  //     this.rebuildBoard();
+
+  //     this.loading = false;
+  //   });
+  // }
+
   ngOnInit() {
     this.loading = true;
 
-    const start = Date.now();
-
     combineLatest([
       this.api.getTasks$(),
-      this.api.getUsers$()
-    ]).subscribe(([tasks, users]) => {
+      this.api.getUsers$(),
+      this.api.taskFilterUser$
+    ]).subscribe(([tasks, users, filterUserId]) => {
 
-      // existing logic (UNCHANGED)
+      // build user map
       this.userMap = {};
       users.forEach(u => (this.userMap[u.id] = u));
       this.assignableUsers = users;
 
+      // sort tasks
       this.tasks = [...tasks].sort(
         (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
       );
 
-      this.applyAllFilters();
+      // ✅ APPLY REDIRECT FILTER ONLY ONCE
+      console.log('Redirect filter user:', filterUserId);
+      if (filterUserId && !this.redirectFilterApplied) {
+        this.redirectFilterApplied = true;
+
+        this.selectedUserFilter = [filterUserId];
+        console.log('Filtered tasks:', this.selectedUserFilter);
+
+        this.filteredTasks = this.tasks.filter(task =>
+          task.assignedUsers?.includes(filterUserId)
+        );
+        console.log('Filtered tasks:', this.filteredTasks);
+
+        // clear AFTER applying once
+        // this.api.setTaskFilterUser(null);
+      }
+      // ❌ DO NOT override filteredTasks again
+      else if (!this.redirectFilterApplied) {
+        this.filteredTasks = [...this.tasks];
+      }
+
       this.buildAssignedUsersMap();
-      this.updateStats(this.tasks);
+      this.updateStats(this.filteredTasks);
       this.rebuildBoard();
 
-      // ⏱ ensure skeleton shows at least 400ms
-      const elapsed = Date.now() - start;
-      const remaining = Math.max(0, 400 - elapsed);
-
-      setTimeout(() => {
-        this.loading = false;
-      }, remaining);
+      this.loading = false;
     });
+
+    this.dateRangeControl.valueChanges.subscribe(range => {
+      this.selectedDateRange = range;
+      this.applyAllFilters();
+    });
+
   }
 
 
@@ -1191,21 +1362,97 @@ export class Dashbord implements OnInit {
   }
    
 
-  applyAllFilters() {
-    let data = [...this.tasks];
+  // applyAllFilters() {
+  //   let data = [...this.tasks];
 
-    if (this.searchText) {
-      const t = this.searchText.toLowerCase();
-      data = data.filter(x => x.title.toLowerCase().includes(t));
-    }
+  //   if (this.searchText) {
+  //     const t = this.searchText.toLowerCase();
+  //     data = data.filter(x => x.title.toLowerCase().includes(t));
+  //   }
 
-    if (this.statusFilter !== 'all') {
-      data = data.filter(x => x.status === this.statusFilter);
-    }
+  //   if (this.statusFilter !== 'all') {
+  //     data = data.filter(x => x.status === this.statusFilter);
+  //   }
 
-    this.filteredTasks = data;
-  }
+  //   this.filteredTasks = data;
+  // }
 
+  // applyAllFilters() {
+  //   let data = [...this.tasks];
+
+  //   // 🔍 search
+  //   if (this.searchText) {
+  //     const t = this.searchText.toLowerCase();
+  //     data = data.filter(x => x.title.toLowerCase().includes(t));
+  //   }
+
+  //   // 🔍 status
+  //   if (this.statusFilter !== 'all') {
+  //     data = data.filter(x => x.status === this.statusFilter);
+  //   }
+
+  //   // 🔍 assigned user filter (IMPORTANT)
+  //   if (this.selectedUserFilter.length) {
+  //     data = data.filter(task =>
+  //       task.assignedUsers?.some((id: string) =>
+  //         this.selectedUserFilter.includes(id)
+  //       )
+  //     );
+  //   }
+
+  //   this.filteredTasks = data;
+  // }
+
+  // applyAllFilters() {
+  //   let data = [...this.tasks];
+
+  //   // search
+  //   if (this.searchText) {
+  //     const t = this.searchText.toLowerCase();
+  //     data = data.filter(x => x.title.toLowerCase().includes(t));
+  //   }
+
+  //   // status
+  //   if (this.statusFilter !== 'all') {
+  //     data = data.filter(x => x.status === this.statusFilter);
+  //   }
+
+  //   // 🔥 assigned user filter
+  //   if (this.selectedUserFilter.length) {
+  //     data = data.filter(task =>
+  //       task.assignedUsers?.some((id: string) =>
+  //         this.selectedUserFilter.includes(id)
+  //       )
+  //     );
+  //   }
+
+  //   // 📅 DATE RANGE FILTER (🔥 FIX)
+  //   // if (this.selectedDateRange?.startDate && this.selectedDateRange?.endDate) {
+  //   //   const start = new Date(this.selectedDateRange.startDate).setHours(0, 0, 0, 0);
+  //   //   const end = new Date(this.selectedDateRange.endDate).setHours(23, 59, 59, 999);
+
+  //   //   data = data.filter(task => {
+  //   //     const due = new Date(task.dueDate).getTime();
+  //   //     return due >= start && due <= end;
+  //   //   });
+  //   // }
+
+  //   if (this.selectedDateRange?.startDate && this.selectedDateRange?.endDate) {
+  //     const start = this.selectedDateRange.startDate.startOf('day').valueOf();
+  //     const end = this.selectedDateRange.endDate.endOf('day').valueOf();
+
+  //     data = data.filter(task => {
+  //       // const due = new Date(task.dueDate + 'T00:00:00').getTime();
+  //       const due = new Date(task.dueDate + 'T12:00:00').getTime();
+
+  //       return due >= start && due <= end;
+  //     });
+  //   }
+
+  //   // this.filteredTasks = data;
+  //   this.filteredTasks = data;
+  //   this.rebuildBoard();
+  // }
 
   /* =====================
      SAVE / UPDATE
@@ -1355,20 +1602,29 @@ export class Dashbord implements OnInit {
   /* =====================
      FILTERS
   ===================== */
+  // filterBySearch() {
+  //   const t = this.searchText.toLowerCase();
+  //   this.filteredTasks = this.tasks.filter(x =>
+  //     x.title.toLowerCase().includes(t)
+  //   );
+  //   this.rebuildBoard();
+  // }
+
+  // filterByStatus() {
+  //   this.filteredTasks =
+  //     this.statusFilter === 'all'
+  //       ? [...this.tasks]
+  //       : this.tasks.filter(t => t.status === this.statusFilter);
+  //   this.rebuildBoard();
+  // }
+
+
   filterBySearch() {
-    const t = this.searchText.toLowerCase();
-    this.filteredTasks = this.tasks.filter(x =>
-      x.title.toLowerCase().includes(t)
-    );
-    this.rebuildBoard();
+    this.applyAllFilters();
   }
 
   filterByStatus() {
-    this.filteredTasks =
-      this.statusFilter === 'all'
-        ? [...this.tasks]
-        : this.tasks.filter(t => t.status === this.statusFilter);
-    this.rebuildBoard();
+    this.applyAllFilters();
   }
 
   applyDateFilter(range: any) {
@@ -1384,6 +1640,61 @@ export class Dashbord implements OnInit {
     }
     this.rebuildBoard();
   }
+
+  applyAllFilters() {
+    let data = [...this.tasks];
+
+    // 🔍 Search
+    if (this.searchText?.trim()) {
+      const t = this.searchText.toLowerCase();
+      data = data.filter(task =>
+        task.title?.toLowerCase().includes(t)
+      );
+    }
+
+    // 📌 Status
+    if (this.statusFilter !== 'all') {
+      data = data.filter(task => task.status === this.statusFilter);
+    }
+
+    // 👤 Assigned users
+    if (this.selectedUserFilter.length) {
+      data = data.filter(task =>
+        task.assignedUsers?.some((id: string) =>
+          this.selectedUserFilter.includes(id)
+        )
+      );
+    }
+
+    // 📅 Date range (timezone safe)
+    if (this.selectedDateRange?.startDate && this.selectedDateRange?.endDate) {
+      const start = this.selectedDateRange.startDate.startOf('day').valueOf();
+      const end = this.selectedDateRange.endDate.endOf('day').valueOf();
+
+      data = data.filter(task => {
+        const due = new Date(task.dueDate + 'T12:00:00').getTime();
+        return due >= start && due <= end;
+      });
+    }
+
+    this.filteredTasks = data;
+    this.updateStats(this.filteredTasks);
+    this.rebuildBoard();
+  }
+
+  clearAllFilters() {
+    this.searchText = '';
+    this.statusFilter = 'all';
+    this.selectedUserFilter = [];
+    this.selectedDateRange = null;
+
+    this.dateRangeControl.setValue(null, { emitEvent: false });
+
+    this.filteredTasks = [...this.tasks];
+    this.updateStats(this.filteredTasks);
+    this.rebuildBoard();
+  }
+
 
   /* =====================
      BOARD
@@ -1478,6 +1789,13 @@ export class Dashbord implements OnInit {
     this.editingTask = null;
     this.taskForm.reset({ status: 'pending' });
     document.body.classList.remove('overflow-hidden');
+  }
+
+  getAssignedUserNames(taskId: string): string {
+    return (this.assignedUsersMap[taskId] || [])
+      .map(u => u?.name)
+      .filter(Boolean)
+      .join(', ');
   }
 
   trackByTaskId(_: number, t: any) {

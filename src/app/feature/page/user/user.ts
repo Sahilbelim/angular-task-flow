@@ -9,6 +9,7 @@ import { ApiService } from '../../../core/service/mocapi/api/api';
 import { AdminAddUser } from '../admin-add-user/admin-add-user';
 
 import { Renderer2, inject } from '@angular/core';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-users-page',
   standalone: true,
@@ -53,7 +54,8 @@ export class UsersPage implements OnInit, OnDestroy {
   private renderer = inject(Renderer2);
   constructor(
     private api: ApiService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) { }
 
   /* =====================
@@ -151,17 +153,111 @@ export class UsersPage implements OnInit, OnDestroy {
   /* =====================
      🗑 DELETE USER
   ===================== */
+  // deleteUser(user: any) {
+  //   if (!this.canManageUsers()) {
+  //     this.toastr.warning('You do not have permission');
+  //     return;
+  //   }
+
+  //   if (!confirm(`Delete ${user.name}?`)) return;
+
+  //   this.api.deleteUser(user.id).subscribe({
+  //     next: () => this.toastr.success('User deleted'),
+  //     error: () => this.toastr.error('Delete failed'),
+  //   });
+  // }
+
+  // deleteUser(user: any) {
+  //   if (!this.canManageUsers()) {
+  //     this.toastr.warning('You do not have permission');
+  //     return;
+  //   }
+
+  //   // 🔴 CHECK ASSIGNED TASKS
+  //   const hasTasks = this.api.hasAssignedTasks(user.id);
+
+  //   if (hasTasks) {
+  //     const goToTasks = confirm(
+  //       `${user.name} is assigned to one or more tasks.\n\nYou cannot delete this user until those tasks are reviewed.\n\nDo you want to view the assigned tasks?`
+  //     );
+
+  //     if (goToTasks) {
+  //       this.api.setTaskFilterUser(user.id);
+  //       this.router.navigate(['/tasks']);
+  //     }
+  //     return;
+  //   }
+
+  //   // 🔴 NORMAL DELETE
+  //   if (!confirm(`Delete ${user.name}?`)) return;
+
+  //   this.api.deleteUser(user.id).subscribe({
+  //     next: () => this.toastr.success('User deleted'),
+  //     error: () => this.toastr.error('Delete failed'),
+  //   });
+  // }
+
+  // deleteUser(user: any) {
+  //   if (!this.canManageUsers()) {
+  //     this.toastr.warning('You do not have permission');
+  //     return;
+  //   }
+
+  //   // 🔍 check assigned tasks (cached)
+  //   const hasTasks = this.api.hasAssignedTasks(user.id);
+
+  //   if (hasTasks) {
+  //     const confirmView = confirm(
+  //       `${user.name} has one or more assigned tasks.\n\nYou cannot delete this user until those tasks are handled.\n\nDo you want to view the assigned tasks now?`
+  //     );
+
+  //     if (confirmView) {
+  //       // ✅ set filter BEFORE navigation
+  //       this.api.setTaskFilterUser(user.id);
+
+  //       // ✅ CORRECT ROUTE
+  //       this.router.navigate(['/tasks']);
+  //     }
+
+  //     return; // ⛔ stop delete
+  //   }
+
+  //   // ✅ normal delete (no tasks)
+  //   if (!confirm(`Are you sure you want to delete ${user.name}?`)) return;
+
+  //   this.api.deleteUser(user.id).subscribe({
+  //     next: () => this.toastr.success('User deleted'),
+  //     error: () => this.toastr.error('Delete failed'),
+  //   });
+  // }
+
   deleteUser(user: any) {
-    if (!this.canManageUsers()) {
-      this.toastr.warning('You do not have permission');
+    console.log('DELETE USER', user);
+    console.log('DELETE USER id', user.id);
+
+    const hasAssignedTasks = this.api.tasksSnapshot.some(task =>
+      task.assignedUsers?.includes(user.id)
+    );
+
+    if (hasAssignedTasks) {
+
+      const confirmCheck = confirm(
+        `${user.name} has assigned tasks. Do you want to review them first?`
+      );
+
+      if (!confirmCheck) return;
+
+      // ✅ PASS THE USER BEING DELETED
+      this.api.setTaskFilterUser(user.id);
+
+      // ✅ REDIRECT TO TASKS
+      this.router.navigate(['/tasks']);
       return;
     }
 
-    if (!confirm(`Delete ${user.name}?`)) return;
-
-    this.api.deleteUser(user.id).subscribe({
-      next: () => this.toastr.success('User deleted'),
-      error: () => this.toastr.error('Delete failed'),
+    // no tasks → allow delete
+    this.api.deleteUser(user.id).subscribe(() => {
+      this.toastr.success('User deleted');
     });
   }
 
