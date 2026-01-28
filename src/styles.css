@@ -43,22 +43,22 @@
 }
 
 /* REMOVE trash icon completely */
-.daterangepicker .drp-clear {
+/* .daterangepicker .drp-clear {
     display: none !important;
-}
+} */
 
 /* Footer layout */
-.daterangepicker .drp-buttons {
+/* .daterangepicker .drp-buttons {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
     padding-top: 12px;
-}
+} */
 
 /* CLEAR button (red) */
 .daterangepicker .cancelBtn {
     background: #ef4444 !important;
-    /* red-500 */
+    
     color: #ffffff !important;
     border-radius: 10px;
     padding: 6px 18px;
@@ -83,8 +83,9 @@
 
 .md-drppicker .clear svg {
     display: none !important;
-    
+
 }
+
 .md-drppicker {
     display: flex;
 }
@@ -100,6 +101,7 @@
         transform: translateX(0);
     }
 }
+
 /* ng-select dropdown should escape table */
 /* ===== NG-SELECT FINAL SAFE STYLES ===== */
 
@@ -121,6 +123,7 @@
     overflow-x: auto;
     position: relative;
 }
+
 /* line clamp */
 .line-clamp-2 {
     display: -webkit-box;
@@ -129,3 +132,85 @@
     overflow: hidden;
 }
 
+/* 🔒 Fix ng-select input height */
+.fixed-ng-select .ng-select-container {
+    min-height: 44px;
+    max-height: 44px;
+    overflow-y: auto;
+    /* border : 2px solid #2563eb */
+    /* border-radius: 12px; */
+}
+
+/* 🔒 Prevent modal from growing */
+.fixed-ng-select .ng-value-container {
+    max-height: 40px;
+    overflow-y: auto;
+}
+
+/* 🔽 Dropdown panel scroll */
+.ng-dropdown-panel .ng-dropdown-panel-items {
+    max-height: 120px !important;
+    height: 120px !important;
+    /* overflow-y: auto !important; */
+}
+
+/* 🎯 Selected chips clean look */
+.ng-value {
+    background-color: #eef5ff;
+    /* border-radius: 8px; */
+    padding: 2px 6px;
+    margin-right: 4px;
+    font-size: 12px;
+    /* border: 2px solid #2563eb */
+}
+
+/* ✂️ Text overflow safety */
+.ng-value-label {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ng-select .ng-select-container,.ng-select.ng-select-opened>.ng-select-container {
+height: 2.75rem;
+    /* h-11 */
+    width: 100%;
+    /* w-full */
+
+    border-radius: 0.75rem;
+    /* rounded-xl */
+    border: 1px solid #BFDBFE;
+    /* border-blue-200 */
+
+    background-color: #EFF6FF;
+    /* bg-blue-50 */
+
+    padding-left: 1rem;
+    /* px-4 */
+    padding-right: 1rem;
+
+    font-size: 0.875rem;
+    /* text-sm */
+    color: #1E3A8A;
+    /* text-blue-900 */
+
+    transition: all 0.2s ease;
+    /* transition */
+
+}
+/* .ng-select .ng-select-container .ng-value-container .ng-placeholder
+{
+} */
+    
+
+ .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
+    position: static !important;
+    /* ✅ correct replacement */
+   
+}
+
+ .ng-select .ng-select-container,
+ .ng-select.ng-select-opened>.ng-select-container{
+    padding-left: 8px;
+ }

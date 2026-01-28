@@ -51,6 +51,16 @@ export class UsersPage implements OnInit, OnDestroy {
 
   private sub!: Subscription;
 
+
+  /* =====================
+     DELETE POPUPS
+  ===================== */
+  showTaskBlockPopup = false;
+  showDeleteConfirmPopup = false;
+  userToDelete: any = null;
+
+
+
   private renderer = inject(Renderer2);
   constructor(
     private api: ApiService,
@@ -231,35 +241,98 @@ export class UsersPage implements OnInit, OnDestroy {
   //   });
   // }
 
+  // deleteUser(user: any) {
+  //   console.log('DELETE USER', user);
+  //   console.log('DELETE USER id', user.id);
+
+  //   const hasAssignedTasks = this.api.tasksSnapshot.some(task =>
+  //     task.assignedUsers?.includes(user.id)
+  //   );
+
+  //   // if (hasAssignedTasks) {
+
+  //   //   const confirmCheck = confirm(
+  //   //     `${user.name} has assigned tasks. Do you want to review them first?`
+  //   //   );
+
+  //   //   if (!confirmCheck) return;
+
+  //   //   // ✅ PASS THE USER BEING DELETED
+  //   //   this.api.setTaskFilterUser(user.id);
+
+  //   //   // ✅ REDIRECT TO TASKS
+  //   //   this.router.navigate(['/tasks']);
+  //   //   return;
+  //   // }
+
+  //   if (hasAssignedTasks) {
+  //     // 👉 OPEN CUSTOM POPUP
+  //     this.userToDelete = user;
+  //     this.showTaskBlockPopup = true;
+  //     document.body.classList.add('overflow-hidden');
+  //     return;
+  //   }
+
+  //   // no tasks → allow delete
+  //   this.api.deleteUser(user.id).subscribe(() => {
+  //     this.toastr.success('User deleted');
+  //   });
+  // }
+
   deleteUser(user: any) {
-    console.log('DELETE USER', user);
-    console.log('DELETE USER id', user.id);
-
-    const hasAssignedTasks = this.api.tasksSnapshot.some(task =>
-      task.assignedUsers?.includes(user.id)
-    );
-
-    if (hasAssignedTasks) {
-
-      const confirmCheck = confirm(
-        `${user.name} has assigned tasks. Do you want to review them first?`
-      );
-
-      if (!confirmCheck) return;
-
-      // ✅ PASS THE USER BEING DELETED
-      this.api.setTaskFilterUser(user.id);
-
-      // ✅ REDIRECT TO TASKS
-      this.router.navigate(['/tasks']);
+    if (!this.canManageUsers()) {
+      this.toastr.warning('You do not have permission');
       return;
     }
 
-    // no tasks → allow delete
-    this.api.deleteUser(user.id).subscribe(() => {
+    this.userToDelete = user;
+
+    const hasAssignedTasks = this.api.hasAssignedTasks(user.id);
+
+    // 🔴 CASE 1: USER HAS ASSIGNED TASKS → BLOCK DELETE
+    if (hasAssignedTasks) {
+      this.showTaskBlockPopup = true;
+      document.body.classList.add('overflow-hidden');
+      return;
+    }
+
+    // 🟡 CASE 2: USER HAS NO TASKS → ASK CONFIRMATION
+    this.showDeleteConfirmPopup = true;
+    document.body.classList.add('overflow-hidden');
+  }
+
+  closeTaskPopup() {
+    this.showTaskBlockPopup = false;
+    this.userToDelete = null;
+    document.body.classList.remove('overflow-hidden');
+  }
+
+ 
+  closeAllPopups() {
+    this.showTaskBlockPopup = false;
+    this.showDeleteConfirmPopup = false;
+    this.userToDelete = null;
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  confirmFinalDelete() {
+    if (!this.userToDelete) return;
+
+    this.api.deleteUser(this.userToDelete.id).subscribe(() => {
       this.toastr.success('User deleted');
+      this.closeAllPopups();
     });
   }
+
+  goToUserTasks() {
+    if (!this.userToDelete) return;
+
+    this.api.setTaskFilterUser(this.userToDelete.id);
+    this.closeAllPopups();
+    this.router.navigate(['/tasks']);
+  }
+
+
 
   /* =====================
      📊 STATS

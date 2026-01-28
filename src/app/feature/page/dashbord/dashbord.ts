@@ -1788,6 +1788,7 @@ export class Dashbord implements OnInit {
     this.popupVisible = false;
     this.editingTask = null;
     this.taskForm.reset({ status: 'pending' });
+    this.taskForm.reset({ priority: 'medium' });
     document.body.classList.remove('overflow-hidden');
   }
 

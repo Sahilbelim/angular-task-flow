@@ -101,7 +101,7 @@
                             class="h-12 w-full sm:flex-1 rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm focus:ring-2 focus:ring-blue-500 transition" />
 
                         <select [(ngModel)]="selectedPageSize" (ngModelChange)="onPageSizeChange($event)"
-                            class="h-12 w-full sm:w-36 rounded-xl border border-blue-200 bg-white px-4 text-sm focus:ring-2 focus:ring-blue-500 transition">
+                            class="h-12 w-full sm:w-36 rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm focus:ring-2 focus:ring-blue-500 transition">
                             @for (size of pageSizeOptions; track $index) {
                             <option [value]="size">{{ size }}</option>
                             }
@@ -133,15 +133,15 @@
                                     User
                                 </th>
 
-                                <th class="px-5 py-3 text-center font-semibold">
+                                <th class="px-5 py-3 text-left font-semibold">
                                     Email
                                 </th>
 
-                                <th class="px-5 py-3 text-center font-semibold">
+                                <th class="px-5 py-3 text-left font-semibold">
                                     Permissions
                                 </th>
 
-                                <th class="px-5 py-3 text-right font-semibold">
+                                <th class="px-5 py-3 text-left font-semibold">
                                     Actions
                                 </th>
 
@@ -186,19 +186,19 @@
 
                                 <td class="px-5 py-3">
                                     <div class="flex items-center gap-3">
-                                        <img [src]="user.avatar || 'https://i.pravatar.cc/40'"
-                                            class="w-9 h-9 rounded-full object-cover border border-blue-200" />
+                                        <!-- <img [src]="user.avatar || 'https://i.pravatar.cc/40'"
+                                            class="w-9 h-9 rounded-full object-cover border border-blue-200" /> -->
                                         <span class="font-medium text-gray-900">
                                             {{ user.name }}
                                         </span>
                                     </div>
                                 </td>
 
-                                <td class="px-5 py-3 text-center text-gray-600">
+                                <td class="px-5 py-3 text-left text-gray-600">
                                     {{ user.email }}
                                 </td>
 
-                                <td class="px-5 py-3 text-center">
+                                <td class="px-5 py-3 text-left">
                                     <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold border"
                                         [ngClass]="{
                               'bg-green-100 text-green-700 border-green-300': user.permissions?.createUser,
@@ -206,9 +206,27 @@
                             }">
                                         {{ user.permissions?.createUser ? 'Manage Users' : 'Limited' }}
                                     </span>
+                                    <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold border" [ngClass]="{
+                                                                  'bg-orange-100 text-orange-700 border-orange-300': user.permissions?.editTask,
+                                                                  'bg-gray-100 text-gray-600 border-gray-300': !user.permissions?.editTask
+                                                                }">
+                                        {{ user.permissions?.editTask ? 'EditTask' : 'Limited' }}
+                                    </span>
+                                    <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold border" [ngClass]="{
+                                                                                                      'bg-blue-100 text-blue-700 border-blue-300': user.permissions?.createTask,
+                                                                                                      'bg-gray-100 text-gray-600 border-gray-300': !user.permissions?.createTask
+                                                                                                    }">
+                                        {{ user.permissions?.createTask ? 'createTask' : 'Limited' }}
+                                    </span>
+                                    <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold border" [ngClass]="{
+                                                                                                                                          'bg-red-100 text-red-700 border-red-300': user.permissions?.deleteTask,
+                                                                                                                                          'bg-gray-100 text-gray-600 border-gray-300': !user.permissions?.deleteTask
+                                                                                                                                        }">
+                                        {{ user.permissions?.deleteTask ? 'deleteTask' : 'Limited' }}
+                                    </span>
                                 </td>
 
-                                <td class="px-5 py-3 text-right space-x-4">
+                                <td class="px-5 py-3 text-left space-x-4">
                                     <button (click)="openEdit(user)" class="text-blue-600 hover:underline font-medium">
                                         Edit
                                     </button>
@@ -295,4 +313,91 @@
         </div>
         }
     </div>
+
+    @if (showDeleteConfirmPopup && userToDelete) {
+    
+    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"></div>
+    
+    <div class="fixed inset-0 z-50 flex items-center justify-center px-4">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-6">
+    
+            <h3 class="text-lg font-bold text-gray-800 text-center">
+                Confirm Delete
+            </h3>
+    
+            <p class="text-sm text-gray-600 text-center mt-2">
+                Are you sure you want to permanently delete
+                <span class="font-semibold">{{ userToDelete.name }}</span>?
+            </p>
+    
+            <div class="mt-6 flex justify-end gap-3">
+                <button (click)="closeAllPopups()" class="px-4 py-2 rounded-xl border border-gray-300 text-gray-600">
+                    Cancel
+                </button>
+    
+                <button (click)="confirmFinalDelete()" class="px-4 py-2 rounded-xl bg-red-600 text-white font-semibold">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+    @if (showTaskBlockPopup && userToDelete) {
+    
+    <!-- BACKDROP -->
+    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"></div>
+    
+    <!-- POPUP -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center px-4">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-6">
+    
+            <!-- ICON -->
+            <div class="flex justify-center mb-4">
+                <div class="h-14 w-14 rounded-full bg-orange-100 flex items-center justify-center">
+                <div class="flex justify-center mb-4">
+                    <div class="relative">
+                        <!-- Avatar -->
+                        <img [src]="userToDelete.avatar || 'https://i.pravatar.cc/80'" alt="User avatar"
+                            class="h-16 w-16 rounded-full object-cover border-2 border-orange-300 shadow" />
+                
+                        <!-- Warning badge -->
+                        <span class="absolute -bottom-1 -right-1 h-6 w-6 rounded-full
+                             bg-orange-500 text-white
+                             flex items-center justify-center
+                             border-2 border-white shadow">
+                            <i class="bx bx-error text-sm"></i>
+                        </span>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+    
+            <!-- TITLE -->
+            <h3 class="text-lg font-bold text-gray-800 text-center">
+                Cannot Delete User
+            </h3>
+    
+            <!-- MESSAGE -->
+            <p class="text-sm text-gray-600 text-center mt-2">
+                <span class="font-semibold">{{ userToDelete.name }}</span>
+                has one or more tasks assigned.
+                You must review those tasks before deleting this user.
+            </p>
+    
+            <!-- ACTIONS -->
+            <div class="mt-6 flex justify-end gap-3">
+                <button (click)="closeAllPopups()" class="px-4 py-2 rounded-xl border border-gray-300 text-gray-600">
+                    Cancel
+                </button>
+    
+                <button (click)="goToUserTasks()" class="px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold">
+                    View Tasks
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+
+
 </div>
