@@ -1,15 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { AbstractControl, FormsModule, ValidationErrors } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 
 import { ApiService } from '../../../core/service/mocapi/api/api';
 import { AdminAddUser } from '../admin-add-user/admin-add-user';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 import { Renderer2, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-users-page',
   standalone: true,
@@ -17,7 +20,8 @@ import { Router } from '@angular/router';
     CommonModule,
     FormsModule,
     NgxPaginationModule,
-    AdminAddUser,
+    ReactiveFormsModule,
+    // AdminAddUser,
   ],
   templateUrl: './user.html',
 })
@@ -59,19 +63,66 @@ export class UsersPage implements OnInit, OnDestroy {
   showDeleteConfirmPopup = false;
   userToDelete: any = null;
 
+  adminForm: any;
+  isEditMode = false;
+  showPassword = false;
+  formLoading = false;
+
+
 
 
   private renderer = inject(Renderer2);
   constructor(
     private api: ApiService,
     private toastr: ToastrService,
-    private router: Router
-  ) { }
+    private router: Router,
+  private fb: FormBuilder
+  ) {
+    // this.adminForm = this.fb.group({
+    //   name: ['', Validators.required],
+    //   email: ['', [Validators.required, Validators.email]],
+    //   password: [''],
+    //   createUser: [false],
+    //   createTask: [false],
+    //   editTask: [false],
+    //   deleteTask: [false],
+    // });
+    this.adminForm = this.fb.group(
+      {
+        name: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+
+        password: [
+          '',
+          this.isEditMode
+            ? []
+            : [
+              Validators.required,
+              Validators.minLength(8),
+              Validators.maxLength(32),
+              Validators.pattern(/[A-Z]/),
+              Validators.pattern(/[a-z]/),
+              Validators.pattern(/\d/),
+              Validators.pattern(/[@$!%*?&#]/),
+            ],
+        ],
+
+        createUser: [false],
+        createTask: [false],
+        editTask: [false],
+        deleteTask: [false],
+      },
+      { validators: this.permissionValidator }
+    );
+
+   }
 
   /* =====================
      INIT
   ===================== */
   ngOnInit() {
+
+   
     // 🔥 load once (cached internally)
     this.sub = this.api.getUsers$().subscribe(users => {
       this.users = users;
@@ -93,36 +144,142 @@ export class UsersPage implements OnInit, OnDestroy {
   /* =====================
      ➕ ADD USER
   ===================== */
+  // openAdd() {
+  //   if (!this.canManageUsers()) {
+  //     this.toastr.warning('You do not have permission to manage users');
+  //     return;
+  //   }
+
+  //   this.editUser = null;
+  //   this.sidebarOpen = true;
+  //   this.renderer.addClass(document.body, 'overflow-hidden');
+  // }
+
+
   openAdd() {
     if (!this.canManageUsers()) {
-      this.toastr.warning('You do not have permission to manage users');
+      this.toastr.warning('You do not have permission');
       return;
     }
 
+    this.isEditMode = false;
     this.editUser = null;
+    this.adminForm.reset();
     this.sidebarOpen = true;
-    this.renderer.addClass(document.body, 'overflow-hidden');
+    document.body.classList.add('overflow-hidden');
   }
 
   /* =====================
      ✏️ EDIT USER
   ===================== */
+  // openEdit(user: any) {
+  //   if (!this.canManageUsers()) {
+  //     this.toastr.warning('You do not have permission to manage users');
+  //     return;
+  //   }
+
+  //   this.editUser = user;
+  //   this.sidebarOpen = true;
+  // }
+
   openEdit(user: any) {
     if (!this.canManageUsers()) {
-      this.toastr.warning('You do not have permission to manage users');
+      this.toastr.warning('You do not have permission');
       return;
     }
 
+    this.isEditMode = true;
     this.editUser = user;
+
+    this.adminForm.reset({
+      name: user.name,
+      email: user.email,
+      ...user.permissions,
+    });
+
+    this.adminForm.get('name')?.disable();
+    this.adminForm.get('email')?.disable();
+    this.adminForm.get('password')?.disable();
+
     this.sidebarOpen = true;
+    document.body.classList.add('overflow-hidden');
   }
 
+  // closeSidebar() {
+  //   this.sidebarOpen = false;
+  //   this.editUser = null;
+  //   this.renderer.removeClass(document.body, 'overflow-hidden');
+  //   // ✅ NO reload, store already updated
+  // }
   closeSidebar() {
     this.sidebarOpen = false;
     this.editUser = null;
-    this.renderer.removeClass(document.body, 'overflow-hidden');
-    // ✅ NO reload, store already updated
+    this.isEditMode = false;
+    this.adminForm.reset();
+    document.body.classList.remove('overflow-hidden');
   }
+
+  permissionValidator(control: AbstractControl): ValidationErrors | null {
+    const {
+      createUser,
+      createTask,
+      editTask,
+      deleteTask,
+    } = control.value || {};
+
+    return createUser || createTask || editTask || deleteTask
+      ? null
+      : { noPermission: true };
+  }
+
+  submitAdminForm() {
+    if (this.adminForm.invalid) {
+      this.adminForm.markAllAsTouched();
+      return;
+    }
+
+    const raw = this.adminForm.getRawValue();
+
+    const permissions = {
+      createUser: !!raw.createUser,
+      createTask: !!raw.createTask,
+      editTask: !!raw.editTask,
+      deleteTask: !!raw.deleteTask,
+    };
+
+    this.formLoading = true;
+
+    if (this.isEditMode && this.editUser) {
+      this.api.updateUser(this.editUser.id, { permissions }).subscribe({
+        next: () => {
+          this.toastr.success('User updated');
+          this.closeSidebar();
+        },
+        error: () => {
+          this.toastr.error('Update failed');
+          this.formLoading = false;
+        }
+      });
+      return;
+    }
+
+    this.api.createUser({
+      name: raw.name,
+      email: raw.email,
+      password: raw.password,
+      permissions,
+    }).subscribe({
+      next: () => {
+        this.toastr.success('User created');
+        this.closeSidebar();
+      },
+      error: () => {
+        this.toastr.error('Creation failed');
+        this.formLoading = false;
+      }
+    });
+  }
+
 
   /* =====================
      🔍 SEARCH
@@ -321,6 +478,7 @@ export class UsersPage implements OnInit, OnDestroy {
     this.api.deleteUser(this.userToDelete.id).subscribe(() => {
       this.toastr.success('User deleted');
       this.closeAllPopups();
+      this.sidebarOpen = false;
     });
   }
 
@@ -348,4 +506,33 @@ export class UsersPage implements OnInit, OnDestroy {
   get normalUserCount() {
     return this.filteredUsers.filter(u => !u.permissions?.createUser).length;
   }
+
+  get password() {
+    return this.adminForm.get('password');
+  }
+
+  get hasUppercase() {
+    return /[A-Z]/.test(this.password?.value || '');
+  }
+
+  get hasLowercase() {
+    return /[a-z]/.test(this.password?.value || '');
+  }
+
+  get hasNumber() {
+    return /\d/.test(this.password?.value || '');
+  }
+
+  get hasSpecialChar() {
+    return /[@$!%*?&#]/.test(this.password?.value || '');
+  }
+
+  get hasMinLength() {
+    return (this.password?.value || '').length >= 8;
+  }
+
+  get hasMaxLength() {
+    return (this.password?.value || '').length <= 32;
+  }
+
 }

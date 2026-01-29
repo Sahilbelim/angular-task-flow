@@ -5,6 +5,13 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+}
+
 /* ngx-pagination base */
 .ngx-pagination {
     display: flex;
@@ -56,7 +63,7 @@
 } */
 
 /* CLEAR button (red) */
-.daterangepicker .cancelBtn {
+/* .daterangepicker .cancelBtn {
     background: #ef4444 !important;
     
     color: #ffffff !important;
@@ -68,27 +75,29 @@
 
 .daterangepicker .cancelBtn:hover {
     background: #dc2626 !important;
-    /* red-600 */
-}
+    red-600
+} 
+*/
 
 /* APPLY button (blue) */
-.daterangepicker .applyBtn {
+/* .daterangepicker .applyBtn {
     background: linear-gradient(to right, #2563eb, #4f46e5) !important;
     color: #ffffff !important;
     border-radius: 10px;
     padding: 6px 18px;
     font-weight: 600;
-}
+} */
 
 
 .md-drppicker .clear svg {
     display: none !important;
-
-}
-
+    
+    }
+    
+    /* 
 .md-drppicker {
     display: flex;
-}
+} */
 
 @keyframes slideIn {
     from {
@@ -214,3 +223,142 @@ height: 2.75rem;
  .ng-select.ng-select-opened>.ng-select-container{
     padding-left: 8px;
  }
+
+ .md-drppicker.md-drppicker {
+    position: absolute;
+ 
+    z-index: 1000;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    width: auto;
+    max-width: 800px;
+    /* padding: 12px; */
+
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #dbeafe;
+    /* blue-100 */
+    box-shadow: 0 25px 50px rgba(59, 130, 246, 0.25);
+
+    overflow: hidden;
+}
+.md-drppicker .clear svg {
+    display: none !important;
+
+}
+
+.md-drppicker .calendar {
+    background: #f8fbff;
+    /* very light blue */
+    border-radius: 12px;
+    /* padding: 8px; */
+}
+@media (min-width: 768px) {
+    .md-drppicker.double {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        column-gap: 6px;
+    }
+
+    .md-drppicker .calendar.left {
+        grid-column: 1;
+    }
+
+    .md-drppicker .calendar.right {
+        grid-column: 2;
+    }
+
+    .md-drppicker .buttons {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 767px) {
+    .md-drppicker.double {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .md-drppicker .calendar {
+        width: 100%;
+    }
+}
+
+.md-drppicker .buttons button {
+    padding: 3px 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Apply */
+/* APPLY BUTTON */
+.md-drppicker .buttons button.applyBtn {
+    height: 48px;
+    /* h-12 */
+    min-width: 130px;
+    width: auto;
+
+    /* padding: 0 24px; */
+    border-radius: 12px;
+    /* rounded-xl */
+
+    background: linear-gradient(to right, #2563eb, #4f46e5);
+    /* blue-600 → indigo-600 */
+    color: #ffffff;
+
+    font-weight: 600;
+    font-size: 14px;
+
+    border: none;
+    cursor: pointer;
+
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+    /* shadow-md */
+    transition: all 0.2s ease;
+}
+
+.md-drppicker .buttons button.applyBtn:hover {
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.45);
+    /* shadow-lg */
+    transform: translateY(-1px);
+}
+
+.md-drppicker .buttons button.applyBtn:active {
+    transform: scale(0.98);
+}
+/* Cancel */
+.md-drppicker .buttons button.cancelBtn {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.md-drppicker .buttons button.cancelBtn:hover {
+    background: #dbeafe;
+}
+
+.md-drppicker td.available:hover {
+    background-color: #dbeafe !important;
+}
+
+.md-drppicker td.active,
+.md-drppicker td.active:hover {
+    background-color: #2563eb !important;
+    color: white !important;
+}
+
+.md-drppicker th {
+    color: #2563eb;
+    font-weight: 600;
+}
+

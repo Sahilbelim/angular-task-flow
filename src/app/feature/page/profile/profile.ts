@@ -105,10 +105,7 @@ export class ProfilePage implements OnInit {
   }
 
   get initials(): string {
-    return this.user?.name
-      ?.split(' ')
-      .map((n: string) => n[0])
-      .join('')
+    return this.user?.name[0]
       .toUpperCase();
   }
 

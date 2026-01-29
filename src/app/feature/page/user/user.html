@@ -1,4 +1,9 @@
-<div class="pt-[60px]" [class.overflow-hidden]="sidebarOpen">
+<!-- <div class="pt-[60px]" > -->
+    <!-- <div class="pt-[60px] overflow-hidden"> -->
+
+        <div class="pt-[60px] min-h-[calc(100vh-60px)] overflow-x-hidden">
+
+
     <div class="min-h-screen bg-gradient-to-br from-blue-100 via-sky-100 to-indigo-200">
 
         <div class="w-full max-w-7xl mx-auto p-6">
@@ -225,6 +230,8 @@
                                         {{ user.permissions?.deleteTask ? 'deleteTask' : 'Limited' }}
                                     </span>
                                 </td>
+                                
+                                
 
                                 <td class="px-5 py-3 text-left space-x-4">
                                     <button (click)="openEdit(user)" class="text-blue-600 hover:underline font-medium">
@@ -303,12 +310,216 @@
         </div>
 
         <!-- SIDEBAR -->
-        <div class="fixed top-0 right-0 h-full w-full sm:w-[420px]
+        <!-- <div class="fixed top-0 right-0 h-full w-full sm:w-[420px]
              bg-white z-50 shadow-2xl
-             transform transition-transform duration-300 animate-[slideIn_0.3s_ease-out]">
+             transform transition-transform duration-300 animate-[slideIn_0.3s_ease-out]"> -->
 
-            <app-admin-add-user [editUser]="editUser" (close)="closeSidebar()">
-            </app-admin-add-user>
+<div class="fixed top-[64px] right-0
+            h-[calc(100dvh-60px)]
+            w-full sm:w-[420px]
+            max-w-full
+            bg-white z-50
+            shadow-2xl
+            overflow-hidden
+            flex flex-col">
+<div class="shrink-0 px-6 py-5 border-b border-blue-100 flex justify-between">
+    <div>
+        <h2 class="text-xl font-extrabold text-blue-800">
+            {{ isEditMode ? 'Edit User' : 'Create User' }}
+        </h2>
+        <p class="text-sm text-blue-500">
+            {{ isEditMode ? 'Update user permissions' : 'Create a new user' }}
+        </p>
+    </div>
+
+    <button (click)="closeSidebar()" class="w-9 h-9 rounded-full bg-red-50 text-red-600 hover:bg-red-100">
+        ✕
+    </button>
+</div>
+
+
+<div class="flex-1 overflow-y-auto overscroll-contain px-6 py-6">
+        <p class="text-sm text-blue-500 mb-6">
+            {{ isEditMode
+            ? 'Update user permissions and access'
+            : 'Create a new user and assign permissions'
+            }}
+        </p>
+        
+        <!-- FORM -->
+        <!-- <form [formGroup]="adminForm" (ngSubmit)="submit()" class="space-y-5"> -->
+        <form [formGroup]="adminForm" (ngSubmit)="submitAdminForm()" class="space-y-5">
+            <!-- NAME -->
+            <div>
+                <label class="text-sm font-semibold text-blue-700">
+                    Full Name
+                </label>
+                <input formControlName="name" placeholder="John Doe" class="w-full mt-1 rounded-xl
+                         bg-blue-50 border border-blue-200
+                         px-4 py-3
+                         focus:ring-2 focus:ring-blue-500
+                         transition" />
+                        @if (adminForm.get('name')?.touched && adminForm.get('name')?.invalid) {
+                        <p class="text-red-500 text-xs mt-1">Full name is required</p>
+                        }
+
+            </div>
+        
+            <!-- EMAIL -->
+            <div>
+                <label class="text-sm font-semibold text-blue-700">
+                    Email
+                </label>
+                <input formControlName="email" placeholder="user@example.com" class="w-full mt-1 rounded-xl
+                         bg-blue-50 border border-blue-200
+                         px-4 py-3
+                         focus:ring-2 focus:ring-blue-500
+                         transition" />
+                    @if (adminForm.get('email')?.touched && adminForm.get('email')?.invalid) {
+                    <p class="text-red-500 text-xs mt-1">
+                        @if (adminForm.get('email')?.errors?.['required']) {
+                        Email is required
+                        }
+                        @else if (adminForm.get('email')?.errors?.['email']) {
+                        Invalid email format
+                        }
+                    </p>
+                    }
+
+
+            </div>
+        
+            <!-- PASSWORD (ONLY CREATE MODE) -->
+            @if (!isEditMode) {
+            <div>
+                <label class="text-sm font-semibold text-blue-700">
+                    Password
+                </label>
+                <div class="relative">
+        
+                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••" class="w-full mt-1 rounded-xl
+                         bg-blue-50 border border-blue-200
+                         px-4 py-3
+                         focus:ring-2 focus:ring-blue-500
+                         transition" />
+                    <button type="button" (click)="showPassword = !showPassword" class="absolute right-4 top-1/2 -translate-y-1/2
+                                         text-gray-500 hover:text-blue-600">
+                        <i class="bx" [class.bx-eye]="!showPassword" [class.bx-eye-slash]="showPassword"></i>
+                    </button>
+
+                </div>
+                @if (!isEditMode && password?.touched && password?.invalid) {
+                
+                <!-- 1️⃣ REQUIRED FIRST -->
+                @if (password?.errors?.['required']) {
+                <p class="text-red-500 text-xs mt-1">
+                    Password is required
+                </p>
+                }
+                
+                <!-- 2️⃣ RULES ONLY IF NOT EMPTY -->
+                @else {
+                <div class="mt-3 space-y-1 text-sm">
+                
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasUppercase" [class.text-red-500]="!hasUppercase">
+                        <i class="bx" [class.bx-check-circle]="hasUppercase" [class.bx-x-circle]="!hasUppercase"></i>
+                        Uppercase letter
+                    </div>
+                
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasLowercase" [class.text-red-500]="!hasLowercase">
+                        <i class="bx" [class.bx-check-circle]="hasLowercase" [class.bx-x-circle]="!hasLowercase"></i>
+                        Lowercase letter
+                    </div>
+                
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasNumber" [class.text-red-500]="!hasNumber">
+                        <i class="bx" [class.bx-check-circle]="hasNumber" [class.bx-x-circle]="!hasNumber"></i>
+                        Number
+                    </div>
+                
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasSpecialChar" [class.text-red-500]="!hasSpecialChar">
+                        <i class="bx" [class.bx-check-circle]="hasSpecialChar" [class.bx-x-circle]="!hasSpecialChar"></i>
+                        Special character
+                    </div>
+                
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasMinLength" [class.text-red-500]="!hasMinLength">
+                        <i class="bx" [class.bx-check-circle]="hasMinLength" [class.bx-x-circle]="!hasMinLength"></i>
+                        Min 8 characters
+                    </div>
+                
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasMaxLength" [class.text-red-500]="!hasMaxLength">
+                        <i class="bx" [class.bx-check-circle]="hasMaxLength" [class.bx-x-circle]="!hasMaxLength"></i>
+                        Max 32 characters
+                    </div>
+                
+                </div>
+                }
+                }
+
+
+            </div>
+            }
+        
+            <!-- PERMISSIONS -->
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-3">
+                <p class="text-sm font-semibold text-blue-700">
+                    User Permissions
+                </p>
+        
+                <label class="flex items-center gap-3 text-sm text-gray-700">
+                    <input type="checkbox" formControlName="createUser" />
+                    Manage Users
+                </label>
+        
+                <label class="flex items-center gap-3 text-sm text-gray-700">
+                    <input type="checkbox" formControlName="createTask" />
+                    Create Tasks
+                </label>
+        
+                <label class="flex items-center gap-3 text-sm text-gray-700">
+                    <input type="checkbox" formControlName="editTask" />
+                    Edit Tasks
+                </label>
+        
+                <label class="flex items-center gap-3 text-sm text-gray-700">
+                    <input type="checkbox" formControlName="deleteTask" />
+                    Delete Tasks
+                </label>
+                @if (adminForm.errors?.['noPermission'] && adminForm.touched) {
+                <p class="text-red-500 text-xs mt-2">
+                    Select at least one permission
+                </p>
+                }
+
+            </div>
+        
+            <!-- SUBMIT -->
+            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
+                       hover:from-blue-700 hover:to-indigo-700
+                       text-white font-semibold py-3 rounded-xl
+                       shadow-md hover:shadow-lg
+                       transition">
+                {{ isEditMode ? 'Update User' : 'Create User' }}
+            </button>
+        
+            <!-- DELETE (EDIT MODE ONLY) -->
+            @if (isEditMode) {
+            <button type="button" (click)="deleteUser(editUser)" class="w-full mt-2
+                       border border-red-300
+                       text-red-600
+                       py-3 rounded-xl
+                       hover:bg-red-50 transition">
+                Delete User
+            </button>
+            }
+        
+        </form>
+</div>
+
+
+            <!-- <app-admin-add-user [editUser]="editUser" (close)="closeSidebar()">
+            </app-admin-add-user> -->
+
+            
 
         </div>
         }
