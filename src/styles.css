@@ -12,6 +12,8 @@ body {
     overflow-x: hidden;
 }
 
+
+
 /* ngx-pagination base */
 .ngx-pagination {
     display: flex;
@@ -362,3 +364,50 @@ height: 2.75rem;
     font-weight: 600;
 }
 
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+    display: flex;
+    align-items: center;
+}
+
+/* wrapper */
+.tf-field {
+    position: relative;
+    width: 100%;
+}
+
+/* same input style */
+.tf-input,
+.tf-ng .ng-select-container {
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid #BFDBFE;
+    background: #EFF6FF;
+    padding: 0 44px 0 16px;
+    /* space for icon */
+    font-size: 14px;
+}
+
+/* remove native icons */
+select {
+    appearance: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}
+
+/* remove ng-select arrow */
+.tf-ng .ng-arrow-wrapper {
+    display: none;
+}
+
+/* icon */
+.tf-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #64748B;
+    pointer-events: none;
+}

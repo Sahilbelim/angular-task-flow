@@ -128,10 +128,11 @@ export class UsersPage implements OnInit, OnDestroy {
       this.users = users;
       this.applyFilter();
       const start = Date.now();
+      this.loading = false;
 
-      setTimeout(() => {
-        this.loading = false;
-      }, Math.max(300 - (Date.now() - start), 0));
+      // setTimeout(() => {
+      //   this.loading = false;
+      // }, Math.max(300 - (Date.now() - start), 0));
 
       // this.loading = false;
     });
@@ -495,17 +496,18 @@ export class UsersPage implements OnInit, OnDestroy {
   /* =====================
      📊 STATS
   ===================== */
-  get totalUsers() {
-    return this.filteredUsers.length;
-  }
 
-  get adminCount() {
-    return this.filteredUsers.filter(u => !!u.permissions?.createUser).length;
-  }
+  // get totalUsers() {
+  //   return this.filteredUsers.length;
+  // }
 
-  get normalUserCount() {
-    return this.filteredUsers.filter(u => !u.permissions?.createUser).length;
-  }
+  // get adminCount() {
+  //   return this.filteredUsers.filter(u => !!u.permissions?.createUser).length;
+  // }
+
+  // get normalUserCount() {
+  //   return this.filteredUsers.filter(u => !u.permissions?.createUser).length;
+  // }
 
   get password() {
     return this.adminForm.get('password');
@@ -533,6 +535,36 @@ export class UsersPage implements OnInit, OnDestroy {
 
   get hasMaxLength() {
     return (this.password?.value || '').length <= 32;
+  }
+
+  /* =====================
+   📊 TOP STATS (CARDS)
+===================== */
+
+  // Total users (already correct)
+  get totalUsers() {
+    return this.filteredUsers.length;
+  }
+
+  // Users who can manage users
+  get manageUserCount() {
+    return this.filteredUsers.filter(
+      u => u.permissions?.createUser
+    ).length;
+  }
+
+  // Users who can create OR edit tasks
+  get createEditTaskCount() {
+    return this.filteredUsers.filter(
+      u => u.permissions?.createTask || u.permissions?.editTask
+    ).length;
+  }
+
+  // Users who can delete tasks
+  get deleteTaskCount() {
+    return this.filteredUsers.filter(
+      u => u.permissions?.deleteTask
+    ).length;
   }
 
 }

@@ -1,84 +1,104 @@
 <!-- <div class="pt-[60px]" > -->
     <!-- <div class="pt-[60px] overflow-hidden"> -->
 
-        <div class="pt-[60px] min-h-[calc(100vh-60px)] overflow-x-hidden">
+        <div class=" min-h-[calc(100vh-60px)] overflow-x-hidden">
 
 
-    <div class="min-h-screen bg-gradient-to-br from-blue-100 via-sky-100 to-indigo-200">
+    <div class="min-h-screen pt-[83px] bg-gradient-to-br from-blue-100 via-sky-100 to-indigo-200">
 
         <div class="w-full max-w-7xl mx-auto p-6">
 
             <!-- STATS -->
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
-
-
-                @if (loading) {
-
-                @for(i of [1,2,3]; track $index) {
-                <div class="rounded-2xl bg-white/80 p-6 animate-pulse">
-                    <div class="h-4 w-24 bg-gray-200 rounded mb-3"></div>
-                    <div class="h-8 w-16 bg-gray-300 rounded mb-2"></div>
-                    <div class="h-3 w-32 bg-gray-200 rounded"></div>
-                </div>
-                }
-
-                }
-                @else {
-
-                <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                    <div class="absolute top-5 right-5"><i class='bx text-3xl text-blue-300 bx-check-shield'></i></div>
-                    <p class="text-sm font-medium text-blue-600 mb-1">
-                        Total Users
-                    </p>
-
-                    <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
-                        {{ totalUsers }}
-                    </h3>
-
-                    <p class="text-sm text-gray-500">
-                        Tasks created so far
-                    </p>
-                </div>
-
-                <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                    <div class="absolute top-5 right-5"><i class='bx text-3xl text-green-300 bx-clock-dashed-half'></i>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                
+                
+                    @if (loading) {
+                
+                    @for(i of [1,2,3,4]; track $index) {
+                    <div class="rounded-2xl bg-white/80 p-6 animate-pulse">
+                        <div class="h-4 w-24 bg-gray-200 rounded mb-3"></div>
+                        <div class="h-8 w-16 bg-gray-300 rounded mb-2"></div>
+                        <div class="h-3 w-32 bg-gray-200 rounded"></div>
                     </div>
-                    <p class="text-sm font-medium text-green-600 mb-1">
-                        Admin
-                    </p>
-
-                    <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
-                        {{ adminCount }}
-                    </h3>
-
-                    <p class="text-sm text-gray-500">
-                        Tasks created so far
-                    </p>
+                    }
+                
+                    }
+                    @else {
+                
+                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                        <div class="absolute top-5 right-5"><i class="bx bx-group text-3xl text-blue-300"></i>
+                        </div>
+                        <p class="text-sm font-medium text-blue-600 mb-1">
+                            Total Users
+                        </p>
+                
+                        <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                        {{ totalUsers }}
+                        </h3>
+                
+                        <p class="text-sm text-gray-500">
+                        Users in workspace
+                        </p>
+                    </div>
+                
+                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                        <div class="absolute top-5 right-5"><i class="bx bx-user-check   text-3xl text-green-300"></i>
+                        </div>
+                        <p class="text-sm font-medium text-green-600 mb-1">
+                        Manage Users
+                        </p>
+                
+                        <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                    {{ manageUserCount }}
+                        </h3>
+                
+                        <p class="text-sm text-gray-500">
+                Can add / edit users
+                        </p>
+                    </div>
+                
+                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                        <div class="absolute top-5 right-5"><i class="bx bx-task   text-3xl text-orange-300"></i>
+                        </div>
+                        <p class="text-sm font-medium text-orange-400 mb-1">
+                        Create / Edit Tasks
+                        </p>
+                
+                        <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                        {{ createEditTaskCount }}
+                        </h3>
+                
+                        <p class="text-sm text-gray-500">
+                            Task management access
+                        </p>
+                    </div>
+                
+                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                        <div class="absolute top-5 right-5"><i class="bx bx-trash text-3xl text-red-300"></i></div>
+                        <p class="text-sm font-medium text-red-600 mb-1">
+                        Delete Tasks
+                        </p>
+                
+                        <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                        {{ deleteTaskCount }}
+                        </h3>
+                
+                        <p class="text-sm text-gray-500">
+                        High-risk permission
+                        </p>
+                    </div>
+                
+                    }
+                
+                
                 </div>
-                <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                    <div class="absolute top-5 right-5"><i class='bx text-3xl text-orange-200  bx-bolt-alt'></i></div>
-                    <p class="text-sm font-medium text-orange-400 mb-1">
-                        Normal Users
-                    </p>
-
-                    <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
-                        {{ normalUserCount }}
-                    </h3>
-
-                    <p class="text-sm text-gray-500">
-                        Tasks created so far
-                    </p>
-                </div>
 
 
-                }
 
 
-            </div>
 
             <!-- TABLE CARD -->
-            <div class="bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 shadow">
+            <div class="mt-5 bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 shadow">
 
                 <!-- FILTER BAR -->
                 <div class="flex flex-col gap-4
@@ -104,17 +124,26 @@
                         <input type="text" placeholder="Search by name or email" [(ngModel)]="searchText"
                             (ngModelChange)="filterBySearch()"
                             class="h-12 w-full sm:flex-1 rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm focus:ring-2 focus:ring-blue-500 transition" />
-
-                        <select [(ngModel)]="selectedPageSize" (ngModelChange)="onPageSizeChange($event)"
-                            class="h-12 w-full sm:w-36 rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm focus:ring-2 focus:ring-blue-500 transition">
+ 
+                                
+                    <div class="tf-field w-full sm:w-36">
+                        <select [(ngModel)]="selectedPageSize" (ngModelChange)="onPageSizeChange($event)" class="tf-input">
+                            <option value="" disabled>Select Page Size</option>
                             @for (size of pageSizeOptions; track $index) {
                             <option [value]="size">{{ size }}</option>
                             }
                         </select>
+                    
+                        <!-- SAME ICON AS ALL DROPDOWNS -->
+                        <i class="bx bx-chevron-down tf-icon"></i>
+                    </div>
+
+                    
+                        
                     </div>
 
                     <!-- RIGHT -->
-                    <div class="w-full sm:w-auto">
+                    <div class="ml-3 w-full sm:w-auto">
                         <button (click)="openAdd()"
                             class="h-12 w-full sm:w-auto min-w-[130px] rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-md hover:shadow-lg transition">
                             Add User
@@ -253,7 +282,7 @@
 
                     </table>
                     @if (!loading && filteredUsers.length === 0 ) {
-                    <div class="flex flex-col items-center justify-center py-28 text-center">
+                    <div class="flex flex-col items-center justify-center py-14 text-center">
 
                         <!-- ICON CIRCLE -->
                         <div class="relative mb-6">
@@ -277,14 +306,7 @@
                             Start by adding users to manage access and permissions.
                         </p>
 
-                        <button class="mt-6 px-6 py-2.5 rounded-xl
-                         bg-gradient-to-r from-blue-600 to-indigo-600
-                         text-white font-semibold text-sm
-                         shadow-md hover:shadow-lg hover:scale-[1.03]
-                         transition" (click)="openAdd()">
-                            <i class="bx bx-user-plus mr-1"></i>
-                            Add First User
-                        </button>
+                      
                     </div>
                     }
 
@@ -297,8 +319,11 @@
                         Total: {{ filteredUsers.length }}
                     </p>
 
-                    <pagination-controls (pageChange)="p = $event" previousLabel="Prev" nextLabel="Next">
-                    </pagination-controls>
+                    @if(filteredUsers.length > 5){
+                        <pagination-controls (pageChange)="p = $event" previousLabel="Prev" nextLabel="Next">
+                        </pagination-controls>
+                    }
+                   
                 </div>
 
             </div>

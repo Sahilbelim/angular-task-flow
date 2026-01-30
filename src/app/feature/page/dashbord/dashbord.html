@@ -1,6 +1,7 @@
-<div class=" pt-[60px]">
+<div class="  ">
     <div class="relative">
-        <div class="min-h-screen w-full flex justify-center bg-gradient-to-br from-blue-100 via-sky-100 to-indigo-200 ">
+        <div
+            class="min-h-screen w-full flex justify-center bg-gradient-to-br from-blue-100 via-sky-100 to-indigo-200 pt-[70px]">
             <div class="w-full max-w-7xl mx-auto p-6 md:mt-3">
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
@@ -51,6 +52,7 @@
                             Tasks created so far
                         </p>
                     </div>
+
                     <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
                         <div class="absolute top-5 right-5"><i class='bx text-3xl text-orange-200  bx-bolt-alt'></i>
                         </div>
@@ -66,6 +68,7 @@
                             Tasks created so far
                         </p>
                     </div>
+
                     <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
                         <div class="absolute top-5 right-5"><i class='bx text-3xl text-red-200  bx-skull'></i></div>
                         <p class="text-sm font-medium text-red-600 mb-1">
@@ -87,291 +90,99 @@
                 </div>
 
                 <div class="mt-5 w-full  max-w-7xl bg-white/90 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(59,130,246,0.25)]
-           border border-blue-100 p-8 transition-all duration-300 hover:shadow-[0_25px_70px_rgba(59,130,246,0.35)]  ">
+           border border-blue-100 p-6 transition-all duration-300 hover:shadow-[0_25px_70px_rgba(59,130,246,0.35)]  ">
 
-                    <div
-                        class="w-full dashboard-drpicker flex flex-col gap-3 md:flex-row md:items-center   md:justify-between border-b border-blue-200 p-4 ">
+           <!-- Filter  -->
 
-                        @if (loading) {
-
-
-                        <div
-                            class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between w-full animate-pulse">
-
-
-                            <div class="h-12 w-full md:w-2/3 rounded-xl bg-gray-200"></div>
-
-
-                            <div class="h-12 w-full md:w-72 rounded-xl bg-gray-200"></div>
-
-
-                            <div class="h-12 w-[110px] rounded-xl bg-gray-300"></div>
-
-                        </div>
-
-                        } @else {
-
-                        <!-- <div class="grid grid-cols-1 gap-3
-                 md:grid-cols-[1fr_auto_auto]
-                 md:items-center
-                 w-full">
-
-
-
-                            <input type="text" placeholder="Search" [(ngModel)]="searchText"
-                                (ngModelChange)="filterBySearch()" class="h-11 w-full   rounded-xl
-         border border-blue-200
-         bg-blue-50
-         px-4
-         text-sm
-         text-blue-900 placeholder-blue-400
-         focus:ring-2 focus:ring-blue-500 transition" />
-
-                            <div><ng-select class="w-56" [items]="assignableUsers" bindLabel="name" bindValue="id"
-                                    [multiple]="true" placeholder="Filter by user" [(ngModel)]="selectedUserFilter"
-                                    (change)="applyAllFilters()">
-                                </ng-select>
-                            </div>
-                            <div class="w-full md:w-[260px] daterangepicker">
-                                <input type="text" ngxDaterangepickerMd [formControl]="dateRangeControl"
-                                    [showClearButton]="true" placeholder="Filter by date range" class="  h-11 w-full
-           rounded-xl
-           border border-blue-200
-           bg-blue-50
-           px-4
-           text-sm
-           focus:ring-2 focus:ring-blue-500 transition" />
-                            </div>
-
-                            <div class="flex flex-wrap items-center gap-2 justify-end">
-
-
-                                <button (click)="canCreate() && togglePopup()" [disabled]="!canCreate()" class="
-                          h-10 sm:h-11
-                          px-3 sm:px-5
-                          rounded-xl
-                          bg-gradient-to-r from-blue-500 to-indigo-600
-                          text-white
-                          text-sm font-semibold
-                          flex items-center justify-center gap-2
-                          transition
-                          disabled:opacity-50 disabled:cursor-not-allowed
-                          min-w-[42px] sm:min-w-[120px]
-                        ">
-                                    <i class="bx bx-plus text-lg sm:text-base"></i>
-                                    <span class="hidden sm:inline">Add Task</span>
-                                </button>
-
-
-                                <div class="
-                          flex
-                          h-10 sm:h-11
-                          rounded-xl
-                          border border-blue-200
-                          overflow-hidden
-                        ">
-                                    <button (click)="viewMode = 'table'" class="
-                            w-10 sm:w-11
-                            flex items-center justify-center
-                            text-base
-                            transition
-                          " [class.bg-blue-600]="viewMode === 'table'" [class.text-white]="viewMode === 'table'"
-                                        [class.text-blue-600]="viewMode !== 'table'">
-                                        <i class="bx bx-table"></i>
-                                    </button>
-
-                                    <button (click)="viewMode = 'board'" class="
-                            w-10 sm:w-11
-                            flex items-center justify-center
-                            text-base
-                            transition
-                          " [class.bg-blue-600]="viewMode === 'board'" [class.text-white]="viewMode === 'board'"
-                                        [class.text-blue-600]="viewMode !== 'board'">
-                                        <i class="bx bx-columns"></i>
-                                    </button>
-                                </div>
-                                <button type="button" (click)="clearAllFilters()" class="
-    h-11
-    px-4
-    rounded-xl
-    border border-red-200
-    text-red-600
-    bg-red-50
-    hover:bg-red-100
-    text-sm font-medium
-    transition
-    w-full md:w-auto
-  ">
-                                    Clear Filters
-                                </button>
-
-
-                            </div>
-
-                        </div> -->
-                        <div class="
-    grid
-    grid-cols-1
-    gap-3
-
-    md:grid-cols-2
-    md:gap-4
-
-    lg:grid-cols-[1.2fr_1fr_1fr_auto]
-    lg:items-center
-
-    w-full
-  ">
-                            <!-- Search -->
-                            <input type="text" placeholder="Search" [(ngModel)]="searchText"
-                                (ngModelChange)="filterBySearch()" class="
-      h-11 w-full min-w-36
-      rounded-xl
-      border border-blue-200
-      bg-blue-50
-      px-4
-      text-sm
-      text-blue-900 
-      focus:ring-2 focus:ring-blue-500
-      transition
-    " />
-
-                            <!-- User Filter -->
-                            <div class="w-full">
-                                <ng-select class="w-full lg:w-64 " [items]="assignableUsers" bindLabel="name"
-                                    bindValue="id" [multiple]="true" placeholder="Filter by user"
-                                    [(ngModel)]="selectedUserFilter" (change)="applyAllFilters()">
-                                </ng-select>
-                            </div>
-
-                            <!-- Date Range -->
-                            <!-- <div class=" relative  w-full daterangepicker">
-                                <input type="text" ngxDaterangepickerMd [formControl]="dateRangeControl"
-                                    [showClearButton]="true" placeholder="Filter by date range" class="
-        h-11 w-full
-        rounded-xl
-        border border-blue-200
-        bg-blue-50
-        px-4
-        text-sm
-        focus:ring-2 focus:ring-blue-500
-        transition
-      " />
-                            </div> -->
-
-                            <!-- Date Range -->
-                            <div class="relative w-full daterangepicker">
-                                <input type="text" ngxDaterangepickerMd [formControl]="dateRangeControl" [showClearButton]="true"
-                                    placeholder="Filter by date range" class="
-                                  h-11
-                                  w-full   lg:w-[300px]
-                                  rounded-xl
-                                  border border-blue-200
-                                  bg-blue-50
-                                  px-4
-                                  text-sm
-                                  focus:ring-2 focus:ring-blue-500
-                                  transition
-                                " />
-                            </div>
-
-                            <!-- Actions -->
-                            <!-- Actions -->
-                            <div class="
-    flex
-    flex-wrap
-    items-center
-    gap-2
-    w-full
-
-    justify-start
-    md:justify-end
-  ">
-                                <!-- Clear Filters -->
-                                <button type="button" (click)="clearAllFilters()" class="
-      h-11
-      px-4
-      rounded-xl
-      border border-red-200
-      text-red-600
-      bg-red-50
-      hover:bg-red-100
-      text-sm font-medium
-      transition
-
-      flex-1 sm:flex-none
-      whitespace-nowrap
-    ">
-                                    Clear Filters
-                                </button>
-
-                                <!-- Add Task -->
-                            <!-- Add Task (keeps spacing even when hidden) -->
-                            <div class="flex-1 sm:flex-none">
-                                @if (viewMode !== 'board') {
-                                <button (click)="canCreate() && togglePopup()" [disabled]="!canCreate()" class="
-                                    h-11
-                                    px-4 sm:px-5
-                                    w-full
-                                    rounded-xl
-                                    bg-gradient-to-r from-blue-500 to-indigo-600
-                                    text-white
-                                    text-sm font-semibold
-                                    flex items-center justify-center gap-2
-                                    transition
-                                    disabled:opacity-50 disabled:cursor-not-allowed
-                                    whitespace-nowrap
-                                  ">
-                                    <i class="bx bx-plus text-base"></i>
-                                    <span class="hidden sm:inline">Add Task</span>
-                                </button>
-                                } @else {
-                                <!-- invisible placeholder to preserve spacing -->
-                                <!-- <div class="h-11 w-full sm:w-[120px] invisible"></div> -->
-                                }
-                            </div>
-
-
-                                <!-- View Toggle -->
-                                <div class="
-      flex
-      h-11
-      rounded-xl
-      border border-blue-200
-      overflow-hidden
-      bg-white
-
-      flex-none
-    ">
-                                    <button (click)="viewMode = 'table'" class="
-        w-11
-        flex items-center justify-center
-        transition
-      " [class.bg-blue-600]="viewMode === 'table'" [class.text-white]="viewMode === 'table'"
-                                        [class.text-blue-600]="viewMode !== 'table'">
-                                        <i class="bx bx-table"></i>
-                                    </button>
-
-                                    <button (click)="viewMode = 'board'" class="
-        w-11
-        flex items-center justify-center
-        transition
-      " [class.bg-blue-600]="viewMode === 'board'" [class.text-white]="viewMode === 'board'"
-                                        [class.text-blue-600]="viewMode !== 'board'">
-                                        <i class="bx bx-columns"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-
-                        }
-
-
-
+                <div class="w-full border-b border-blue-200 pb-5">
+                
+                    @if (loading) {
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 animate-pulse">
+                        <div class="h-11 rounded-xl bg-gray-200"></div>
+                        <div class="h-11 rounded-xl bg-gray-200"></div>
+                        <div class="h-11 rounded-xl bg-gray-200"></div>
+                        <div class="h-11 rounded-xl bg-gray-300"></div>
                     </div>
+                    }
+                
+                    @else {
+                
+                    <!-- WRAPPER -->
+                    <div class="
+                    grid
+                    grid-cols-1
+                    gap-3
+                
+                    md:grid-cols-2
+                    lg:grid-cols-[1fr_1fr_1fr_auto]
+                    lg:items-center
+                    w-full
+                  ">
+                
+                        <!-- SEARCH -->
+                        <input type="text" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="filterBySearch()" class="h-11 w-full rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm
+                             focus:ring-2 focus:ring-blue-500 transition" />
+                
+                        <!-- USER FILTER -->
+                        <div class="relative w-full tf-field">
+                            <ng-select class="tf-ng w-full" [items]="assignableUsers" bindLabel="name" bindValue="id" [multiple]="true"
+                                placeholder="Filter by user" [(ngModel)]="selectedUserFilter" (change)="applyAllFilters()">
+                            </ng-select>
+                            <i class="bx bx-chevron-down tf-icon"></i>
+                        </div>
+                
+                        <!-- DATE RANGE -->
+                        <div class="relative w-full">
+                            <input type="text" ngxDaterangepickerMd [formControl]="dateRangeControl" [showClearButton]="true"
+                                placeholder="Filter by date range" class="h-11 w-full rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm
+                               focus:ring-2 focus:ring-blue-500 transition" />
+                        </div>
+                
+                        <!-- ACTIONS -->
+                        <div class="
+                      flex flex-wrap gap-2
+                      w-full
+                      lg:justify-end
+                    ">
+                
+                            <!-- CLEAR -->
+                            <button type="button" (click)="clearAllFilters()" class="h-11 px-4 rounded-xl border border-red-200 bg-red-50
+                               text-red-600 text-sm font-medium hover:bg-red-100 transition
+                               flex-1 sm:flex-none whitespace-nowrap">
+                                Clear Filters
+                            </button>
+                
+                            <!-- ADD TASK -->
+                            @if (viewMode !== 'board') {
+                            <button (click)="canCreate() && togglePopup()" [disabled]="!canCreate()" class="h-11 px-5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600
+                                 text-white text-sm font-semibold flex items-center gap-2
+                                 disabled:opacity-50 transition whitespace-nowrap">
+                                <i class="bx bx-plus"></i>
+                                <span class="hidden sm:inline">Add Task</span>
+                            </button>
+                            }
+                
+                            <!-- VIEW TOGGLE -->
+                            <div class="flex h-11 rounded-xl border border-blue-200 overflow-hidden bg-white">
+                                <button (click)="viewMode = 'table'" class="w-11 flex items-center justify-center transition"
+                                    [class.bg-blue-600]="viewMode === 'table'" [class.text-white]="viewMode === 'table'"
+                                    [class.text-blue-600]="viewMode !== 'table'">
+                                    <i class="bx bx-table"></i>
+                                </button>
+                
+                                <button (click)="viewMode = 'board'" class="w-11 flex items-center justify-center transition"
+                                    [class.bg-blue-600]="viewMode === 'board'" [class.text-white]="viewMode === 'board'"
+                                    [class.text-blue-600]="viewMode !== 'board'">
+                                    <i class="bx bx-columns"></i>
+                                </button>
+                            </div>
+                
+                        </div>
+                
+                    </div>
+                    }
+                </div>
+
 
 
                     <div class="overflow-x-auto">
@@ -408,18 +219,10 @@
                                 <tr class="bg-white border-b border-blue-200 text-gray-700">
 
 
-                                    <th class="px-5 py-3 font-semibold">
-                                        <div class="flex items-center gap-2">
-                                            <span (click)="toggleSortBy('order')"> Task</span>
-                                            <!-- <select
-                                                class="rounded-lg border border-blue-200 bg-white px-2 py-1 text-xs font-semibold focus:ring-2 focus:ring-blue-500"
-                                                [(ngModel)]="selectedPageSize"
-                                                (ngModelChange)="onPageSizeChange($event)">
-                                                @for (size of pageSizeOptions; track $index) {
-                                                <option [value]="size">{{ size }}</option>
-                                                }
-                                            </select> -->
-                                        </div>
+                                    <th class="px-5 py-3 text-start  font-semibold cursor-pointer hover:text-blue-600" (click)="toggleSortBy('order')">
+                                        <span > Task</span>
+                                      
+                                 
                                     </th>
 
 
@@ -504,40 +307,7 @@
 
                                 <!-- ASSIGNED USERS -->
 
-                                <!-- <td class="px-5 py-3">
-                                    @if (getAssignedUsers(task.id).length === 0) {
-                                    <span class="italic text-gray-400 text-xs">No users assigned</span>
-                                    } @else {
-                                    <ng-select class="assigned-users-select w-48 text-xs"
-                                        [items]="assignedUsersMap[task.id]" bindLabel="name" bindValue="id"
-                                        [ngModel]="assignedUsersMap[task.id]?.[0]?.id" [clearable]="false"
-                                        [searchable]="false" [closeOnSelect]="false" [appendTo]="'body'">
-
-                                        <ng-template ng-option-tmp let-item="item">
-                                            <div class="flex flex-col py-1">
-                                                <span class="font-medium text-gray-800">{{ item.name }}</span>
-                                                <span class="text-[11px] text-gray-500">{{ item.email }}</span>
-                                            </div>
-                                        </ng-template>
-
-                                    </ng-select>
-                                    }
-                                </td> -->
-                                <!-- 
-                                <td class="px-5 py-3 max-w-[220px]">
-                                    @if (getAssignedUsers(task.id).length === 0) {
-                                    <span class="italic text-gray-400 text-xs">No users assigned</span>
-                                    } @else {
-
-                                    <div class="assigned-users-cell" tabindex="0">
-                                        <span class="assigned-users-text">
-                                            {{ getAssignedUserNames(task.id) }}
-                                        </span>
-
-                                    </div>
-
-                                    }
-                                </td> -->
+                                
 
                                 <td class="px-5 py-3 w-[220px] max-w-[220px]">
                                     @if (getAssignedUsers(task.id).length === 0) {
@@ -613,7 +383,7 @@
                                 </td>
 
                                 <!-- ACTIONS -->
-                                <td class="px-5 py-3 text-right space-x-3">
+                                <!-- <td class="px-5 py-3 text-right space-x-3">
                                     <button class="text-blue-600 hover:underline" (click)="editTask(task)">
                                         Edit
                                     </button>
@@ -621,6 +391,28 @@
 ">
                                         Delete
                                     </button>
+                                </td> -->
+
+                                <td class="px-5 py-3 text-right space-x-3">
+                                
+                                    <!-- EDIT -->
+                                    <button (click)="canEdit() && editTask(task)" [disabled]="!canEdit()" class="font-medium transition
+                                           text-blue-600 hover:underline
+                                           disabled:text-gray-400
+                                           disabled:no-underline
+                                           disabled:cursor-not-allowed">
+                                        Edit
+                                    </button>
+                                
+                                    <!-- DELETE -->
+                                    <button (click)="canDelete() && openDelete(task) " [disabled]="!canDelete()" class="font-medium transition
+                                           text-red-600 hover:underline
+                                           disabled:text-gray-400
+                                           disabled:no-underline
+                                           disabled:cursor-not-allowed">
+                                        Delete
+                                    </button>
+                                
                                 </td>
 
                                 </tr>
@@ -663,16 +455,7 @@
                                 You’re all set! Create your first task to start tracking progress.
                             </p>
 
-                            @if (canCreate()) {
-                            <button class="mt-6 px-6 py-2.5 rounded-xl
-                                   bg-gradient-to-r from-blue-500 to-indigo-600
-                                   text-white font-semibold text-sm
-                                   shadow-md hover:shadow-lg hover:scale-[1.03]
-                                   transition" (click)="togglePopup()">
-                                <i class="bx bx-plus mr-1"></i>
-                                Create Task
-                            </button>
-                            }
+                        
                         </div>
                         }
 
@@ -710,8 +493,8 @@
                                         </h3>
 
                                         @if(col.data.length > 0) {
-                                          
-                                     
+
+
                                         <button *ngIf="canCreate()" (click)="openBoardCreate(col.status)"
                                             class="text-sm text-blue-600 hover:underline">
                                             + Add
@@ -797,9 +580,7 @@
                                             <p class="font-semibold text-gray-800 pr-10">
                                                 {{ task.title }}
                                             </p>
-                                            <!-- <div cdkDragPreview class="rounded-xl bg-white shadow-lg p-3">
-                                    {{ task.title }}
-                                </div> -->
+                                         
 
                                             <!-- DUE DATE -->
                                             <p class="text-xs text-gray-500 mt-1">
@@ -851,40 +632,45 @@
     @if (popupVisible) {
 
     <!-- BACKDROP -->
-    <div class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" (click)="togglePopup()">
+    <div class="fixed top-16 inset-0 z-40 bg-black/40 backdrop-blur-sm" (click)="togglePopup()">
     </div>
 
     <!-- MODAL WRAPPER -->
-    <!-- <div class="fixed inset-0 z-50 flex items-center justify-center px-4  pt-[80px]
-    overflow-y-auto"> -->
+  
 
-    <div class="
-        fixed inset-0 z-50
-        flex items-start lg:items-center justify-center
-        px-4 pt-[80px]
-        overflow-hidden
-      ">
+<div class="mt-1
+  fixed inset-0 z-50
+  overflow-y-auto top-16
+  overscroll-contain
+">
+<div class="
+    min-h-full
+    flex
+    items-start lg:items-center
+    justify-center
+    px-4
+    py-10
+  ">
+
+
+
 
         <!-- MODAL CARD -->
-        <!-- <div
-                class="relative w-full max-w-sm bg-white/90 backdrop-blur-xl border border-blue-200 rounded-2xl shadow-[0_20px_50px_rgba(59,130,246,0.25)] transition-all duration-300 max-h-[90vh] h-[500px] overflow-hidden p-6"> -->
+       
 
         <div class="
-                  relative
-                  w-full
-                  max-w-sm
-                
-                  bg-white/90 backdrop-blur-xl
-                  border border-blue-200
-                  rounded-2xl
-                  shadow-[0_20px_50px_rgba(59,130,246,0.25)]
-                  transition-all duration-300
-                
-                  max-h-[calc(100vh-120px)]
-                  overflow-y-auto
-                
-                  p-6
-                ">
+              relative
+              w-full
+              max-w-sm
+        
+              bg-white/90 backdrop-blur-xl
+              border border-blue-200
+              rounded-2xl
+              shadow-[0_20px_50px_rgba(59,130,246,0.25)]
+        
+              p-6
+            ">
+
 
             <h2 class="text-center text-xl font-semibold mb-4">
                 {{ editingTask ? 'Edit Task' : 'Add Task' }}
@@ -895,10 +681,10 @@
                 below.' }}
             </p>
 
-        <form [formGroup]="taskForm" (ngSubmit)="saveTask()" class="flex flex-col gap-4">
-        
-            <!-- TASK NAME -->
-            <input type="text" formControlName="title" placeholder="Task Name" class="
+            <form [formGroup]="taskForm" (ngSubmit)="saveTask()" class="flex flex-col gap-4">
+
+                <!-- TASK NAME -->
+                <input type="text" formControlName="title" placeholder="Task Name" class="
               h-11 w-full
               rounded-xl
               border border-blue-200
@@ -909,15 +695,15 @@
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
               transition
             " />
-        
-            @if(taskForm.get('title')?.invalid && taskForm.get('title')?.touched){
-            <div class="text-xs text-red-500 ml-1">
-                Title is required
-            </div>
-            }
-        
-            <!-- DUE DATE -->
-            <input type="date" formControlName="dueDate" class="
+
+                @if(taskForm.get('title')?.invalid && taskForm.get('title')?.touched){
+                <div class="text-xs text-red-500 ml-1">
+                    Title is required
+                </div>
+                }
+
+                <!-- DUE DATE -->
+                <input type="date" formControlName="dueDate" class="
               h-11 w-full
               rounded-xl
               border border-blue-200
@@ -927,36 +713,42 @@
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
               transition placeholder:text-gray-400
             " />
-        
-            @if(taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched){
-            <div class="text-xs text-red-500 ml-1">
-                Date is required
-            </div>
-            }
-        
-            <!-- ASSIGN USERS -->
-            <ng-select formControlName="assignedUsers" [items]="assignableUsers" bindValue="id" [multiple]="true"
-                placeholder="Assign users" class="w-full fixed-ng-select" [appendTo]="'body'" [closeOnSelect]="false">
-                <ng-template ng-label-tmp let-item="item">
-                    <span class="text-sm font-medium text-gray-800 truncate">
-                        {{ item.name }}
-                    </span>
-                </ng-template>
-        
-                <ng-template ng-option-tmp let-item="item">
-                    <div class="flex flex-col py-1">
-                        <span class="font-medium text-gray-900">
+
+                @if(taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched){
+                <div class="text-xs text-red-500 ml-1">
+                    Date is required
+                </div>
+                }
+
+                <!-- ASSIGN USERS -->
+                <div class="tf-field">
+                
+                <ng-select formControlName="assignedUsers" [items]="assignableUsers" bindValue="id" [multiple]="true"
+                    placeholder="Assign users" class="tf-ng w-full fixed-ng-select" [appendTo]="'body'"
+                    [closeOnSelect]="false">
+                    <ng-template ng-label-tmp let-item="item">
+                        <span class="text-sm font-medium text-gray-800 truncate">
                             {{ item.name }}
                         </span>
-                        <span class="text-xs text-gray-500">
-                            {{ item.email }}
-                        </span>
-                    </div>
-                </ng-template>
-            </ng-select>
-        
-            <!-- STATUS -->
-            <select formControlName="status" class="
+                    </ng-template>
+
+                    <ng-template ng-option-tmp let-item="item">
+                        <div class="flex flex-col py-1">
+                            <span class="font-medium text-gray-900">
+                                {{ item.name }}
+                            </span>
+                            <span class="text-xs text-gray-500">
+                                {{ item.email }}
+                            </span>
+                        </div>
+                    </ng-template>
+                </ng-select>
+                <i class="bx bx-chevron-down tf-icon"></i>
+    </div>
+                <!-- STATUS -->
+                 <div class="tf-field">
+               
+                <select formControlName="status" class="tf-input
               h-11 w-full
               rounded-xl
               border border-blue-200
@@ -966,14 +758,18 @@
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
               transition
             ">
-                <option   value="" disabled>Select Status</option>
-                <option value="pending">Pending</option>
-                <option value="in-progress">In Progress</option>
-                <option value="completed">Completed</option>
-            </select>
-        
-            <!-- PRIORITY -->
-            <select formControlName="priority" class="
+                    <option value="" disabled>Select Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+                                <i class="bx bx-chevron-down tf-icon"></i>
+                                </div>
+
+                <!-- PRIORITY -->
+                <div class="tf-field">
+                  
+                <select formControlName="priority" class="tf-input
               h-11 w-full
               rounded-xl
               border border-blue-200
@@ -983,15 +779,17 @@
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
               transition
             ">
-                <option value="" >Select Priority</option>
-                <option   value="low">🟢 Low Priority</option>
-                <option value="medium">🟡 Medium Priority</option>
-                <option value="high">🔴 High Priority</option>
-            </select>
-        
-            <!-- ACTION BUTTONS -->
-            <div class="flex gap-3 pt-2">
-                <button type="button" (click)="togglePopup()" class="
+                    <option value="">Select Priority</option>
+                    <option value="low">🟢 Low Priority</option>
+                    <option value="medium">🟡 Medium Priority</option>
+                    <option value="high">🔴 High Priority</option>
+                </select>
+                <i class="bx bx-chevron-down tf-icon"></i>
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div class="flex gap-3 pt-2">
+                    <button type="button" (click)="togglePopup()" class="
                 h-11 w-1/2
                 rounded-xl
                 border border-gray-300
@@ -1000,10 +798,10 @@
                 hover:bg-gray-100
                 transition
               ">
-                    Cancel
-                </button>
-        
-                <button type="submit" class="
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="
                 h-11 w-1/2
                 rounded-xl
                 bg-gradient-to-r from-blue-500 to-indigo-600
@@ -1011,11 +809,11 @@
                 hover:opacity-95
                 transition
               ">
-                    {{ editingTask ? 'Update Task' : 'Save Task' }}
-                </button>
-            </div>
-        
-        </form>
+                        {{ editingTask ? 'Update Task' : 'Save Task' }}
+                    </button>
+                </div>
+
+            </form>
 
 
             <!-- CLOSE BUTTON -->
@@ -1023,6 +821,7 @@
                 class="absolute top-4 right-4 text-xl text-gray-500 hover:text-red-500">
                 <i class="bx bx-x"></i>
             </button>
+        </div>
         </div>
     </div>
     }
@@ -1035,13 +834,16 @@
     @if (deletingTask) {
 
     <!-- BACKDROP -->
-    <div class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" (click)="closeDeleteModal()">
+    <div class="fixed inset-0 top-16 z-40 bg-black/40 backdrop-blur-sm" (click)="closeDeleteModal()">
     </div>
 
     <!-- MODAL WRAPPER -->
-    <div class="fixed inset-0 z-50 flex items-center justify-center px-4">
+    <!-- <div class="fixed inset-0 z-50 flex items-center justify-center px-4"> -->
+<div class=" mt-1 fixed  inset-0 z-50 top-16 overflow-y-auto overscroll-contain">
 
-        <!-- MODAL CARD -->
+    <div class="min-h-full flex items-start justify-center px-4 py-10">
+
+        <!-- MODAL CARD
         <div class="relative w-full max-w-sm
            bg-white/90 backdrop-blur-xl
            border 
@@ -1050,7 +852,21 @@
            p-6" [ngClass]="{
     'shadow-[0_20px_50px_rgba(239,68,68,0.25)]  border-red-800': deleteId != null,
     'shadow-[0_20px_50px_rgba(59,130,246,0.25)] border-indigo-400': deleteId == null
-  }">
+  }"> -->
+    <div class="
+          relative
+          w-full
+          max-w-sm
+    
+          bg-white/90 backdrop-blur-xl
+          border
+          rounded-2xl
+          p-6
+        " [ngClass]="{
+          'shadow-[0_20px_50px_rgba(239,68,68,0.25)] border-red-800': deleteId,
+          'shadow-[0_20px_50px_rgba(59,130,246,0.25)] border-indigo-400': !deleteId
+        }">
+
 
             <h2 class="text-center text-xl font-semibold   mb-4" [class.text-red-600]="deleteId!=null"
                 [class.text-gray-800]="deleteId==null">
@@ -1103,6 +919,7 @@
             </button>
 
         </div>
+    </div>
     </div>
     }
 

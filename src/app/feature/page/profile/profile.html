@@ -1,153 +1,157 @@
- 
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 pt-[83px] px-4">
 
-<!-- <div class="min-h-screen flex items-start md:items-center justify-center
-                        bg-[#f3f7ff] px-4
-                        pt-[88px] md:pt-0 pb-8" [class.pt-20]="flipped" >
-             -->
+    <!-- CONTAINER -->
+    <div class="mx-auto max-w-7xl p-6  w-full">
 
-            <div class="
-                relative
-                min-h-screen
-                flex
-                justify-center
-                items-start md:items-center
-            
-                bg-[#f3f7ff]
-            
-                px-4
-                pt-[88px]
-              " [class.pt-20]="flipped">
+        <div class="rounded-2xl bg-white p-8 shadow-lg relative">
 
-    <div class="relative w-full max-w-[420px] sm:max-w-[480px] md:max-w-[540px]
-              bg-white rounded-3xl
-              shadow-[0_30px_80px_rgba(59,130,246,0.25)]
-              p-6 sm:p-7 md:p-8">
+            <!-- ================= VIEW MODE ================= -->
+            @if (!flipped) {
 
-        <!-- ================= VIEW MODE ================= -->
-        @if(!flipped) {
-
-        <!-- ACTION BUTTONS -->
-        <div class="absolute top-4 right-4 flex gap-3">
-            <button (click)="flipCard()" class="w-10 h-10 rounded-full bg-blue-50 text-blue-600
-               flex items-center justify-center hover:bg-blue-100 transition">
+            <!-- TOP EDIT BUTTON -->
+            <button (click)="flipCard()" class="absolute top-6 right-6 h-10 w-10 rounded-full
+               bg-blue-50 text-blue-600
+               flex items-center justify-center
+               hover:bg-blue-100 transition">
                 <i class="bx bx-edit-alt text-lg"></i>
             </button>
- 
-        </div>
 
-        <!-- HEADER -->
-        <div class="flex gap-4 sm:gap-5 items-start">
-            <!-- @if(user?.avatar && false) {
-            <img [src]="user.avatar" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring-4 ring-blue-100" />
-            } @else {
-            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full
-                    bg-gradient-to-r from-blue-500 to-indigo-600
-                    flex items-center justify-center
-                    text-white text-2xl font-bold">
-                {{ initials }}
-            </div>
-            } -->
-<div class="
-    w-14 h-14 sm:w-14 sm:h-14
-    rounded-full
-    bg-gradient-to-br from-blue-500 via-indigo-500 to-blue-700
-    flex items-center justify-center
+            <!-- TOP SECTION -->
+            <div class="flex flex-col md:flex-row gap-8 items-center md:items-start">
 
-    text-white
-    font-extrabold
-    text-3xl sm:text-4xl
+                <!-- AVATAR (INITIALS) -->
+                <div class="h-40 w-40 rounded-full
+                 bg-gradient-to-br from-blue-500 to-indigo-600
+                 flex items-center justify-center
+                 text-white font-extrabold text-5xl
+                 shadow ring-4 ring-blue-100 select-none">
+                    {{ initials || 'U' }}
+                </div>
 
-    tracking-wide
-    shadow-md
-    ring-2 ring-blue-100
-    select-none
-  ">
-    {{ initials }}
-</div>
+                <!-- BASIC INFO -->
+                <div class="flex-1 text-center md:text-left">
 
-            <div class="flex-1">
-                <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
-                    {{ user?.name }}
-                </h2>
-                <p class="text-sm sm:text-base text-gray-500 mt-1">
-                    {{ user?.email }}
-                </p>
-            </div>
-        </div>
+                    <h2 class="text-3xl font-bold text-gray-800">
+                        {{ user?.name || 'Unnamed User' }}
+                    </h2>
 
-        <!-- BIO -->
-        <p class="mt-5 text-gray-700 text-sm sm:text-base leading-relaxed" [class.line-clamp-2]="!showFullBio">
-            {{ user?.bio || 'No bio provided' }}
-        </p>
+                    <p class="mt-1 font-medium text-blue-600">
+                        <!-- {{ user?.email || 'Email not available' }} -->
+                    </p>
 
-        <button (click)="showFullBio = !showFullBio" class="text-blue-600 text-sm font-medium mt-2 hover:underline">
-            {{ showFullBio ? 'Read less' : 'Read more' }}
-        </button>
+                    <p class="mt-4 max-w-xl text-gray-600 leading-relaxed">
+                        {{ user?.bio || 'No bio provided yet.' }}
+                    </p>
 
-        <!-- META -->
-        <div class="mt-6 flex flex-wrap gap-y-3 justify-between
-                text-sm sm:text-base text-gray-500 border-t pt-5">
-            <span><b class="text-gray-900">25</b> Users</span>
-            <span><b class="text-gray-900">50</b> Tasks</span>
-            <span>Joined {{ joinedDate }}</span>
-        </div>
+                    <button (click)="flipCard()" class="mt-6 rounded-lg bg-blue-500 px-6 py-2
+                   text-white font-semibold
+                   hover:bg-blue-600 transition">
+                        Edit Profile
+                    </button>
 
-        }
-
-        <!-- ================= EDIT MODE ================= -->
-        @if(flipped) {
-            
-
-        <button (click)="flipCard()" class="absolute top-4 right-4 w-10 h-10
-             rounded-full bg-red-50 text-red-600
-             flex items-center justify-center hover:bg-red-100 transition">
-            ✕
-        </button>
-
-        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
-            Edit Profile
-        </h3>
-
-        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="space-y-5">
-
-            <!-- NAME -->
-            <input formControlName="name" placeholder="Full name" class="w-full rounded-xl border border-blue-200
-               px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none" />
-
-            <!-- PHONE -->
-            <input formControlName="phone" placeholder="Phone number" class="w-full rounded-xl border border-blue-200
-               px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none" />
-
-            <!-- REGION -->
-            <input formControlName="region" placeholder="Region / Area" class="w-full rounded-xl border border-blue-200
-               px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none" />
-
-            <!-- BIO -->
-            <div>
-                <textarea rows="4" formControlName="bio" maxlength="250" placeholder="Bio (max 250 characters)" class="w-full rounded-xl border border-blue-200
-                 px-4 py-2.5 resize-none
-                 focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
-
-                <p class="text-xs text-gray-500 text-right mt-1">
-                    {{ profileForm.get('bio')?.value?.length || 0 }}/250
-                </p>
+                </div>
             </div>
 
-            <!-- SAVE -->
-            <button type="submit" class="w-full py-3 rounded-xl font-semibold text-white
-               bg-gradient-to-r from-blue-500 to-indigo-600
-               hover:from-blue-600 hover:to-indigo-700 transition">
-                Save Changes
+            <!-- DIVIDER -->
+            <div class="my-10 border-t border-blue-100"></div>
+
+            <!-- DETAILS GRID -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- EMAIL -->
+                <div class="rounded-xl bg-blue-50 p-5">
+                    <p class="text-sm text-gray-500">Email</p>
+                    <p class="font-semibold text-gray-800">
+                        {{ user?.email || 'Not available' }}
+                    </p>
+                </div>
+
+                <!-- PHONE -->
+                <div class="rounded-xl bg-blue-50 p-5">
+                    <p class="text-sm text-gray-500">Phone Number</p>
+                    <p class="font-semibold text-gray-800">
+                        {{ user?.phone || 'Not provided' }}
+                    </p>
+                </div>
+
+                <!-- REGION / ADDRESS -->
+                <div class="md:col-span-2 rounded-xl bg-blue-50 p-5">
+                    <p class="text-sm text-gray-500">Region</p>
+                    <p class="font-semibold text-gray-800">
+                        {{ user?.region || 'Not specified' }}
+                    </p>
+                </div>
+
+                <!-- JOINED -->
+                <div class="md:col-span-2 rounded-xl bg-blue-50 p-5">
+                    <p class="text-sm text-gray-500">Joined</p>
+                    <p class="font-semibold text-gray-800">
+                        {{ joinedDate || '—' }}
+                    </p>
+                </div>
+
+            </div>
+
+            }
+
+            <!-- ================= EDIT MODE ================= -->
+            @if (flipped) {
+
+            <button (click)="flipCard()" class="absolute top-6 right-6 h-10 w-10
+               rounded-full bg-red-50 text-red-600
+               hover:bg-red-100 transition">
+                ✕
             </button>
 
-            <!-- CHANGE PASSWORD LINK -->
-            <a routerLink="/change-password" class="block text-center text-sm text-blue-600 hover:underline">
-                Change Password
-            </a>
+            <h3 class="mb-6 text-2xl font-bold text-gray-900">
+                Edit Profile
+            </h3>
 
-        </form>
+            <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-        }
+                <!-- NAME -->
+                <input formControlName="name" placeholder="Full name" class="rounded-xl border border-blue-200 px-4 py-3
+                 focus:ring-2 focus:ring-blue-500 outline-none" />
 
+                <!-- EMAIL (LOCKED) -->
+                <input [value]="user?.email || ''" disabled class="rounded-xl border border-gray-200
+                 bg-gray-100 px-4 py-3
+                 text-gray-500 cursor-not-allowed" />
+
+                <!-- PHONE -->
+                <input formControlName="phone" placeholder="Phone number" class="rounded-xl border border-blue-200 px-4 py-3
+                 focus:ring-2 focus:ring-blue-500 outline-none" />
+
+                <!-- REGION -->
+                <input formControlName="region" placeholder="Region / Area" class="rounded-xl border border-blue-200 px-4 py-3
+                 focus:ring-2 focus:ring-blue-500 outline-none" />
+
+                <!-- BIO -->
+                <div class="md:col-span-2">
+                    <textarea rows="4" formControlName="bio" maxlength="250" placeholder="Bio (max 250 characters)"
+                        class="w-full rounded-xl border border-blue-200
+                   px-4 py-3 resize-none
+                   focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+
+                    <p class="mt-1 text-right text-xs text-gray-500">
+                        {{ profileForm.get('bio')?.value?.length || 0 }}/250
+                    </p>
+                </div>
+
+                <!-- SAVE -->
+                <div class="md:col-span-2">
+                    <button type="submit" class="w-full rounded-xl bg-gradient-to-r
+                   from-blue-500 to-indigo-600
+                   py-3 font-semibold text-white
+                   hover:from-blue-600 hover:to-indigo-700 transition">
+                        Save Changes
+                    </button>
+                </div>
+
+            </form>
+
+            }
+
+        </div>
     </div>
 </div>
