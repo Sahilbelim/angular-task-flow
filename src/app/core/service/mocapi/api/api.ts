@@ -8,6 +8,7 @@ import {
   tap,
   throwError,
   map,
+  take,
 } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -456,12 +457,34 @@ export class ApiService {
   /* =====================
    🔍 USER ↔ TASK CHECK
 ===================== */
-  hasAssignedTasks(userId: string): boolean {
-    return this.tasksSnapshot.some(task =>
-      Array.isArray(task.assignedUsers) &&
-      task.assignedUsers.includes(userId)
+  // hasAssignedTasks(userId: string): boolean {
+  //   return this.tasksSnapshot.some(task =>
+  //     Array.isArray(task.assignedUsers) &&
+  //     task.assignedUsers.includes(userId)
+  //   );
+  // }
+
+  // api.service.ts
+  // hasAssignedTasks(userId: string | number): boolean {
+  //   return this.tasksSnapshot?.some(task =>
+  //     Array.isArray(task.assignedUsers) &&
+  //     task.assignedUsers.map(String).includes(String(userId))
+  //   );
+  // }
+
+  // api.service.ts
+  hasAssignedTasks$(userId: string | number) {
+    return this.tasks$.pipe(          // observable of tasks
+      map(tasks =>
+        tasks.some(task =>
+          Array.isArray(task.assignedUsers) &&
+          task.assignedUsers.map(String).includes(String(userId))
+        )
+      ),
+      take(1)
     );
   }
+
 
   /* =====================
      🎯 TASK FILTER (REDIRECT)

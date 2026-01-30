@@ -232,32 +232,30 @@
                                     {{ user.email }}
                                 </td>
 
-                                <td class="px-5 py-3 text-left">
-                                    <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold border"
-                                        [ngClass]="{
-                              'bg-green-100 text-green-700 border-green-300': user.permissions?.createUser,
-                              'bg-gray-100 text-gray-600 border-gray-300': !user.permissions?.createUser
-                            }">
-                                        {{ user.permissions?.createUser ? 'Manage Users' : 'Limited' }}
+                                <td class="px-5 py-3 text-left space-x-2">
+                                    @if(user.permissions?.createUser){
+                                        <span class="inline-flex px-3 py-1 rounded-full text-xs bg-green-100 text-green-700 border-green-300 font-semibold border"  >
+                                Manage Users
+                                        </span>
+                                    }
+                                    @if(user.permissions?.createTask){
+                                    <span
+                                        class="inline-flex px-3 py-1 rounded-full text-xs bg-blue-100 text-blue-700 border-blue-300 font-semibold border">
+                                    Create Task
                                     </span>
-                                    <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold border" [ngClass]="{
-                                                                  'bg-orange-100 text-orange-700 border-orange-300': user.permissions?.editTask,
-                                                                  'bg-gray-100 text-gray-600 border-gray-300': !user.permissions?.editTask
-                                                                }">
-                                        {{ user.permissions?.editTask ? 'EditTask' : 'Limited' }}
+                                    }@if(user.permissions?.editTask){
+                                    <span
+                                        class="inline-flex px-3 py-1 rounded-full text-xs bg-orange-100 text-orange-700 border-orange-300 font-semibold border">
+                                    Edit Task
                                     </span>
-                                    <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold border" [ngClass]="{
-                                                                                                      'bg-blue-100 text-blue-700 border-blue-300': user.permissions?.createTask,
-                                                                                                      'bg-gray-100 text-gray-600 border-gray-300': !user.permissions?.createTask
-                                                                                                    }">
-                                        {{ user.permissions?.createTask ? 'createTask' : 'Limited' }}
+                                    }@if(user.permissions?.deleteTask){
+                                    <span
+                                        class="inline-flex px-3 py-1 rounded-full text-xs bg-red-100 text-red-700 border-red-300 font-semibold border">
+                                    Delete Task
                                     </span>
-                                    <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold border" [ngClass]="{
-                                                                                                                                          'bg-red-100 text-red-700 border-red-300': user.permissions?.deleteTask,
-                                                                                                                                          'bg-gray-100 text-gray-600 border-gray-300': !user.permissions?.deleteTask
-                                                                                                                                        }">
-                                        {{ user.permissions?.deleteTask ? 'deleteTask' : 'Limited' }}
-                                    </span>
+                                    }
+                                    
+                                  
                                 </td>
                                 
                                 
@@ -532,7 +530,7 @@
                        border border-red-300
                        text-red-600
                        py-3 rounded-xl
-                       hover:bg-red-50 transition">
+                       hover:bg-red-50 transition" >
                 Delete User
             </button>
             }
@@ -552,7 +550,7 @@
 
     @if (showDeleteConfirmPopup && userToDelete) {
     
-    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"></div>
+    <!-- <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"></div>
     
     <div class="fixed inset-0 z-50 flex items-center justify-center px-4">
         <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-6">
@@ -576,63 +574,150 @@
                 </button>
             </div>
         </div>
-    </div>
-    }
-    @if (showTaskBlockPopup && userToDelete) {
-    
+    </div> -->
     <!-- BACKDROP -->
-    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"></div>
+    <div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"></div>
     
-    <!-- POPUP -->
+    <!-- MODAL -->
     <div class="fixed inset-0 z-50 flex items-center justify-center px-4">
-        <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-6">
+        <div class="
+          w-full max-w-md
+          bg-white
+          rounded-2xl
+          border border-red-200
+          p-6
+    
+          shadow-[0_25px_60px_rgba(239,68,68,0.35)]
+          animate-[fadeIn_0.2s_ease-out]
+        ">
     
             <!-- ICON -->
-            <div class="flex justify-center mb-4">
-                <div class="h-14 w-14 rounded-full bg-orange-100 flex items-center justify-center">
-                <div class="flex justify-center mb-4">
-                    <div class="relative">
-                        <!-- Avatar -->
-                        <img [src]="userToDelete.avatar || 'https://i.pravatar.cc/80'" alt="User avatar"
-                            class="h-16 w-16 rounded-full object-cover border-2 border-orange-300 shadow" />
-                
-                        <!-- Warning badge -->
-                        <span class="absolute -bottom-1 -right-1 h-6 w-6 rounded-full
-                             bg-orange-500 text-white
-                             flex items-center justify-center
-                             border-2 border-white shadow">
-                            <i class="bx bx-error text-sm"></i>
-                        </span>
-                    </div>
-                </div>
-
+            <div class="flex justify-center mb-3">
+                <div class="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center">
+                    <i class="bx bx-message-circle-exclamation text-2xl text-red-600"></i>
+                    
                 </div>
             </div>
     
             <!-- TITLE -->
-            <h3 class="text-lg font-bold text-gray-800 text-center">
-                Cannot Delete User
+            <h3 class="text-lg font-bold text-red-700 text-center">
+                Confirm User Deletion
             </h3>
     
             <!-- MESSAGE -->
-            <p class="text-sm text-gray-600 text-center mt-2">
-                <span class="font-semibold">{{ userToDelete.name }}</span>
-                has one or more tasks assigned.
-                You must review those tasks before deleting this user.
+            <p class="text-sm text-gray-600 text-center mt-3 leading-relaxed">
+                You are about to permanently delete
+                <span class="font-semibold text-gray-800">
+                    {{ userToDelete.name }}
+                </span>.
+                <br />
+                <span class="text-red-600 font-medium">
+                    This action cannot be undone.
+                </span>
             </p>
     
             <!-- ACTIONS -->
             <div class="mt-6 flex justify-end gap-3">
-                <button (click)="closeAllPopups()" class="px-4 py-2 rounded-xl border border-gray-300 text-gray-600">
+                <button (click)="closeAllPopups()" class="
+              px-4 py-2
+              rounded-xl
+              border border-gray-300
+              text-gray-600
+              hover:bg-gray-100
+              transition
+            ">
                     Cancel
                 </button>
     
-                <button (click)="goToUserTasks()" class="px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold">
-                    View Tasks
+                <button (click)="confirmFinalDelete()" class="
+              px-4 py-2
+              rounded-xl
+              bg-red-600
+              text-white
+              font-semibold
+              hover:bg-red-700
+              shadow-md
+              transition
+            ">
+                    Delete User
                 </button>
             </div>
+    
         </div>
     </div>
+    }
+
+    @if (showTaskBlockPopup && userToDelete) {
+    
+<!-- BACKDROP -->
+<div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"></div>
+
+<!-- MODAL -->
+<div class="fixed inset-0 z-50 flex items-center justify-center px-4">
+    <div class="
+      w-full max-w-md
+      bg-white
+      rounded-2xl
+      border border-orange-200
+      p-6
+
+      shadow-[0_25px_60px_rgba(251,191,36,0.35)]
+      animate-[fadeIn_0.2s_ease-out]
+    ">
+
+        <!-- ICON -->
+        <div class="flex justify-center mb-3">
+            <div class="h-12 w-12 rounded-full bg-orange-100 flex items-center justify-center">
+                <i class="bx bx-info-circle text-2xl text-orange-600"></i>
+            </div>
+        </div>
+
+        <!-- TITLE -->
+        <h3 class="text-lg font-bold text-orange-700 text-center">
+            User Cannot Be Deleted
+        </h3>
+
+        <!-- MESSAGE -->
+        <p class="text-sm text-gray-600 text-center mt-3 leading-relaxed">
+            <span class="font-semibold text-gray-800">
+                {{ userToDelete.name }}
+            </span>
+            currently has one or more tasks assigned.
+            <br />
+            <span class="text-orange-600 font-medium">
+                Please review or reassign these tasks before deleting the user.
+            </span>
+        </p>
+
+        <!-- ACTIONS -->
+        <div class="mt-6 flex justify-end gap-3">
+            <button (click)="closeAllPopups()" class="
+          px-4 py-2
+          rounded-xl
+          border border-gray-300
+          text-gray-600
+          hover:bg-gray-100
+          transition
+        ">
+                Cancel
+            </button>
+
+            <button (click)="goToUserTasks()" class="
+          px-4 py-2
+          rounded-xl
+          bg-orange-500
+          text-white
+          font-semibold
+          hover:bg-orange-600
+          shadow-md
+          transition
+        ">
+                View Assigned Tasks
+            </button>
+        </div>
+
+    </div>
+</div>
     }
 
 

@@ -21,8 +21,8 @@
                     @else {
 
                     <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                        <div class="absolute top-5 right-5"><i class='bx text-3xl text-blue-300 bx-check-shield'></i>
-                        </div>
+                        <div class="absolute top-5 right-5"><i class='bx text-3xl text-blue-300 bx-list-square'></i>
+                        </div> 
                         <p class="text-sm font-medium text-blue-600 mb-1">
                             Total Tasks
                         </p>
@@ -38,10 +38,11 @@
 
                     <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
                         <div class="absolute top-5 right-5"><i
-                                class='bx text-3xl text-green-300 bx-clock-dashed-half'></i>
+                                class='bx text-3xl text-green-300 bx-task'></i>
                         </div>
                         <p class="text-sm font-medium text-green-600 mb-1">
-                            Complated Tasks
+                        Completed Tasks
+
                         </p>
 
                         <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
@@ -49,15 +50,17 @@
                         </h3>
 
                         <p class="text-sm text-gray-500">
-                            Tasks created so far
+                    Tasks   successfully completed
+
                         </p>
                     </div>
 
                     <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                        <div class="absolute top-5 right-5"><i class='bx text-3xl text-orange-200  bx-bolt-alt'></i>
-                        </div>
+                        <div class="absolute top-5 right-5"><i class='bx text-3xl text-orange-200  bx-clock-dashed-half'></i>
+                        </div> 
                         <p class="text-sm font-medium text-orange-400 mb-1">
-                            In Progress Tasks
+                    In Progress Tasks
+
                         </p>
 
                         <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
@@ -65,14 +68,16 @@
                         </h3>
 
                         <p class="text-sm text-gray-500">
-                            Tasks created so far
+                        Tasks currently being worked on
+
                         </p>
                     </div>
 
                     <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
                         <div class="absolute top-5 right-5"><i class='bx text-3xl text-red-200  bx-skull'></i></div>
                         <p class="text-sm font-medium text-red-600 mb-1">
-                            Panddding Tasks
+                    Pending Tasks
+
                         </p>
 
                         <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
@@ -80,7 +85,8 @@
                         </h3>
 
                         <p class="text-sm text-gray-500">
-                            Tasks created so far
+                        Tasks awaiting action
+
                         </p>
                     </div>
 
@@ -120,13 +126,15 @@
                   ">
                 
                         <!-- SEARCH -->
-                        <input type="text" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="filterBySearch()" class="h-11 w-full rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm
+                        <input type="text" placeholder="Search tasks by name
+" [(ngModel)]="searchText" (ngModelChange)="filterBySearch()" class="h-11 w-full rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm
                              focus:ring-2 focus:ring-blue-500 transition" />
                 
                         <!-- USER FILTER -->
                         <div class="relative w-full tf-field">
                             <ng-select class="tf-ng w-full" [items]="assignableUsers" bindLabel="name" bindValue="id" [multiple]="true"
-                                placeholder="Filter by user" [(ngModel)]="selectedUserFilter" (change)="applyAllFilters()">
+                                placeholder="Filter by assigned user
+" [(ngModel)]="selectedUserFilter" (change)="applyAllFilters()">
                             </ng-select>
                             <i class="bx bx-chevron-down tf-icon"></i>
                         </div>
@@ -134,7 +142,8 @@
                         <!-- DATE RANGE -->
                         <div class="relative w-full">
                             <input type="text" ngxDaterangepickerMd [formControl]="dateRangeControl" [showClearButton]="true"
-                                placeholder="Filter by date range" class="h-11 w-full rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm
+                                placeholder="Filter by due date range
+" class="h-11 w-full rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm
                                focus:ring-2 focus:ring-blue-500 transition" />
                         </div>
                 
@@ -149,7 +158,8 @@
                             <button type="button" (click)="clearAllFilters()" class="h-11 px-4 rounded-xl border border-red-200 bg-red-50
                                text-red-600 text-sm font-medium hover:bg-red-100 transition
                                flex-1 sm:flex-none whitespace-nowrap">
-                                Clear Filters
+                            Clear Filters
+
                             </button>
                 
                             <!-- ADD TASK -->
@@ -452,7 +462,8 @@
                             </h3>
 
                             <p class="text-sm text-gray-500 mt-2 max-w-sm">
-                                You’re all set! Create your first task to start tracking progress.
+                            There are no tasks matching your current filters.
+
                             </p>
 
                         
@@ -677,8 +688,7 @@
             </h2>
 
             <p class="text-center text-sm text-gray-600 mb-4">
-                {{ editingTask ? 'Update the details of your task below.' : 'Fill in the details of your new task
-                below.' }}
+                {{ editingTask ? 'Update the details of this task below.' : 'Provide the details below to create a new task.' }}
             </p>
 
             <form [formGroup]="taskForm" (ngSubmit)="saveTask()" class="flex flex-col gap-4">

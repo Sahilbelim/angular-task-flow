@@ -437,26 +437,69 @@ export class UsersPage implements OnInit, OnDestroy {
   //   });
   // }
 
+  // deleteUser(user: any) {
+  //   if (!this.canManageUsers()) {
+  //     this.toastr.warning('You do not have permission');
+  //     return;
+  //   }
+
+  //   this.userToDelete = user;
+
+  //   const hasAssignedTasks = this.api.hasAssignedTasks(user.id);
+
+  //   // 🔴 CASE 1: USER HAS ASSIGNED TASKS → BLOCK DELETE
+  //   if (hasAssignedTasks) {
+  //     this.showTaskBlockPopup = true;
+  //     document.body.classList.add('overflow-hidden');
+  //     return;
+  //   }
+
+  //   // 🟡 CASE 2: USER HAS NO TASKS → ASK CONFIRMATION
+  //   this.showDeleteConfirmPopup = true;
+  //   document.body.classList.add('overflow-hidden');
+  // }
+
+  // deleteUser(user: any) {
+  //   if (!this.canManageUsers()) {
+  //     this.toastr.warning('You do not have permission');
+  //     return;
+  //   }
+
+  //   // 🔄 RESET STATES (CRITICAL)
+  //   this.showTaskBlockPopup = false;
+  //   this.showDeleteConfirmPopup = false;
+
+  //   this.userToDelete = user;
+
+  //   const hasAssignedTasks = this.api.hasAssignedTasks(user.id);
+
+  //   if (hasAssignedTasks) {
+  //     this.showTaskBlockPopup = true;
+  //   } else {
+  //     this.showDeleteConfirmPopup = true;
+  //   }
+
+  //   document.body.classList.add('overflow-hidden');
+  // }
+
   deleteUser(user: any) {
     if (!this.canManageUsers()) {
       this.toastr.warning('You do not have permission');
       return;
     }
 
+    this.showTaskBlockPopup = false;
+    this.showDeleteConfirmPopup = false;
     this.userToDelete = user;
-
-    const hasAssignedTasks = this.api.hasAssignedTasks(user.id);
-
-    // 🔴 CASE 1: USER HAS ASSIGNED TASKS → BLOCK DELETE
-    if (hasAssignedTasks) {
-      this.showTaskBlockPopup = true;
-      document.body.classList.add('overflow-hidden');
-      return;
-    }
-
-    // 🟡 CASE 2: USER HAS NO TASKS → ASK CONFIRMATION
-    this.showDeleteConfirmPopup = true;
     document.body.classList.add('overflow-hidden');
+
+    this.api.hasAssignedTasks$(user.id).subscribe(hasTasks => {
+      if (hasTasks) {
+        this.showTaskBlockPopup = true;
+      } else {
+        this.showDeleteConfirmPopup = true;
+      }
+    });
   }
 
   closeTaskPopup() {
@@ -466,6 +509,23 @@ export class UsersPage implements OnInit, OnDestroy {
   }
 
  
+  // closeAllPopups() {
+  //   this.showTaskBlockPopup = false;
+  //   this.showDeleteConfirmPopup = false;
+  //   this.userToDelete = null;
+  //   document.body.classList.remove('overflow-hidden');
+  // }
+
+  // confirmFinalDelete() {
+  //   if (!this.userToDelete) return;
+
+  //   this.api.deleteUser(this.userToDelete.id).subscribe(() => {
+  //     this.toastr.success('User deleted');
+  //     this.closeAllPopups();
+  //     this.sidebarOpen = false;
+  //   });
+  // }
+
   closeAllPopups() {
     this.showTaskBlockPopup = false;
     this.showDeleteConfirmPopup = false;
@@ -473,13 +533,53 @@ export class UsersPage implements OnInit, OnDestroy {
     document.body.classList.remove('overflow-hidden');
   }
 
+  // confirmFinalDelete() {
+  //   if (!this.userToDelete) return;
+
+  //   // 🔒 FINAL SAFETY CHECK
+  //   const hasAssignedTasks = this.api.hasAssignedTasks(this.userToDelete.id);
+
+  //   if (hasAssignedTasks) {
+  //     this.closeAllPopups();
+  //     this.showTaskBlockPopup = true;
+  //     document.body.classList.add('overflow-hidden');
+  //     return;
+  //   }
+
+  //   // ✅ SAFE DELETE
+  //   this.api.deleteUser(this.userToDelete.id).subscribe({
+  //     next: () => {
+  //       this.toastr.success('User deleted successfully');
+  //       this.closeAllPopups();
+  //     },
+  //     error: () => {
+  //       this.toastr.error('Failed to delete user');
+  //     }
+  //   });
+  // }
+
   confirmFinalDelete() {
     if (!this.userToDelete) return;
 
-    this.api.deleteUser(this.userToDelete.id).subscribe(() => {
-      this.toastr.success('User deleted');
-      this.closeAllPopups();
-      this.sidebarOpen = false;
+    this.api.hasAssignedTasks$(this.userToDelete.id).subscribe(hasTasks => {
+
+      if (hasTasks) {
+        this.closeAllPopups();
+        this.showTaskBlockPopup = true;
+        document.body.classList.add('overflow-hidden');
+        return;
+      }
+
+      // ✅ SAFE DELETE
+      this.api.deleteUser(this.userToDelete.id).subscribe({
+        next: () => {
+          this.toastr.success('User deleted successfully');
+          this.closeAllPopups();
+        },
+        error: () => {
+          this.toastr.error('Failed to delete user');
+        }
+      });
     });
   }
 

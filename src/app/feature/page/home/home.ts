@@ -158,27 +158,94 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
     this.userChart = new Chart('userBar', {
       type: 'bar',
       data: {
-        labels: ['Create User', 'Create Task', 'Edit Task', 'Delete Task'],
-        datasets: [{
-          data: [
-            this.userStats.canCreateUser,
-            this.userStats.canCreateTask,
-            this.userStats.canEditTask,
-            this.userStats.canDeleteTask,
-          ],
-          backgroundColor: '#3b82f6',
-          borderRadius: 6,
-          maxBarThickness: 40,
-        }]
+        labels: [
+          'Create User',
+          'Create Task',
+          'Edit Task',
+          'Delete Task',
+        ],
+        datasets: [
+          {
+            data: [
+              this.userStats.canCreateUser,
+              this.userStats.canCreateTask,
+              this.userStats.canEditTask,
+              this.userStats.canDeleteTask,
+            ],
+
+            /* 🎨 PER-BAR COLORS */
+            backgroundColor: [
+              'rgba(59, 130, 246, 0.85)',   // blue
+              'rgba(34, 197, 94, 0.85)',    // green
+              'rgba(245, 158, 11, 0.85)',   // orange
+              'rgba(239, 68, 68, 0.85)',    // red
+            ],
+
+            hoverBackgroundColor: [
+              'rgba(59, 130, 246, 1)',
+              'rgba(34, 197, 94, 1)',
+              'rgba(245, 158, 11, 1)',
+              'rgba(239, 68, 68, 1)',
+            ],
+
+            borderRadius: 10,
+            borderSkipped: false,
+            maxBarThickness: 44,
+          },
+        ],
       },
+
       options: {
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { grid: { display: false } },
-          y: { grid: { color: '#e5e7eb' } },
-        },
+        responsive: true,
         maintainAspectRatio: false,
-      }
+
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            backgroundColor: '#1f2937',
+            titleColor: '#fff',
+            bodyColor: '#e5e7eb',
+            padding: 10,
+            cornerRadius: 8,
+            callbacks: {
+              label: (ctx) => ` ${ctx.raw} users`,
+            },
+          },
+        },
+
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: {
+              color: '#475569',
+              font: { weight: 600 },
+            },
+          },
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: '#e5e7eb',
+              // drawBorder: false,
+            },
+            border: {
+              display: false,
+            },
+
+            ticks: {
+              color: '#64748b',
+              stepSize: 1,
+            },
+          },
+        },
+
+        animation: {
+          duration: 900,
+          easing: 'easeOutQuart',
+        },
+      },
     });
   }
+
 }

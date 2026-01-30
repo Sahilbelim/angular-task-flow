@@ -10,7 +10,7 @@ import { ApiService } from '../../../core/service/mocapi/api/api';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './profile.html',
 })
 export class ProfilePage implements OnInit {

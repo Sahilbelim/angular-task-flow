@@ -21,7 +21,7 @@
                     @else {
                 
                     <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                        <div class="absolute top-5 right-5"><i class='bx text-3xl text-blue-300 bx-check-shield'></i>
+                        <div class="absolute top-5 right-5"><i class="bx bx-layers text-2xl text-blue-300"></i>
                         </div>
                         <p class="text-sm font-medium text-blue-600 mb-1">
                             Total Tasks
@@ -32,12 +32,12 @@
                         </h3>
                 
                         <p class="text-sm text-gray-500">
-                            Tasks created so far
+                            All tasks created in this workspace
                         </p>
                     </div>
                 
                     <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                        <div class="absolute top-5 right-5"><i class='bx text-3xl text-green-300 bx-clock-dashed-half'></i>
+                        <div class="absolute top-5 right-5"><i class="bx bx-check-circle text-2xl text-green-300"></i>
                         </div>
                         <p class="text-sm font-medium text-green-600 mb-1">
                             Complated Tasks
@@ -48,15 +48,16 @@
                         </h3>
                 
                         <p class="text-sm text-gray-500">
-                            Tasks created so far
+                        Tasks successfully completed
                         </p>
                     </div>
                 
                     <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                        <div class="absolute top-5 right-5"><i class='bx text-3xl text-orange-200  bx-bolt-alt'></i>
+                        <div class="absolute top-5 right-5"><i class="bx bx-clock-5 text-2xl text-orange-300"></i>
+                         
                         </div>
                         <p class="text-sm font-medium text-orange-400 mb-1">
-                       Not Complated Tasks
+                    Open Tasks
                         </p>
                 
                         <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
@@ -64,14 +65,14 @@
                         </h3>
                 
                         <p class="text-sm text-gray-500">
-                            Tasks created so far
+                            Pending or currently in progress
                         </p>
                     </div>
                 
                     <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                        <div class="absolute top-5 right-5"><i class='bx text-3xl text-red-200  bx-skull'></i></div>
-                        <p class="text-sm font-medium text-red-600 mb-1">
-                            Total Users
+                        <div class="absolute top-5 right-5"><i class="bx bx-user text-2xl text-purple-300"></i></div>
+                        <p class="text-sm font-medium text-purple-600 mb-1">
+                        Workspace Users
                         </p>
                 
                         <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
@@ -79,7 +80,7 @@
                         </h3>
                 
                         <p class="text-sm text-gray-500">
-                            Tasks created so far
+                            Active users with assigned roles
                         </p>
                     </div>
                 
@@ -111,7 +112,7 @@
 
                 <!-- TASK STATUS -->
                 <div class="bg-white rounded-2xl p-4 border border-blue-100 flex flex-col">
-                    <p class="text-sm font-semibold text-gray-700 mb-2">Task Status</p>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">Task Progress Overview</p>
                     <div class="relative h-[260px] md:h-[320px] lg:h-[380px] w-full">
                         <canvas id="taskPie"></canvas>
                     </div>
@@ -119,7 +120,7 @@
 
                 <!-- USER PERMISSIONS -->
                 <div class="bg-white rounded-2xl p-4 border border-blue-100 flex flex-col lg:col-span-2">
-                    <p class="text-sm font-semibold text-gray-700 mb-2">User Permissions</p>
+                    <p class="text-sm font-semibold text-gray-700 mb-2">User Access & Permissions</p>
                     <div class="relative h-[260px] md:h-[320px] lg:h-[380px] w-full">
                         <canvas id="userBar"></canvas>
                     </div>
