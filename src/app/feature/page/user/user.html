@@ -1,7 +1,4 @@
-<!-- <div class="pt-[60px]" > -->
-    <!-- <div class="pt-[60px] overflow-hidden"> -->
-
-        <div class=" min-h-[calc(100vh-60px)] overflow-x-hidden">
+ <div class=" min-h-[calc(100vh-60px)] overflow-x-hidden">
 
 
     <div class="min-h-screen pt-[83px] bg-gradient-to-br from-blue-100 via-sky-100 to-indigo-200">
@@ -87,15 +84,8 @@
                         High-risk permission
                         </p>
                     </div>
-                
-                    }
-                
-                
+                    }   
                 </div>
-
-
-
-
 
             <!-- TABLE CARD -->
             <div class="mt-5 bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 shadow">
@@ -115,8 +105,8 @@
                     </div>
                     } @else {
 
-                    <!-- EXISTING FILTER BAR (UNCHANGED) -->
-                    <!-- LEFT SIDE -->
+                    <!--  FILTER BAR -->
+                    
                     <div class="flex flex-col gap-3
                 sm:flex-row sm:items-center
                 w-full md:w-auto md:flex-1">
@@ -220,8 +210,7 @@
 
                                 <td class="px-5 py-3">
                                     <div class="flex items-center gap-3">
-                                        <!-- <img [src]="user.avatar || 'https://i.pravatar.cc/40'"
-                                            class="w-9 h-9 rounded-full object-cover border border-blue-200" /> -->
+                                      
                                         <span class="font-medium text-gray-900">
                                             {{ user.name }}
                                         </span>
@@ -333,10 +322,6 @@
         </div>
 
         <!-- SIDEBAR -->
-        <!-- <div class="fixed top-0 right-0 h-full w-full sm:w-[420px]
-             bg-white z-50 shadow-2xl
-             transform transition-transform duration-300 animate-[slideIn_0.3s_ease-out]"> -->
-
 <div class="fixed top-[64px] right-0
             h-[calc(100dvh-60px)]
             w-full sm:w-[420px]
@@ -370,7 +355,6 @@
         </p>
         
         <!-- FORM -->
-        <!-- <form [formGroup]="adminForm" (ngSubmit)="submit()" class="space-y-5"> -->
         <form [formGroup]="adminForm" (ngSubmit)="submitAdminForm()" class="space-y-5">
             <!-- NAME -->
             <div>
@@ -433,14 +417,14 @@
                 </div>
                 @if (!isEditMode && password?.touched && password?.invalid) {
                 
-                <!-- 1️⃣ REQUIRED FIRST -->
+                
                 @if (password?.errors?.['required']) {
                 <p class="text-red-500 text-xs mt-1">
                     Password is required
                 </p>
                 }
                 
-                <!-- 2️⃣ RULES ONLY IF NOT EMPTY -->
+               
                 @else {
                 <div class="mt-3 space-y-1 text-sm">
                 
@@ -535,46 +519,15 @@
             </button>
             }
         
-        </form>
-</div>
-
-
-            <!-- <app-admin-add-user [editUser]="editUser" (close)="closeSidebar()">
-            </app-admin-add-user> -->
-
-            
-
-        </div>
-        }
+             </form>
+         </div>
     </div>
+ }
+</div>
 
     @if (showDeleteConfirmPopup && userToDelete) {
     
-    <!-- <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"></div>
-    
-    <div class="fixed inset-0 z-50 flex items-center justify-center px-4">
-        <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-6">
-    
-            <h3 class="text-lg font-bold text-gray-800 text-center">
-                Confirm Delete
-            </h3>
-    
-            <p class="text-sm text-gray-600 text-center mt-2">
-                Are you sure you want to permanently delete
-                <span class="font-semibold">{{ userToDelete.name }}</span>?
-            </p>
-    
-            <div class="mt-6 flex justify-end gap-3">
-                <button (click)="closeAllPopups()" class="px-4 py-2 rounded-xl border border-gray-300 text-gray-600">
-                    Cancel
-                </button>
-    
-                <button (click)="confirmFinalDelete()" class="px-4 py-2 rounded-xl bg-red-600 text-white font-semibold">
-                    Delete
-                </button>
-            </div>
-        </div>
-    </div> -->
+        
     <!-- BACKDROP -->
     <div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"></div>
     
@@ -715,10 +668,7 @@
                 View Assigned Tasks
             </button>
         </div>
-
     </div>
 </div>
-    }
-
-
+}
 </div>

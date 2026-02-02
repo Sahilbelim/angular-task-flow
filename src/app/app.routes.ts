@@ -19,15 +19,10 @@ export const routes: Routes = [
         canActivate: [authGuard],
         component: Dashbord
     },
-    {
-        path: 'admin/users',
-        component: AdminUsersPage,
-        canActivate: [authGuard]
-    },
        {
         path: 'users',
         component: UsersPage,
-        // canActivate: [authGuard]
+       
     },{
         path: 'profile',
         component: ProfilePage,

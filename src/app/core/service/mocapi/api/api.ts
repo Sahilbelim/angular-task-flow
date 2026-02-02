@@ -44,19 +44,7 @@ export class ApiService {
   private currentUserSubject = new BehaviorSubject<any | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
-  /* =========================
-     🔐 GET CURRENT USER
-  ========================= */
-   
-
-  /* =========================
-     🔐 SYNC USER FROM STORAGE
-  ========================= */
- 
-
-  /* =========================
-     🔐 QUICK ACCESS (SYNC)
-  ========================= */
+  
   getUser() {
     return this.currentUserSubject.value;
   }
@@ -96,10 +84,6 @@ export class ApiService {
     }
   }
 
-  /* =========================
-     🔐 REACTIVE USER STREAM
-  ========================= */
-  // currentUser$ = this.currentUserSubject.asObservable();
 
 
   /* =====================================================
@@ -124,27 +108,7 @@ export class ApiService {
     return !!u.permissions?.[key];
   }
  
-  // register(payload: any) {
-  //   return this.http.get<any[]>(`${this.API}/user`, {
-  //     params: { email: payload.email }
-  //   }).pipe(
-  //     switchMap(users => {
-  //       if (users.length) {
-  //         return throwError(() => new Error('Email already registered'));
-  //       }
-
-  //       return this.http.post<any>(`${this.API}/user`, {
-  //         ...payload,
-  //         createdAt: new Date().toISOString()
-  //       });
-  //     }),
-  //     tap(user => {
-  //       // ✅ auto login after register
-  //       this.setUser(user);
-  //     })
-  //   );
-  // }
-
+ 
   register(payload: any) {
     return this.http.get<any[]>(`${this.API}/user`).pipe(
       switchMap(users => {
@@ -206,31 +170,7 @@ export class ApiService {
   /* =====================================================
      👤 USERS (CACHED)
   ===================================================== */
-
-  // private loadUsersOnce() {
-  //   if (this.usersLoaded) return;
-
-  //   const me = this.user();
-  //   if (!me) return;
-
-    
-
-  //   this.http.get<any[]>(`${this.API}/user`).pipe(
-  //     map(users =>
-
-
-
-  //       users.filter(u =>
-  //         u.id === me.id ||
-  //         u.parentId === me.id ||
-  //         u.parentId === me.parentId
-  //       )
-  //     )
-  //   ).subscribe(users => {
-  //     this.usersSubject.next(users);
-  //     this.usersLoaded = true;
-  //   });
-  // }
+ 
 
   private loadUsersOnce() {
     if (this.usersLoaded) return;
@@ -514,23 +454,7 @@ export class ApiService {
   /* =====================
    🔍 USER ↔ TASK CHECK
 ===================== */
-  // hasAssignedTasks(userId: string): boolean {
-  //   return this.tasksSnapshot.some(task =>
-  //     Array.isArray(task.assignedUsers) &&
-  //     task.assignedUsers.includes(userId)
-  //   );
-  // }
-
-  // api.service.ts
-  // hasAssignedTasks(userId: string | number): boolean {
-  //   return this.tasksSnapshot?.some(task =>
-  //     Array.isArray(task.assignedUsers) &&
-  //     task.assignedUsers.map(String).includes(String(userId))
-  //   );
-  // }
-
-  // api.service.ts
-  hasAssignedTasks$(userId: string | number) {
+   hasAssignedTasks$(userId: string | number) {
     return this.tasks$.pipe(          // observable of tasks
       map(tasks =>
         tasks.some(task =>
