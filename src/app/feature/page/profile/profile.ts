@@ -19,7 +19,8 @@ export class ProfilePage implements OnInit {
   flipped = false;
   showFullBio = false;
   profileForm: any;
-  
+  countries: string[] = [];
+
 
   constructor(
     private fb: FormBuilder,
@@ -52,6 +53,12 @@ export class ProfilePage implements OnInit {
 
     // 3️⃣ Fetch from backend ONLY ONCE
     this.api.getCurrentUser()?.subscribe();
+
+
+    // ✅ COUNTRIES FROM SERVICE
+    this.api.getCountries$().subscribe(list => {
+      this.countries = list;
+    });
   }
 
   /* =====================

@@ -65,7 +65,7 @@
                 <label class="text-sm font-semibold text-blue-700">Password</label>
 
                 <div class="relative">
-                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••"
+                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••" securePassword
                         class="w-full rounded-xl bg-blue-50 border border-blue-200 px-4 py-3
                    focus:ring-2 focus:ring-blue-500 transition" />
 
@@ -76,55 +76,54 @@
                 </div>
 
                 <!-- PASSWORD RULES -->
-                 @if(registerForm.get('password')?.touched && registerForm.get('password')?.invalid){
-                @if (registerForm.get('password')?.touched) {
+                @if (password?.touched && password?.invalid) {
+                
+                <!-- REQUIRED -->
+                @if (password?.hasError('required')) {
+                <p class="text-red-500 text-sm mt-1">Password is required</p>
+                }
+                
+                <!-- RULES (only when user typed something) -->
+                @else {
                 <div class="mt-2 space-y-1 text-sm">
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasUppercase"
-                        [class.text-red-500]="!hasUppercase">
-                        <i class="bx" [class.bx-check-circle]="hasUppercase" [class.bx-x-circle]="!hasUppercase"></i>
+                
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasUppercase" [class.text-red-500]="!hasUppercase">
                         Uppercase letter
                     </div>
-
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasLowercase"
-                        [class.text-red-500]="!hasLowercase">
-                        <i class="bx" [class.bx-check-circle]="hasLowercase" [class.bx-x-circle]="!hasLowercase"></i>
+                
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasLowercase" [class.text-red-500]="!hasLowercase">
                         Lowercase letter
                     </div>
-
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasNumber"
-                        [class.text-red-500]="!hasNumber">
-                        <i class="bx" [class.bx-check-circle]="hasNumber" [class.bx-x-circle]="!hasNumber"></i>
+                
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasNumber" [class.text-red-500]="!hasNumber">
                         Number
                     </div>
-
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasSpecialChar"
-                        [class.text-red-500]="!hasSpecialChar">
-                        <i class="bx" [class.bx-check-circle]="hasSpecialChar"
-                            [class.bx-x-circle]="!hasSpecialChar"></i>
+                
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasSpecialChar" [class.text-red-500]="!hasSpecialChar">
                         Special character
                     </div>
-
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasMinLength"
-                        [class.text-red-500]="!hasMinLength">
-                        <i class="bx" [class.bx-check-circle]="hasMinLength" [class.bx-x-circle]="!hasMinLength"></i>
+                
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasMinLength" [class.text-red-500]="!hasMinLength">
                         Min 8 characters
                     </div>
-
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasMaxLength"
-                        [class.text-red-500]="!hasMaxLength">
-                        <i class="bx" [class.bx-check-circle]="hasMaxLength" [class.bx-x-circle]="!hasMaxLength"></i>
+                
+                    <div class="flex items-center gap-2" [class.text-green-600]="hasMaxLength" [class.text-red-500]="!hasMaxLength">
                         Max 32 characters
                     </div>
+                
                 </div>
                 }
-            }
+                }
+
             </div>
             <!-- CONFIRM PASSWORD -->
             <div>
                 <label class="text-sm font-semibold text-blue-700">Confirm Password</label>
 
                 <div class="relative">
-                    <input [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confrimpassword"
+                    <input [type]="showConfirmPassword ? 'text' : 'password'" 
+                    securePassword
+                    formControlName="confrimpassword"
                         placeholder="••••••••" class="w-full rounded-xl bg-blue-50 border border-blue-200 px-4 py-3
                    focus:ring-2 focus:ring-blue-500 transition" />
 
@@ -135,12 +134,18 @@
                     </button>
                 </div>
 
-                @if (registerForm.errors?.['passwordMismatch']
-                && registerForm.get('confrimpassword')?.touched) {
-                <div class="text-red-500 text-sm mt-1">
-                    Passwords do not match
-                </div>
-                }
+            @if (registerForm.get('confrimpassword')?.touched) {
+            
+            @if (registerForm.get('confrimpassword')?.hasError('required')) {
+            <p class="text-red-500 text-sm mt-1">Confirm password is required</p>
+            }
+            
+            @else if (registerForm.hasError('passwordMismatch')) {
+            <p class="text-red-500 text-sm mt-1">Passwords do not match</p>
+            }
+            
+            }
+
             </div>
 
           

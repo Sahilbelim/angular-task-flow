@@ -11,7 +11,7 @@ import { ApiService } from './core/service/mocapi/api/api';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App  {
+export class App  implements OnInit {
   isOverlayOpen = false;
 
   constructor(private api: ApiService) {
@@ -19,4 +19,9 @@ export class App  {
       this.isOverlayOpen = v;
     });
   }
+
+  ngOnInit() {
+  this.api.loadUserFromStorage();
+  this.api.getCurrentUser()?.subscribe();
+}
 }

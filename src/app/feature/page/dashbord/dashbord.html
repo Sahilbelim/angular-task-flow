@@ -138,7 +138,7 @@
                         <!-- USER FILTER -->
                         <div class="relative w-full tf-field">
                             <ng-select class="tf-ng w-full" [items]="assignableUsers" bindLabel="name" bindValue="id" [multiple]="true"
-                                placeholder="Filter by assigned user"
+                                placeholder="Filter by assigned user" [closeOnSelect]="true"
                                   title="Filter tasks by assigned users"
   aria-label="Filter by assigned users"
    [(ngModel)]="selectedUserFilter" (change)="applyAllFilters()">
@@ -311,8 +311,11 @@
                                 </ng-template>
 
                                 <!-- TITLE -->
-                                <td class="px-5 py-3 font-medium text-gray-900">
-                                    {{ task.title }}
+                                <td class="px-5 py-3 font-medium text-gray-900"   [title]="task.title">
+                                {{ task.title?.length > 28
+                                ? (task.title | slice:0:28) + '...'
+                                : task.title
+                                }}
                                 </td>
 
                                 <!-- STATUS -->

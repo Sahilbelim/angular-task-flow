@@ -152,7 +152,9 @@ export class UsersPage implements OnInit, OnDestroy {
     }
 
     this.isEditMode = false;
-    this.editUser = null;
+      this.editUser = null;
+      this.enableAllAdminControls();
+
     this.adminForm.reset();
     this.sidebarOpen = true;
     document.body.classList.add('overflow-hidden');
@@ -169,6 +171,7 @@ export class UsersPage implements OnInit, OnDestroy {
 
     this.isEditMode = true;
     this.editUser = user;
+    this.enableAllAdminControls();
 
     this.adminForm.reset({
       name: user.name,
@@ -181,12 +184,14 @@ export class UsersPage implements OnInit, OnDestroy {
     this.adminForm.get('password')?.disable();
 
     this.sidebarOpen = true;
+    // this.isEditMode = false;
     document.body.classList.add('overflow-hidden');
   }
   closeSidebar() {
     this.sidebarOpen = false;
     this.editUser = null;
     this.isEditMode = false;
+    this.enableAllAdminControls();
     this.adminForm.reset();
     document.body.classList.remove('overflow-hidden');
   }
@@ -421,5 +426,10 @@ export class UsersPage implements OnInit, OnDestroy {
     return this.api.user()?.id;
   }
 
+  private enableAllAdminControls() {
+    Object.keys(this.adminForm.controls).forEach(key => {
+      this.adminForm.get(key)?.enable();
+    });
+  }
 
 }

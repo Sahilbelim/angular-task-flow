@@ -46,12 +46,17 @@ export class ApiService {
   private currentUserSubject = new BehaviorSubject<any | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
+  private countriesSubject = new BehaviorSubject<string[]>([]);
+  countries$ = this.countriesSubject.asObservable();
+
+  private countriesLoaded = false;
+
   
 
   setOverlay(open: boolean) {
     this.overlayOpenSubject.next(open);
   }
-  
+
   getUser() {
     return this.currentUserSubject.value;
   }
@@ -164,7 +169,7 @@ export class ApiService {
   logout() {
     localStorage.removeItem('user');
     this.user.set(null);
-
+    this.currentUserSubject.next(null);
     // clear caches
     this.usersSubject.next([]);
     this.tasksSubject.next([]);
@@ -233,16 +238,47 @@ export class ApiService {
     );
   }
 
+  // updateUser(id: string, payload: any) {
+  //   return this.http.put<any>(`${this.API}/user/${id}`, payload).pipe(
+  //     tap(updated => {
+  //       this.usersSubject.next(
+  //         this.usersSubject.value.map(u => u.id === id ? updated : u)
+  //       );
+
+  //       // 🔥 update session user instantly
+  //       if (this.user()?.id === id) {
+  //         this.setUser(updated);
+  //       }
+  //     })
+  //   );
+  // }
+
   updateUser(id: string, payload: any) {
     return this.http.put<any>(`${this.API}/user/${id}`, payload).pipe(
       tap(updated => {
+
+        // 1️⃣ Update users list
         this.usersSubject.next(
           this.usersSubject.value.map(u => u.id === id ? updated : u)
         );
 
-        // 🔥 update session user instantly
+        // 2️⃣ If updated user is CURRENT user → sync session
         if (this.user()?.id === id) {
+
+          // 🔥 update signal + localStorage
           this.setUser(updated);
+
+          // 🔥 update observable user
+          this.currentUserSubject.next(updated);
+
+          // 🔥 RESET permission-based caches
+          this.usersLoaded = false;
+          this.tasksLoaded = false;
+          this.currentUserLoaded = false;
+
+          // 🔥 reload users/tasks with new permissions
+          this.loadUsersOnce();
+          this.loadTasksOnce();
         }
       })
     );
@@ -482,6 +518,37 @@ export class ApiService {
 
   setTaskFilterUser(userId: string | null) {
     this.taskFilterUserSubject.next(userId);
+  }
+
+
+  private loadCountriesOnce() {
+    if (this.countriesLoaded) return;
+
+    this.countriesLoaded = true;
+
+    this.http
+      .get<any[]>('https://restcountries.com/v3.1/all?fields=name')
+      .pipe(
+        map(res =>
+          res
+            .map(c => c.name?.common)
+            .filter(Boolean)
+            .sort((a, b) => a.localeCompare(b))
+        )
+      )
+      .subscribe({
+        next: (countries) => {
+          this.countriesSubject.next(countries);
+        },
+        error: () => {
+          this.countriesLoaded = false; // retry possible
+        }
+      });
+  }
+
+  getCountries$() {
+    this.loadCountriesOnce();
+    return this.countries$;
   }
 
 

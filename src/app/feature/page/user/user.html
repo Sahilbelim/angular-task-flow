@@ -125,7 +125,7 @@
                         </select>
                     
                         <!-- SAME ICON AS ALL DROPDOWNS -->
-                        <i class="bx bx-chevron-down tf-icon"></i>
+                        <i class="bx bx-chevron-down absolute top-4 -right-1  "></i>
                     </div>
 
                     
@@ -249,13 +249,37 @@
                                 
                                 
 
-                                <td class="px-5 py-3 text-left space-x-4">
+                                <!-- <td class="px-5 py-3 text-left space-x-4">
                                     <button (click)="openEdit(user)" class="text-blue-600 hover:underline font-medium">
                                         Edit
                                     </button>
                                     <button (click)="deleteUser(user)" class="text-red-600 hover:underline font-medium">
                                         Delete
                                     </button>
+                                </td> -->
+
+                                <td class="px-5 py-3 text-left space-x-4">
+                                
+                                    <!-- EDIT -->
+                                    <button (click)="canManageUsers() && openEdit(user)" [disabled]="!canManageUsers()" class="font-medium transition
+                                           text-blue-600 hover:underline
+                                           disabled:text-gray-400
+                                           disabled:no-underline
+                                           disabled:cursor-not-allowed"
+                                        [title]="!canManageUsers() ? 'You do not have permission to edit users' : 'Edit user'">
+                                        Edit
+                                    </button>
+                                
+                                    <!-- DELETE -->
+                                    <button (click)="canManageUsers() && deleteUser(user)" [disabled]="!canManageUsers()" class="font-medium transition
+                                           text-red-600 hover:underline
+                                           disabled:text-gray-400
+                                           disabled:no-underline
+                                           disabled:cursor-not-allowed"
+                                        [title]="!canManageUsers() ? 'You do not have permission to delete users' : 'Delete user'">
+                                        Delete
+                                    </button>
+                                
                                 </td>
 
                             </tr>
@@ -365,7 +389,8 @@
                          bg-blue-50 border border-blue-200
                          px-4 py-3
                          focus:ring-2 focus:ring-blue-500
-                         transition" />
+                         transition" [class.text-gray-500]="isEditMode"
+  [class.cursor-not-allowed]="isEditMode" />
                         @if (adminForm.get('name')?.touched && adminForm.get('name')?.invalid) {
                         <p class="text-red-500 text-xs mt-1">Full name is required</p>
                         }
@@ -381,7 +406,8 @@
                          bg-blue-50 border border-blue-200
                          px-4 py-3
                          focus:ring-2 focus:ring-blue-500
-                         transition" />
+                         transition" [class.text-gray-500]="isEditMode"
+  [class.cursor-not-allowed]="isEditMode"/>
                     @if (adminForm.get('email')?.touched && adminForm.get('email')?.invalid) {
                     <p class="text-red-500 text-xs mt-1">
                         @if (adminForm.get('email')?.errors?.['required']) {
@@ -404,7 +430,7 @@
                 </label>
                 <div class="relative">
         
-                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••" class="w-full mt-1 rounded-xl
+                    <input [type]="showPassword ? 'text' : 'password'" securePassword formControlName="password" placeholder="••••••••" class="w-full mt-1 rounded-xl
                          bg-blue-50 border border-blue-200
                          px-4 py-3
                          focus:ring-2 focus:ring-blue-500

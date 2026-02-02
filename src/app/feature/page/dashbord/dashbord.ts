@@ -124,7 +124,9 @@ export class Dashbord implements OnInit {
   ) { 
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
-      dueDate: ['', Validators.required],
+      dueDate: ['',
+        Validators.required
+      ],
       status: ['pending' as TaskStatus],
       priority: ['medium' as TaskPriority],
       assignedUsers: [[] as string[]],
@@ -236,8 +238,10 @@ export class Dashbord implements OnInit {
   ===================== */
   
   saveTask() {
-    if (this.taskForm.invalid) return;
-
+    if (this.taskForm.invalid) {
+      this.taskForm.markAllAsTouched();
+      return;
+    }
     const payload = this.taskForm.value;
 
     const req$ = this.editingTask
@@ -314,7 +318,13 @@ export class Dashbord implements OnInit {
     // this.popupVisible = false;
 
     this.taskForm.enable(); // ✅ restore form
-    this.taskForm.reset({ status: 'pending' });
+    this.taskForm.reset({
+      title: '',
+      dueDate: '',
+      status: 'pending',
+      priority: 'medium',
+      assignedUsers: [],
+    });
  
     this.api.setOverlay(false);
 
@@ -565,8 +575,13 @@ export class Dashbord implements OnInit {
   resetForm() {
     this.popupVisible = false;
     this.editingTask = null;
-    this.taskForm.reset({ status: 'pending' });
-    this.taskForm.reset({ priority: 'medium' });
+    this.taskForm.reset({
+      title: '',
+      dueDate: '',
+      status: 'pending',
+      priority: 'medium',
+      assignedUsers: [],
+    });
  
     this.api.setOverlay(false);
 

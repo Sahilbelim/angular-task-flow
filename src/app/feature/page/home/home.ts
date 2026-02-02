@@ -248,4 +248,9 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  get hasTasks(): boolean {
+    return this.taskStats.total > 0;
+  }
+
+
 }

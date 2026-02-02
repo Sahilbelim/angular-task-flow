@@ -21,15 +21,19 @@ export const routes: Routes = [
     },
        {
         path: 'users',
-        component: UsersPage,
+           component: UsersPage,
+           canActivate: [authGuard]
+        
        
     },{
         path: 'profile',
-        component: ProfilePage,
+           component: ProfilePage,
+           canActivate: [authGuard]
     },
     {
         path: 'change-password',
         component: ChangePasswordPage,
+        canActivate: [authGuard]
     },
     {
         path: '**',
