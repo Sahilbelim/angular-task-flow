@@ -2,7 +2,7 @@
     <div class="relative">
         <div
             class="min-h-screen w-full flex justify-center bg-gradient-to-br from-blue-100 via-sky-100 to-indigo-200 pt-[70px]">
-            <div class="w-full max-w-7xl mx-auto p-6 md:mt-3">
+            <div class="w-full lg:max-w-7xl xl:max-w-full mx-auto p-6 md:mt-3">
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
 
@@ -20,7 +20,8 @@
                     }
                     @else {
 
-                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 "  title="Shows total number of tasks created in the system"
+  aria-label="Total tasks summary card">
                         <div class="absolute top-5 right-5"><i class='bx text-3xl text-blue-300 bx-list-square'></i>
                         </div> 
                         <p class="text-sm font-medium text-blue-600 mb-1">
@@ -36,7 +37,8 @@
                         </p>
                     </div>
 
-                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 " title="Number of tasks that are marked as completed"
+>
                         <div class="absolute top-5 right-5"><i
                                 class='bx text-3xl text-green-300 bx-task'></i>
                         </div>
@@ -55,7 +57,8 @@
                         </p>
                     </div>
 
-                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 " title="Tasks currently being worked on"
+>
                         <div class="absolute top-5 right-5"><i class='bx text-3xl text-orange-200  bx-clock-dashed-half'></i>
                         </div> 
                         <p class="text-sm font-medium text-orange-400 mb-1">
@@ -73,8 +76,9 @@
                         </p>
                     </div>
 
-                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                        <div class="absolute top-5 right-5"><i class='bx text-3xl text-red-200  bx-skull'></i></div>
+                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 " title="Tasks waiting to be started or updated"
+>
+                        <div class="absolute top-5 right-5"><i class='bx text-3xl text-red-200  bx-loader-lines-alt'></i></div> 
                         <p class="text-sm font-medium text-red-600 mb-1">
                     Pending Tasks
 
@@ -95,7 +99,7 @@
 
                 </div>
 
-                <div class="mt-5 w-full  max-w-7xl bg-white/90 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(59,130,246,0.25)]
+                <div class="mt-5 w-full  lg:max-w-7xl xl:max-w-full bg-white/90 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(59,130,246,0.25)]
            border border-blue-100 p-6 transition-all duration-300 hover:shadow-[0_25px_70px_rgba(59,130,246,0.35)]  ">
 
            <!-- Filter  -->
@@ -128,13 +132,16 @@
                         <!-- SEARCH -->
                         <input type="text" placeholder="Search tasks by name
 " [(ngModel)]="searchText" (ngModelChange)="filterBySearch()" class="h-11 w-full rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm
-                             focus:ring-2 focus:ring-blue-500 transition" />
+                             focus:ring-2 focus:ring-blue-500 transition"  title="Search tasks by task title"
+  aria-label="Search tasks" />
                 
                         <!-- USER FILTER -->
                         <div class="relative w-full tf-field">
                             <ng-select class="tf-ng w-full" [items]="assignableUsers" bindLabel="name" bindValue="id" [multiple]="true"
-                                placeholder="Filter by assigned user
-" [(ngModel)]="selectedUserFilter" (change)="applyAllFilters()">
+                                placeholder="Filter by assigned user"
+                                  title="Filter tasks by assigned users"
+  aria-label="Filter by assigned users"
+   [(ngModel)]="selectedUserFilter" (change)="applyAllFilters()">
                             </ng-select>
                             <i class="bx bx-chevron-down tf-icon"></i>
                         </div>
@@ -142,8 +149,10 @@
                         <!-- DATE RANGE -->
                         <div class="relative w-full">
                             <input type="text" ngxDaterangepickerMd [formControl]="dateRangeControl" [showClearButton]="true"
-                                placeholder="Filter by due date range
-" class="h-11 w-full rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm
+                                placeholder="Filter by due date range "
+                                  title="Filter tasks by due date range"
+                                     aria-label="Filter by date range"
+                                class="h-11 w-full rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm
                                focus:ring-2 focus:ring-blue-500 transition" />
                         </div>
                 
@@ -157,7 +166,8 @@
                             <!-- CLEAR -->
                             <button type="button" (click)="clearAllFilters()" class="h-11 px-4 rounded-xl border border-red-200 bg-red-50
                                text-red-600 text-sm font-medium hover:bg-red-100 transition
-                               flex-1 sm:flex-none whitespace-nowrap">
+                               flex-1 sm:flex-none whitespace-nowrap"  title="Clear all applied filters"
+  aria-label="Clear all filters">
                             Clear Filters
 
                             </button>
@@ -166,7 +176,8 @@
                             @if (viewMode !== 'board') {
                             <button (click)="canCreate() && togglePopup()" [disabled]="!canCreate()" class="h-11 px-5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600
                                  text-white text-sm font-semibold flex items-center gap-2
-                                 disabled:opacity-50 transition whitespace-nowrap">
+                                 disabled:opacity-50 transition whitespace-nowrap"   title="Create a new task"
+  aria-label="Add new task">
                                 <i class="bx bx-plus"></i>
                                 <span class="hidden sm:inline">Add Task</span>
                             </button>
@@ -176,13 +187,15 @@
                             <div class="flex h-11 rounded-xl border border-blue-200 overflow-hidden bg-white">
                                 <button (click)="viewMode = 'table'" class="w-11 flex items-center justify-center transition"
                                     [class.bg-blue-600]="viewMode === 'table'" [class.text-white]="viewMode === 'table'"
-                                    [class.text-blue-600]="viewMode !== 'table'">
+                                    [class.text-blue-600]="viewMode !== 'table'"   title="Switch to table view"
+  aria-label="Table view">
                                     <i class="bx bx-table"></i>
                                 </button>
                 
                                 <button (click)="viewMode = 'board'" class="w-11 flex items-center justify-center transition"
                                     [class.bg-blue-600]="viewMode === 'board'" [class.text-white]="viewMode === 'board'"
-                                    [class.text-blue-600]="viewMode !== 'board'">
+                                    [class.text-blue-600]="viewMode !== 'board'"   title="Switch to board (Kanban) view"
+  aria-label="Board view">
                                     <i class="bx bx-columns"></i>
                                 </button>
                             </div>
@@ -229,7 +242,8 @@
                                 <tr class="bg-white border-b border-blue-200 text-gray-700">
 
 
-                                    <th class="px-5 py-3 text-start  font-semibold cursor-pointer hover:text-blue-600" (click)="toggleSortBy('order')">
+                                    <th class="px-5 py-3 text-start  font-semibold cursor-pointer hover:text-blue-600" (click)="toggleSortBy('order')" title="Click to sort tasks by title"
+  aria-label="Sort by task title">
                                         <span > Task</span>
                                       
                                  
@@ -251,7 +265,8 @@
                                     <th class="px-5 py-3 text-center font-semibold">Priority</th>
 
                                     <th class="px-5 py-3 font-semibold cursor-pointer hover:text-blue-600 text-center"
-                                        (click)="toggleSortBy('dueDate')">
+                                        (click)="toggleSortBy('dueDate')"   title="Click to sort tasks by due date"
+  aria-label="Sort by due date">
                                         Due Date
                                     </th>
 
@@ -319,9 +334,9 @@
 
                                 
 
-                                <td class="px-5 py-3 w-[220px] max-w-[220px]">
+                                <td class="px-5 py-3 w-[220px] max-w-[220px]" >
                                     @if (getAssignedUsers(task.id).length === 0) {
-                                    <span class="text-xs text-gray-400 italic">
+                                    <span class="text-xs text-gray-400 italic" title="No users are assigned to this task">
                                         No users
                                     </span>
                                     } @else {
@@ -410,7 +425,8 @@
                                            text-blue-600 hover:underline
                                            disabled:text-gray-400
                                            disabled:no-underline
-                                           disabled:cursor-not-allowed">
+                                           disabled:cursor-not-allowed"   title="Edit this task"
+  aria-label="Edit task">
                                         Edit
                                     </button>
                                 
@@ -419,7 +435,8 @@
                                            text-red-600 hover:underline
                                            disabled:text-gray-400
                                            disabled:no-underline
-                                           disabled:cursor-not-allowed">
+                                           disabled:cursor-not-allowed" title="Delete this task"
+  aria-label="Delete task">
                                         Delete
                                     </button>
                                 
@@ -519,10 +536,15 @@
                                     <div cdkDropList [id]="col.status" [cdkDropListData]="col.data"
                                         [cdkDropListConnectedTo]="connectedDropLists"
                                         (cdkDropListDropped)="onTaskDrop($event, col.status)"
-                                        class="space-y-3 overflow-y-auto pr-1 flex-1">
+                                        class=" relative
+    flex-1
+    overflow-y-auto
+    pr-1
+    space-y-3
+    min-h-[240px]">
 
                                         <!-- ✅ EMPTY STATE -->
-                                        @if (col.data.length === 0) {
+                                        <!-- @if (col.data.length === 0) {
                                         <div class="h-full flex flex-col items-center justify-center
                                                      text-center
                                                      rounded-xl
@@ -530,7 +552,7 @@
                                                      bg-blue-50/40
                                                      px-4 overflow-hidden">
 
-                                            <!-- ICON -->
+                                            ICON
                                             <i class="bx text-5xl mb-3" [ngClass]="{
                                                   'bx-time-five text-red-400': col.status === 'pending',
                                                   'bx-loader-circle text-orange-400': col.status === 'in-progress',
@@ -538,21 +560,52 @@
                                                 }">
                                             </i>
 
-                                            <!-- TITLE -->
+                                            TITLE
                                             <p class="font-semibold text-gray-700 mb-1">
                                                 No {{ col.title }} Tasks
                                             </p>
 
-                                            <!-- SUBTEXT -->
+                                            SUBTEXT
                                             <p class="text-xs text-gray-500 mb-3 max-w-[220px]">
                                                 Tasks will appear here when they move into this stage.
                                             </p>
 
-                                            <!-- CTA -->
+                                            CTA
                                             <button *ngIf="canCreate()" (click)="openBoardCreate(col.status)"
                                                 class="text-sm text-blue-600 font-medium hover:underline">
                                                 + Add Task
                                             </button>
+                                        </div>
+                                        } -->
+
+                                        @if (col.data.length === 0) {
+                                        <div class="empty-state
+                                              absolute inset-0
+                                              flex flex-col items-center justify-center
+                                              text-center
+                                              pointer-events-none
+                                              rounded-xl
+                                              border-2 border-dashed border-blue-200
+                                              bg-blue-50/40
+                                              px-4
+                                            " cdkDropListPlaceholder>
+                                            <i class="bx text-5xl mb-3" [ngClass]="{
+                                                'bx-time-five text-red-400': col.status === 'pending',
+                                                'bx-loader-circle text-orange-400': col.status === 'in-progress',
+                                                'bx-check-circle text-green-500': col.status === 'completed'
+                                              }"></i>
+                                        
+                                            <p class="font-semibold text-gray-700 mb-1">
+                                                No {{ col.title }} Tasks
+                                            </p>
+                                        
+                                            <p class="text-xs text-gray-500 mb-3 max-w-[220px]">
+                                                Tasks will appear here when they move into this stage.
+                                            </p>
+                                        
+                                            <span class="text-sm text-blue-600 font-medium">
+                                                Drag a task here
+                                            </span>
                                         </div>
                                         }
 

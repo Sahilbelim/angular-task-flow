@@ -8,6 +8,7 @@ import { provideToastr } from 'ngx-toastr';
 
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
+import { withInMemoryScrolling } from '@angular/router';
 export const appConfig: ApplicationConfig = {
   providers: [provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
@@ -21,5 +22,12 @@ export const appConfig: ApplicationConfig = {
       progressBar: true,
       closeButton: true,
     }),
+    provideRouter(
+      routes,
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'top', // 🔥 ALWAYS GO TO TOP
+        anchorScrolling: 'enabled',
+      })
+    ),
   ]
 };
