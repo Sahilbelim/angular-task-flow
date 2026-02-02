@@ -35,7 +35,9 @@ export class ApiService {
   private tasksLoaded = false;
   private currentUserLoaded = false;
 
-
+  // ui state
+  private overlayOpenSubject = new BehaviorSubject<boolean>(false);
+  overlayOpen$ = this.overlayOpenSubject.asObservable();
   constructor(
     private http: HttpClient,
     private router: Router
@@ -44,6 +46,11 @@ export class ApiService {
   private currentUserSubject = new BehaviorSubject<any | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
+  
+
+  setOverlay(open: boolean) {
+    this.overlayOpenSubject.next(open);
+  }
   
   getUser() {
     return this.currentUserSubject.value;

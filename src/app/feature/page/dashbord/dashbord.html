@@ -508,14 +508,14 @@
                                             {{ col.title }} ({{ col.data.length }})
                                         </h3>
 
-                                        @if(col.data.length > 0) {
+                                        <!-- @if(col.data.length > 0) { -->
 
 
                                         <button *ngIf="canCreate()" (click)="openBoardCreate(col.status)"
                                             class="text-sm text-blue-600 hover:underline">
                                             + Add
                                         </button>
-                                        }
+                                        <!-- } -->
                                     </div>
 
 
@@ -668,12 +668,7 @@
     py-10
   ">
 
-
-
-
         <!-- MODAL CARD -->
-       
-
         <div class="
               relative
               w-full
@@ -738,9 +733,9 @@
                 <!-- ASSIGN USERS -->
                 <div class="tf-field">
                 
-                <ng-select formControlName="assignedUsers" [items]="assignableUsers" bindValue="id" [multiple]="true"
+                <!-- <ng-select formControlName="assignedUsers" [items]="assignableUsers" bindValue="id" [multiple]="true"
                     placeholder="Assign users" class="tf-ng w-full fixed-ng-select" [appendTo]="'body'"
-                    [closeOnSelect]="false">
+                    [closeOnSelect]="false" >
                     <ng-template ng-label-tmp let-item="item">
                         <span class="text-sm font-medium text-gray-800 truncate">
                             {{ item.name }}
@@ -757,7 +752,48 @@
                             </span>
                         </div>
                     </ng-template>
+                </ng-select> -->
+
+                <ng-select formControlName="assignedUsers" [items]="assignableUsers" bindValue="id" bindLabel="name" [multiple]="true"
+                    [closeOnSelect]="false" [clearable]="true" placeholder="Assign users" class="tf-ng w-full fixed-ng-select"
+                    [appendTo]="'body'">
+                
+                    <!-- SELECTED USERS (with ❌ per user) -->
+                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                        <div class="flex flex-wrap gap-1">
+                            <div *ngFor="let item of items" class="flex items-center gap-1 px-2 py-1 rounded-md
+                               bg-blue-100 text-blue-800 text-xs font-medium">
+                
+                                <span class="truncate max-w-[90px]">
+                                    {{ item.name }}
+                                </span>
+                
+                                <!-- ❌ REMOVE SINGLE USER -->
+                                <button type="button" class="ml-1 text-blue-600 hover:text-red-600 font-bold" (click)="clear(item)">
+                                    ×
+                                </button>
+                            </div>
+                        </div>
+                    </ng-template>
+                
+                    <!-- DROPDOWN OPTION -->
+                    <ng-template ng-option-tmp let-item="item">
+                        <div class="flex flex-col py-1">
+                            <span class="font-medium text-gray-900">
+                                {{ item.name }}
+                            </span>
+                            <span class="text-xs text-gray-500">
+                                {{ item.email }}
+                            </span>
+                        </div>
+                    </ng-template>
+                
                 </ng-select>
+
+                
+           
+
+
                 <i class="bx bx-chevron-down tf-icon"></i>
     </div>
                 <!-- STATUS -->

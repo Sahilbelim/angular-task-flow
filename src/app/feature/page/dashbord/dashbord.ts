@@ -264,7 +264,10 @@ export class Dashbord implements OnInit {
       assignedUsers: task.assignedUsers || [],
     });
 
-    document.body.classList.add('overflow-hidden');
+    // document.body.classList.add('overflow-hidden');
+ 
+    this.api.setOverlay(true);
+
   }
 
   /* =====================
@@ -272,7 +275,8 @@ export class Dashbord implements OnInit {
   ===================== */
    deleteTask(task: any) {
     this.deleteId = task.id;
-    this.deletingTask = true;
+     this.deletingTask = true;
+ 
     // this.popupVisible = true;
 
     // ✅ PATCH FIRST
@@ -287,8 +291,11 @@ export class Dashbord implements OnInit {
     // ✅ THEN DISABLE (read-only mode)
     this.taskForm.disable();
 
-    document.body.classList.add('overflow-hidden');
-  }
+    // document.body.classList.add('overflow-hidden');
+     this.api.setOverlay(true);
+    
+
+   }
 
 
   confirmDelete() {
@@ -308,8 +315,11 @@ export class Dashbord implements OnInit {
 
     this.taskForm.enable(); // ✅ restore form
     this.taskForm.reset({ status: 'pending' });
+ 
+    this.api.setOverlay(false);
 
-    document.body.classList.remove('overflow-hidden');
+
+    // document.body.classList.remove('overflow-hidden');
   }
 
   /* =====================
@@ -488,10 +498,20 @@ export class Dashbord implements OnInit {
   /* =====================
      HELPERS
   ===================== */
+  // togglePopup() {
+  //   this.popupVisible = !this.popupVisible;
+
+  //   document.body.classList.toggle('overflow-hidden', this.popupVisible);
+  //   if (!this.popupVisible) this.resetForm();
+  // }
+
   togglePopup() {
     this.popupVisible = !this.popupVisible;
-    document.body.classList.toggle('overflow-hidden', this.popupVisible);
-    if (!this.popupVisible) this.resetForm();
+    this.api.setOverlay(this.popupVisible);
+
+    if (!this.popupVisible) {
+      this.resetForm();
+    }
   }
 
   toggleSortBy(field: 'order' | 'dueDate') {
@@ -536,7 +556,10 @@ export class Dashbord implements OnInit {
       assignedUsers: [],
     });
 
-    document.body.classList.add('overflow-hidden');
+    // document.body.classList.add('overflow-hidden');
+    this.api.setOverlay(true);
+  
+
   }
 
   resetForm() {
@@ -544,7 +567,10 @@ export class Dashbord implements OnInit {
     this.editingTask = null;
     this.taskForm.reset({ status: 'pending' });
     this.taskForm.reset({ priority: 'medium' });
-    document.body.classList.remove('overflow-hidden');
+ 
+    this.api.setOverlay(false);
+
+    // document.body.classList.remove('overflow-hidden');
   }
 
   getAssignedUserNames(taskId: string): string {

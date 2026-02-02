@@ -2,4 +2,7 @@
 <app-header></app-header>
 
  <!-- router -->
-<router-outlet></router-outlet>
+<div [class.body-scroll-lock]="isOverlayOpen">
+
+    <router-outlet></router-outlet>
+</div>

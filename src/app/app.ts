@@ -12,9 +12,11 @@ import { ApiService } from './core/service/mocapi/api/api';
   styleUrl: './app.css'
 })
 export class App  {
+  isOverlayOpen = false;
 
-
-  constructor(private api: ApiService) { }
-
-  
+  constructor(private api: ApiService) {
+    this.api.overlayOpen$.subscribe(v => {
+      this.isOverlayOpen = v;
+    });
+  }
 }
