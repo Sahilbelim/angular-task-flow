@@ -124,12 +124,35 @@ export class ApiService {
     return !!u.permissions?.[key];
   }
  
+  // register(payload: any) {
+  //   return this.http.get<any[]>(`${this.API}/user`, {
+  //     params: { email: payload.email }
+  //   }).pipe(
+  //     switchMap(users => {
+  //       if (users.length) {
+  //         return throwError(() => new Error('Email already registered'));
+  //       }
+
+  //       return this.http.post<any>(`${this.API}/user`, {
+  //         ...payload,
+  //         createdAt: new Date().toISOString()
+  //       });
+  //     }),
+  //     tap(user => {
+  //       // ✅ auto login after register
+  //       this.setUser(user);
+  //     })
+  //   );
+  // }
+
   register(payload: any) {
-    return this.http.get<any[]>(`${this.API}/user`, {
-      params: { email: payload.email }
-    }).pipe(
+    return this.http.get<any[]>(`${this.API}/user`).pipe(
       switchMap(users => {
-        if (users.length) {
+        const exists = users.some(
+          u => u.email?.toLowerCase() === payload.email.toLowerCase()
+        );
+
+        if (exists) {
           return throwError(() => new Error('Email already registered'));
         }
 
@@ -184,6 +207,31 @@ export class ApiService {
      👤 USERS (CACHED)
   ===================================================== */
 
+  // private loadUsersOnce() {
+  //   if (this.usersLoaded) return;
+
+  //   const me = this.user();
+  //   if (!me) return;
+
+    
+
+  //   this.http.get<any[]>(`${this.API}/user`).pipe(
+  //     map(users =>
+
+
+
+  //       users.filter(u =>
+  //         u.id === me.id ||
+  //         u.parentId === me.id ||
+  //         u.parentId === me.parentId
+  //       )
+  //     )
+  //   ).subscribe(users => {
+  //     this.usersSubject.next(users);
+  //     this.usersLoaded = true;
+  //   });
+  // }
+
   private loadUsersOnce() {
     if (this.usersLoaded) return;
 
@@ -191,13 +239,22 @@ export class ApiService {
     if (!me) return;
 
     this.http.get<any[]>(`${this.API}/user`).pipe(
-      map(users =>
-        users.filter(u =>
-          u.id === me.id ||
-          u.parentId === me.id ||
-          u.parentId === me.parentId
-        )
-      )
+      map(users => {
+        // 🔴 ROOT USER (parentId === null)
+        if (!me.parentId) {
+          return users.filter(u =>
+            u.id === me.id ||        // me
+            u.parentId === me.id     // my children ONLY
+          );
+        }
+
+        // 🟢 CHILD USER
+        return users.filter(u =>
+          u.id === me.id ||                // me
+          u.parentId === me.parentId ||    // my siblings
+          u.parentId === me.id             // my children
+        );
+      })
     ).subscribe(users => {
       this.usersSubject.next(users);
       this.usersLoaded = true;

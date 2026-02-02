@@ -1263,17 +1263,17 @@ export class Dashbord implements OnInit {
       );
 
       // ✅ APPLY REDIRECT FILTER ONLY ONCE
-      console.log('Redirect filter user:', filterUserId);
+      // console.log('Redirect filter user:', filterUserId);
       if (filterUserId && !this.redirectFilterApplied) {
         this.redirectFilterApplied = true;
 
         this.selectedUserFilter = [filterUserId];
-        console.log('Filtered tasks:', this.selectedUserFilter);
+        // console.log('Filtered tasks:', this.selectedUserFilter);
 
         this.filteredTasks = this.tasks.filter(task =>
           task.assignedUsers?.includes(filterUserId)
         );
-        console.log('Filtered tasks:', this.filteredTasks);
+        // console.log('Filtered tasks:', this.filteredTasks);
 
         // clear AFTER applying once
         // this.api.setTaskFilterUser(null);
@@ -1776,7 +1776,7 @@ export class Dashbord implements OnInit {
     this.taskForm.reset({
       title: '',
       dueDate: '',
-      status,
+      status : 'pending',
       priority: 'medium',
       assignedUsers: [],
     });

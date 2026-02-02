@@ -126,6 +126,11 @@ export class UsersPage implements OnInit, OnDestroy {
     // 🔥 load once (cached internally)
     this.sub = this.api.getUsers$().subscribe(users => {
       this.users = users;
+      const meId = this.currentUserId;
+
+      // 🔥 EXCLUDE SELF ONLY HERE
+      this.users = users.filter(u => u.id !== meId);
+
       this.applyFilter();
       const start = Date.now();
       this.loading = false;
@@ -666,5 +671,10 @@ export class UsersPage implements OnInit, OnDestroy {
       u => u.permissions?.deleteTask
     ).length;
   }
+
+  get currentUserId() {
+    return this.api.user()?.id;
+  }
+
 
 }
