@@ -560,3 +560,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .cdk-drop-list-dragging .empty-state {
     opacity: 0; 
 }
+
+
+/* Hide native calendar icon (Chrome, Edge) */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Firefox */
+input[type="date"] {
+    -moz-appearance: textfield;
+}
+
+/* Safari / general */
+input[type="date"] {
+    appearance: none;
+}
