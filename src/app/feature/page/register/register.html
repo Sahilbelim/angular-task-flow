@@ -151,12 +151,32 @@
           
 
             <!-- SUBMIT -->
-            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
+            <!-- <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
                hover:from-blue-700 hover:to-indigo-700
                text-white font-semibold py-3 rounded-xl
                shadow-md hover:shadow-lg transition">
                 Register
-            </button>
+            </button> -->
+
+<button type="submit" [disabled]="registerForm.invalid || loading" class="
+    w-full
+    bg-gradient-to-r from-blue-600 to-indigo-600
+    hover:from-blue-700 hover:to-indigo-700
+    text-white font-semibold py-3 rounded-xl
+    shadow-md hover:shadow-lg transition
+    disabled:opacity-60
+    disabled:cursor-not-allowed
+  ">
+    @if (loading) {
+    <span class="flex items-center justify-center gap-2">
+        <i class="bx bx-loader-alt animate-spin"></i>
+        Registering...
+    </span>
+    } @else {
+    Register
+    }
+</button>
+
 
             <p class="text-center text-sm text-blue-600">
                 Already have an account?

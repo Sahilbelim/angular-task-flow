@@ -122,6 +122,7 @@ export class Header {
     this.userMenuOpen = false;
   }
 
+  
   // 🔁 Backward compatibility for template
   closeMenu() {
     this.closeMenus();

@@ -20,6 +20,8 @@ export class ProfilePage implements OnInit {
   showFullBio = false;
   profileForm: any;
   countries: string[] = [];
+  saving = false;
+
 
 
   constructor(
@@ -88,17 +90,44 @@ export class ProfilePage implements OnInit {
   /* =====================
      SAVE (OPTIMISTIC)
   ===================== */
+  // saveProfile() {
+  //   if (this.profileForm.invalid || !this.user) return;
+
+  //   const payload = this.profileForm.value;
+
+  //   this.api.updateProfile(this.user.id, payload).subscribe(updated => {
+  //     this.user = updated;               // local
+  //     this.toast.success('Profile updated');
+  //     this.flipCard();                   // close edit mode
+  //   });
+  // }
+
   saveProfile() {
-    if (this.profileForm.invalid || !this.user) return;
+    if (this.profileForm.invalid || !this.user || this.saving) {
+      return;
+    }
+
+    this.saving = true; // 🔒 lock immediately
+    this.profileForm.disable();
 
     const payload = this.profileForm.value;
 
-    this.api.updateProfile(this.user.id, payload).subscribe(updated => {
-      this.user = updated;               // local
-      this.toast.success('Profile updated');
-      this.flipCard();                   // close edit mode
+    this.api.updateProfile(this.user.id, payload).subscribe({
+      next: updated => {
+        this.user = updated;               // update local state
+        this.toast.success('Profile updated');
+        this.flipCard();                   // close edit mode
+      },
+      error: () => {
+        this.toast.error('Failed to update profile');
+      },
+      complete: () => {
+        this.profileForm.enable();
+        this.saving = false;               // 🔓 unlock
+      }
     });
   }
+
 
   /* =====================
      DERIVED UI DATA

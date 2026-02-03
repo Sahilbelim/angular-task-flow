@@ -217,6 +217,10 @@ height: 2.75rem;
 
     transition: all 0.2s ease;
     /* transition */
+    max-height: 20px;
+
+    overflow:scroll
+    
 
 }
 /* .ng-select .ng-select-container .ng-value-container .ng-placeholder
@@ -379,38 +383,144 @@ height: 2.75rem;
 }
 
 /* wrapper */
-.tf-field {
+/* .tf-field {
     position: relative;
     width: 100%;
-}
+} */
 
 /* same input style */
-.tf-input,
+/* .tf-input,
 .tf-ng .ng-select-container {
     height: 44px;
     border-radius: 12px;
     border: 1px solid #BFDBFE;
     background: #EFF6FF;
     padding: 0 44px 0 16px;
-    /* space for icon */
+    space for icon
     font-size: 14px;
-}
+} */
 
 /* remove native icons */
-select {
+/* select {
     appearance: none;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0;
-}
+} */
 
 /* remove ng-select arrow */
-.tf-ng .ng-arrow-wrapper {
+/* .tf-ng .ng-arrow-wrapper {
+    display: none;
+} */
+
+/* icon */
+/* .tf-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #64748B;
+    pointer-events: none;
+} */
+
+/* ===============================
+   FIELD WRAPPER
+================================ */
+.tf-field {
+    position: relative;
+    width: 100%;
+}
+
+/* ===============================
+   UNIFIED HEIGHT (IMPORTANT)
+================================ */
+.tf-input,
+.tf-ng .ng-select-container {
+    min-height: 44px;
+    /* 🔥 instead of height */
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid #BFDBFE;
+    background-color: #EFF6FF;
+    /* padding-left: 16px; */
+    padding-right: 44px;
+    /* space for chevron */
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    /* 🔥 vertical center */
+}
+
+/* ===============================
+   REMOVE DEFAULT UI
+================================ */
+.tf-ng .ng-arrow-wrapper,
+.tf-ng .ng-clear-wrapper {
     display: none;
 }
 
-/* icon */
+/* ===============================
+   VALUE CONTAINER FIX
+================================ */
+.tf-ng .ng-value-container {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+    /* 🔥 prevents height jump */
+}
+
+/* placeholder */
+.tf-ng .ng-placeholder {
+    color: #9CA3AF;
+    font-size: 14px;
+    line-height: 1;
+}
+
+/* ===============================
+   MULTI SELECT CHIPS
+================================ */
+.tf-ng .ng-value {
+    background: #DBEAFE;
+    color: #1E40AF;
+    border-radius: 8px;
+    padding: 2px 8px;
+    font-size: 12px;
+    margin: 0;
+    /* 🔥 removes extra spacing */
+    display: flex;
+    align-items: center;
+}
+
+/* ===============================
+   INPUT INSIDE NG-SELECT
+================================ */
+.tf-ng input {
+    padding: 0;
+    margin: 0;
+    line-height: normal;
+}
+
+/* ===============================
+   DROPDOWN PANEL
+================================ */
+.tf-ng .ng-dropdown-panel {
+    border-radius: 12px;
+    border: 1px solid #BFDBFE;
+    overflow: hidden;
+}
+
+.tf-ng .ng-option {
+    padding: 10px 14px;
+    font-size: 14px;
+}
+
+/* ===============================
+   CHEVRON ICON
+================================ */
 .tf-icon {
     position: absolute;
     right: 14px;
@@ -421,6 +531,32 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     pointer-events: none;
 }
 
+/* ===============================
+   FOCUS STATE (MATCH INPUT)
+================================ */
+.tf-ng.ng-select-focused .ng-select-container,
+.tf-input:focus {
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+/* ===============================
+   NATIVE SELECT FIX (IMPORTANT)
+================================ */
+.tf-field select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background-image: none !important;
+    padding-right: 44px;
+    /* space for chevron */
+}
+
+/* IE fallback */
+.tf-field select::-ms-expand {
+    display: none;
+}
 .cdk-drop-list-dragging .empty-state {
-    opacity: 0;
+    opacity: 0; 
 }

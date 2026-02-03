@@ -20,10 +20,10 @@
                     }
                     @else {
 
-                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 "  title="Shows total number of tasks created in the system"
-  aria-label="Total tasks summary card">
+                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 "
+                        title="Shows total number of tasks created in the system" aria-label="Total tasks summary card">
                         <div class="absolute top-5 right-5"><i class='bx text-3xl text-blue-300 bx-list-square'></i>
-                        </div> 
+                        </div>
                         <p class="text-sm font-medium text-blue-600 mb-1">
                             Total Tasks
                         </p>
@@ -37,13 +37,12 @@
                         </p>
                     </div>
 
-                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 " title="Number of tasks that are marked as completed"
->
-                        <div class="absolute top-5 right-5"><i
-                                class='bx text-3xl text-green-300 bx-task'></i>
+                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 "
+                        title="Number of tasks that are marked as completed">
+                        <div class="absolute top-5 right-5"><i class='bx text-3xl text-green-300 bx-task'></i>
                         </div>
                         <p class="text-sm font-medium text-green-600 mb-1">
-                        Completed Tasks
+                            Completed Tasks
 
                         </p>
 
@@ -52,17 +51,18 @@
                         </h3>
 
                         <p class="text-sm text-gray-500">
-                    Tasks   successfully completed
+                            Tasks successfully completed
 
                         </p>
                     </div>
 
-                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 " title="Tasks currently being worked on"
->
-                        <div class="absolute top-5 right-5"><i class='bx text-3xl text-orange-200  bx-clock-dashed-half'></i>
-                        </div> 
+                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 "
+                        title="Tasks currently being worked on">
+                        <div class="absolute top-5 right-5"><i
+                                class='bx text-3xl text-orange-200  bx-clock-dashed-half'></i>
+                        </div>
                         <p class="text-sm font-medium text-orange-400 mb-1">
-                    In Progress Tasks
+                            In Progress Tasks
 
                         </p>
 
@@ -71,16 +71,17 @@
                         </h3>
 
                         <p class="text-sm text-gray-500">
-                        Tasks currently being worked on
+                            Tasks currently being worked on
 
                         </p>
                     </div>
 
-                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 " title="Tasks waiting to be started or updated"
->
-                        <div class="absolute top-5 right-5"><i class='bx text-3xl text-red-200  bx-loader-lines-alt'></i></div> 
+                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 "
+                        title="Tasks waiting to be started or updated">
+                        <div class="absolute top-5 right-5"><i
+                                class='bx text-3xl text-red-200  bx-loader-lines-alt'></i></div>
                         <p class="text-sm font-medium text-red-600 mb-1">
-                    Pending Tasks
+                            Pending Tasks
 
                         </p>
 
@@ -89,7 +90,7 @@
                         </h3>
 
                         <p class="text-sm text-gray-500">
-                        Tasks awaiting action
+                            Tasks awaiting action
 
                         </p>
                     </div>
@@ -102,23 +103,23 @@
                 <div class="mt-5 w-full  lg:max-w-7xl xl:max-w-full bg-white/90 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_rgba(59,130,246,0.25)]
            border border-blue-100 p-6 transition-all duration-300 hover:shadow-[0_25px_70px_rgba(59,130,246,0.35)]  ">
 
-           <!-- Filter  -->
+                    <!-- Filter  -->
 
-                <div class="w-full border-b border-blue-200 pb-5">
-                
-                    @if (loading) {
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 animate-pulse">
-                        <div class="h-11 rounded-xl bg-gray-200"></div>
-                        <div class="h-11 rounded-xl bg-gray-200"></div>
-                        <div class="h-11 rounded-xl bg-gray-200"></div>
-                        <div class="h-11 rounded-xl bg-gray-300"></div>
-                    </div>
-                    }
-                
-                    @else {
-                
-                    <!-- WRAPPER -->
-                    <div class="
+                    <div class="w-full border-b border-blue-200 pb-5">
+
+                        @if (loading) {
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 animate-pulse">
+                            <div class="h-11 rounded-xl bg-gray-200"></div>
+                            <div class="h-11 rounded-xl bg-gray-200"></div>
+                            <div class="h-11 rounded-xl bg-gray-200"></div>
+                            <div class="h-11 rounded-xl bg-gray-300"></div>
+                        </div>
+                        }
+
+                        @else {
+
+                        <!-- WRAPPER -->
+                        <div class="
                     grid
                     grid-cols-1
                     gap-3
@@ -128,85 +129,96 @@
                     lg:items-center
                     w-full
                   ">
-                
-                        <!-- SEARCH -->
-                        <input type="text" placeholder="Search tasks by name
+
+                            <!-- SEARCH -->
+                            <input type="text" placeholder="Search tasks by name
 " [(ngModel)]="searchText" (ngModelChange)="filterBySearch()" class="h-11 w-full rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm
-                             focus:ring-2 focus:ring-blue-500 transition"  title="Search tasks by task title"
-  aria-label="Search tasks" />
-                
-                        <!-- USER FILTER -->
-                        <div class="relative w-full tf-field">
-                            <ng-select class="tf-ng w-full" [items]="assignableUsers" bindLabel="name" bindValue="id" [multiple]="true"
-                                placeholder="Filter by assigned user" [closeOnSelect]="true"
-                                  title="Filter tasks by assigned users"
-  aria-label="Filter by assigned users"
-   [(ngModel)]="selectedUserFilter" (change)="applyAllFilters()">
-                            </ng-select>
-                            <i class="bx bx-chevron-down tf-icon"></i>
-                        </div>
-                
-                        <!-- DATE RANGE -->
-                        <div class="relative w-full">
-                            <input type="text" ngxDaterangepickerMd [formControl]="dateRangeControl" [showClearButton]="true"
-                                placeholder="Filter by due date range "
-                                  title="Filter tasks by due date range"
-                                     aria-label="Filter by date range"
-                                class="h-11 w-full rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm
+                             focus:ring-2 focus:ring-blue-500 transition" title="Search tasks by task title"
+                                aria-label="Search tasks" />
+
+                            <!-- USER FILTER -->
+                            <!-- <div class="relative w-full tf-field">
+                                <ng-select class="tf-ng w-full" [items]="assignableUsers" bindLabel="name"
+                                    bindValue="id" [multiple]="true" placeholder="Filter by assigned user"
+                                    [closeOnSelect]="true" title="Filter tasks by assigned users"
+                                    aria-label="Filter by assigned users" [(ngModel)]="selectedUserFilter"
+                                    (change)="applyAllFilters()">
+                                </ng-select>
+                                <i class="bx bx-chevron-down tf-icon"></i>
+                            </div> -->
+
+                            <div class="tf-field">
+                                <ng-select class="tf-ng  w-full" [items]="assignableUsers" bindLabel="name" bindValue="id" [multiple]="true"
+                                    placeholder="Filter by assigned user" [closeOnSelect]="true" [(ngModel)]="selectedUserFilter"
+                                    (change)="applyAllFilters()">
+                                </ng-select>
+                            
+                                <i class="bx bx-chevron-down tf-icon"></i>
+                            </div>
+
+                            <!-- DATE RANGE -->
+                            <div class="relative w-full">
+                                <input type="text" ngxDaterangepickerMd [formControl]="dateRangeControl"
+                                    [showClearButton]="true" placeholder="Filter by due date range "
+                                    title="Filter tasks by due date range" aria-label="Filter by date range" class="h-11 w-full rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm
                                focus:ring-2 focus:ring-blue-500 transition" />
-                        </div>
-                
-                        <!-- ACTIONS -->
-                        <div class="
+                            </div>
+
+                            <!-- ACTIONS -->
+                            <div class="
                       flex flex-wrap gap-2
                       w-full
                       lg:justify-end
                     ">
-                
-                            <!-- CLEAR -->
-                            <button type="button" (click)="clearAllFilters()" class="h-11 px-4 rounded-xl border border-red-200 bg-red-50
+
+                                <!-- CLEAR -->
+                                <button type="button" (click)="clearAllFilters()" class="h-11 px-4 rounded-xl border border-red-200 bg-red-50
                                text-red-600 text-sm font-medium hover:bg-red-100 transition
-                               flex-1 sm:flex-none whitespace-nowrap"  title="Clear all applied filters"
-  aria-label="Clear all filters">
-                            Clear Filters
+                               flex-1 sm:flex-none whitespace-nowrap" title="Clear all applied filters"
+                                    aria-label="Clear all filters">
+                                    Clear Filters
 
-                            </button>
-                
-                            <!-- ADD TASK -->
-                            @if (viewMode !== 'board') {
-                            <button (click)="canCreate() && togglePopup()" [disabled]="!canCreate()" class="h-11 px-5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600
+                                </button>
+
+                                <!-- ADD TASK -->
+                                @if (viewMode !== 'board') {
+                                <button (click)="canCreate() && togglePopup()" [disabled]="!canCreate()" class="h-11 px-5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600
                                  text-white text-sm font-semibold flex items-center gap-2
-                                 disabled:opacity-50 transition whitespace-nowrap"   title="Create a new task"
-  aria-label="Add new task">
-                                <i class="bx bx-plus"></i>
-                                <span class="hidden sm:inline">Add Task</span>
-                            </button>
-                            }
-                
-                            <!-- VIEW TOGGLE -->
-                            <div class="flex h-11 rounded-xl border border-blue-200 overflow-hidden bg-white">
-                                <button (click)="viewMode = 'table'" class="w-11 flex items-center justify-center transition"
-                                    [class.bg-blue-600]="viewMode === 'table'" [class.text-white]="viewMode === 'table'"
-                                    [class.text-blue-600]="viewMode !== 'table'"   title="Switch to table view"
-  aria-label="Table view">
-                                    <i class="bx bx-table"></i>
+                                 disabled:opacity-50 transition whitespace-nowrap" title="Create a new task"
+                                    aria-label="Add new task">
+                                    <i class="bx bx-plus"></i>
+                                    <span class="hidden sm:inline">Add Task</span>
                                 </button>
-                
-                                <button (click)="viewMode = 'board'" class="w-11 flex items-center justify-center transition"
-                                    [class.bg-blue-600]="viewMode === 'board'" [class.text-white]="viewMode === 'board'"
-                                    [class.text-blue-600]="viewMode !== 'board'"   title="Switch to board (Kanban) view"
-  aria-label="Board view">
-                                    <i class="bx bx-columns"></i>
-                                </button>
-                            </div>
-                
-                        </div>
-                
-                    </div>
-                    }
-                </div>
+                                }
 
-                        <!-- Task List  -->
+                                <!-- VIEW TOGGLE -->
+                                <div class="flex h-11 rounded-xl border border-blue-200 overflow-hidden bg-white">
+                                    <button (click)="viewMode = 'table'"
+                                        class="w-11 flex items-center justify-center transition"
+                                        [class.bg-blue-600]="viewMode === 'table'"
+                                        [class.text-white]="viewMode === 'table'"
+                                        [class.text-blue-600]="viewMode !== 'table'" title="Switch to table view"
+                                        aria-label="Table view">
+                                        <i class="bx bx-table"></i>
+                                    </button>
+
+                                    <button (click)="viewMode = 'board'"
+                                        class="w-11 flex items-center justify-center transition"
+                                        [class.bg-blue-600]="viewMode === 'board'"
+                                        [class.text-white]="viewMode === 'board'"
+                                        [class.text-blue-600]="viewMode !== 'board'"
+                                        title="Switch to board (Kanban) view" aria-label="Board view">
+                                        <i class="bx bx-columns"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Task List  -->
 
                     <div class="overflow-x-auto">
                         <!-- TABLE VIEW -->
@@ -218,19 +230,19 @@
                             <td class="px-5 py-4">
                                 <div class="h-4 w-40 bg-gray-200 rounded"></div>
                             </td>
-                            <td class="px-12 py-4">
+                            <td class="px-16 py-4">
                                 <div class="h-4 w-20 bg-gray-200 rounded mx-auto"></div>
                             </td>
-                            <td class="px-12 py-4">
+                            <td class="px-16 py-4">
                                 <div class="h-4 w-44 bg-gray-200 rounded"></div>
                             </td>
-                            <td class="px-12 py-4 text-center">
+                            <td class="px-16 py-4 text-center">
                                 <div class="h-4 w-16 bg-gray-200 rounded mx-auto"></div>
                             </td>
-                            <td class="px-12 py-4">
+                            <td class="px-24 py-4">
                                 <div class="h-4 w-24 bg-gray-200 rounded"></div>
                             </td>
-                            <td class="px-12 py-4 text-right">
+                            <td class="pl-16 py-4 text-right">
                                 <div class="h-4 w-16 bg-gray-200 rounded ml-auto"></div>
                             </td>
                         </tr>
@@ -243,35 +255,45 @@
                                 <tr class="bg-white border-b border-blue-200 text-gray-700">
 
 
-                                    <th class="px-5 py-3 text-start  font-semibold cursor-pointer hover:text-blue-600" (click)="toggleSortBy('order')" title="Click to sort tasks by title"
-  aria-label="Sort by task title">
-                                        <span > Task</span>
-                                      
-                                 
+                                    <th class="px-5 py-3  w-[320px] min-w-[320px]   text-start  font-semibold cursor-pointer hover:text-blue-600 whitespace-nowrap"
+                                        (click)="toggleSortBy('order')" title="Click to sort tasks by title"
+                                        aria-label="Sort by task title">
+                                        <span> Task</span>
+
+
                                     </th>
 
 
-                                    <th class="px-5 py-3 text-center font-semibold">
-                                        <select
-                                            class="rounded-lg border border-blue-200 bg-white px-3 py-1 text-xs font-semibold focus:ring-2 focus:ring-blue-500"
-                                            [(ngModel)]="statusFilter" (ngModelChange)="filterByStatus()">
+                                <th class="px-5 py-3 font-semibold whitespace-nowrap">
+                                    <div class="flex justify-center">
+                                        <select class="
+                         
+                                        rounded-lg
+                                        border border-blue-200
+                                        bg-white
+                                        px-3 py-1
+                                        text-xs font-semibold
+                                        focus:ring-2 focus:ring-blue-500
+                                      " [(ngModel)]="statusFilter" (ngModelChange)="filterByStatus()">
                                             <option value="all">Status</option>
                                             <option value="pending">Pending</option>
                                             <option value="in-progress">In Progress</option>
                                             <option value="completed">Completed</option>
                                         </select>
-                                    </th>
+                                    </div>
+                                </th>
 
-                                    <th class="px-5 py-3 font-semibold">Assigned Users</th>
-                                    <th class="px-5 py-3 text-center font-semibold">Priority</th>
 
-                                    <th class="px-5 py-3 font-semibold cursor-pointer hover:text-blue-600 text-center"
-                                        (click)="toggleSortBy('dueDate')"   title="Click to sort tasks by due date"
-  aria-label="Sort by due date">
+                                    <th class="px-5 py-3 font-semibold whitespace-nowrap">Assigned Users</th>
+                                    <th class="px-5 py-3 text-center font-semibold whitespace-nowrap">Priority</th>
+
+                                    <th class="px-5 py-3 font-semibold cursor-pointer hover:text-blue-600 text-center whitespace-nowrap"
+                                        (click)="toggleSortBy('dueDate')" title="Click to sort tasks by due date"
+                                        aria-label="Sort by due date">
                                         Due Date
                                     </th>
 
-                                    <th class="px-5 py-3 text-right font-semibold">Actions</th>
+                                    <th class="px-5 py-3 text-right font-semibold whitespace-nowrap">Actions</th>
                                 </tr>
                             </thead>
 
@@ -299,47 +321,106 @@
                                 <tr cdkDrag cdkDragLockAxis="y" class="border-b border-blue-100 hover:bg-blue-50">
 
                                     <!-- DRAG PLACEHOLDER -->
-                                    <ng-template cdkDragPlaceholder>
+                                    <!-- <ng-template cdkDragPlaceholder>
                                 <tr class="h-[52px] border border-dashed border-blue-300"></tr>
-                                </ng-template>
+                                </ng-template> -->
 
-                                <!-- DRAG PREVIEW -->
-                                <ng-template cdkDragPreview>
-                                    <div class="bg-white shadow-lg border rounded px-4 py-2">
-                                        {{ task.title }}
-                                    </div>
-                                </ng-template>
+                                    <!-- DRAG PREVIEW -->
+                                   
 
-                                <!-- TITLE -->
-                                <td class="px-5 py-3 font-medium text-gray-900"   [title]="task.title">
-                                {{ task.title?.length > 28
-                                ? (task.title | slice:0:28) + '...'
-                                : task.title
-                                }}
-                                </td>
 
-                                <!-- STATUS -->
-                                <td class=" px-5 py-3 text-center">
-                                    <span
-                                        class="inline-flex px-3 py-1 rounded-full text-xs font-semibold capitalize border"
-                                        [ngClass]="{
+                                    <!-- TITLE -->
+                                    <!-- <td class="pr-5 py-3 font-medium flex text-gray-900 whitespace-nowrap"
+                                        [title]="task.title">
+                                        <ng-template cdkDragPreview>
+                                            <div class="bg-white shadow-lg border rounded px-4 py-2">
+                                                {{ task.title }}
+                                            </div>
+                                        </ng-template>
+                                        
+                                        <span cdkDragHandle class=" items-center cursor-grab text-gray-400 hover:text-blue-600 active:cursor-grabbing"
+                                            title="Drag to reorder task">
+                                            <i class="bx bx-menu text-lg"></i>
+                                            <i class="bx bx-dots-vertical-rounded text-lg"></i>
+                                        </span>
+                                        {{ task.title?.length > 28
+                                        ? (task.title | slice:0:28) + '...'
+                                        : task.title
+                                        }}
+                                    </td> -->
+
+                                    <td class="pl-3 pr-5   whitespace-nowrap ">
+                                        <div class="flex items-center gap-3">
+                                    
+                                            <!-- DRAG HANDLE -->
+                                            <span cdkDragHandle class="
+                                            flex items-center justify-center
+                                            w-7 h-7
+                                            rounded-md
+                                            text-gray-400
+                                            hover:text-blue-600
+                                            hover:bg-blue-100
+                                            cursor-grab
+                                            active:cursor-grabbing
+                                            transition
+                                            select-none
+                                          " title="Drag to reorder task">
+                                                <i class="bx bx-menu text-lg"></i>
+                                            </span>
+                                    
+                                            <!-- TITLE -->
+                                            <span class="font-medium text-gray-900 truncate max-w-[260px]" [title]="task.title">
+                                                {{
+                                                task.title?.length > 28
+                                                ? (task.title | slice:0:28) + '...'
+                                                : task.title
+                                                }}
+                                            </span>
+                                    
+                                        </div>
+                                    
+                                        <!-- DRAG PREVIEW -->
+                                        <ng-template cdkDragPreview>
+                                            <div class="
+                                            flex items-center gap-3
+                                            bg-white
+                                            px-4 py-2
+                                            rounded-lg
+                                            border
+                                            shadow-xl
+                                          ">
+                                                <i class="bx bx-menu text-gray-400"></i>
+                                                <span class="font-medium text-gray-900">
+                                                    {{ task.title }}
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                    </td>
+
+
+                                    <!-- STATUS -->
+                                    <td class=" px-5 py-3 text-center whitespace-nowrap">
+                                        <span
+                                            class="inline-flex px-3 py-1 rounded-full text-xs font-semibold capitalize border"
+                                            [ngClass]="{
                                           'bg-green-100 text-green-700 border-green-300': task.status === 'completed',
                                           'bg-yellow-100 text-yellow-700 border-yellow-300': task.status === 'in-progress',
                                           'bg-red-100 text-red-700 border-red-300': task.status === 'pending'
                                         }">
-                                        {{ task.status }}
-                                    </span>
-                                </td>
+                                            {{ task.status }}
+                                        </span>
+                                    </td>
 
-                                <!-- ASSIGNED USERS -->
-                                <td class="px-5 py-3 w-[220px] max-w-[220px]" >
-                                    @if (getAssignedUsers(task.id).length === 0) {
-                                    <span class="text-xs text-gray-400 italic" title="No users are assigned to this task">
-                                        No users
-                                    </span>
-                                    } @else {
+                                    <!-- ASSIGNED USERS -->
+                                    <td class="px-5 py-3 w-[220px] max-w-[220px] whitespace-nowrap">
+                                        @if (getAssignedUsers(task.id).length === 0) {
+                                        <span class="text-xs text-gray-400 italic"
+                                            title="No users are assigned to this task">
+                                            No users
+                                        </span>
+                                        } @else {
 
-                                    <div class="
+                                        <div class="
         relative
         flex items-center
         gap-1
@@ -351,14 +432,14 @@
         bg-blue-50
         border border-blue-100
       " tabindex="0" [title]="getAssignedUserNames(task.id)">
-                                        <!-- Users -->
-                                        <div class="
+                                            <!-- Users -->
+                                            <div class="
           flex items-center gap-1
           overflow-hidden
           whitespace-nowrap
         ">
-                                            @for (user of getAssignedUsers(task.id); track user.id) {
-                                            <span class="
+                                                @for (user of getAssignedUsers(task.id); track user.id) {
+                                                <span class="
               inline-flex items-center
               px-2 py-0.5
               rounded-md
@@ -370,67 +451,67 @@
               max-w-[90px]
               shrink-0
             ">
-                                                {{ user.name }}
-                                            </span>
-                                            }
-                                        </div>
+                                                    {{ user.name }}
+                                                </span>
+                                                }
+                                            </div>
 
-                                        <!-- Fade (only visible when overflow happens naturally) -->
-                                        <div class="
+                                            <!-- Fade (only visible when overflow happens naturally) -->
+                                            <div class="
           pointer-events-none
           absolute right-0 top-0 h-full w-8
           bg-gradient-to-l from-blue-50 to-transparent
         "></div>
 
-                                    </div>
+                                        </div>
 
-                                    }
-                                </td>
+                                        }
+                                    </td>
 
-                                <!-- PRIORITY -->
-                                <td class="px-5 py-3 text-center">
-                                    <span
-                                        class="inline-flex px-3 py-1 rounded-full text-xs font-semibold capitalize border"
-                                        [ngClass]="{
+                                    <!-- PRIORITY -->
+                                    <td class="px-5 py-3 text-center whitespace-nowrap">
+                                        <span
+                                            class="inline-flex px-3 py-1 rounded-full text-xs font-semibold capitalize border"
+                                            [ngClass]="{
                                           'bg-green-100 text-green-700 border-green-300': task.priority === 'low',
                                           'bg-yellow-100 text-yellow-700 border-yellow-300': task.priority === 'medium',
                                           'bg-red-100 text-red-700 border-red-300': task.priority === 'high'
                                         }">
-                                        {{ task.priority || 'medium' }}
-                                    </span>
-                                </td>
+                                            {{ task.priority || 'medium' }}
+                                        </span>
+                                    </td>
 
-                                <!-- DUE DATE -->
-                                <td class="px-5 py-3 text-gray-600 text-center">
-                                    {{ task.dueDate }}
-                                </td>
+                                    <!-- DUE DATE -->
+                                    <td class="px-5 py-3 text-gray-600 text-center whitespace-nowrap">
+                                        {{ task.dueDate }}
+                                    </td>
 
-                                <!-- ACTIONS -->
-                            
+                                    <!-- ACTIONS -->
 
-                                <td class="px-5 py-3 text-right space-x-3">
-                                
-                                    <!-- EDIT -->
-                                    <button (click)="canEdit() && editTask(task)" [disabled]="!canEdit()" class="font-medium transition
+
+                                    <td class="px-5 py-3 text-right space-x-3 whitespace-nowrap">
+
+                                        <!-- EDIT -->
+                                        <button (click)="canEdit() && editTask(task)" [disabled]="!canEdit()" class="font-medium transition
                                            text-blue-600 hover:underline
                                            disabled:text-gray-400
                                            disabled:no-underline
-                                           disabled:cursor-not-allowed"   title="Edit this task"
-  aria-label="Edit task">
-                                        Edit
-                                    </button>
-                                
-                                    <!-- DELETE -->
-                                    <button (click)="canDelete() && openDelete(task) " [disabled]="!canDelete()" class="font-medium transition
+                                           disabled:cursor-not-allowed" title="Edit this task" aria-label="Edit task">
+                                            Edit
+                                        </button>
+
+                                        <!-- DELETE -->
+                                        <button (click)="canDelete() && openDelete(task) " [disabled]="!canDelete()"
+                                            class="font-medium transition
                                            text-red-600 hover:underline
                                            disabled:text-gray-400
                                            disabled:no-underline
                                            disabled:cursor-not-allowed" title="Delete this task"
-  aria-label="Delete task">
-                                        Delete
-                                    </button>
-                                
-                                </td>
+                                            aria-label="Delete task">
+                                            Delete
+                                        </button>
+
+                                    </td>
 
                                 </tr>
                                 }
@@ -469,11 +550,11 @@
                             </h3>
 
                             <p class="text-sm text-gray-500 mt-2 max-w-sm">
-                            There are no tasks matching your current filters.
+                                There are no tasks matching your current filters.
 
                             </p>
 
-                        
+
                         </div>
                         }
 
@@ -525,8 +606,7 @@
 
                                     <div cdkDropList [id]="col.status" [cdkDropListData]="col.data"
                                         [cdkDropListConnectedTo]="connectedDropLists"
-                                        (cdkDropListDropped)="onTaskDrop($event, col.status)"
-                                        class=" relative
+                                        (cdkDropListDropped)="onTaskDrop($event, col.status)" class=" relative
     flex-1
     overflow-y-auto
     pr-1
@@ -534,7 +614,7 @@
     min-h-[240px]">
 
                                         <!-- ✅ EMPTY STATE -->
-                                       @if (col.data.length === 0) {
+                                        @if (col.data.length === 0) {
                                         <div class="empty-state
                                               absolute inset-0
                                               flex flex-col items-center justify-center
@@ -545,20 +625,15 @@
                                               bg-blue-50/40
                                               px-4
                                             " cdkDropListPlaceholder>
-                                            <i class="bx text-5xl mb-3" [ngClass]="{
-                                                'bx-time-five text-red-400': col.status === 'pending',
-                                                'bx-loader-circle text-orange-400': col.status === 'in-progress',
-                                                'bx-check-circle text-green-500': col.status === 'completed'
-                                              }"></i>
-                                        
+                                          
                                             <p class="font-semibold text-gray-700 mb-1">
                                                 No {{ col.title }} Tasks
                                             </p>
-                                        
+
                                             <p class="text-xs text-gray-500 mb-3 max-w-[220px]">
                                                 Tasks will appear here when they move into this stage.
                                             </p>
-                                        
+
                                             <span class="text-sm text-blue-600 font-medium">
                                                 Drag a task here
                                             </span>
@@ -600,7 +675,7 @@
                                             <p class="font-semibold text-gray-800 pr-10">
                                                 {{ task.title }}
                                             </p>
-                                         
+
 
                                             <!-- DUE DATE -->
                                             <p class="text-xs text-gray-500 mt-1">
@@ -655,13 +730,13 @@
     </div>
 
     <!-- MODAL WRAPPER -->
-  
 
-<div class="mt-1  fixed inset-0 z-50  overflow-y-auto top-16  overscroll-contain">
-<div class=" min-h-full flex items-start lg:items-center justify-center  px-4  py-10 ">
 
-        <!-- MODAL CARD -->
-        <div class="
+    <div class="mt-1  fixed inset-0 z-50  overflow-y-auto top-16  overscroll-contain">
+        <div class=" min-h-full flex items-start lg:items-center justify-center  px-4  py-10 ">
+
+            <!-- MODAL CARD -->
+            <div class="
               relative
               w-full
               max-w-sm
@@ -675,18 +750,19 @@
             ">
 
 
-            <h2 class="text-center text-xl font-semibold mb-4">
-                {{ editingTask ? 'Edit Task' : 'Add Task' }}
-            </h2>
+                <h2 class="text-center text-xl font-semibold mb-4">
+                    {{ editingTask ? 'Edit Task' : 'Add Task' }}
+                </h2>
 
-            <p class="text-center text-sm text-gray-600 mb-4">
-                {{ editingTask ? 'Update the details of this task below.' : 'Provide the details below to create a new task.' }}
-            </p>
+                <p class="text-center text-sm text-gray-600 mb-4">
+                    {{ editingTask ? 'Update the details of this task below.' : 'Provide the details below to create a
+                    new task.' }}
+                </p>
 
-            <form [formGroup]="taskForm" (ngSubmit)="saveTask()" class="flex flex-col gap-4">
+                <form [formGroup]="taskForm" (ngSubmit)="saveTask()" class="flex flex-col gap-4">
 
-                <!-- TASK NAME -->
-                <input type="text" formControlName="title" placeholder="Task Name" class="
+                    <!-- TASK NAME -->
+                    <input type="text" formControlName="title" placeholder="Task Name" class="
               h-11 w-full
               rounded-xl
               border border-blue-200
@@ -698,14 +774,14 @@
               transition
             " />
 
-                @if(taskForm.get('title')?.invalid && taskForm.get('title')?.touched){
-                <div class="text-xs text-red-500 ml-1">
-                    Title is required
-                </div>
-                }
+                    @if(taskForm.get('title')?.invalid && taskForm.get('title')?.touched){
+                    <div class="text-xs text-red-500 ml-1">
+                        Title is required
+                    </div>
+                    }
 
-                <!-- DUE DATE -->
-                <input type="date" formControlName="dueDate" class="
+                    <!-- DUE DATE -->
+                    <input type="date" formControlName="dueDate" class="
               h-11 w-full
               rounded-xl
               border border-blue-200
@@ -716,84 +792,64 @@
               transition placeholder:text-gray-400
             " />
 
-                @if(taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched){
-                <div class="text-xs text-red-500 ml-1">
-                    Date is required
-                </div>
-                }
+                    @if(taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched){
+                    <div class="text-xs text-red-500 ml-1">
+                        Date is required
+                    </div>
+                    }
 
-                <!-- ASSIGN USERS -->
-                <div class="tf-field">
-                
-             
+                    <!-- ASSIGN USERS -->
+                    <div class="tf-field">
 
-                <ng-select formControlName="assignedUsers" [items]="assignableUsers" bindValue="id" bindLabel="name" [multiple]="true"
-                    [closeOnSelect]="false" [clearable]="true" placeholder="Assign users" class="tf-ng w-full fixed-ng-select"
-                    [appendTo]="'body'">
-                
-                    <!-- SELECTED USERS (with ❌ per user) -->
-                    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-                        <div class="flex flex-wrap gap-1">
-                            <div *ngFor="let item of items" class="flex items-center gap-1 px-2 py-1 rounded-md
+
+
+                        <ng-select formControlName="assignedUsers" [items]="assignableUsers" bindValue="id"
+                            bindLabel="name" [multiple]="true" [closeOnSelect]="false" [clearable]="true"
+                            placeholder="Assign users" class="tf-ng w-full fixed-ng-select" [appendTo]="'body'">
+
+                            <!-- SELECTED USERS (with ❌ per user) -->
+                            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                                <div class="flex flex-wrap gap-1">
+                                    <div *ngFor="let item of items" class="flex items-center gap-1 px-2 py-1 rounded-md
                                bg-blue-100 text-blue-800 text-xs font-medium">
-                
-                                <span class="truncate max-w-[90px]">
-                                    {{ item.name }}
-                                </span>
-                
-                                <!-- ❌ REMOVE SINGLE USER -->
-                                <button type="button" class="ml-1 text-blue-600 hover:text-red-600 font-bold" (click)="clear(item)">
-                                    ×
-                                </button>
-                            </div>
-                        </div>
-                    </ng-template>
-                
-                    <!-- DROPDOWN OPTION -->
-                    <ng-template ng-option-tmp let-item="item">
-                        <div class="flex flex-col py-1">
-                            <span class="font-medium text-gray-900">
-                                {{ item.name }}
-                            </span>
-                            <span class="text-xs text-gray-500">
-                                {{ item.email }}
-                            </span>
-                        </div>
-                    </ng-template>
-                
-                </ng-select>
 
-                
-           
+                                        <span class="truncate max-w-[90px]">
+                                            {{ item.name }}
+                                        </span>
 
-
-                <i class="bx bx-chevron-down tf-icon"></i>
-    </div>
-                <!-- STATUS -->
-                 <div class="tf-field">
-               
-                <select formControlName="status" class="tf-input
-              h-11 w-full
-              rounded-xl
-              border border-blue-200
-              bg-blue-50
-              px-4
-              text-sm text-gray-800
-              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-              transition
-            ">
-                    <option value="" disabled>Select Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                </select>
-                                <i class="bx bx-chevron-down tf-icon"></i>
+                                        <!-- ❌ REMOVE SINGLE USER -->
+                                        <button type="button" class="ml-1 text-blue-600 hover:text-red-600 font-bold"
+                                            (click)="clear(item)">
+                                            ×
+                                        </button>
+                                    </div>
                                 </div>
+                            </ng-template>
 
-                <!-- PRIORITY -->
-                <div class="tf-field">
-                  
-                <select formControlName="priority" class="tf-input
+                            <!-- DROPDOWN OPTION -->
+                            <ng-template ng-option-tmp let-item="item">
+                                <div class="flex flex-col py-1">
+                                    <span class="font-medium text-gray-900">
+                                        {{ item.name }}
+                                    </span>
+                                    <span class="text-xs text-gray-500">
+                                        {{ item.email }}
+                                    </span>
+                                </div>
+                            </ng-template>
+
+                        </ng-select>
+
+
+
+
+
+                        <i class="bx bx-chevron-down tf-icon"></i>
+                    </div>
+                    <!-- STATUS -->
+        <div class="tf-field">
+
+                        <select formControlName="status" class="tf-input  
               h-11 w-full
               rounded-xl
               border border-blue-200
@@ -803,49 +859,71 @@
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
               transition
             ">
-                    <option value="">Select Priority</option>
-                    <option value="low">🟢 Low Priority</option>
-                    <option value="medium">🟡 Medium Priority</option>
-                    <option value="high">🔴 High Priority</option>
-                </select>
-                <i class="bx bx-chevron-down tf-icon"></i>
-                </div>
+                            <option value="" disabled>Select Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                         <i class="bx bx-chevron-down tf-icon"></i>
+                 
+</div>
+                    <!-- PRIORITY -->
+                    <div class="tf-field">
 
-                <!-- ACTION BUTTONS -->
-                <div class="flex gap-3 pt-2">
-                    <button type="button" (click)="togglePopup()" class="
-                h-11 w-1/2
-                rounded-xl
-                border border-gray-300
-                bg-white
-                text-sm font-semibold text-gray-700
-                hover:bg-gray-100
-                transition
-              ">
-                        Cancel
-                    </button>
+                        <select formControlName="priority" class=" 
+              h-11 w-full
+              rounded-xl
+              border border-blue-200
+              bg-blue-50
+              px-4
+              text-sm text-gray-800
+              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+              transition
+            ">
+                            <option value="">Select Priority</option>
+                            <option value="low">🟢 Low Priority</option>
+                            <option value="medium">🟡 Medium Priority</option>
+                            <option value="high">🔴 High Priority</option>
+                        </select>
+                        <i class="bx bx-chevron-down tf-icon"></i>
+                    </div>
 
-                    <button type="submit" class="
-                h-11 w-1/2
-                rounded-xl
-                bg-gradient-to-r from-blue-500 to-indigo-600
-                text-sm font-semibold text-white
-                hover:opacity-95
-                transition
-              ">
-                        {{ editingTask ? 'Update Task' : 'Save Task' }}
-                    </button>
-                </div>
+                    <!-- ACTION BUTTONS -->
+                    <div class="flex gap-3 pt-2">
+                        <button type="button" (click)="togglePopup()" [disabled]="savingTask" class="h-11 w-1/2 rounded-xl border border-gray-300
+                                 bg-white text-sm font-semibold
+                                 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Cancel
+                        </button>
 
-            </form>
+<button type="submit" [disabled]="savingTask || taskForm.invalid" class="
+    h-11 w-1/2
+    rounded-xl
+    bg-gradient-to-r from-blue-500 to-indigo-600
+    text-sm font-semibold text-white
+    transition
+    disabled:opacity-60
+    disabled:cursor-not-allowed
+  ">
+
+    @if (savingTask) {
+    Saving...
+    } @else {
+    {{ editingTask ? 'Update Task' : 'Save Task' }}
+    }
+</button>
+
+                    </div>
+
+                </form>
 
 
-            <!-- CLOSE BUTTON -->
-            <button type="button" (click)="togglePopup()"
-                class="absolute top-4 right-4 text-xl text-gray-500 hover:text-red-500">
-                <i class="bx bx-x"></i>
-            </button>
-        </div>
+                <!-- CLOSE BUTTON -->
+                <button type="button" (click)="togglePopup()"
+                    class="absolute top-4 right-4 text-xl text-gray-500 hover:text-red-500">
+                    <i class="bx bx-x"></i>
+                </button>
+            </div>
         </div>
     </div>
     }
@@ -860,12 +938,12 @@
 
     <!-- MODAL WRAPPER -->
 
-<div class=" mt-1 fixed  inset-0 z-50 top-16 overflow-y-auto overscroll-contain">
+    <div class=" mt-1 fixed  inset-0 z-50 top-16 overflow-y-auto overscroll-contain">
 
-    <div class="min-h-full flex items-start lg:items-center justify-center px-4 py-10">
+        <div class="min-h-full flex items-start lg:items-center justify-center px-4 py-10">
 
-        <!-- MODAL CARD -->
-    <div class="
+            <!-- MODAL CARD -->
+            <div class="
           relative
           w-full
           max-w-sm
@@ -880,58 +958,71 @@
         }">
 
 
-            <h2 class="text-center text-xl font-semibold   mb-4" [class.text-red-600]="deleteId!=null"
-                [class.text-gray-800]="deleteId==null">
-                {{deleteId!=null?"Delete Task":"View Task"}}
-            </h2>
+                <h2 class="text-center text-xl font-semibold   mb-4" [class.text-red-600]="deleteId!=null"
+                    [class.text-gray-800]="deleteId==null">
+                    {{deleteId!=null?"Delete Task":"View Task"}}
+                </h2>
 
-            @if (deleteId!=null) {
+                @if (deleteId!=null) {
 
-            <p class="text-center text-sm text-gray-600 mb-4">
-                Are you sure you want to delete this task? This action cannot be undone.
-            </p>
-            }
+                <p class="text-center text-sm text-gray-600 mb-4">
+                    Are you sure you want to delete this task? This action cannot be undone.
+                </p>
+                }
 
-            <form [formGroup]="taskForm" class="flex flex-col gap-4">
+                <form [formGroup]="taskForm" class="flex flex-col gap-4">
 
-                <input type="text" formControlName="title"
-                    class="border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
+                    <input type="text" formControlName="title"
+                        class="border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
 
-                <input type="date" formControlName="dueDate"
-                    class="border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
+                    <input type="date" formControlName="dueDate"
+                        class="border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
+                    <div class="tf-field">
+                    <select formControlName="status"
+                        class=" border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <i class="bx bx-chevron-down tf-icon"></i>
+                    </div>
 
-                <select formControlName="status"
-                    class="border border-gray-400 px-4 py-2 rounded-xl w-full bg-gray-100 cursor-not-allowed">
-                    <option value="pending">Pending</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                </select>
+                    <div class="flex gap-3 mt-4">
+                        <button type="button"   [disabled]="deletingTaskBusy" (click)="closeDeleteModal()"
+                            class=" border bg-gray-400 border-gray-300 text-gray-700 py-2 rounded-xl font-semibold hover:bg-gray-100  disabled:opacity-50 disabled:cursor-not-allowed"
+                            [class.w-full]="deleteId == null" [class.w-1/2]="deleteId != null">
+                            Cancel
+                        </button>
+                        @if (deleteId!=null) {
+<button type="button" (click)="confirmDelete()" [disabled]="deletingTaskBusy" class="
+    w-1/2
+    bg-gradient-to-r from-red-500 to-red-600
+    text-white py-2 rounded-xl font-semibold
+    transition
+    disabled:opacity-60
+    disabled:cursor-not-allowed
+  ">
 
-                <div class="flex gap-3 mt-4">
-                    <button type="button" (click)="closeDeleteModal()"
-                        class=" border bg-gray-400 border-gray-300 text-gray-700 py-2 rounded-xl font-semibold hover:bg-gray-100"
-                        [class.w-full]="deleteId == null" [class.w-1/2]="deleteId != null">
-                        Cancel
-                    </button>
-                    @if (deleteId!=null) {
+    @if (deletingTaskBusy) {
+    Deleting...
+    } @else {
+    Delete
+    }
+</button>
 
-                    <button type="button" (click)="confirmDelete()"
-                        class="w-1/2 bg-gradient-to-r from-red-500 to-red-600 text-white py-2 rounded-xl font-semibold">
-                        Delete
-                    </button>
-                    }
-                </div>
+                        }
+                    </div>
 
-            </form>
+                </form>
 
-            <!-- CLOSE ICON -->
-            <button type="button" (click)="closeDeleteModal()"
-                class="absolute top-4 right-4 text-xl text-gray-500 hover:text-red-600">
-                <i class="bx bx-x"></i>
-            </button>
+                <!-- CLOSE ICON -->
+                <button type="button" (click)="closeDeleteModal()"
+                    class="absolute top-4 right-4 text-xl text-gray-500 hover:text-red-600">
+                    <i class="bx bx-x"></i>
+                </button>
 
+            </div>
         </div>
-    </div>
     </div>
     }
 

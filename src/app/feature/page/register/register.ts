@@ -92,7 +92,8 @@ export class Register {
       createdAt: new Date().toISOString(),
     };
 
-    this.loading = true;
+    this.loading = true;              // 🔒 lock
+    this.registerForm.disable();      // 🔒 disable all inputs
 
     this.api.register(payload).subscribe({
       next: () => {
@@ -102,9 +103,11 @@ export class Register {
       error: (err: Error) => {
         this.toastr.error(err.message || 'Registration failed');
         this.loading = false;
+        this.registerForm.enable();   // 🔓 unlock on error
       },
       complete: () => {
         this.loading = false;
+        this.registerForm.enable();   // 🔓 unlock on error
       },
     });
   }

@@ -33,6 +33,7 @@ export class Login {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
+    
   }
 
   submit() {
@@ -47,7 +48,8 @@ export class Login {
     // ✅ Type safety (fixes TS2345)
     if (!email || !password) return;
 
-    this.loading = true;
+    this.loading = true;          // 🔒 lock
+    this.loginForm.disable();     // 🔒 lock inputs
 
     this.api.login(email, password).subscribe({
       next: () => {
@@ -58,9 +60,11 @@ export class Login {
       error: (err: Error) => {
         this.toastr.error(err.message || 'Login failed');
         this.loading = false;
+        this.loginForm.enable();  // 🔓 unlock on error
       },
       complete: () => {
         this.loading = false;
+        this.loginForm.enable();  // 🔓 unlock on error
       }
     });
   }

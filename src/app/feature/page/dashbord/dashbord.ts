@@ -115,6 +115,8 @@ export class Dashbord implements OnInit {
   viewMode: 'table' | 'board' = 'table';
 
 
+  savingTask = false;     // add / edit
+  deletingTaskBusy = false; // delete
 
 
   constructor(
@@ -242,17 +244,33 @@ export class Dashbord implements OnInit {
       this.taskForm.markAllAsTouched();
       return;
     }
+
+
+    this.savingTask = true;      // 🔒 lock
+    this.taskForm.disable();     // 🔒 UI lock
+
+
     const payload = this.taskForm.value;
 
     const req$ = this.editingTask
       ? this.api.updateTaskOptimistic(this.editingTask.id, payload)
       : this.api.createTaskOptimistic(payload);
 
-    req$.subscribe(() => {
-      this.toastr.success(
-        this.editingTask ? 'Task updated' : 'Task created'
-      );
-      this.resetForm();
+
+    req$.subscribe({
+      next: () => {
+        this.toastr.success(
+          this.editingTask ? 'Task updated' : 'Task created'
+        );
+        this.resetForm();
+      },
+      error: () => {
+        this.toastr.error('Operation failed');
+      },
+      complete: () => {
+        this.savingTask = false; // 🔓 unlock
+        this.taskForm.enable();
+      }
     });
   }
 
@@ -302,12 +320,56 @@ export class Dashbord implements OnInit {
    }
 
 
+  // confirmDelete() {
+  //   if (!this.deleteId) return;
+
+  //   this.deletingTaskBusy = true; // 🔒 lock
+
+  //   this.api.deleteTaskOptimistic(this.deleteId).subscribe({
+  //     next: () => {
+  //       this.toastr.success('Task deleted');
+  //       this.closeDeleteModal();
+  //     },
+  //     error: () => {
+  //       this.toastr.error('Delete failed');
+  //     },
+  //     complete: () => {
+  //       this.deletingTaskBusy = false; // 🔓 unlock
+  //     }
+  //   });
+  // }
+
   confirmDelete() {
     if (!this.deleteId) return;
 
-    this.api.deleteTaskOptimistic(this.deleteId).subscribe(() => {
-      this.toastr.success('Task deleted');
-      this.closeDeleteModal();
+    this.deletingTaskBusy = true;
+
+    const deletedId = this.deleteId;
+
+    this.api.deleteTaskOptimistic(deletedId).subscribe({
+      next: () => {
+
+        // ✅ HARD SYNC DERIVED STATE
+        this.tasks = this.tasks.filter(t => t.id !== deletedId);
+        this.filteredTasks = this.filteredTasks.filter(t => t.id !== deletedId);
+
+        // 🔥 REMOVE STALE ASSIGNED USERS CACHE
+        delete this.assignedUsersMap[deletedId];
+
+        // 🔥 REBUILD EVERYTHING THAT DEPENDS ON TASKS
+        this.buildAssignedUsersMap();
+        this.updateStats(this.filteredTasks);
+        this.rebuildBoard();
+
+        this.toastr.success('Task deleted');
+        this.closeDeleteModal();
+      },
+      error: () => {
+        this.toastr.error('Delete failed');
+      },
+      complete: () => {
+        this.deletingTaskBusy = false;
+      }
     });
   }
 

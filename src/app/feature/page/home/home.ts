@@ -49,6 +49,7 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
      INIT
   ===================== */
   ngOnInit() {
+    this.loading = true;
     combineLatest([
       this.api.getTasks$(),
       this.api.getUsers$(),

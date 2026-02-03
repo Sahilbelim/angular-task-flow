@@ -116,24 +116,39 @@
                             class="h-12 w-full sm:flex-1 rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm focus:ring-2 focus:ring-blue-500 transition" />
  
                                 
-                    <div class="tf-field w-full sm:w-36">
-                        <select [(ngModel)]="selectedPageSize" (ngModelChange)="onPageSizeChange($event)" class="tf-input">
-                            <option value="" disabled>Select Page Size</option>
-                            @for (size of pageSizeOptions; track $index) {
-                            <option [value]="size">{{ size }}</option>
-                            }
-                        </select>
+        <div class="relative  ">
+            <select [(ngModel)]="selectedPageSize" (ngModelChange)="onPageSizeChange($event)" class="
+              h-12 w-full
+              rounded-xl
+              border border-blue-200
+              bg-blue-50
+              px-4 pr-10
+              text-sm text-gray-800
+              focus:outline-none focus:ring-2 focus:ring-blue-500
+              transition
+              appearance-none
+            ">
+                <option value="" disabled>Select Page Size</option>
+                @for (size of pageSizeOptions; track $index) {
+                <option [value]="size">{{ size }}</option>
+                }
+            </select>
+        
+            <!-- Chevron icon (same logic as password eye) -->
+            <i class="bx bx-chevron-down
+                   absolute right-4 top-1/2 -translate-y-1/2
+                   text-gray-500 pointer-events-none">
+            </i>
+        </div>
+
                     
                         <!-- SAME ICON AS ALL DROPDOWNS -->
-                        <i class="bx bx-chevron-down absolute top-4 -right-1  "></i>
-                    </div>
-
                     
                         
                     </div>
 
                     <!-- RIGHT -->
-                    <div class="ml-3 w-full sm:w-auto">
+                    <div class="md:-ml-1  w-full sm:w-auto">
                         <button (click)="openAdd()"
                             class="h-12 w-full sm:w-auto min-w-[130px] rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-md hover:shadow-lg transition">
                             Add User
@@ -364,7 +379,7 @@
         </p>
     </div>
 
-    <button (click)="closeSidebar()" class="w-9 h-9 rounded-full bg-red-50 text-red-600 hover:bg-red-100">
+    <button (click)="closeSidebar()"   [disabled]="userSaving" class="w-9 h-9 rounded-full bg-red-50 text-red-600 hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed">
         ✕
     </button>
 </div>
@@ -526,23 +541,54 @@
             </div>
         
             <!-- SUBMIT -->
-            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
+            <!-- <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
                        hover:from-blue-700 hover:to-indigo-700
                        text-white font-semibold py-3 rounded-xl
                        shadow-md hover:shadow-lg
                        transition">
                 {{ isEditMode ? 'Update User' : 'Create User' }}
-            </button>
+            </button> -->
+        <button type="submit" [disabled]="userSaving || adminForm.invalid" class="
+            w-full
+            bg-gradient-to-r from-blue-600 to-indigo-600
+            text-white font-semibold py-3 rounded-xl
+            shadow-md transition
+            disabled:opacity-60
+            disabled:cursor-not-allowed
+          ">
         
+            @if (userSaving) {
+            {{ isEditMode ? 'Updating...' : 'Creating...' }}
+            } @else {
+            {{ isEditMode ? 'Update User' : 'Create User' }}
+            }
+        </button>
+
             <!-- DELETE (EDIT MODE ONLY) -->
             @if (isEditMode) {
-            <button type="button" (click)="deleteUser(editUser)" class="w-full mt-2
+            <!-- <button type="button" (click)="deleteUser(editUser)" class="w-full mt-2
                        border border-red-300
                        text-red-600
                        py-3 rounded-xl
                        hover:bg-red-50 transition" >
                 Delete User
-            </button>
+            </button> -->
+            <!-- <button (click)="confirmFinalDelete()" [disabled]="userDeleting" class="
+                px-4 py-2 w-full
+                rounded-xl
+                bg-red-600 text-white font-semibold
+                transition
+                disabled:opacity-60
+                disabled:cursor-not-allowed
+              ">
+            
+                @if (userDeleting) {
+                Deleting...
+                } @else {
+                Delete User
+                }
+            </button> -->
+
             }
         
              </form>
@@ -596,8 +642,8 @@
             </p>
     
             <!-- ACTIONS -->
-            <div class="mt-6 flex justify-end gap-3">
-                <button (click)="closeAllPopups()" class="
+            <div class="mt-6 flex justify-end gap-3 h-15">
+                <!-- <button (click)="closeAllPopups()" class="
               px-4 py-2
               rounded-xl
               border border-gray-300
@@ -606,9 +652,19 @@
               transition
             ">
                     Cancel
-                </button>
-    
-                <button (click)="confirmFinalDelete()" class="
+                </button> -->
+    <button (click)="closeAllPopups()" [disabled]="userDeleting" class="
+        px-4  mt-2
+        rounded-xl
+        border border-gray-300
+        text-gray-600
+        disabled:opacity-50
+        disabled:cursor-not-allowed
+      ">
+        Cancel
+    </button>
+
+                <!-- <button (click)="confirmFinalDelete()" class="
               px-4 py-2
               rounded-xl
               bg-red-600
@@ -619,7 +675,19 @@
               transition
             ">
                     Delete User
+                </button> -->
+                <button type="button"   (click)="confirmFinalDelete()"
+                [disabled]="userDeleting"
+                 class="w-full mt-2
+                    border border-red-300
+                    text-red-600 py-3 rounded-xl
+                    hover:bg-red-50 transition
+                    disabled:opacity-50
+                    disabled:cursor-not-allowed
+                  ">
+                    Delete User
                 </button>
+
             </div>
     
         </div>
@@ -652,7 +720,7 @@
         </div>
 
         <!-- TITLE -->
-        <h3 class="text-lg font-bold text-orange-700 text-center">
+        <h3 class="text-lg font-bold text-orange-600 text-center">
             User Cannot Be Deleted
         </h3>
 
@@ -663,7 +731,7 @@
             </span>
             currently has one or more tasks assigned.
             <br />
-            <span class="text-orange-600 font-medium">
+            <span class="text-orange-400 font-medium">
                 Please review or reassign these tasks before deleting the user.
             </span>
         </p>
@@ -682,12 +750,12 @@
             </button>
 
             <button (click)="goToUserTasks()" class="
-          px-4 py-2
-          rounded-xl
-          bg-orange-500
-          text-white
-          font-semibold
-          hover:bg-orange-600
+          px-4 py-2 w-full
+        border border-orange-300
+                    text-orange-600  rounded-xl
+                    hover:bg-orange-50  
+                    disabled:opacity-50
+                    disabled:cursor-not-allowed
           shadow-md
           transition
         ">

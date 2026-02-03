@@ -19,17 +19,24 @@
 
             @if (isLoggedIn) {
 
-            <a routerLink="/dashboard" routerLinkActive="text-blue-600" class="text-gray-700 hover:text-blue-600 transition">
+            <!-- <a routerLink="/dashboard" 
+              routerLinkActive="text-blue-800 font-bold"
+  [routerLinkActiveOptions]="{ exact: true }"
+  class="text-gray-800 hover:text-blue-600 transition">
                 Dashboard
-            </a>
+            </a> -->
+<a routerLink="/dashboard" routerLinkActive="!text-blue-700 font-bold" [routerLinkActiveOptions]="{ exact: true }"
+    class="text-gray-600 hover:text-blue-600 transition">
+    Dashboard
+</a>
 
-            <a routerLink="/tasks" routerLinkActive="text-blue-600"
-                class="text-gray-700 hover:text-blue-600 transition">
+            <a routerLink="/tasks"  routerLinkActive="!text-blue-700 font-bold" [routerLinkActiveOptions]="{ exact: true }"
+    class="text-gray-600 hover:text-blue-600 transition">
                 Tasks
             </a>
 
-            <a routerLink="/users" routerLinkActive="text-blue-600"
-                class="text-gray-700 hover:text-blue-600 transition">
+            <a routerLink="/users"  routerLinkActive="!text-blue-700 font-bold" [routerLinkActiveOptions]="{ exact: true }"
+    class="text-gray-600 hover:text-blue-600 transition">
                 Users
             </a>
 
@@ -55,12 +62,11 @@
                             bg-white rounded-xl shadow-lg
                             border border-blue-100 overflow-hidden">
 
-                    <a routerLink="/profile" (click)="closeUserMenu()" class="flex items-center gap-2 px-4 py-3
-                              text-gray-700 hover:bg-blue-50 transition">
+                    <a routerLink="/profile" (click)="closeUserMenu()" class="flex items-center gap-2 px-4 py-3  text-gray-700 hover:bg-blue-50 transition"  routerLinkActive="!text-blue-700 font-bold" [routerLinkActiveOptions]="{ exact: true }" >
                         Profile
                     </a>
-                    <a routerLink="/change-password" (click)="closeUserMenu()" class="flex items-center gap-2 px-4 py-3
-                                                  text-gray-700 hover:bg-blue-50 transition">
+                    <a routerLink="/change-password" (click)="closeUserMenu()" class="flex items-center gap-2 px-4 py-3  text-gray-700 hover:bg-blue-50 transition"
+                    routerLinkActive="!text-blue-700 font-bold" [routerLinkActiveOptions]="{ exact: true }">
                         Chnage Password
                     </a>
 
@@ -115,28 +121,28 @@
     @if (isLoggedIn) {
 
     <a routerLink="/dashboard" (click)="closeMenu()" class="flex items-center gap-3 px-4 py-2.5
-              text-gray-700 hover:bg-blue-50 transition">
+              text-gray-700 hover:bg-blue-50 transition" routerLinkActive="!text-blue-700 bg-blue-50 font-bold" [routerLinkActiveOptions]="{ exact: true }">
         <!-- <i class="bx bx-grid-alt text-blue-600"></i> -->
         Dashboard
     </a>
 <a routerLink="/tasks" (click)="closeMenu()" class="flex items-center gap-3 px-4 py-2.5
-              text-gray-700 hover:bg-blue-50 transition">
+              text-gray-700 hover:bg-blue-50 transition" routerLinkActive="!text-blue-700 bg-blue-50 font-bold" [routerLinkActiveOptions]="{ exact: true }">
     <!-- <i class="bx bx-grid-alt text-blue-600"></i> -->
     Tasks
 </a>
     <a routerLink="/users" (click)="closeMenu()" class="flex items-center gap-3 px-4 py-2.5
-              text-gray-700 hover:bg-blue-50 transition">
+              text-gray-700 hover:bg-blue-50 transition" routerLinkActive="!text-blue-700 bg-blue-50 font-bold" [routerLinkActiveOptions]="{ exact: true }">
         <!-- <i class="bx bx-group text-indigo-600"></i> -->
         Users
     </a>
 
     <a routerLink="/profile" (click)="closeMenu()" class="flex items-center gap-3 px-4 py-2.5
-              text-gray-700 hover:bg-blue-50 transition">
+              text-gray-700 hover:bg-blue-50 transition " routerLinkActive="!text-blue-700 font-bold bg-blue-50" [routerLinkActiveOptions]="{ exact: true }">
         <!-- <i class="bx bx-user text-sky-600"></i> -->
         Profile
     </a>
     <a routerLink="/change-password" (click)="closeMenu()" class="flex items-center gap-3 font-semibold px-4 py-2.5
-                  text-gray-700 hover:bg-blue-50 transition">
+                  text-gray-700 hover:bg-blue-50 transition" routerLinkActive="!text-blue-700 font-bold bg-blue-50" [routerLinkActiveOptions]="{ exact: true }">
         <!-- <i class="bx bx-user text-sky-600"></i> -->
         Change Password
     </a>

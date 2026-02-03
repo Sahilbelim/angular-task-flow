@@ -22,6 +22,8 @@ export class ChangePasswordPage {
     showCurrent = false;
     showNew = false;
     showConfirm = false;
+    isSubmitting = false;
+
 
     form;
 
@@ -72,23 +74,30 @@ export class ChangePasswordPage {
             return;
         }
 
+        
+
         const user = this.api.user();
         if (!user) return;
+
+        this.isSubmitting = true;     // 🔒 lock
+        this.form.disable();          // 🔒 lock inputs
 
         const currentPassword = this.form.get('currentPassword')!.value as string;
         const newPassword = this.form.get('newPassword')!.value as string;
 
-        this.api
-            .changePassword(user.id, currentPassword, newPassword)
-            .subscribe({
-                next: () => {
-                    this.toast.success('Password updated successfully');
-                    this.form.reset();
-                },
-                error: (err: Error) => {
-                    this.toast.error(err?.message || 'Current password is incorrect');
-                },
-            });
+        this.api.changePassword(user.id, currentPassword, newPassword).subscribe({
+            next: () => {
+                this.toast.success('Password updated successfully');
+                this.form.reset();
+            },
+            error: (err: Error) => {
+                this.toast.error(err?.message || 'Current password is incorrect');
+            },
+            complete: () => {
+                this.isSubmitting = false; // 🔓 unlock
+                this.form.enable();        // 🔓 enable inputs
+            }
+        });
     }
 
     /* ============================

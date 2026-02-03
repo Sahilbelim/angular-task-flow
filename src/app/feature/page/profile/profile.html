@@ -149,12 +149,29 @@
 
                 <!-- SAVE -->
                 <div class="md:col-span-2">
-                    <button type="submit" class="w-full rounded-xl bg-gradient-to-r
+                    <!-- <button type="submit" class="w-full rounded-xl bg-gradient-to-r
                    from-blue-500 to-indigo-600
                    py-3 font-semibold text-white
                    hover:from-blue-600 hover:to-indigo-700 transition">
                         Save Changes
+                    </button> -->
+
+                    <button type="submit" [disabled]="saving || profileForm.invalid" class="w-full rounded-xl bg-gradient-to-r
+                             from-blue-500 to-indigo-600
+                             py-3 font-semibold text-white
+                             transition
+                             disabled:opacity-60
+                             disabled:cursor-not-allowed
+                             disabled:from-blue-400
+                             disabled:to-indigo-400">
+                    
+                        @if (saving) {
+                        Saving...
+                        } @else {
+                        Save Changes
+                        }
                     </button>
+
                 </div>
 
             </form>
