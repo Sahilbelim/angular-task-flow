@@ -664,3 +664,92 @@ input[type="date"]:not(:focus):not([value])::before {
     border-color: #3B82F6;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* ===============================
+   MATERIAL DATE PICKER – TASKFLOW
+================================ */
+
+/* Remove Material default underline / spacing */
+.tf-mat-date {
+    --mdc-outlined-text-field-outline-width: 0;
+}
+
+/* Main container */
+.tf-mat-date .mat-mdc-text-field-wrapper {
+    height: 44px;
+    /* h-11 */
+    border-radius: 12px;
+    background-color: #EFF6FF;
+    /* bg-blue-50 */
+    padding: 0;
+}
+
+/* Flex alignment */
+.tf-mat-date .mat-mdc-form-field-flex {
+    height: 44px;
+    align-items: center;
+    padding: 0 16px;
+}
+
+/* Border */
+.tf-mat-date .mat-mdc-notched-outline {
+    border: 1px solid #BFDBFE;
+    /* border-blue-200 */
+    border-radius: 12px;
+}
+
+/* Input text */
+.tf-mat-date input {
+    font-size: 14px;
+    color: #1f2937;
+}
+
+/* Placeholder */
+.tf-mat-date input::placeholder {
+    color: #9CA3AF;
+}
+
+/* Focus ring */
+.tf-mat-date.mat-focused .mat-mdc-notched-outline {
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, .25);
+}
+
+/* ❌ REMOVE MATERIAL INVALID RED */
+.tf-mat-date.mat-form-field-invalid .mat-mdc-notched-outline {
+    border-color: #BFDBFE !important;
+}
+
+/* Calendar icon */
+.tf-date-toggle {
+    color: #64748B;
+    font-size: 18px;
+    padding: 0;
+}
+
+/* Remove extra bottom space */
+.tf-mat-date .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+}
+
+/* ===============================
+   REMOVE MATERIAL RED INVALID UI
+================================ */
+.tf-mat-date.mat-form-field-invalid .mat-mdc-notched-outline {
+    border-color: #BFDBFE !important;
+    /* blue-200 */
+}
+
+/* Optional: red only when you want */
+.tf-mat-date.show-error.mat-form-field-invalid .mat-mdc-notched-outline {
+    border-color: #BFDBFE !important;
+    /* red-500 */
+}
+
+/* Keep rounded corners always */
+.tf-mat-date .mat-mdc-notched-outline {
+    border-radius: 12px !important;
+}

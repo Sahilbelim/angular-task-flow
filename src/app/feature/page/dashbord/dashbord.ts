@@ -20,6 +20,9 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { combineLatest } from 'rxjs';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
 
 
 type TaskStatus = 'pending' | 'in-progress' | 'completed';
@@ -35,6 +38,11 @@ type TaskPriority = 'low' | 'medium' | 'high';
     NgxDaterangepickerMd,
     NgxPaginationModule,
     NgSelectModule,
+      // 👇 DATE PICKER
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatInputModule,
+
     DragDropModule,
   ],
   templateUrl: './dashbord.html',
@@ -126,8 +134,8 @@ export class Dashbord implements OnInit {
   ) { 
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
-      dueDate: ['',
-        Validators.required
+      dueDate: [null,
+        // Validators.required
       ],
       status: ['pending' as TaskStatus],
       priority: ['medium' as TaskPriority],
@@ -249,8 +257,15 @@ export class Dashbord implements OnInit {
     this.savingTask = true;      // 🔒 lock
     this.taskForm.disable();     // 🔒 UI lock
 
+const raw = this.taskForm.value;
 
-    const payload = this.taskForm.value;
+const payload = {
+  ...raw,
+  dueDate: raw.dueDate
+    ? raw.dueDate.toISOString().split('T')[0] // YYYY-MM-DD
+    : null,
+};
+    // const payload = this.taskForm.value;
 
     const req$ = this.editingTask
       ? this.api.updateTaskOptimistic(this.editingTask.id, payload)

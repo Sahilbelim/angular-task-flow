@@ -755,8 +755,7 @@
                 </h2>
 
                 <p class="text-center text-sm text-gray-600 mb-4">
-                    {{ editingTask ? 'Update the details of this task below.' : 'Provide the details below to create a
-                    new task.' }}
+                    {{ editingTask ? 'Update the details of this task below.' : 'Provide the details below to create a  new task.' }}
                 </p>
 
                 <form [formGroup]="taskForm" (ngSubmit)="saveTask()" class="flex flex-col gap-4">
@@ -793,7 +792,7 @@
               transition placeholder:text-gray-400
             " />
 -->
-<!-- DUE DATE -->
+<!-- DUE DATE 
 <div class="tf-field date-field">
 
     <input type="date" formControlName="dueDate" placeholder="Due date" class="
@@ -811,6 +810,66 @@
     <i class="bx bx-calendar calendar-icon"></i>
 
 </div>
+-->
+
+<!-- DUE DATE (SINGLE DATE PICKER – CONSISTENT UI) 
+<div class="tf-field relative">
+  <input
+    type="text"
+    ngxDaterangepickerMd
+    [singleDatePicker]="true"
+    [autoApply]="true"
+    [showClearButton]="true"
+    [locale]="{ format: 'DD/MM/YYYY' }"
+    formControlName="dueDate"
+    placeholder="Due date"
+    class="
+      h-11 w-full
+      rounded-xl
+      border border-blue-200
+      bg-blue-50
+      px-4 pr-12
+      text-sm text-gray-800
+      focus:outline-none
+      focus:ring-2 focus:ring-blue-500
+      transition
+    "
+  />
+
+ 
+  <i class="bx bx-calendar tf-icon"></i>
+</div>-->
+<!-- DUE DATE (SINGLE DATE PICKER) -->
+<!-- <div class="tf-field">
+  <mat-form-field appearance="outline" class="w-full tf-mat-date">
+    <input
+      matInput
+      [matDatepicker]="picker"
+      formControlName="dueDate"
+      placeholder="Due date"
+    />
+
+    <mat-datepicker-toggle matSuffix [for]="picker">
+      <i class="bx bx-calendar text-lg"></i>
+    </mat-datepicker-toggle>
+
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div> -->
+
+<!-- DUE DATE (MATCHES ALL INPUTS) -->
+<div class="tf-field">
+    <mat-form-field appearance="outline" class="w-full tf-mat-date">
+        <input matInput [matDatepicker]="picker" formControlName="dueDate" placeholder="Due date" />
+
+        <mat-datepicker-toggle matSuffix [for]="picker" class="tf-date-toggle">
+            <i class="bx bx-calendar"></i>
+        </mat-datepicker-toggle>
+
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+</div>
+
 
                     @if(taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched){
                     <div class="text-xs text-red-500 ml-1">
