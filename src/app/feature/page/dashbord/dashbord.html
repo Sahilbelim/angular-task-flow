@@ -780,7 +780,8 @@
                     </div>
                     }
 
-                    <!-- DUE DATE -->
+                    <!-- DUE DATE 
+
                     <input type="date" formControlName="dueDate" class="
               h-11 w-full
               rounded-xl
@@ -791,6 +792,24 @@
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
               transition placeholder:text-gray-400
             " />
+-->
+<!-- DUE DATE -->
+<div class="relative tf-field date-with-icon">
+
+    <input type="date" formControlName="dueDate" placeholder="Due date" class="
+     tf-input-date
+      h-11 w-full
+      rounded-xl
+      border border-blue-200
+      bg-blue-50
+      px-4
+      text-sm text-gray-800
+      focus:outline-none
+      focus:ring-2 focus:ring-blue-500
+      transition
+    " />
+
+</div>
 
                     @if(taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched){
                     <div class="text-xs text-red-500 ml-1">

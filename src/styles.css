@@ -452,6 +452,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     align-items: center;
     /* 🔥 vertical center */
 }
+.tf-input-date {
+    min-height: 44px;
+        /* 🔥 instead of height */
+        height: auto;
+        border-radius: 12px;
+        border: 1px solid #BFDBFE;
+        background-color: #EFF6FF;
+        /* padding-left: 16px; */
+ 
+        /* space for chevron */
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        /* 🔥 vertical center */
+}
 
 /* ===============================
    REMOVE DEFAULT UI
@@ -563,17 +578,37 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
 /* Hide native calendar icon (Chrome, Edge) */
-input[type="date"]::-webkit-calendar-picker-indicator {
+/* input[type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0;
     cursor: pointer;
-}
+} */
 
 /* Firefox */
-input[type="date"] {
+/* input[type="date"] {
     -moz-appearance: textfield;
-}
+} */
 
 /* Safari / general */
-input[type="date"] {
+/* input[type="date"] {
     appearance: none;
+} */
+
+/* 📅 Date input placeholder fallback (mobile safe) */
+input[type="date"]:not(:focus):not([value])::before {
+    content: attr(placeholder);
+    color: #9ca3af;
+    /* gray-400 */
 }
+/* 
+@media (hover: hover) and (pointer: fine) {
+  .tf-field.date-with-icon::after {
+    content: "\ebca";  
+    font-family: boxicons;
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    pointer-events: none;
+  }
+} */
