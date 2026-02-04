@@ -4,7 +4,7 @@ import { AbstractControl, FormsModule, ValidationErrors } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-
+import { filter } from 'rxjs/operators';
 import { ApiService } from '../../../core/service/mocapi/api/api';
 import { AdminAddUser } from '../admin-add-user/admin-add-user';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -33,6 +33,7 @@ export class UsersPage implements OnInit, OnDestroy {
   sidebarOpen = false;
   editUser: any | null = null;
   loading = true;
+  dataLoaded = false; 
 
   /* =====================
      DATA (STORE)
@@ -122,22 +123,26 @@ export class UsersPage implements OnInit, OnDestroy {
   /* =====================
      INIT
   ===================== */
-  ngOnInit() {
-
+  // ngOnInit() {
+  //   this.initUsersPage();
    
-    // 🔥 load once (cached internally)
-    this.sub = this.api.getUsers$().subscribe(users => {
-      this.users = users;
-      const meId = this.currentUserId;
+  //   // 🔥 load once (cached internally)
+  //   this.sub = this.api.getUsers$().subscribe(users => {
+  //     this.users = users;
+  //     const meId = this.currentUserId;
 
-      // 🔥 EXCLUDE SELF ONLY HERE
-      this.users = users.filter(u => u.id !== meId);
+  //     // 🔥 EXCLUDE SELF ONLY HERE
+  //     this.users = users.filter(u => u.id !== meId);
 
-      this.applyFilter();
-      const start = Date.now();
-      this.loading = false;
+  //     this.applyFilter();
+  //     const start = Date.now();
+  //     this.loading = false;
 
-    });
+  //   });
+  // }
+
+  ngOnInit(): void {
+    this.initUsersPage();
   }
 
   ngOnDestroy() {
@@ -345,93 +350,7 @@ export class UsersPage implements OnInit, OnDestroy {
   /* =====================
      🗑 DELETE USER
   ===================== */
-  //  deleteUser(user: any) {
-  //   if (!this.canManageUsers()) {
-  //     this.toastr.warning('You do not have permission');
-  //     return;
-  //   }
-
-  //   this.showTaskBlockPopup = false;
-  //   this.showDeleteConfirmPopup = false;
-  //   this.userToDelete = user;
-  //   document.body.classList.add('overflow-hidden');
-
-  //   this.api.hasAssignedTasks$(user.id).subscribe(hasTasks => {
-  //     if (hasTasks) {
-  //       this.showTaskBlockPopup = true;
-  //     } else {
-  //       this.showDeleteConfirmPopup = true;
-  //     }
-  //   });
-  // }
-
-  // deleteUser(user: any) {
-  //   if (!this.canManageUsers()) {
-  //     this.toastr.warning('You do not have permission');
-  //     return;
-  //   }
-
-  //   if (this.userDeleting) return;
-
-  //   // reset state
-  //   this.closeAllPopups();
-  //   this.userToDelete = user;
-  //   document.body.classList.add('overflow-hidden');
-
-  //   // 🔥 ALWAYS ensure tasks are loaded
-  //   this.api.ensureTasksLoaded$().subscribe(tasks => {
-  //     const hasTasks = tasks.some(
-  //       task =>
-  //         Array.isArray(task.assignedUsers) &&
-  //         task.assignedUsers.map(String).includes(String(user.id))
-  //     );
-
-  //     if (hasTasks) {
-  //       this.showTaskBlockPopup = true;
-  //     } else {
-  //       this.showDeleteConfirmPopup = true;
-  //     }
-  //   });
-  // }
-
-  // deleteUser(user: any) {
-  //   if (!this.canManageUsers()) {
-  //     this.toastr.warning('You do not have permission');
-  //     return;
-  //   }
-
-  //   if (!user || !user.id) return;
-
-  //   if (!user || !user.id) {
-  //     console.warn('deleteUser called with invalid user', user);
-  //     return;
-  //   }
-
-
-  //   if (this.userDeleting) return;
-
-  //   // 🔒 CAPTURE ID ONCE (IMPORTANT)
-  //   const userId = String(user.id);
-
-  //   this.closeAllPopups();
-  //   this.userToDelete = user;
-  //   document.body.classList.add('overflow-hidden');
-
-  //   this.api.ensureTasksLoaded$().subscribe(tasks => {
-  //     const hasTasks = tasks.some(
-  //       task =>
-  //         Array.isArray(task.assignedUsers) &&
-  //         task.assignedUsers.map(String).includes(userId)
-  //     );
-
-  //     if (hasTasks) {
-  //       this.showTaskBlockPopup = true;
-  //     } else {
-  //       this.showDeleteConfirmPopup = true;
-  //     }
-  //   });
-  // }
-
+  
   deleteUser(user: any) {
     if (!this.canManageUsers()) {
       this.toastr.warning('You do not have permission');
@@ -468,12 +387,7 @@ export class UsersPage implements OnInit, OnDestroy {
     document.body.classList.remove('overflow-hidden');
   }
 
-  // closeAllPopups() {
-  //   this.showTaskBlockPopup = false;
-  //   this.showDeleteConfirmPopup = false;
-  //   this.userToDelete = null;
-  //   document.body.classList.remove('overflow-hidden');
-  // }
+ 
 
   closeAllPopups() {
     this.showTaskBlockPopup = false;
@@ -483,120 +397,6 @@ export class UsersPage implements OnInit, OnDestroy {
     document.body.classList.remove('overflow-hidden');
   }
 
-
-  // confirmFinalDelete() {
-  //   if (!this.userToDelete || this.userDeleting) return;
-
-  //   this.userDeleting = true;
-
-  //   this.api.ensureTasksLoaded$().subscribe(tasks => {
-  //     const hasTasks = tasks.some(
-  //       t =>
-  //         Array.isArray(t.assignedUsers) &&
-  //         t.assignedUsers.map(String).includes(String(this.userToDelete.id))
-  //     );
-
-  //     if (hasTasks) {
-  //       this.userDeleting = false;
-  //       this.closeAllPopups();
-  //       this.showTaskBlockPopup = true;
-  //       document.body.classList.add('overflow-hidden');
-  //       return;
-  //     }
-
-  //     // ✅ SAFE DELETE
-  //     this.api.deleteUser(this.userToDelete.id).subscribe({
-  //       next: () => {
-  //         this.toastr.success('User deleted successfully');
-  //         this.closeAllPopups();
-  //       },
-  //       error: () => {
-  //         this.toastr.error('Failed to delete user');
-  //         this.userDeleting = false;
-  //       }
-  //     });
-  //   });
-  // }
-
-
-  // confirmFinalDelete() {
-  //   if (!this.userToDelete) return;
-
-  //   this.api.hasAssignedTasks$(this.userToDelete.id).subscribe(hasTasks => {
-
-  //     if (hasTasks) {
-  //       this.closeAllPopups();
-  //       this.showTaskBlockPopup = true;
-  //       document.body.classList.add('overflow-hidden');
-  //       return;
-  //     }
-
-  //     // ✅ SAFE DELETE
-  //     this.api.deleteUser(this.userToDelete.id).subscribe({
-  //       next: () => {
-  //         this.toastr.success('User deleted successfully');
-  //         this.closeAllPopups();
-  //       },
-  //       error: () => {
-  //         this.toastr.error('Failed to delete user');
-  //       }
-  //     });
-  //   });
-  // }
-
-  // confirmFinalDelete() {
-  //   if (!this.userToDelete || this.userDeleting) return;
-
-  //   this.userDeleting = true; // 🔒 lock
-
-  //   this.api.deleteUser(this.userToDelete.id).subscribe({
-  //     next: () => {
-  //       this.toastr.success('User deleted successfully');
-  //       this.closeAllPopups();
-  //     },
-  //     error: () => {
-  //       this.toastr.error('Failed to delete user');
-  //       this.userDeleting = false;
-  //     },
-  //     complete: () => {
-  //       this.userDeleting = false; // 🔓 unlock
-  //     }
-  //   });
-  // }
-
-  // confirmFinalDelete() {
-  //   if (!this.userToDelete || this.userDeleting) return;
-
-  //   const userId = String(this.userToDelete.id); // 🔒 capture once
-  //   this.userDeleting = true;
-
-  //   this.api.ensureTasksLoaded$().subscribe(tasks => {
-  //     const hasTasks = tasks.some(
-  //       t =>
-  //         Array.isArray(t.assignedUsers) &&
-  //         t.assignedUsers.map(String).includes(userId)
-  //     );
-
-  //     if (hasTasks) {
-  //       this.userDeleting = false;
-  //       this.closeAllPopups();
-  //       this.showTaskBlockPopup = true;
-  //       document.body.classList.add('overflow-hidden');
-  //       return;
-  //     }
-
-  //     this.api.deleteUser(userId).subscribe({
-  //       next: () => {
-  //         this.toastr.success('User deleted successfully');
-  //         this.closeAllPopups();
-  //       },
-  //       error: () => {
-  //         this.toastr.error('Failed to delete user');
-  //         this.userDeleting = false;
-  //       }
-  //     });
-  //   });
-  // }
 
   confirmFinalDelete() {
     if (!this.userToDelete?.id || this.userDeleting) return;
@@ -623,6 +423,36 @@ export class UsersPage implements OnInit, OnDestroy {
     this.closeAllPopups();
     this.router.navigate(['/tasks']);
   }
+
+  private initUsersPage(): void {
+    this.loading = true;
+    this.dataLoaded = false;
+
+    this.sub = this.api.getUsers$()
+      .pipe(
+        // 🔥 ignore first empty emission
+        filter((users: any[]) => users.length > 0)
+      )
+      .subscribe({
+        next: (users: any[]) => {
+          const meId = this.currentUserId;
+
+          // exclude current user
+          this.users = users.filter(u => u.id !== meId);
+
+          this.applyFilter();
+
+          // ✅ STOP skeleton ONLY when real data arrives
+          this.loading = false;
+          this.dataLoaded = true;
+        },
+        error: () => {
+          this.loading = false;
+          this.dataLoaded = true;
+        }
+      });
+  }
+
 
   /* =====================
      📊 STATS

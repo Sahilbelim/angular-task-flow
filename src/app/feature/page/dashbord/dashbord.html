@@ -525,7 +525,8 @@
                         </table>
 
                         }
-                        @if (!loading && filteredTasks.length === 0) {
+                        <!-- NO TASKS  -->
+                        @if (dataLoaded && !loading && filteredTasks.length === 0) {
                         <div class="flex flex-col items-center justify-center py-12 text-center">
 
                             <!-- ICON CARD -->
@@ -977,7 +978,7 @@
                             Cancel
                         </button>
 
-<button type="submit" [disabled]="savingTask || taskForm.invalid" class="
+<button type="submit" [disabled]="savingTask " class="
     h-11 w-1/2
     rounded-xl
     bg-gradient-to-r from-blue-500 to-indigo-600

@@ -23,6 +23,7 @@ import { combineLatest } from 'rxjs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
+import {  filter } from 'rxjs';
 
 
 type TaskStatus = 'pending' | 'in-progress' | 'completed';
@@ -52,9 +53,11 @@ export class Dashbord implements OnInit {
   /* =====================
      UI STATE
   ===================== */
+  loading = true;
+  dataLoaded = false;
+
   popupVisible = false;
   deletingTask = false;
-  loading = true;
   editingTask: any = null;
   deleteId: string | null = null;
 
@@ -147,60 +150,148 @@ export class Dashbord implements OnInit {
      INIT
   ===================== */
  
+  // ngOnInit() {
+  //   this.loading = true;
+
+  //   combineLatest([
+  //     this.api.getTasks$(),
+  //     this.api.getUsers$(),
+  //     this.api.taskFilterUser$
+  //   ]).subscribe(([tasks, users, filterUserId]) => {
+
+  //     // build user map
+  //     this.userMap = {};
+  //     users.forEach(u => (this.userMap[u.id] = u));
+  //     this.assignableUsers = users;
+
+  //     // sort tasks
+  //     this.tasks = [...tasks].sort(
+  //       (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
+  //     );
+
+  //     // ✅ APPLY REDIRECT FILTER ONLY ONCE
+  //     // console.log('Redirect filter user:', filterUserId);
+  //     if (filterUserId && !this.redirectFilterApplied) {
+  //       this.redirectFilterApplied = true;
+
+  //       this.selectedUserFilter = [filterUserId];
+  //       // console.log('Filtered tasks:', this.selectedUserFilter);
+
+  //       this.filteredTasks = this.tasks.filter(task =>
+  //         task.assignedUsers?.includes(filterUserId)
+  //       );
+  //       // console.log('Filtered tasks:', this.filteredTasks);
+
+  //       // clear AFTER applying once
+  //       // this.api.setTaskFilterUser(null);
+  //     }
+  //     // ❌ DO NOT override filteredTasks again
+  //     else if (!this.redirectFilterApplied) {
+  //       this.filteredTasks = [...this.tasks];
+  //     }
+
+  //     this.buildAssignedUsersMap();
+  //     this.updateStats(this.filteredTasks);
+  //     this.rebuildBoard();
+
+  //     this.loading = false;
+  //   });
+
+  //   this.dateRangeControl.valueChanges.subscribe(range => {
+  //     this.selectedDateRange = range;
+  //     this.applyAllFilters();
+  //   });
+
+  // }
+
+  // ngOnInit() {
+  //   this.loading = true;
+  //   this.dataLoaded = false;
+
+  //   combineLatest([
+  //     this.api.getTasks$(),
+  //     this.api.getUsers$(),
+  //     this.api.taskFilterUser$
+  //   ]).subscribe(([tasks, users, filterUserId]) => {
+
+  //     // build user map
+  //     this.userMap = {};
+  //     users.forEach(u => (this.userMap[u.id] = u));
+  //     this.assignableUsers = users;
+
+  //     // sort tasks
+  //     this.tasks = [...tasks].sort(
+  //       (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
+  //     );
+
+  //     if (filterUserId && !this.redirectFilterApplied) {
+  //       this.redirectFilterApplied = true;
+  //       this.selectedUserFilter = [filterUserId];
+  //       this.filteredTasks = this.tasks.filter(task =>
+  //         task.assignedUsers?.includes(filterUserId)
+  //       );
+  //     } else {
+  //       this.filteredTasks = [...this.tasks];
+  //     }
+
+  //     this.buildAssignedUsersMap();
+  //     this.updateStats(this.filteredTasks);
+  //     this.rebuildBoard();
+
+  //     // ✅ IMPORTANT
+  //     this.loading = false;
+  //     this.dataLoaded = true;
+  //   });
+
+  //   this.dateRangeControl.valueChanges.subscribe(range => {
+  //     this.selectedDateRange = range;
+  //     this.applyAllFilters();
+  //   });
+  // }
+
+
   ngOnInit() {
     this.loading = true;
+    this.dataLoaded = false;
 
     combineLatest([
       this.api.getTasks$(),
       this.api.getUsers$(),
       this.api.taskFilterUser$
-    ]).subscribe(([tasks, users, filterUserId]) => {
+    ])
+      .pipe(
+        // 🔥 IGNORE the initial empty emission
+        filter(([tasks]) => this.api['tasksLoaded'] || tasks.length > 0)
+      )
+      .subscribe(([tasks, users, filterUserId]) => {
 
-      // build user map
-      this.userMap = {};
-      users.forEach(u => (this.userMap[u.id] = u));
-      this.assignableUsers = users;
+        this.userMap = {};
+        users.forEach(u => (this.userMap[u.id] = u));
+        this.assignableUsers = users;
 
-      // sort tasks
-      this.tasks = [...tasks].sort(
-        (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
-      );
-
-      // ✅ APPLY REDIRECT FILTER ONLY ONCE
-      // console.log('Redirect filter user:', filterUserId);
-      if (filterUserId && !this.redirectFilterApplied) {
-        this.redirectFilterApplied = true;
-
-        this.selectedUserFilter = [filterUserId];
-        // console.log('Filtered tasks:', this.selectedUserFilter);
-
-        this.filteredTasks = this.tasks.filter(task =>
-          task.assignedUsers?.includes(filterUserId)
+        this.tasks = [...tasks].sort(
+          (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
         );
-        // console.log('Filtered tasks:', this.filteredTasks);
 
-        // clear AFTER applying once
-        // this.api.setTaskFilterUser(null);
-      }
-      // ❌ DO NOT override filteredTasks again
-      else if (!this.redirectFilterApplied) {
-        this.filteredTasks = [...this.tasks];
-      }
+        if (filterUserId && !this.redirectFilterApplied) {
+          this.redirectFilterApplied = true;
+          this.selectedUserFilter = [filterUserId];
+          this.filteredTasks = this.tasks.filter(t =>
+            t.assignedUsers?.includes(filterUserId)
+          );
+        } else {
+          this.filteredTasks = [...this.tasks];
+        }
 
-      this.buildAssignedUsersMap();
-      this.updateStats(this.filteredTasks);
-      this.rebuildBoard();
+        this.buildAssignedUsersMap();
+        this.updateStats(this.filteredTasks);
+        this.rebuildBoard();
 
-      this.loading = false;
-    });
-
-    this.dateRangeControl.valueChanges.subscribe(range => {
-      this.selectedDateRange = range;
-      this.applyAllFilters();
-    });
-
+        // ✅ TURN OFF LOADING ONLY ON REAL DATA
+        this.loading = false;
+        this.dataLoaded = true;
+      });
   }
-
 
 
   /* =====================
@@ -585,14 +676,7 @@ const payload = {
   /* =====================
      HELPERS
   ===================== */
-  // togglePopup() {
-  //   this.popupVisible = !this.popupVisible;
-
-  //   document.body.classList.toggle('overflow-hidden', this.popupVisible);
-  //   if (!this.popupVisible) this.resetForm();
-  // }
-
-  togglePopup() {
+   togglePopup() {
     this.popupVisible = !this.popupVisible;
     this.api.setOverlay(this.popupVisible);
 

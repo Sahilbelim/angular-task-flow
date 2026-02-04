@@ -4,23 +4,54 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* ===============================
+   IMPORTS
+================================ */
+/* @import 'ngx-toastr/toastr';
+@import "@ng-select/ng-select/themes/default.theme.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities; */
 
+/* ===============================
+   BASE
+================================ */
 html,
 body {
-    /* height: 100%; */
     margin: 0;
     overflow-x: hidden;
+    height: 100%;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-
-/* 🔒 Disable background scroll when overlay/modal is open */
+/* ===============================
+   SCROLL LOCK (MODAL)
+================================ */
 .body-scroll-lock {
     overflow: hidden !important;
     height: 100vh;
     width: 100%;
     touch-action: none;
 }
-/* ngx-pagination base */
+
+/* ===============================
+   HIDE SCROLLBAR (KEEP SCROLL)
+================================ */
+.hide-scrollbar {
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE / Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+    /* Chrome / Safari */
+}
+
+/* ===============================
+   PAGINATION
+================================ */
 .ngx-pagination {
     display: flex;
     justify-content: center;
@@ -28,402 +59,24 @@ body {
     padding: 0;
 }
 
-/* page numbers */
 .ngx-pagination li a {
-    /* padding: 8px 14px; */
     border-radius: 10px;
     background: #e0e7ff;
-    /* indigo-100 */
     color: #1e3a8a;
-    /* indigo-900 */
     font-weight: 500;
-    transition: all 0.2s ease;
+    transition: all .2s ease;
 }
 
-/* hover */
 .ngx-pagination li a:hover {
     background: #c7d2fe;
-    /* indigo-200 */
 }
 
-/* current page */
 .ngx-pagination .current {
-    /* padding: 8px 14px; */
     border-radius: 10px;
-    /* background: linear-gradient(to right, #6987c8, #4f46e5); */
     background: linear-gradient(to right, #2563eb, #4f46e5) !important;
-    color: #ffffff !important;
-    font-weight: 600;
-    /* box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35); */
-}
-
-/* REMOVE trash icon completely */
-/* .daterangepicker .drp-clear {
-    display: none !important;
-} */
-
-/* Footer layout */
-/* .daterangepicker .drp-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    padding-top: 12px;
-} */
-
-/* CLEAR button (red) */
-/* .daterangepicker .cancelBtn {
-    background: #ef4444 !important;
-    
-    color: #ffffff !important;
-    border-radius: 10px;
-    padding: 6px 18px;
-    font-weight: 600;
-    transition: background 0.2s ease;
-}
-
-.daterangepicker .cancelBtn:hover {
-    background: #dc2626 !important;
-    red-600
-} 
-*/
-
-/* APPLY button (blue) */
-/* .daterangepicker .applyBtn {
-    background: linear-gradient(to right, #2563eb, #4f46e5) !important;
-    color: #ffffff !important;
-    border-radius: 10px;
-    padding: 6px 18px;
-    font-weight: 600;
-} */
-
-
-.md-drppicker .clear svg {
-    display: none !important;
-    
-    }
-    
-    /* 
-.md-drppicker {
-    display: flex;
-} */
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* ng-select dropdown should escape table */
-/* ===== NG-SELECT FINAL SAFE STYLES ===== */
-
-.ng-dropdown-panel {
-    z-index: 10000;
-    border-radius: 0.75rem;
-    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
-    background: white;
-}
-
-/* dropdown height */
-.ng-dropdown-panel-items {
-    max-height: 220px;
-    overflow-y: auto;
-}
-
-/* keep table scroll, but don’t clip dropdown */
-.table-wrapper {
-    overflow-x: auto;
-    position: relative;
-}
-
-/* line clamp */
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-/* 🔒 Fix ng-select input height */
-.fixed-ng-select .ng-select-container {
-    min-height: 44px;
-    max-height: 44px;
-    overflow-y: auto;
-    /* border : 2px solid #2563eb */
-    /* border-radius: 12px; */
-}
-
-/* 🔒 Prevent modal from growing */
-.fixed-ng-select .ng-value-container {
-    max-height: 40px;
-    overflow-y: auto;
-}
-
-/* 🔽 Dropdown panel  */
-.ng-dropdown-panel .ng-dropdown-panel-items {
-    max-height: 120px !important;
- 
-    height: auto !important;
- 
-    overflow-y: auto !important;
- 
-}
-
-/* 🎯 Selected chips clean look */
-.ng-value {
-    background-color: #eef5ff;
-    /* border-radius: 8px; */
-    padding: 2px 6px;
-    margin-right: 4px;
-    font-size: 12px;
-    /* border: 2px solid #2563eb */
-}
-
-/* ✂️ Text overflow safety */
-.ng-value-label {
-    max-width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.ng-select .ng-select-container,.ng-select.ng-select-opened>.ng-select-container {
-height: 2.75rem;
-    /* h-11 */
-    width: 100%;
-    /* w-full */
-
-    border-radius: 0.75rem;
-    /* rounded-xl */
-    border: 1px solid #BFDBFE;
-    /* border-blue-200 */
-
-    background-color: #EFF6FF;
-    /* bg-blue-50 */
-
-    padding-left: 1rem;
-    /* px-4 */
-    padding-right: 1rem;
-
-    font-size: 0.875rem;
-    /* text-sm */
-    color: #1E3A8A;
-    /* text-blue-900 */
-
-    transition: all 0.2s ease;
-    /* transition */
-    max-height: 20px;
-
-    overflow:scroll
-    
-
-}
-/* .ng-select .ng-select-container .ng-value-container .ng-placeholder
-{
-} */
-    
-
- .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
-    position: static !important;
-    /* ✅ correct replacement */
-   
-}
-
- .ng-select .ng-select-container,
- .ng-select.ng-select-opened>.ng-select-container{
-    padding-left: 8px;
- }
-
- .md-drppicker.md-drppicker {
-    position: absolute;
- 
-    z-index: 1000;
-
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-
-    width: auto;
-    max-width: 800px;
-    /* padding: 12px; */
-
-    font-family: Roboto, sans-serif;
-    font-size: 14px;
-
-    background: #ffffff;
-    border-radius: 16px;
-    border: 1px solid #dbeafe;
-    /* blue-100 */
-    box-shadow: 0 25px 50px rgba(59, 130, 246, 0.25);
-
-    overflow: hidden;
-}
-.md-drppicker .clear svg {
-    display: none !important;
-
-}
-
-.md-drppicker .calendar {
-    background: #f8fbff;
-    /* very light blue */
-    border-radius: 12px;
-    /* padding: 8px; */
-}
-@media (min-width: 768px) {
-    .md-drppicker.double {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto auto;
-        column-gap: 6px;
-    }
-
-    .md-drppicker .calendar.left {
-        grid-column: 1;
-    }
-
-    .md-drppicker .calendar.right {
-        grid-column: 2;
-    }
-
-    .md-drppicker .buttons {
-        grid-column: 1 / -1;
-    }
-}
-
-@media (max-width: 767px) {
-    .md-drppicker.double {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .md-drppicker .calendar {
-        width: 100%;
-    }
-}
-
-.md-drppicker .buttons button {
-    padding: 3px 15px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 13px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-/* Apply */
-/* APPLY BUTTON */
-.md-drppicker .buttons button.applyBtn {
-    height: 48px;
-    /* h-12 */
-    min-width: 130px;
-    width: auto;
-
-    /* padding: 0 24px; */
-    border-radius: 12px;
-    /* rounded-xl */
-
-    background: linear-gradient(to right, #2563eb, #4f46e5);
-    /* blue-600 → indigo-600 */
-    color: #ffffff;
-
-    font-weight: 600;
-    font-size: 14px;
-
-    border: none;
-    cursor: pointer;
-
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
-    /* shadow-md */
-    transition: all 0.2s ease;
-}
-
-.md-drppicker .buttons button.applyBtn:hover {
-    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.45);
-    /* shadow-lg */
-    transform: translateY(-1px);
-}
-
-.md-drppicker .buttons button.applyBtn:active {
-    transform: scale(0.98);
-}
-/* Cancel */
-.md-drppicker .buttons button.cancelBtn {
-    background: #eff6ff;
-    color: #2563eb;
-}
-
-.md-drppicker .buttons button.cancelBtn:hover {
-    background: #dbeafe;
-}
-
-.md-drppicker td.available:hover {
-    background-color: #dbeafe !important;
-}
-
-.md-drppicker td.active,
-.md-drppicker td.active:hover {
-    background-color: #2563eb !important;
-    color: white !important;
-}
-
-.md-drppicker th {
-    color: #2563eb;
+    color: #fff !important;
     font-weight: 600;
 }
-
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
-    display: flex;
-    align-items: center;
-}
-
-/* wrapper */
-/* .tf-field {
-    position: relative;
-    width: 100%;
-} */
-
-/* same input style */
-/* .tf-input,
-.tf-ng .ng-select-container {
-    height: 44px;
-    border-radius: 12px;
-    border: 1px solid #BFDBFE;
-    background: #EFF6FF;
-    padding: 0 44px 0 16px;
-    space for icon
-    font-size: 14px;
-} */
-
-/* remove native icons */
-/* select {
-    appearance: none;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-    opacity: 0;
-} */
-
-/* remove ng-select arrow */
-/* .tf-ng .ng-arrow-wrapper {
-    display: none;
-} */
-
-/* icon */
-/* .tf-icon {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-    color: #64748B;
-    pointer-events: none;
-} */
 
 /* ===============================
    FIELD WRAPPER
@@ -434,115 +87,100 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* ===============================
-   UNIFIED HEIGHT (IMPORTANT)
+   UNIFIED INPUT STYLE
 ================================ */
 .tf-input,
-.tf-ng .ng-select-container {
+.tf-ng .ng-select-container,
+.tf-ng1 .ng-select-container {
     min-height: 44px;
-    /* 🔥 instead of height */
-    height: auto;
     border-radius: 12px;
     border: 1px solid #BFDBFE;
     background-color: #EFF6FF;
-    /* padding-left: 16px; */
-    padding-right: 44px;
-    /* space for chevron */
     font-size: 14px;
     display: flex;
     align-items: center;
-    /* 🔥 vertical center */
-}
-.tf-input,
-.tf-ng1 .ng-select-container{
-    min-height: 44px;
-        /* 🔥 instead of height */
-        height: auto;
-        border-radius: 4px ;
-        border: 1px solid oklch(44.6% 0.043 257.281);
-        background-color: #EFF6FF;
-        /* padding-left: 16px; */
-        padding-right: 44px;
-        /* space for chevron */
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-}
-.tf-input-date {
-    min-height: 44px;
-        /* 🔥 instead of height */
-        height: auto;
-        border-radius: 12px;
-        border: 1px solid #BFDBFE;
-        background-color: #EFF6FF;
-        /* padding-left: 16px; */
- 
-        /* space for chevron */
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        /* 🔥 vertical center */
+    padding-right: 44px;
 }
 
 /* ===============================
-   REMOVE DEFAULT UI
+   NG-SELECT CORE FIX
 ================================ */
-.tf-ng .ng-arrow-wrapper,
-.tf-ng .ng-clear-wrapper,.tf-ng1 .ng-arrow-wrapper,
-.tf-ng1 .ng-clear-wrapper {
+.ng-select .ng-select-container {
+   
+    max-height: 20px;
+    overflow: scroll !important;
+}
+
+/* hide scrollbar but keep scroll */
+.ng-select .ng-select-container,
+.fixed-ng-select .ng-select-container,
+.fixed-ng-select .ng-value-container,
+.ng-dropdown-panel-items {
+    scrollbar-width: none;
+}
+
+.ng-select .ng-select-container::-webkit-scrollbar,
+.fixed-ng-select .ng-select-container::-webkit-scrollbar,
+.fixed-ng-select .ng-value-container::-webkit-scrollbar,
+.ng-dropdown-panel-items::-webkit-scrollbar {
     display: none;
 }
 
 /* ===============================
-   VALUE CONTAINER FIX
+   MULTI SELECT HEIGHT CONTROL
 ================================ */
-.tf-ng .ng-value-container {
-    padding: 0;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: nowrap;
-    /* 🔥 prevents height jump */
+.fixed-ng-select .ng-select-container {
+    max-height: 44px;
 }
 
-/* placeholder */
-.tf-ng .ng-placeholder {
-    color: #9CA3AF;
-    font-size: 14px;
-    line-height: 1;
+.fixed-ng-select .ng-value-container {
+    max-height: 36px;
+    overflow-y: auto;
 }
-
 
 /* ===============================
-   MULTI SELECT CHIPS
+   SELECTED CHIPS
 ================================ */
-.tf-ng .ng-value {
+.ng-value {
     background: #DBEAFE;
     color: #1E40AF;
     border-radius: 8px;
     padding: 2px 8px;
     font-size: 12px;
-    margin: 0;
-    /* 🔥 removes extra spacing */
     display: flex;
     align-items: center;
 }
 
+.ng-value-label {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /* ===============================
-   INPUT INSIDE NG-SELECT
+   REMOVE DEFAULT ICONS
 ================================ */
-.tf-ng input {
-    padding: 0;
-    margin: 0;
-    line-height: normal;
+.tf-ng .ng-arrow-wrapper,
+.tf-ng .ng-clear-wrapper,
+.tf-ng1 .ng-arrow-wrapper,
+.tf-ng1 .ng-clear-wrapper {
+    display: none;
 }
 
 /* ===============================
    DROPDOWN PANEL
 ================================ */
-.tf-ng .ng-dropdown-panel {
+.ng-dropdown-panel {
+    z-index: 10000;
     border-radius: 12px;
-    border: 1px solid #BFDBFE;
-    overflow: hidden;
+    background: white;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, .15);
+}
+
+.ng-dropdown-panel-items {
+    max-height: 220px;
+    overflow-y: auto;
 }
 
 .tf-ng .ng-option {
@@ -564,209 +202,61 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* ===============================
-   FOCUS STATE (MATCH INPUT)
+   FOCUS STATE
 ================================ */
 .tf-ng.ng-select-focused .ng-select-container,
 .tf-input:focus {
     border-color: #3B82F6;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, .25);
 }
 
 /* ===============================
-   NATIVE SELECT FIX (IMPORTANT)
+   MATERIAL DATE PICKER
 ================================ */
-.tf-field select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-
-    background-image: none !important;
-    padding-right: 44px;
-    /* space for chevron */
-}
-
-/* IE fallback */
-.tf-field select::-ms-expand {
-    display: none;
-}
-.cdk-drop-list-dragging .empty-state {
-    opacity: 0; 
-}
-
-
-/* Hide native calendar icon (Chrome, Edge) */
-/* input[type="date"]::-webkit-calendar-picker-indicator {
-    opacity: 0;
-    cursor: pointer;
-} */
-
-/* Firefox */
-/* input[type="date"] {
-    -moz-appearance: textfield;
-} */
-
-/* Safari / general */
-/* input[type="date"] {
-    appearance: none;
-} */
-
-/* 📅 Date input placeholder fallback (mobile safe) */
-input[type="date"]:not(:focus):not([value])::before {
-    content: attr(placeholder);
-    color: #9ca3af;
-    /* gray-400 */
-}
-/* 
-@media (hover: hover) and (pointer: fine) {
-  .tf-field.date-with-icon::after {
-    content: "\ebca";  
-    font-family: boxicons;
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #64748b;
-    pointer-events: none;
-  }
-} */
-
-/* ===============================
-   DATE FIELD (MOBILE SAFE)
-================================ */
-.date-field {
-    position: relative;
-    width: 100%;
-}
-
-.tf-input-date {
-    width: 100%;
-    height: 44px;
-    padding: 0 44px 0 16px;
-    border-radius: 12px;
-    border: 1px solid #BFDBFE;
-    background-color: #EFF6FF;
-    font-size: 14px;
-    color: #1f2937;
-}
-
-/* DO NOT hide native picker */
-.tf-input-date::-webkit-calendar-picker-indicator {
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    width: 44px;
-    height: 44px;
-    cursor: pointer;
-}
-
-/* Firefox */
-.tf-input-date {
-    -moz-appearance: auto;
-}
-
-/* Calendar icon (visual only) */
-.calendar-icon {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-    color: #64748B;
-    pointer-events: none;
-}
-
-/* Focus */
-.tf-input-date:focus {
-    outline: none;
-    border-color: #3B82F6;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
-}
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-
-/* ===============================
-   MATERIAL DATE PICKER – TASKFLOW
-================================ */
-
-/* Remove Material default underline / spacing */
 .tf-mat-date {
     --mdc-outlined-text-field-outline-width: 0;
 }
 
-/* Main container */
 .tf-mat-date .mat-mdc-text-field-wrapper {
     height: 44px;
-    /* h-11 */
     border-radius: 12px;
-    background-color: #EFF6FF;
-    /* bg-blue-50 */
-    padding: 0;
+    background: #EFF6FF;
 }
 
-/* Flex alignment */
 .tf-mat-date .mat-mdc-form-field-flex {
     height: 44px;
     align-items: center;
-    padding: 0 5px 0px 16px;
+    padding: 0 6px 0 16px;
 }
 
-/* Border */
 .tf-mat-date .mat-mdc-notched-outline {
     border: 1px solid #BFDBFE;
-    /* border-blue-200 */
     border-radius: 12px;
 }
 
-/* Input text */
-.tf-mat-date input {
-    font-size: 14px;
-    color: #1f2937;
-}
-
-/* Placeholder */
-.tf-mat-date input::placeholder {
-    color: #9CA3AF;
-}
-
-/* Focus ring */
 .tf-mat-date.mat-focused .mat-mdc-notched-outline {
     border-color: #3B82F6;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, .25);
 }
 
-/* ❌ REMOVE MATERIAL INVALID RED */
+/* remove red invalid border */
 .tf-mat-date.mat-form-field-invalid .mat-mdc-notched-outline {
     border-color: #BFDBFE !important;
 }
 
-/* Calendar icon */
-.tf-date-toggle {
-    color: #64748B;
-    font-size: 18px;
-    padding: 0;
-}
-
-/* Remove extra bottom space */
 .tf-mat-date .mat-mdc-form-field-subscript-wrapper {
     display: none;
 }
 
+/* calendar icon */
+.tf-date-toggle {
+    color: #64748B;
+    font-size: 18px;
+}
+
 /* ===============================
-   REMOVE MATERIAL RED INVALID UI
+   DRAG & DROP FIX
 ================================ */
-.tf-mat-date.mat-form-field-invalid .mat-mdc-notched-outline {
-    border-color: #BFDBFE !important;
-    /* blue-200 */
-}
-
-/* Optional: red only when you want */
-.tf-mat-date.show-error.mat-form-field-invalid .mat-mdc-notched-outline {
-    border-color: #BFDBFE !important;
-    /* red-500 */
-}
-
-/* Keep rounded corners always */
-.tf-mat-date .mat-mdc-notched-outline {
-    border-radius: 12px !important;
+.cdk-drop-list-dragging .empty-state {
+    opacity: 0;
 }

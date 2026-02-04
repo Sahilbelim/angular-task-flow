@@ -1,3 +1,6 @@
+/* =====================================================
+   PAGINATION (PAGE SCOPE)
+===================================================== */
 :host ::ng-deep .ngx-pagination li a {
     background: #e0e7ff;
     color: #1e3a8a;
@@ -9,141 +12,94 @@
     color: white;
 }
 
-::ng-deep .dashboard-drpicker .md-drppicker.shown {
-    /* position: absolute; */
-    /* width: 560px !important;
-    top: 125px !important; */
-        width: 360px !important;
-            max-width: 100vw !important;
-            left: 50% !important;
-            top: 125px !important;
-            transform: translateX(-25%) !important;
+/* =====================================================
+   DATE RANGE PICKER – DASHBOARD ONLY
+===================================================== */
+:host ::ng-deep .dashboard-drpicker .md-drppicker.shown {
+    width: 360px !important;
+    max-width: 100vw !important;
+    left: 50% !important;
+    top: 125px !important;
+    transform: translateX(-25%) !important;
 }
 
-
-::ng-deep .md-drppicker {
+:host ::ng-deep .md-drppicker {
     display: flex !important;
     flex-wrap: wrap !important;
     background-color: #fcfeff !important;
     max-width: 100%;
 }
 
-::ng-deep .md-drppicker.ltr .calendar.left .calendar-table ,
-::ng-deep .md-drppicker.ltr .calendar.right .calendar-table
-{
-background-color: #fcfeff !important;
-}
-
-::ng-deep .md-drppicker .calendar {
+:host ::ng-deep .md-drppicker .calendar {
     flex: 1 1 300px;
-    /* border: 2px solid #1d479a; */
- 
-    
 }
 
- ::ng-deep .md-drppicker .buttons {
+:host ::ng-deep .md-drppicker.ltr .calendar-table {
+    background-color: #fcfeff !important;
+}
+
+/* =====================================================
+   DATE PICKER BUTTONS
+===================================================== */
+:host ::ng-deep .md-drppicker .buttons {
     width: 100%;
-    order: 10;
-   
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #e5e7eb;
 }
 
- ::ng-deep .md-drppicker .buttons_input {
+:host ::ng-deep .md-drppicker .buttons_input {
     display: flex;
     justify-content: flex-end;
     gap: 12px;
-    
-    /* border-top: 1px solid #e5e7eb; */
-   
 }
 
- ::ng-deep .md-drppicker .buttons_input button.btn-default {
+:host ::ng-deep .md-drppicker .buttons_input button.btn-default {
     background-color: #ef4444 !important;
     color: white !important;
     border-radius: 10px;
-    /* padding: 8px 20px; */
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    gap: 6px;
 }
 
-::ng-deep .md-drppicker .buttons_input button.btn:not(.btn-default) {
+:host ::ng-deep .md-drppicker .buttons_input button.btn:not(.btn-default) {
     background: linear-gradient(to right, #2563eb, #4f46e5) !important;
     color: white !important;
     border-radius: 10px;
-    /* padding: 8px 20px; */
-    font-weight: 400;
 }
 
-::ng-deep .md-drppicker td.active, .md-drppicker td.active:hover {
+/* =====================================================
+   DATE PICKER STATES
+===================================================== */
+:host ::ng-deep .md-drppicker td.active,
+:host ::ng-deep .md-drppicker td.active:hover {
     background: linear-gradient(to right, #2563eb, #4f46e5) !important;
     color: white !important;
 }
-::ng-deep .md-drppicker td.available:hover, .md-drppicker th.available:hover , .md-drppicker td.in-range{
-   background-color: #4f46e5;
-}
- 
-/* @media (max-width: 640px) {
 
-::ng-deep .dashboard-drpicker .md-drppicker.shown {
+:host ::ng-deep .md-drppicker td.available:hover,
+:host ::ng-deep .md-drppicker td.in-range {
+    background-color: #dbeafe;
+}
+
+/* =====================================================
+   RESPONSIVE DATE PICKER
+===================================================== */
+@media (min-width: 1280px) {
+    :host ::ng-deep .dashboard-drpicker .md-drppicker.shown {
+        width: 560px !important;
+        transform: translateX(-25%) !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    :host ::ng-deep .dashboard-drpicker .md-drppicker.shown {
         width: 250px !important;
-        max-width: 100vw !important;
-        left: 50% !important;
-            top: 150px !important;
         transform: translateX(-50%) !important;
     }
-
-} */
-
-
- 
-@media (min-width: 1280px) {
-    ::ng-deep .dashboard-drpicker .md-drppicker.shown {
-        width: 560px !important;
-        max-width: 560px !important;
-        left: 50% !important;
-        top: 125px !important;
-        transform: translateX(-25%) !important;
-    }
 }
 
- 
-@media (max-width: 1279px) and (min-width: 1024px) {
-    ::ng-deep .dashboard-drpicker .md-drppicker.shown {
-        width: 560px !important;
-        max-width: 90vw !important;
-        left: 50% !important;
-        top: 125px !important;
-        transform: translateX(-25%) !important;
-    }
-}
- 
-@media (max-width: 1023px) and (min-width: 768px) {
-    ::ng-deep .dashboard-drpicker .md-drppicker.shown {
-        width: 250px !important;
-            max-width: 100vw !important;
-            left: 50% !important;
-            top: 120px !important;
-        transform: translateX(-10%) !important;
-    }
-}
-
- 
-@media (max-width: 767px) {
-    ::ng-deep .dashboard-drpicker .md-drppicker.shown {
-        width: 250px !important;
-            max-width: 100vw !important;
-            left: 50% !important;
-            top: 185px !important;
-            transform: translateX(-50%) !important;
-    }
-}
-
-
-/* ===============================
-   CDK TABLE DRAG FIXES
-   =============================== */
-
+/* =====================================================
+   CDK DRAG & DROP (TABLE SAFE)
+===================================================== */
 tr.cdk-drag-preview {
     display: table;
     table-layout: fixed;
@@ -160,63 +116,54 @@ tbody.cdk-drop-list-dragging tr:not(.cdk-drag-placeholder) {
     transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-/* 🔒 Prevent ng-select from resizing row during drag */
+/* Prevent ng-select resizing rows while dragging */
 .cdk-drag-preview ng-select,
 .cdk-drag-preview .ng-select-container {
     pointer-events: none !important;
     height: 32px !important;
-    overflow: hidden;
+    overflow: hidden !important;
 }
 
-::ng-deep .ng-select-container {
+/* =====================================================
+   NG-SELECT (PAGE ONLY)
+===================================================== */
+:host ::ng-deep .ng-select-container {
     height: 44px !important;
-    /* border-radius: 0.75rem !important; */
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
 }
 
+/* Hide scrollbar but allow scroll */
+:host ::ng-deep .ng-select-container {
+    scrollbar-width: none;
+}
 
+:host ::ng-deep .ng-select-container::-webkit-scrollbar {
+    display: none;
+}
 
-::ng-deep .md-drppicker,.md-drppicker.double {
+/* =====================================================
+   DATE PICKER POSITION FIX
+===================================================== */
+:host ::ng-deep .md-drppicker,
+:host ::ng-deep .md-drppicker.double {
     position: absolute !important;
     top: calc(100% + 8px) !important;
-    /* below input */
-    left: auto !important;
     right: 0 !important;
-    /* align right */
-    margin-top: 0 !important;
+    left: auto !important;
 }
 
-::ng-deep .md-drppicker.double {
-    display: flex !important;
-    gap: 12px;
-    width: auto !important;
-}
+/* Stack calendars on mobile */
 @media (max-width: 640px) {
-    ::ng-deep .md-drppicker.double {
-        flex-direction: column;
-    }
-}::ng-deep .md-drppicker .buttons {
-    width: 100%;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid #e5e7eb;
-}
-
-::ng-deep .md-drppicker .buttons_input {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-@media (max-width: 640px) {
-    ::ng-deep .md-drppicker .buttons_input {
+    :host ::ng-deep .md-drppicker.double {
         flex-direction: column;
     }
 
-    ::ng-deep .md-drppicker .buttons_input .btn {
+    :host ::ng-deep .md-drppicker .buttons_input {
+        flex-direction: column;
+    }
+
+    :host ::ng-deep .md-drppicker .buttons_input .btn {
         width: 100%;
     }
-}
-
-::ng-deep .md-drppicker {
-    max-width: min(100vw - 16px, 700px);
 }

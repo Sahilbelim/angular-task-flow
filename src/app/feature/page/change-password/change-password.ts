@@ -23,10 +23,7 @@ export class ChangePasswordPage {
     showNew = false;
     showConfirm = false;
     isSubmitting = false;
-
-
     form;
-
     constructor(
         private fb: FormBuilder,
         private api: ApiService,
