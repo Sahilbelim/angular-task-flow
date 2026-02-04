@@ -763,13 +763,13 @@
                     <!-- TASK NAME -->
                     <input type="text" formControlName="title" placeholder="Task Name" class="
               h-11 w-full
-              rounded-xl
-              border border-blue-200
+              rounded-sm
+              border border-slate-600
               bg-blue-50
               px-4
-              text-sm text-gray-800
-              placeholder-gray-400
-              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+              text-sm text-slate-800
+              placeholder-slate-700
+              focus:outline-none focus:ring-1 focus:ring-blue-700  
               transition
             " />
 
@@ -884,7 +884,7 @@
 
                         <ng-select formControlName="assignedUsers" [items]="assignableUsers" bindValue="id"
                             bindLabel="name" [multiple]="true" [closeOnSelect]="false" [clearable]="true"
-                            placeholder="Assign users" class="tf-ng w-full fixed-ng-select" [appendTo]="'body'">
+                            placeholder="Assign users" class="tf-ng1   w-full  fixed-ng-select  " [appendTo]="'body'">
 
                             <!-- SELECTED USERS (with ❌ per user) -->
                             <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
@@ -928,14 +928,15 @@
                     <!-- STATUS -->
         <div class="tf-field">
 
-                        <select formControlName="status" class="tf-input  
+                        <select formControlName="status" class=" 
               h-11 w-full
-              rounded-xl
-              border border-blue-200
+               rounded-sm
+              border border-slate-600
               bg-blue-50
               px-4
-              text-sm text-gray-800
-              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+              text-sm text-slate-800
+              placeholder-slate-700
+              focus:outline-none focus:ring-1 focus:ring-blue-700  
               transition
             ">
                             <option value="" disabled>Select Status</option>
@@ -951,12 +952,13 @@
 
                         <select formControlName="priority" class=" 
               h-11 w-full
-              rounded-xl
-              border border-blue-200
+               rounded-sm
+              border border-slate-600
               bg-blue-50
               px-4
-              text-sm text-gray-800
-              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+              text-sm text-slate-800
+              placeholder-slate-700
+              focus:outline-none focus:ring-1 focus:ring-blue-700  
               transition
             ">
                             <option value="">Select Priority</option>

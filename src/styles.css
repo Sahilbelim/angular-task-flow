@@ -452,6 +452,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     align-items: center;
     /* 🔥 vertical center */
 }
+.tf-input,
+.tf-ng1 .ng-select-container{
+    min-height: 44px;
+        /* 🔥 instead of height */
+        height: auto;
+        border-radius: 4px ;
+        border: 1px solid oklch(44.6% 0.043 257.281);
+        background-color: #EFF6FF;
+        /* padding-left: 16px; */
+        padding-right: 44px;
+        /* space for chevron */
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+}
 .tf-input-date {
     min-height: 44px;
         /* 🔥 instead of height */
@@ -472,7 +487,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
    REMOVE DEFAULT UI
 ================================ */
 .tf-ng .ng-arrow-wrapper,
-.tf-ng .ng-clear-wrapper {
+.tf-ng .ng-clear-wrapper,.tf-ng1 .ng-arrow-wrapper,
+.tf-ng1 .ng-clear-wrapper {
     display: none;
 }
 
@@ -494,6 +510,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-size: 14px;
     line-height: 1;
 }
+
 
 /* ===============================
    MULTI SELECT CHIPS
@@ -691,7 +708,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .tf-mat-date .mat-mdc-form-field-flex {
     height: 44px;
     align-items: center;
-    padding: 0 16px;
+    padding: 0 5px 0px 16px;
 }
 
 /* Border */
