@@ -117,18 +117,18 @@
                         <canvas id="taskPie"></canvas>
                     </div>
                 </div> -->
-                <div class="bg-white rounded-2xl p-4 border border-blue-100 flex flex-col">
+                <!-- <div class="bg-white rounded-2xl p-4 border border-blue-100 flex flex-col">
                     <p class="text-sm font-semibold text-gray-700 mb-2">
                         Task Progress Overview
                     </p>
                 
                     @if (hasTasks) {
-                    <!-- ✅ NORMAL PIE CHART -->
+                    ✅ NORMAL PIE CHART
                     <div class="relative h-[260px] md:h-[320px] lg:h-[380px] w-full">
                         <canvas id="taskPie"></canvas>
                     </div>
                     } @else {
-                    <!-- 🟦 EMPTY STATE -->
+                    🟦 EMPTY STATE
                     <div class="flex flex-col items-center justify-center
                              h-[260px] md:h-[320px] lg:h-[380px]
                              rounded-xl
@@ -151,18 +151,401 @@
                 </div>
 
 
-                <!-- USER PERMISSIONS -->
+                USER PERMISSIONS
                 <div class="bg-white rounded-2xl p-4 border border-blue-100 flex flex-col lg:col-span-2">
                     <p class="text-sm font-semibold text-gray-700 mb-2">User Access & Permissions</p>
                     <div class="relative h-[260px] md:h-[320px] lg:h-[380px] w-full">
                         <canvas id="userBar"></canvas>
                     </div>
-                </div>
+                </div> -->
+<div class="bg-white rounded-2xl p-4 border border-blue-100 flex flex-col">
+    <p class="text-sm font-semibold text-gray-700 mb-2">
+        Task Progress Overview
+    </p>
+
+    @if (loading) {
+    <div class="h-[300px] bg-gray-200 rounded-xl animate-pulse"></div>
+    } @else if (!hasTaskData) {
+    <div class="flex flex-col items-center justify-center
+                h-[300px]
+                rounded-xl
+                border border-dashed border-blue-200
+                bg-blue-50 text-center">
+        <div class="text-5xl mb-3">📊</div>
+        <p class="font-semibold text-gray-700">No task data available</p>
+        <p class="text-sm text-gray-500">Create tasks to see insights</p>
+    </div>
+    } @else {
+    <div class="relative h-[300px]">
+        <canvas id="taskPie"></canvas>
+    </div>
+    }
+</div>
+<!-- 
+<div class="bg-white rounded-2xl p-4 border border-blue-100">
+
+    <p class="text-sm font-semibold text-gray-700 mb-4">
+        Task Overview
+    </p>
+
+    @if (loading) {
+    <div class="h-[260px] bg-gray-200 rounded-xl animate-pulse"></div>
+
+    } @else if (!hasTaskData) {
+    <div class="flex flex-col items-center justify-center
+                            h-[260px]
+                            rounded-xl
+                            border border-dashed border-blue-200
+                            bg-blue-50">
+        <div class="text-4xl mb-2">📊</div>
+        <p class="font-semibold text-gray-700">No tasks yet</p>
+        <p class="text-sm text-gray-500">Create tasks to see insights</p>
+    </div>
+
+    } @else {
+
+    <div class="flex flex-col sm:flex-row items-center gap-6">
+<div class="
+  flex
+  flex-col
+  lg:flex-row
+  items-center
+  gap-6
+">
+
+<div class="
+    grid
+    grid-cols-1
+    md:grid-cols-[240px_1fr]
+    gap-6
+    items-center
+  ">
+
+
+        CHART
+        <div class="relative w-full sm:w-[220px] h-[220px]">
+            <canvas id="taskRing"></canvas>
+        </div>
+
+        LEGEND
+        <div class="flex flex-col gap-3 text-sm w-full">
+
+            <div class="flex items-center justify-between">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-green-500"></span>
+                    Completed
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.completed }}
+                    ({{ (taskStats.completed / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-orange-500"></span>
+                    In Progress
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.inProgress }}
+                    ({{ (taskStats.inProgress / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-red-500"></span>
+                    Pending
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.pending }}
+                    ({{ (taskStats.pending / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+    }
+</div> -->
+
+<!-- <div class="bg-white rounded-2xl p-4 border border-blue-100">
+
+    <p class="text-sm font-semibold text-gray-700 mb-4">
+        Task Overview
+    </p>
+
+    @if (loading) {
+    <div class="h-[260px] bg-gray-200 rounded-xl animate-pulse"></div>
+
+    } @else if (!hasTaskData) {
+    <div class="flex flex-col items-center justify-center
+                h-[260px]
+                rounded-xl
+                border border-dashed border-blue-200
+                bg-blue-50">
+        <div class="text-4xl mb-2">📊</div>
+        <p class="font-semibold text-gray-700">No tasks yet</p>
+        <p class="text-sm text-gray-500">Create tasks to see insights</p>
+    </div>
+
+    } @else {
+
+    ✅ RESPONSIVE GRID
+    <div class="
+        grid
+        grid-cols-1
+        md:grid-cols-[240px_1fr]
+        gap-6
+        items-center
+      ">
+
+        CHART
+        <div class="relative h-[220px] w-full flex justify-center">
+            <canvas id="taskRing"></canvas>
+        </div>
+
+        LEGEND
+        <div class="flex flex-col gap-3 text-sm w-full">
+
+            <div class="flex items-center justify-between">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-green-500"></span>
+                    Completed
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.completed }}
+                    ({{ (taskStats.completed / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-orange-500"></span>
+                    In Progress
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.inProgress }}
+                    ({{ (taskStats.inProgress / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-red-500"></span>
+                    Pending
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.pending }}
+                    ({{ (taskStats.pending / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+    }
+</div> -->
+
+<!-- <div class="bg-white rounded-2xl p-4 border border-blue-100">
+    <p class="text-sm font-semibold text-gray-700 mb-4">
+        Task Overview
+    </p>
+
+    <div class="
+      flex
+      flex-col
+      items-center
+      gap-6
+
+      xl:flex-row
+      xl:items-start
+    ">
+        CHART
+        <div class="relative w-[220px] h-[220px] shrink-0">
+            <canvas id="taskRing"></canvas>
+        </div>
+
+        LEGEND
+        <div class="
+        w-full
+        max-w-md
+        flex
+        flex-col
+        gap-3
+        text-sm
+
+        xl:w-auto
+      ">
+            <div class="flex items-center justify-between gap-4">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-green-500"></span>
+                    Completed
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.completed }} ({{ (taskStats.completed / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+
+            <div class="flex items-center justify-between gap-4">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-orange-500"></span>
+                    In Progress
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.inProgress }} ({{ (taskStats.inProgress / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+
+            <div class="flex items-center justify-between gap-4">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-red-500"></span>
+                    Pending
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.pending }} ({{ (taskStats.pending / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="bg-white rounded-2xl p-4 border border-blue-100">
+    <p class="text-sm font-semibold text-gray-700 mb-4">
+        Task Overview
+    </p>
+
+    RESPONSIVE GRID (CARD-AWARE)
+    <div class="
+      grid
+      grid-cols-1
+      gap-6
+      items-center
+
+      [@media(min-width:560px)]:grid-cols-[220px_1fr]
+    ">
+        CHART
+        <div class="relative h-[220px] w-[220px] mx-auto">
+            <canvas id="taskRing"></canvas>
+        </div>
+
+        LEGEND
+        <div class="flex flex-col gap-3 text-sm w-full">
+            <div class="flex items-center justify-between gap-4">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-green-500"></span>
+                    Completed
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.completed }}
+                    ({{ (taskStats.completed / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+
+            <div class="flex items-center justify-between gap-4">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-orange-500"></span>
+                    In Progress
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.inProgress }}
+                    ({{ (taskStats.inProgress / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+
+            <div class="flex items-center justify-between gap-4">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-red-500"></span>
+                    Pending
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.pending }}
+                    ({{ (taskStats.pending / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="bg-white rounded-2xl p-4 border border-blue-100">
+    <p class="text-sm font-semibold text-gray-700 mb-4">
+        Task Overview
+    </p>
+
+    STACKED LAYOUT (ALWAYS)
+    <div class="flex flex-col items-center gap-6">
+
+        CHART
+        <div class="task-chart-wrapper">
+            <canvas id="taskRing"></canvas>
+        </div>
+
+        LEGEND
+        <div class="w-full max-w-sm flex flex-col gap-3 text-sm">
+            <div class="flex justify-between">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-green-500"></span>
+                    Completed
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.completed }}
+                    ({{ (taskStats.completed / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+
+            <div class="flex justify-between">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-orange-500"></span>
+                    In Progress
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.inProgress }}
+                    ({{ (taskStats.inProgress / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+
+            <div class="flex justify-between">
+                <span class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-red-500"></span>
+                    Pending
+                </span>
+                <span class="font-semibold">
+                    {{ taskStats.pending }}
+                    ({{ (taskStats.pending / taskStats.total * 100) | number:'1.0-0' }}%)
+                </span>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+<div class="bg-white rounded-2xl p-4 border border-blue-100 flex flex-col lg:col-span-2">
+    <p class="text-sm font-semibold text-gray-700 mb-2">
+        User Access & Permissions
+    </p>
+
+    @if (loading) {
+    <div class="h-[300px] bg-gray-200 rounded-xl animate-pulse"></div>
+    } @else if (!hasUserData) {
+    <div class="flex items-center justify-center h-[300px] text-gray-500">
+        No user data available
+    </div>
+    } @else {
+    <div class="relative h-[300px]">
+        <canvas id="userBar"></canvas>
+    </div>
+    }
+</div>
+
 
                 }
 
             </div>
 
+
+            <div class="grid gap-6 grid-cols-1 md:grid-cols-2">
+           
+            </div>
         </div>
     </div>
 </div>

@@ -5,7 +5,7 @@ import {
   Validators,
   ReactiveFormsModule,
   FormsModule,
-  FormControl,
+  FormControl, 
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
@@ -24,6 +24,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import {  filter } from 'rxjs';
+import moment from 'moment';
 
 
 type TaskStatus = 'pending' | 'in-progress' | 'completed';
@@ -348,15 +349,31 @@ export class Dashbord implements OnInit {
     this.savingTask = true;      // 🔒 lock
     this.taskForm.disable();     // 🔒 UI lock
 
-const raw = this.taskForm.value;
+// const raw = this.taskForm.value;
 
-const payload = {
-  ...raw,
-  dueDate: raw.dueDate
-    ? raw.dueDate.toISOString().split('T')[0] // YYYY-MM-DD
-    : null,
-};
+// const payload = {
+//   ...raw,
+//   dueDate: raw.dueDate
+//     ? raw.dueDate.toISOString().split('T')[0] // YYYY-MM-DD
+//     : null,
+// };
     // const payload = this.taskForm.value;
+
+    // const raw = this.taskForm.value;
+
+    // const payload = {
+    //   ...raw,
+    //   dueDate: raw.dueDate
+    //     ? raw.dueDate.format('YYYY-MM-DD') // ✅ moment-safe
+    //     : null,
+    // };
+    const raw = this.taskForm.value;
+
+    const payload = {
+      ...raw,
+      dueDate: this.normalizeDueDate(raw.dueDate),
+    };
+
 
     const req$ = this.editingTask
       ? this.api.updateTaskOptimistic(this.editingTask.id, payload)
@@ -380,23 +397,39 @@ const payload = {
     });
   }
 
+  // editTask(task: any) {
+  //   this.editingTask = task;
+  //   this.popupVisible = true;
+
+  //   this.taskForm.patchValue({
+  //     title: task.title,
+  //     dueDate: task.dueDate,
+  //     status: task.status,
+  //     priority: task.priority,
+  //     assignedUsers: task.assignedUsers || [],
+  //   });
+
+  //   // document.body.classList.add('overflow-hidden');
+ 
+  //   this.api.setOverlay(true);
+
+  // }
+
   editTask(task: any) {
     this.editingTask = task;
     this.popupVisible = true;
 
     this.taskForm.patchValue({
       title: task.title,
-      dueDate: task.dueDate,
+      dueDate: task.dueDate ? this.toMoment(task.dueDate) : null,
       status: task.status,
       priority: task.priority,
       assignedUsers: task.assignedUsers || [],
     });
 
-    // document.body.classList.add('overflow-hidden');
- 
     this.api.setOverlay(true);
-
   }
+
 
   /* =====================
      DELETE
@@ -557,6 +590,40 @@ const payload = {
       Promise.resolve()
     );
   }
+
+  private normalizeDueDate(value: any): string | null {
+    if (!value) return null;
+
+    // ngx-daterangepicker (single picker)
+    if (value.startDate) {
+      return moment(value.startDate).format('YYYY-MM-DD');
+    }
+
+    // already moment
+    if (moment.isMoment(value)) {
+      return value.format('YYYY-MM-DD');
+    }
+
+    // native Date
+    if (value instanceof Date) {
+      return moment(value).format('YYYY-MM-DD');
+    }
+
+    // string (DD/MM/YYYY or ISO)
+    if (typeof value === 'string') {
+      return moment(value, ['DD/MM/YYYY', moment.ISO_8601], true).isValid()
+        ? moment(value, ['DD/MM/YYYY', moment.ISO_8601]).format('YYYY-MM-DD')
+        : null;
+    }
+
+    return null;
+  }
+
+
+  private toMoment(date: string | Date | null) {
+    return date ? moment(date) : null;
+  }
+
 
   /* =====================
      FILTERS
@@ -763,5 +830,6 @@ const payload = {
   canCreate() { return this.api.hasPermission('createTask'); }
   canEdit() { return this.api.hasPermission('editTask'); }
   canDelete() { return this.api.hasPermission('deleteTask'); }
+
 
 }

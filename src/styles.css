@@ -85,6 +85,19 @@ body {
     position: relative;
     width: 100%;
 }
+/* REMOVE native select arrow (all browsers) */
+.tf-field select {
+    appearance: none;
+    /* Chrome, Edge, Safari */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: none;
+}
+
+/* IE fallback */
+.tf-field select::-ms-expand {
+    display: none;
+}
 
 /* ===============================
    UNIFIED INPUT STYLE
@@ -259,4 +272,37 @@ body {
 ================================ */
 .cdk-drop-list-dragging .empty-state {
     opacity: 0;
+}
+
+/* ===============================
+   CUSTOM SCROLLBAR – GLOBAL
+================================ */
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom,
+            #3b82f6,
+            #6366f1);
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom,
+            #2563eb,
+            #4f46e5);
+}
+
+/* Firefox */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #6366f1 transparent;
 }

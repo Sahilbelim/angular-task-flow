@@ -763,15 +763,17 @@
 
                     <!-- TASK NAME -->
                     <input type="text" formControlName="title" placeholder="Task Name" class="
-              h-11 w-full
-              rounded-sm
-              border border-slate-600
-              bg-blue-50
-              px-4
-              text-sm text-slate-800
-              placeholder-slate-700
-              focus:outline-none focus:ring-1 focus:ring-blue-700  
-              transition
+             h-11 w-full
+      rounded-xl
+      border border-blue-200
+      bg-blue-50
+      px-4 pr-12
+      text-sm text-gray-800
+      placeholder-gray-400
+      focus:outline-none
+      focus:ring-2 focus:ring-blue-500
+      focus:border-blue-500
+      transition
             " />
 
                     @if(taskForm.get('title')?.invalid && taskForm.get('title')?.touched){
@@ -859,7 +861,7 @@
 </div> -->
 
 <!-- DUE DATE (MATCHES ALL INPUTS) -->
-<div class="tf-field">
+<!-- <div class="tf-field">
     <mat-form-field appearance="outline" class="w-full tf-mat-date">
         <input matInput [matDatepicker]="picker" formControlName="dueDate" placeholder="Due date" />
 
@@ -869,6 +871,30 @@
 
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+</div> -->
+
+<!-- DUE DATE (SINGLE DATE PICKER – CONSISTENT UI) -->
+<div class="tf-field relative">
+    <input type="text" ngxDaterangepickerMd [singleDatePicker]="true" [autoApply]="true" [showClearButton]="true"
+        [locale]="{ format: 'DD/MM/YYYY' }" formControlName="dueDate" placeholder="Due date" class="
+      h-11 w-full
+      rounded-xl
+      border border-blue-200
+      bg-blue-50
+      px-4 pr-12
+      text-sm text-gray-800
+      placeholder-gray-400
+      focus:outline-none
+      focus:ring-2 focus:ring-blue-500
+      focus:border-blue-500
+      transition
+    " />
+
+    <!-- Calendar icon (visual only, same as password eye logic) -->
+    <i class="bx bx-calendar
+           absolute right-4 top-1/2 -translate-y-1/2
+           text-gray-500 pointer-events-none">
+    </i>
 </div>
 
 
@@ -930,15 +956,17 @@
         <div class="tf-field">
 
                         <select formControlName="status" class=" 
-              h-11 w-full
-               rounded-sm
-              border border-slate-600
-              bg-blue-50
-              px-4
-              text-sm text-slate-800
-              placeholder-slate-700
-              focus:outline-none focus:ring-1 focus:ring-blue-700  
-              transition
+             h-11 w-full
+      rounded-xl
+      border border-blue-200
+      bg-blue-50
+      px-4 pr-12
+      text-sm text-gray-800
+      placeholder-gray-400
+      focus:outline-none
+      focus:ring-2 focus:ring-blue-500
+      focus:border-blue-500
+      transition
             ">
                             <option value="" disabled>Select Status</option>
                             <option value="pending">Pending</option>
@@ -952,15 +980,17 @@
                     <div class="tf-field">
 
                         <select formControlName="priority" class=" 
-              h-11 w-full
-               rounded-sm
-              border border-slate-600
-              bg-blue-50
-              px-4
-              text-sm text-slate-800
-              placeholder-slate-700
-              focus:outline-none focus:ring-1 focus:ring-blue-700  
-              transition
+             h-11 w-full
+      rounded-xl
+      border border-blue-200
+      bg-blue-50
+      px-4 pr-12
+      text-sm text-gray-800
+      placeholder-gray-400
+      focus:outline-none
+      focus:ring-2 focus:ring-blue-500
+      focus:border-blue-500
+      transition
             ">
                             <option value="">Select Priority</option>
                             <option value="low">🟢 Low Priority</option>
