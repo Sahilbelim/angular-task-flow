@@ -306,3 +306,110 @@ html {
     scrollbar-width: thin;
     scrollbar-color: #6366f1 transparent;
 }
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE & Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari */
+}
+
+.cdk-drag-placeholder {
+    opacity: 0.35;
+}
+
+/* =================================================
+   NGX DATE RANGE PICKER – FINAL RESPONSIVE LAYOUT
+================================================= */
+
+/* POSITION: always 5px below input */
+.md-drppicker {
+    position: absolute !important;
+    margin-top: 5px !important;
+    left: 0 !important;
+    right: auto !important;
+    transform: none !important;
+}
+
+/* ROOT */
+.md-drppicker.double {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 16px;
+}
+
+/* CALENDARS */
+.md-drppicker .calendar {
+    width: 100%;
+}
+
+/* DESKTOP: side-by-side calendars */
+@media (min-width: 900px) {
+    .md-drppicker.double {
+        grid-template-columns: auto auto;
+        column-gap: 16px;
+    }
+}
+
+/* BUTTON BAR – ALWAYS BELOW */
+.md-drppicker .buttons {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+/* BUTTON GROUP */
+.md-drppicker .buttons_input {
+    display: flex;
+    gap: 12px;
+}
+
+/* MOBILE / TABLET */
+@media (max-width: 899px) {
+    .md-drppicker .buttons {
+        justify-content: center;
+    }
+
+    .md-drppicker .buttons_input {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .md-drppicker .buttons_input button {
+        width: 100%;
+    }
+}
+
+/* REMOVE TRASH SVG */
+.md-drppicker .btn.clear svg {
+    display: none !important;
+}
+/* =========================================
+   FIX: BUTTONS VISIBLE AFTER PICKER CLOSE
+========================================= */
+
+/* Default: picker hidden */
+.md-drppicker {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* When picker is OPEN */
+.md-drppicker.shown {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+/* SAFETY: buttons only visible when picker is shown */
+.md-drppicker:not(.shown) .buttons {
+    display: none !important;
+}
