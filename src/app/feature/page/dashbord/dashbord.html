@@ -175,7 +175,7 @@
                                             placeholder="Filter by due date range" (datesUpdated)="onDateRangeChange($event)"
                                             class="h-11 w-full rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm" /> -->
 
-<input type="text" ngxDaterangepickerMd [autoApply]="true" [showClearButton]="true" [locale]="{ format: 'MM/DD/YYYY' }"
+<input type="text" ngxDaterangepickerMd [autoApply]="false" [showClearButton]="true" [locale]="{ format: 'MM/DD/YYYY' }"
     placeholder="Filter by due date range" (datesUpdated)="onDateRangeChange($event)"
     (clearClicked)="onDateRangeClear()" class="h-11 w-full rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm" />
 

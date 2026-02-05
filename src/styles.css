@@ -124,6 +124,10 @@ body {
     overflow: scroll !important;
 }
 
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder{
+    top: 10px !important ;
+    padding-left: 8px;
+}
 /* hide scrollbar but keep scroll */
 .ng-select .ng-select-container,
 .fixed-ng-select .ng-select-container,
@@ -410,6 +414,6 @@ html {
 }
 
 /* SAFETY: buttons only visible when picker is shown */
-.md-drppicker:not(.shown) .buttons {
+/* .md-drppicker:not(.shown) .buttons {
     display: none !important;
-}
+} */
