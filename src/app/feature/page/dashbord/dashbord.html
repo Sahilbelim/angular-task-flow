@@ -580,7 +580,7 @@
                         @if (viewMode === 'board') {
 
                         <div 
-                     
+                     cdkScrollable
                         class="mt-6
                              flex gap-4
                              overflow-x-auto
@@ -623,8 +623,11 @@
 
 
 
-                                    <div cdkDropList [id]="col.status" [cdkDropListData]="col.data"
-                                        [cdkDropListConnectedTo]="connectedDropLists"
+                                    <div cdkDropList 
+                                    [id]="col.status" 
+                                    [cdkDropListData]="col.data"
+                                    [cdkDropListConnectedTo]="connectedDropLists"
+                                      cdkDropListOrientation="vertical"
                                         (cdkDropListDropped)="onTaskDrop($event, col.status)" class=" relative
     flex-1
     overflow-y-auto
@@ -660,7 +663,9 @@
                                         }
 
 
-                                        <div *ngFor="let task of col.data;trackBy: trackByTaskId" cdkDrag class="relative group cursor-pointer
+                                        <div *ngFor="let task of col.data;trackBy: trackByTaskId" cdkDrag 
+                                         [cdkDragBoundary]="'.board-scroll'"
+                                        class="relative group cursor-pointer
                                                      w-full
                                                      break-words
                                                      bg-blue-50/80
