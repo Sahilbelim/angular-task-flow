@@ -421,3 +421,10 @@ html {
 .md-drppicker td.start-date.end-date {
     border-radius: 2em !important;
 }
+td.available.active.end-date.in-range:hover {
+    border-radius: 0 2em  2em 0 !important;
+}
+
+/* td.available.active.start-date:hover {
+    border-radius:  2em 0 0 2em !important;
+} */
