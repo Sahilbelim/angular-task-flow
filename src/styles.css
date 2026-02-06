@@ -417,3 +417,7 @@ html {
 /* .md-drppicker:not(.shown) .buttons {
     display: none !important;
 } */
+
+.md-drppicker td.start-date.end-date {
+    border-radius: 2em !important;
+}
