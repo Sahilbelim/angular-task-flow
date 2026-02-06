@@ -85,6 +85,7 @@ export class Dashbord implements OnInit {
   selectedDateRange: any = null;
   selectedUserFilter: string[] = [];
   private redirectFilterApplied = false;
+  filterDateRange: any = null;
 
   /* =====================
      PAGINATION
@@ -919,6 +920,9 @@ export class Dashbord implements OnInit {
     this.selectedUserFilter = [];
     this.selectedDateRange = null;
     this.onDateRangeClear();
+    // 🔥 THESE TWO LINES FIX THE INPUT
+    this.selectedDateRange = null;
+    this.filterDateRange = null;
     // this.dateRangeControl.setValue(null, { emitEvent: false });
 
     this.filteredTasks = [...this.tasks];
@@ -1028,6 +1032,7 @@ export class Dashbord implements OnInit {
     const start = moment(range.startDate.$d).startOf('day');
     const end = moment(range.endDate.$d).endOf('day');
 
+    this.filterDateRange = range; // 🔥 keeps input in sync
     this.selectedDateRange = { startDate: start, endDate: end };
 
     console.log('normalized range:', {
