@@ -305,6 +305,76 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
   //   });
   // }
 
+  // private initTaskChart() {
+  //   const ctx = document.getElementById('taskPie') as HTMLCanvasElement;
+  //   if (!ctx) return;
+
+  //   this.taskChart = new Chart(ctx, {
+  //     type: 'doughnut',
+  //     data: {
+  //       labels: ['Completed', 'In Progress', 'Pending'],
+  //       datasets: [{
+  //         data: [
+  //           this.taskStats.completed,
+  //           this.taskStats.inProgress,
+  //           this.taskStats.pending,
+  //         ],
+  //         backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'],
+  //         borderWidth: 4,
+  //         borderColor: '#ffffff',
+  //       }],
+  //     },
+  //     options: {
+  //       cutout: '75%',
+  //       plugins: {
+  //         legend: {
+  //           position: 'bottom',
+  //           labels: { font: { weight: 600 } },
+  //         },
+  //         tooltip: {
+  //           displayColors: false,
+  //           callbacks: {
+  //             label: (ctx) => {
+  //               const label = ctx.label?.toLowerCase() ?? '';
+  //               const value = ctx.raw;
+
+  //               // singular / plural handling
+  //               const taskWord = value === 1 ? 'task' : 'tasks';
+
+  //               return `  ${taskWord}: ${value}`;
+  //             },
+  //           },
+  //         },
+  //       },
+  //       maintainAspectRatio: false,
+  //     },
+  //     plugins: [{
+  //       id: 'centerText',
+  //       afterDraw: chart => {
+  //         const { ctx, width, height } = chart;
+  //         ctx.restore();
+  //         ctx.font = '700 24px Inter';
+  //         ctx.fillStyle = '#111827';
+  //         ctx.textAlign = 'center';
+  //         ctx.textBaseline = 'middle';
+  //         ctx.fillText(
+  //           `${this.taskStats.total}`,
+  //           width / 2,
+  //           height / 2
+  //         );
+  //         ctx.font = '12px Inter';
+  //         ctx.fillStyle = '#6b7280';
+  //         ctx.fillText(
+  //           'Total Tasks',
+  //           width / 2,
+  //           height / 2 + 22
+  //         );
+  //         ctx.save();
+  //       },
+  //     }],
+  //   });
+  // }
+
   private initTaskChart() {
     const ctx = document.getElementById('taskPie') as HTMLCanvasElement;
     if (!ctx) return;
@@ -326,55 +396,68 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
       },
       options: {
         cutout: '75%',
+        responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             position: 'bottom',
             labels: { font: { weight: 600 } },
+            
           },
           tooltip: {
             displayColors: false,
             callbacks: {
+              title: () => '', // ❌ remove top bold title (Completed)
               label: (ctx) => {
-                const label = ctx.label?.toLowerCase() ?? '';
-                const value = ctx.raw;
+                const label = ctx.label ?? '';
+                const value = ctx.raw as number;
 
-                // singular / plural handling
                 const taskWord = value === 1 ? 'task' : 'tasks';
 
-                return `  ${taskWord}: ${value}`;
+                return `${label} ${taskWord}: ${value}`;
               },
             },
           },
+
+
         },
-        maintainAspectRatio: false,
       },
       plugins: [{
         id: 'centerText',
         afterDraw: chart => {
-          const { ctx, width, height } = chart;
-          ctx.restore();
-          ctx.font = '700 24px Inter';
-          ctx.fillStyle = '#111827';
+          const { ctx, chartArea } = chart;
+          if (!chartArea) return;
+
+          const centerX = (chartArea.left + chartArea.right) / 2;
+          const centerY = (chartArea.top + chartArea.bottom) / 2;
+
+          ctx.save();
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
+
+          // 🔢 Number
+          ctx.font = '700 28px Inter';
+          ctx.fillStyle = '#111827';
           ctx.fillText(
-            `${this.taskStats.total}`,
-            width / 2,
-            height / 2
+            String(this.taskStats.total),
+            centerX,
+            centerY - 6
           );
-          ctx.font = '12px Inter';
+
+          // 🏷 Label
+          ctx.font = '500 13px Inter';
           ctx.fillStyle = '#6b7280';
           ctx.fillText(
             'Total Tasks',
-            width / 2,
-            height / 2 + 22
+            centerX,
+            centerY + 18
           );
-          ctx.save();
+
+          ctx.restore();
         },
       }],
     });
   }
-
 
   // private initUserChart() {
   //   this.userChart = new Chart('userBar', {
