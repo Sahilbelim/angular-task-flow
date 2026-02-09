@@ -1,17 +1,19 @@
 import { TestBed } from '@angular/core/testing';
-import { CanActivateFn } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { taskPermissionGuard } from './permission-guard';
 
-import { permissionGuard } from './permission-guard';
-
-describe('permissionGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => permissionGuard(...guardParameters));
+describe('taskPermissionGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
   });
 
-  it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
+  it('should create a guard function', () => {
+    const guard = TestBed.runInInjectionContext(() =>
+      taskPermissionGuard('createTask')
+    );
+
+    expect(typeof guard).toBe('function');
   });
+
 });

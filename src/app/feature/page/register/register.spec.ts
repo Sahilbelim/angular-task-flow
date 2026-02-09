@@ -2,13 +2,21 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Register } from './register';
 
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
+
+
 describe('Register', () => {
   let component: Register;
   let fixture: ComponentFixture<Register>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Register, RouterTestingModule]
+      imports: [Register, RouterTestingModule],
+      providers: [provideHttpClient(),
+      provideHttpClientTesting(),
+      provideRouter([]),]
     })
     .compileComponents();
 
