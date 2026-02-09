@@ -83,7 +83,7 @@ export class Header {
   userMenuOpen = false;
 
   // 🔥 derived state (NO localStorage)
-  user = null;
+  user:any = null;
   isLoggedIn = false;
 
   constructor(
