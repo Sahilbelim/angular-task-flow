@@ -14,23 +14,6 @@ export class AuthService  {
 
   user = signal<any | null>(this.getUser());
 
-  // constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) { }
-
-//   constructor(
-//   private http: HttpClient,
-//   private toastr: ToastrService,
-//   private router: Router
-// ) {
-//   // 🔁 Refresh permissions when tab/browser regains focus
-//   window.addEventListener('focus', () => {
-//     const u = this.user();
-//     if (!u) return;
-
-//     this.refreshCurrentUser(u.id).subscribe(updatedUser => {
-//       this.setUser(updatedUser);
-//     });
-//   });
-// }
 
   constructor(
     private http: HttpClient,
@@ -56,9 +39,7 @@ export class AuthService  {
 
   
   /** ---------- REGISTER ---------- */
-  // register(payload: any) {
-  //   return this.http.post(`${this.API}/user`, payload);
-  // }
+  
 
   private shouldRefresh(user: any): boolean {
     const last = user?._lastSync;
@@ -88,43 +69,7 @@ export class AuthService  {
   }
 
   /** ---------- LOGIN ---------- */
-  // login(email: string, password: string) {
-  //   return this.http.get<any[]>(`${this.API}/user?email=${email}`);
-  // }
 
-  // login(email: any, password: any) {
-  //   return this.http.get<any[]>(`${this.API}/user`, {
-  //     params: { email }
-  //   }).pipe(
-  //     switchMap(users => {
-  //       console.log(users);
-  //       if (users.length === 0) {
-          
-  //         return throwError(() => ({ message: 'User not found' }));
-  //       }
-
-  //       const user = users[0];
-  //       console.log(user);
-  //       console.log(user.password,password);
-
-  //       if (user.password !== password) {
-  //         return throwError(() => ({ message: 'Invalid password' }));
-  //       }
-
-  //       console.log('Login successful');
-  //       // ✅ save session
-  //       localStorage.setItem('user', JSON.stringify(user));
-  //       this.user.set(user);
-
-       
-       
-   
-   
-
-  //       return this.http.get<any[]>(`${this.API}/user?email=${email}`);
-  //     })
-  //   );
-  // }
 
   login(email: string, password: string) {
     return this.http.get<any[]>(`${this.API}/user`, {
@@ -161,15 +106,7 @@ export class AuthService  {
     return !!this.user();
   }
 
-  // hasPermission(key: string) {
-  //   const u = this.user();
-  //   if (!u) return false;
-
-  //   // parent always has full access
-  //   if (!u.parentId) return true;
-
-  //   return !!u.permissions?.[key];
-  // }
+ 
 
   hasPermission(key: string): boolean {
     const u = this.user();
@@ -197,15 +134,7 @@ export class AuthService  {
     return u ? JSON.parse(u) : null;
   }
 
-  // logout() {
-  //   localStorage.removeItem('user');
-  //   this.user.set(null);
-  // }
-
-  // hasPermission(key: string): boolean {
-  //   const u = this.user();
-  //   return !!u?.permissions?.[key];
-  // }
+ 
 
   refreshCurrentUser(userId: string) {
 

@@ -75,8 +75,6 @@ describe('Dashbord', () => {
     expect(component.filteredTasks.length).toBe(2);
   }));
 
-
-
   it('should calculate task stats correctly', () => {
     component.updateStats([
       { status: 'pending' },
@@ -89,6 +87,7 @@ describe('Dashbord', () => {
     expect(component.complatedTasks).toBe(1);
     expect(component.inprogressTasks).toBe(1);
   });
+
   it('should filter tasks by search text', () => {
     component.tasks = [
       { title: 'Fix bug', status: 'pending' },
@@ -114,6 +113,7 @@ describe('Dashbord', () => {
     expect(component.filteredTasks.length).toBe(1);
     expect(component.filteredTasks[0].status).toBe('completed');
   });
+
   it('should not save task if form is invalid', () => {
     component.taskForm.patchValue({ title: '' });
 
@@ -139,6 +139,7 @@ describe('Dashbord', () => {
     expect(toastr.success).toHaveBeenCalledWith('Task created');
     expect(component.savingTask).toBeFalse();
   }));
+
   it('should populate form when editing task', () => {
     const task = {
       id: '1',
@@ -156,6 +157,7 @@ describe('Dashbord', () => {
     expect(component.taskForm.value.title).toBe('Edit me');
     expect(api.setOverlay).toHaveBeenCalledWith(true);
   });
+  
   it('should populate form when editing task', () => {
     const task = {
       id: '1',

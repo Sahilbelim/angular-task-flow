@@ -232,11 +232,7 @@ describe('UsersPage', () => {
      CLEANUP
   ===================================================== */
 
-  //   it('should unsubscribe on destroy', () => {
-  //     spyOn(component['sub'], 'unsubscribe');
-  //     component.ngOnDestroy();
-  //     expect(component['sub'].unsubscribe).toHaveBeenCalled();
-  //   });
+ 
 
 
 

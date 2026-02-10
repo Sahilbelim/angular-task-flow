@@ -54,32 +54,6 @@ describe('Register', () => {
     fixture.detectChanges();
   });
 
-
-  // beforeEach(async () => {
-  //   api = jasmine.createSpyObj<ApiService>('ApiService', ['register']);
-  //   toastr = jasmine.createSpyObj<ToastrService>('ToastrService', [
-  //     'success',
-  //     'error',
-  //     'warning',
-  //   ]);
-
-  //   await TestBed.configureTestingModule({
-  //     imports: [
-  //       Register,
-  //       ReactiveFormsModule,
-  //       RouterTestingModule.withRoutes([]), // 🔥 avoids router errors
-  //     ],
-  //     providers: [
-  //       { provide: ApiService, useValue: api },
-  //       { provide: ToastrService, useValue: toastr },
-  //     ],
-  //   }).compileComponents();
-
-  //   fixture = TestBed.createComponent(Register);
-  //   component = fixture.componentInstance;
-  //   fixture.detectChanges();
-  // });
-
   /* =====================================================
      INIT
   ===================================================== */
@@ -160,35 +134,6 @@ describe('Register', () => {
   /* =====================================================
      SUBMIT — SUCCESS
   ===================================================== */
-
-  // it('should register successfully and reset loading', fakeAsync(() => {
-  //   api.register.and.returnValue(
-  //     defer(() => of({})) // async-safe
-  //   );
-
-  //   component.registerForm.patchValue({
-  //     name: 'John Doe',
-  //     email: 'john@test.com',
-  //     password: 'Abc@1234',
-  //     confrimpassword: 'Abc@1234',
-  //   });
-
-  //   component.submit();
-
-  //   // 🔒 locked immediately
-  //   // expect(component.loading).toBeTrue();
-  //   // expect(component.registerForm.disabled).toBeTrue();
-
-  //   tick();
-  //   fixture.detectChanges();
-
-  //   expect(api.register).toHaveBeenCalled();
-  //   expect(toastr.success).toHaveBeenCalledWith('Registration successful');
-
-  //   // 🔓 unlocked after complete
-  //   expect(component.loading).toBeFalse();
-  //   expect(component.registerForm.enabled).toBeTrue();
-  // }));
 
   it('should register successfully and reset loading', fakeAsync(() => {
     api.register.and.returnValue(defer(() => of({})));

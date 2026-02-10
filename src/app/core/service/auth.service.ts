@@ -50,9 +50,7 @@ export class AuthService {
             })
         );
     }
-    // adminCreateUser(data: any) {
-    //     return this.http.post(`${this.API_URL}/admin/create-user`, data);
-    // }
+    
 
 
     adminCreateUser(data: any) {

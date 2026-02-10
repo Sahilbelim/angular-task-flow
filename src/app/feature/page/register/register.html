@@ -11,154 +11,153 @@
       px-4
     ">
 
-<div class="w-full flex justify-center py-10">
-    <!-- Card -->
+    <div class="w-full flex justify-center py-10">
+        <!-- Card -->
 
-    <div class="w-full max-w-md
+        <div class="w-full max-w-md
            bg-white/90 backdrop-blur-xl
            rounded-2xl
            shadow-[0_20px_50px_rgba(59,130,246,0.25)]
            border border-blue-100
            p-8">
 
-        <h2 class="text-3xl font-extrabold text-center text-blue-800 mb-2">
-            Create Account
-        </h2>
+            <h2 class="text-3xl font-extrabold text-center text-blue-800 mb-2">
+                Create Account
+            </h2>
 
-        <p class="text-center text-blue-500 text-sm mb-8">
-            Register your account to continue
-        </p>
+            <p class="text-center text-blue-500 text-sm mb-8">
+                Register your account to continue
+            </p>
 
-        <form [formGroup]="registerForm" (ngSubmit)="submit()" class="space-y-6">
+            <form [formGroup]="registerForm" (ngSubmit)="submit()" class="space-y-6">
 
-            <!-- NAME -->
-            <div>
-                <label class="text-sm font-semibold text-blue-700">Full Name</label>
-                <input formControlName="name" placeholder="John Doe" class="w-full rounded-xl bg-blue-50 border border-blue-200 px-4 py-3
+                <!-- NAME -->
+                <div>
+                    <label class="text-sm font-semibold text-blue-700">Full Name</label>
+                    <input formControlName="name" placeholder="John Doe" class="w-full rounded-xl bg-blue-50 border border-blue-200 px-4 py-3
                  focus:ring-2 focus:ring-blue-500 transition" />
 
-                @if (registerForm.get('name')?.touched && registerForm.get('name')?.invalid) {
-                <div class="text-red-500 text-sm mt-1">Name is required</div>
-                }
-            </div>
+                    @if (registerForm.get('name')?.touched && registerForm.get('name')?.invalid) {
+                    <div class="text-red-500 text-sm mt-1">Name is required</div>
+                    }
+                </div>
 
-            <!-- EMAIL -->
-            <div>
-                <label class="text-sm font-semibold text-blue-700">Email</label>
-                <input type="email" formControlName="email" placeholder="you@example.com" class="w-full rounded-xl bg-blue-50 border border-blue-200 px-4 py-3
+                <!-- EMAIL -->
+                <div>
+                    <label class="text-sm font-semibold text-blue-700">Email</label>
+                    <input type="email" formControlName="email" placeholder="you@example.com" class="w-full rounded-xl bg-blue-50 border border-blue-200 px-4 py-3
                  focus:ring-2 focus:ring-blue-500 transition" />
 
-                @if (registerForm.get('email')?.touched && registerForm.get('email')?.invalid) {
-                <div class="text-red-500 text-sm mt-1">
-                    @if (registerForm.get('email')?.errors?.['required']) {
-                    Email is required
-                    }
-                    @if (registerForm.get('email')?.errors?.['email']) {
-                    Invalid email format
+                    @if (registerForm.get('email')?.touched && registerForm.get('email')?.invalid) {
+                    <div class="text-red-500 text-sm mt-1">
+                        @if (registerForm.get('email')?.errors?.['required']) {
+                        Email is required
+                        }
+                        @if (registerForm.get('email')?.errors?.['email']) {
+                        Invalid email format
+                        }
+                    </div>
                     }
                 </div>
-                }
-            </div>
 
-            <!-- PASSWORD -->
-            <div>
-                <label class="text-sm font-semibold text-blue-700">Password</label>
+                <!-- PASSWORD -->
+                <div>
+                    <label class="text-sm font-semibold text-blue-700">Password</label>
 
-                <div class="relative">
-                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••" securePassword
-                        class="w-full rounded-xl bg-blue-50 border border-blue-200 px-4 py-3
+                    <div class="relative">
+                        <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                            placeholder="••••••••" securePassword class="w-full rounded-xl bg-blue-50 border border-blue-200 px-4 py-3
                    focus:ring-2 focus:ring-blue-500 transition" />
 
-                    <button type="button" (click)="showPassword = !showPassword"
-                        class="absolute inset-y-0 right-4 flex items-center text-blue-500">
-                        <i class="bx" [class.bx-eye]="showPassword" [class.bx-eye-slash]="!showPassword"></i>
-                    </button>
+                        <button type="button" (click)="showPassword = !showPassword"
+                            class="absolute inset-y-0 right-4 flex items-center text-blue-500">
+                            <i class="bx" [class.bx-eye]="showPassword" [class.bx-eye-slash]="!showPassword"></i>
+                        </button>
+                    </div>
+
+                    <!-- PASSWORD RULES -->
+                    @if (password?.touched && password?.invalid) {
+
+                    <!-- REQUIRED -->
+                    @if (password?.hasError('required')) {
+                    <p class="text-red-500 text-sm mt-1">Password is required</p>
+                    }
+
+                    <!-- RULES (only when user typed something) -->
+                    @else {
+                    <div class="mt-2 space-y-1 text-sm">
+
+                        <div class="flex items-center gap-2" [class.text-green-600]="hasUppercase"
+                            [class.text-red-500]="!hasUppercase">
+                            Uppercase letter
+                        </div>
+
+                        <div class="flex items-center gap-2" [class.text-green-600]="hasLowercase"
+                            [class.text-red-500]="!hasLowercase">
+                            Lowercase letter
+                        </div>
+
+                        <div class="flex items-center gap-2" [class.text-green-600]="hasNumber"
+                            [class.text-red-500]="!hasNumber">
+                            Number
+                        </div>
+
+                        <div class="flex items-center gap-2" [class.text-green-600]="hasSpecialChar"
+                            [class.text-red-500]="!hasSpecialChar">
+                            Special character
+                        </div>
+
+                        <div class="flex items-center gap-2" [class.text-green-600]="hasMinLength"
+                            [class.text-red-500]="!hasMinLength">
+                            Min 8 characters
+                        </div>
+
+                        <div class="flex items-center gap-2" [class.text-green-600]="hasMaxLength"
+                            [class.text-red-500]="!hasMaxLength">
+                            Max 32 characters
+                        </div>
+
+                    </div>
+                    }
+                    }
+
                 </div>
+                <!-- CONFIRM PASSWORD -->
+                <div>
+                    <label class="text-sm font-semibold text-blue-700">Confirm Password</label>
 
-                <!-- PASSWORD RULES -->
-                @if (password?.touched && password?.invalid) {
-                
-                <!-- REQUIRED -->
-                @if (password?.hasError('required')) {
-                <p class="text-red-500 text-sm mt-1">Password is required</p>
-                }
-                
-                <!-- RULES (only when user typed something) -->
-                @else {
-                <div class="mt-2 space-y-1 text-sm">
-                
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasUppercase" [class.text-red-500]="!hasUppercase">
-                        Uppercase letter
-                    </div>
-                
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasLowercase" [class.text-red-500]="!hasLowercase">
-                        Lowercase letter
-                    </div>
-                
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasNumber" [class.text-red-500]="!hasNumber">
-                        Number
-                    </div>
-                
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasSpecialChar" [class.text-red-500]="!hasSpecialChar">
-                        Special character
-                    </div>
-                
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasMinLength" [class.text-red-500]="!hasMinLength">
-                        Min 8 characters
-                    </div>
-                
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasMaxLength" [class.text-red-500]="!hasMaxLength">
-                        Max 32 characters
-                    </div>
-                
-                </div>
-                }
-                }
-
-            </div>
-            <!-- CONFIRM PASSWORD -->
-            <div>
-                <label class="text-sm font-semibold text-blue-700">Confirm Password</label>
-
-                <div class="relative">
-                    <input [type]="showConfirmPassword ? 'text' : 'password'" 
-                    securePassword
-                    formControlName="confrimpassword"
-                        placeholder="••••••••" class="w-full rounded-xl bg-blue-50 border border-blue-200 px-4 py-3
+                    <div class="relative">
+                        <input [type]="showConfirmPassword ? 'text' : 'password'" securePassword
+                            formControlName="confrimpassword" placeholder="••••••••" class="w-full rounded-xl bg-blue-50 border border-blue-200 px-4 py-3
                    focus:ring-2 focus:ring-blue-500 transition" />
 
-                    <button type="button" (click)="showConfirmPassword = !showConfirmPassword"
-                        class="absolute inset-y-0 right-4 text-blue-500">
-                        <i class="bx" [class.bx-eye]="showConfirmPassword"
-                            [class.bx-eye-slash]="!showConfirmPassword"></i>
-                    </button>
+                        <button type="button" (click)="showConfirmPassword = !showConfirmPassword"
+                            class="absolute inset-y-0 right-4 text-blue-500">
+                            <i class="bx" [class.bx-eye]="showConfirmPassword"
+                                [class.bx-eye-slash]="!showConfirmPassword"></i>
+                        </button>
+                    </div>
+
+                    @if (registerForm.get('confrimpassword')?.touched) {
+
+                    @if (registerForm.get('confrimpassword')?.hasError('required')) {
+                    <p class="text-red-500 text-sm mt-1">Confirm password is required</p>
+                    }
+
+                    @else if (registerForm.hasError('passwordMismatch')) {
+                    <p class="text-red-500 text-sm mt-1">Passwords do not match</p>
+                    }
+
+                    }
+
                 </div>
 
-            @if (registerForm.get('confrimpassword')?.touched) {
-            
-            @if (registerForm.get('confrimpassword')?.hasError('required')) {
-            <p class="text-red-500 text-sm mt-1">Confirm password is required</p>
-            }
-            
-            @else if (registerForm.hasError('passwordMismatch')) {
-            <p class="text-red-500 text-sm mt-1">Passwords do not match</p>
-            }
-            
-            }
 
-            </div>
 
-          
+                <!-- SUBMIT -->
 
-            <!-- SUBMIT -->
-            <!-- <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
-               hover:from-blue-700 hover:to-indigo-700
-               text-white font-semibold py-3 rounded-xl
-               shadow-md hover:shadow-lg transition">
-                Register
-            </button> -->
 
-<button type="submit" [disabled]="  loading" class="
+                <button type="submit" [disabled]="  loading" class="
     w-full
     bg-gradient-to-r from-blue-600 to-indigo-600
     hover:from-blue-700 hover:to-indigo-700
@@ -167,25 +166,25 @@
     disabled:opacity-60
     disabled:cursor-not-allowed
   ">
-    @if (loading) {
-    <span class="flex items-center justify-center gap-2">
-        <i class="bx bx-loader-alt animate-spin"></i>
-        Registering...
-    </span>
-    } @else {
-    Register
-    }
-</button>
+                    @if (loading) {
+                    <span class="flex items-center justify-center gap-2">
+                        <i class="bx bx-loader-alt animate-spin"></i>
+                        Registering...
+                    </span>
+                    } @else {
+                    Register
+                    }
+                </button>
 
 
-            <p class="text-center text-sm text-blue-600">
-                Already have an account?
-                <a routerLink="/login" class="font-semibold text-indigo-600 hover:underline">
-                    Login
-                </a>
-            </p>
+                <p class="text-center text-sm text-blue-600">
+                    Already have an account?
+                    <a routerLink="/login" class="font-semibold text-indigo-600 hover:underline">
+                        Login
+                    </a>
+                </p>
 
-        </form>
-    </div>
+            </form>
+        </div>
     </div>
 </div>

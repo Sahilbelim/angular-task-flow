@@ -23,14 +23,7 @@ export class ProfileService {
     return this.http.put(`${this.API}/${userId}`, payload);
   }
 
-  /** 🔐 CHANGE PASSWORD */
-  // changePassword(userId: string, newPassword: string): Observable<any> {
-  //   return this.http.put(`${this.API}/${userId}`, {
-  //     password: newPassword
-  //   });
-  // }
-
-  changePassword(
+   changePassword(
     userId: string,
     currentPassword: string,
     newPassword: string

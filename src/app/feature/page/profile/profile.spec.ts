@@ -512,26 +512,6 @@ describe('ProfilePage', () => {
      SAVE PROFILE
   ===================================================== */
 
-  // it('should save profile successfully', fakeAsync(() => {
-  //   fixture.detectChanges();
-
-  //   component.user = { id: '1', name: 'John Doe' };
-  //   component.profileForm.patchValue({ name: 'Updated Name' });
-
-  //   component.saveProfile();
-
-  //   expect(component.saving).toBeTrue();
-  //   expect(api.updateProfile).toHaveBeenCalled();
-
-  //   tick();
-  //   fixture.detectChanges();
-
-  //   expect(component.user.name).toBe('Updated Name');
-  //   expect(toast.success).toHaveBeenCalledWith('Profile updated');
-  //   expect(component.saving).toBeFalse();
-  // }));
-
-
   it('should save profile successfully', fakeAsync(() => {
     api.updateProfile.and.returnValue(
       of({ id: '1', name: 'Updated Name' }).pipe(delay(0))
@@ -556,25 +536,6 @@ describe('ProfilePage', () => {
     expect(component.saving).toBeFalse();
   }));
 
-
-  // it('should handle save error', fakeAsync(() => {
-  //   api.updateProfile.and.returnValue(
-  //     throwError(() => new Error('fail'))
-  //   );
-
-  //   fixture.detectChanges();
-
-  //   component.user = { id: '1', name: 'John' };
-  //   component.profileForm.patchValue({ name: 'Error Case' });
-
-  //   component.saveProfile();
-
-  //   tick();
-  //   fixture.detectChanges();
-
-  //   expect(toast.error).toHaveBeenCalledWith('Failed to update profile');
-  //   expect(component.saving).toBeFalse();
-  // }));
 
   it('should handle save error', fakeAsync(() => {
     api.updateProfile.and.returnValue(

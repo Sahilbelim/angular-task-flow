@@ -1,4 +1,4 @@
- <div class="
+<div class="
       relative
       min-h-screen
       pt-[72px]
@@ -11,67 +11,62 @@
       px-4
     ">
 
-        <div class="w-full flex justify-center py-10">
+    <div class="w-full flex justify-center py-10">
 
-    <div class="w-full max-w-md bg-white/90 backdrop-blur-xl
+        <div class="w-full max-w-md bg-white/90 backdrop-blur-xl
            rounded-2xl border border-blue-100
            shadow-[0_20px_50px_rgba(59,130,246,0.25)]
            p-8">
 
-        <h2 class="text-3xl font-extrabold text-center text-blue-800 mb-2">
-            Welcome Back
-        </h2>
+            <h2 class="text-3xl font-extrabold text-center text-blue-800 mb-2">
+                Welcome Back
+            </h2>
 
-        <p class="text-center text-blue-500 text-sm mb-8">
-            Login to continue
-        </p>
+            <p class="text-center text-blue-500 text-sm mb-8">
+                Login to continue
+            </p>
 
-        <form [formGroup]="loginForm" (ngSubmit)="submit()" class="space-y-6">
+            <form [formGroup]="loginForm" (ngSubmit)="submit()" class="space-y-6">
 
-            <!-- EMAIL -->
-            <div>
-                <label class="text-sm font-semibold text-blue-700">Email</label>
-                <input type="email" formControlName="email" placeholder="you@example.com" class="w-full rounded-xl bg-blue-50 border border-blue-200
+                <!-- EMAIL -->
+                <div>
+                    <label class="text-sm font-semibold text-blue-700">Email</label>
+                    <input type="email" formControlName="email" placeholder="you@example.com" class="w-full rounded-xl bg-blue-50 border border-blue-200
                  px-4 py-3 focus:ring-2 focus:ring-blue-500 transition" />
 
-                @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
-                <div class="text-red-500 text-sm mt-1">
-                    Invalid email address
+                    @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+                    <div class="text-red-500 text-sm mt-1">
+                        Invalid email address
+                    </div>
+                    }
                 </div>
-                }
-            </div>
 
-            <!-- PASSWORD -->
-            <div>
-                <label class="text-sm font-semibold text-blue-700">Password</label>
+                <!-- PASSWORD -->
+                <div>
+                    <label class="text-sm font-semibold text-blue-700">Password</label>
 
-                <div class="relative">
-                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••" securePassword
-                        class="w-full rounded-xl bg-blue-50 border border-blue-200
+                    <div class="relative">
+                        <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                            placeholder="••••••••" securePassword class="w-full rounded-xl bg-blue-50 border border-blue-200
                    px-4 py-3 focus:ring-2 focus:ring-blue-500 transition" />
 
-                    <button type="button" (click)="showPassword = !showPassword"
-                        class="absolute inset-y-0 right-4 flex items-center text-blue-500">
-                        <i class="bx" [class.bx-eye]="showPassword" [class.bx-eye-slash]="!showPassword"></i>
-                    </button>
+                        <button type="button" (click)="showPassword = !showPassword"
+                            class="absolute inset-y-0 right-4 flex items-center text-blue-500">
+                            <i class="bx" [class.bx-eye]="showPassword" [class.bx-eye-slash]="!showPassword"></i>
+                        </button>
+                    </div>
+
+                    @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+                    <div class="text-red-500 text-sm mt-1">
+                        Password is required
+                    </div>
+                    }
                 </div>
 
-                @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
-                <div class="text-red-500 text-sm mt-1">
-                    Password is required
-                </div>
-                }
-            </div>
+                <!-- SUBMIT -->
 
-            <!-- SUBMIT -->
-            <!-- <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
-               hover:from-blue-700 hover:to-indigo-700
-               text-white font-semibold py-3 rounded-xl
-               shadow-md hover:shadow-lg transition">
-                Login
-            </button> -->
 
-<button type="submit" [disabled]="  loading" class="
+                <button type="submit" [disabled]="  loading" class="
     w-full
     bg-gradient-to-r from-blue-600 to-indigo-600
     hover:from-blue-700 hover:to-indigo-700
@@ -80,25 +75,25 @@
     disabled:opacity-60
     disabled:cursor-not-allowed
   ">
-    @if (loading) {
-    <span class="flex items-center justify-center gap-2">
-        <i class="bx bx-loader-alt animate-spin"></i>
-        Logging in...
-    </span>
-    } @else {
-    Login
-    }
-</button>
+                    @if (loading) {
+                    <span class="flex items-center justify-center gap-2">
+                        <i class="bx bx-loader-alt animate-spin"></i>
+                        Logging in...
+                    </span>
+                    } @else {
+                    Login
+                    }
+                </button>
 
 
-            <p class="text-center text-sm text-blue-600">
-                Don’t have an account?
-                <a routerLink="/register" class="font-semibold text-indigo-600 hover:underline">
-                    Register
-                </a>
-            </p>
+                <p class="text-center text-sm text-blue-600">
+                    Don’t have an account?
+                    <a routerLink="/register" class="font-semibold text-indigo-600 hover:underline">
+                        Register
+                    </a>
+                </p>
 
-        </form>
-    </div>
+            </form>
+        </div>
     </div>
 </div>

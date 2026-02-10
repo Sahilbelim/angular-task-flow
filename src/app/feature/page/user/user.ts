@@ -81,15 +81,7 @@ export class UsersPage implements OnInit, OnDestroy {
     private router: Router,
   private fb: FormBuilder
   ) {
-    // this.adminForm = this.fb.group({
-    //   name: ['', Validators.required],
-    //   email: ['', [Validators.required, Validators.email]],
-    //   password: [''],
-    //   createUser: [false],
-    //   createTask: [false],
-    //   editTask: [false],
-    //   deleteTask: [false],
-    // });
+   
     this.adminForm = this.fb.group(
       {
         name: ['', Validators.required],
@@ -123,23 +115,7 @@ export class UsersPage implements OnInit, OnDestroy {
   /* =====================
      INIT
   ===================== */
-  // ngOnInit() {
-  //   this.initUsersPage();
-   
-  //   // 🔥 load once (cached internally)
-  //   this.sub = this.api.getUsers$().subscribe(users => {
-  //     this.users = users;
-  //     const meId = this.currentUserId;
-
-  //     // 🔥 EXCLUDE SELF ONLY HERE
-  //     this.users = users.filter(u => u.id !== meId);
-
-  //     this.applyFilter();
-  //     const start = Date.now();
-  //     this.loading = false;
-
-  //   });
-  // }
+ 
 
   ngOnInit(): void {
     this.initUsersPage();
@@ -216,55 +192,6 @@ export class UsersPage implements OnInit, OnDestroy {
       : { noPermission: true };
   }
 
-  // submitAdminForm() {
-  //   if (this.adminForm.invalid) {
-  //     this.adminForm.markAllAsTouched();
-  //     return;
-  //   }
-  //   this.userSaving = true;        // 🔒 lock
-  //   this.adminForm.disable();     // 🔒 UI lock
-
-  //   const raw = this.adminForm.getRawValue();
-
-  //   const permissions = {
-  //     createUser: !!raw.createUser,
-  //     createTask: !!raw.createTask,
-  //     editTask: !!raw.editTask,
-  //     deleteTask: !!raw.deleteTask,
-  //   };
-
-  //   this.formLoading = true;
-
-  //   if (this.isEditMode && this.editUser) {
-  //     this.api.updateUser(this.editUser.id, { permissions }).subscribe({
-  //       next: () => {
-  //         this.toastr.success('User updated');
-  //         this.closeSidebar();
-  //       },
-  //       error: () => {
-  //         this.toastr.error('Update failed');
-  //         this.formLoading = false;
-  //       }
-  //     });
-  //     return;
-  //   }
-
-  //   this.api.createUser({
-  //     name: raw.name,
-  //     email: raw.email,
-  //     password: raw.password,
-  //     permissions,
-  //   }).subscribe({
-  //     next: () => {
-  //       this.toastr.success('User created');
-  //       this.closeSidebar();
-  //     },
-  //     error: () => {
-  //       this.toastr.error('Creation failed');
-  //       this.formLoading = false;
-  //     }
-  //   });
-  // }
 
   submitAdminForm() {
     if (this.adminForm.invalid || this.userSaving) {

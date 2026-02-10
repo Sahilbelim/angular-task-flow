@@ -152,166 +152,7 @@ export class Dashbord implements OnInit {
      INIT
   ===================== */
  
-  // ngOnInit() {
-  //   this.loading = true;
-
-  //   combineLatest([
-  //     this.api.getTasks$(),
-  //     this.api.getUsers$(),
-  //     this.api.taskFilterUser$
-  //   ]).subscribe(([tasks, users, filterUserId]) => {
-
-  //     // build user map
-  //     this.userMap = {};
-  //     users.forEach(u => (this.userMap[u.id] = u));
-  //     this.assignableUsers = users;
-
-  //     // sort tasks
-  //     this.tasks = [...tasks].sort(
-  //       (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
-  //     );
-
-  //     // ✅ APPLY REDIRECT FILTER ONLY ONCE
-  //     // console.log('Redirect filter user:', filterUserId);
-  //     if (filterUserId && !this.redirectFilterApplied) {
-  //       this.redirectFilterApplied = true;
-
-  //       this.selectedUserFilter = [filterUserId];
-  //       // console.log('Filtered tasks:', this.selectedUserFilter);
-
-  //       this.filteredTasks = this.tasks.filter(task =>
-  //         task.assignedUsers?.includes(filterUserId)
-  //       );
-  //       // console.log('Filtered tasks:', this.filteredTasks);
-
-  //       // clear AFTER applying once
-  //       // this.api.setTaskFilterUser(null);
-  //     }
-  //     // ❌ DO NOT override filteredTasks again
-  //     else if (!this.redirectFilterApplied) {
-  //       this.filteredTasks = [...this.tasks];
-  //     }
-
-  //     this.buildAssignedUsersMap();
-  //     this.updateStats(this.filteredTasks);
-  //     this.rebuildBoard();
-
-  //     this.loading = false;
-  //   });
-
-  //   this.dateRangeControl.valueChanges.subscribe(range => {
-  //     this.selectedDateRange = range;
-  //     this.applyAllFilters();
-  //   });
-
-  // }
-
-  // ngOnInit() {
-  //   this.loading = true;
-  //   this.dataLoaded = false;
-
-  //   combineLatest([
-  //     this.api.getTasks$(),
-  //     this.api.getUsers$(),
-  //     this.api.taskFilterUser$
-  //   ]).subscribe(([tasks, users, filterUserId]) => {
-
-  //     // build user map
-  //     this.userMap = {};
-  //     users.forEach(u => (this.userMap[u.id] = u));
-  //     this.assignableUsers = users;
-
-  //     // sort tasks
-  //     this.tasks = [...tasks].sort(
-  //       (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
-  //     );
-
-  //     if (filterUserId && !this.redirectFilterApplied) {
-  //       this.redirectFilterApplied = true;
-  //       this.selectedUserFilter = [filterUserId];
-  //       this.filteredTasks = this.tasks.filter(task =>
-  //         task.assignedUsers?.includes(filterUserId)
-  //       );
-  //     } else {
-  //       this.filteredTasks = [...this.tasks];
-  //     }
-
-  //     this.buildAssignedUsersMap();
-  //     this.updateStats(this.filteredTasks);
-  //     this.rebuildBoard();
-
-  //     // ✅ IMPORTANT
-  //     this.loading = false;
-  //     this.dataLoaded = true;
-  //   });
-
-  //   this.dateRangeControl.valueChanges.subscribe(range => {
-  //     this.selectedDateRange = range;
-  //     this.applyAllFilters();
-  //   });
-  // }
-
-
-  // ngOnInit() {
-  //   this.loading = true;
-  //   this.dataLoaded = false;
-
-  //   combineLatest([
-  //     this.api.getTasks$(),
-  //     this.api.getUsers$(),
-  //     this.api.taskFilterUser$
-  //   ])
-  //     .pipe(
-  //       // 🔥 IGNORE the initial empty emission
-  //       filter(([tasks]) => this.api['tasksLoaded'] || tasks.length > 0)
-  //     )
-  //     .subscribe(([tasks, users, filterUserId]) => {
-
-  //       this.userMap = {};
-  //       users.forEach(u => (this.userMap[u.id] = u));
-  //       this.assignableUsers = users;
-
-  //       this.tasks = [...tasks].sort(
-  //         (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
-  //       );
-
-  //       // if (filterUserId && !this.redirectFilterApplied) {
-  //       //   this.redirectFilterApplied = true;
-  //       //   this.selectedUserFilter = [filterUserId];
-  //       //   this.filteredTasks = this.tasks.filter(t =>
-  //       //     t.assignedUsers?.includes(filterUserId)
-  //       //   );
-  //       // } else {
-  //       //   // this.filteredTasks = [...this.tasks];
-  //       //   this.applyAllFilters();
-
-  //       // }
-
-  //       if (filterUserId && !this.redirectFilterApplied) {
-  //         this.redirectFilterApplied = true;
-  //         this.selectedUserFilter = [filterUserId];
-  //       }
-
-  //       this.applyAllFilters(); // ✅ SINGLE SOURCE OF TRUTH
-
-
-  //       this.buildAssignedUsersMap();
-  //       this.updateStats(this.filteredTasks);
-  //       this.rebuildBoard();
-
-  //       // ✅ TURN OFF LOADING ONLY ON REAL DATA
-  //       this.loading = false;
-  //       this.dataLoaded = true;
-  //     });
-    
-  //   // this.dateRangeControl.valueChanges.subscribe(range => {
-  //   //   this.selectedDateRange = range;
-  //   //   this.applyAllFilters();
-  //   // });
-
-  // }
-
-  ngOnInit() {
+    ngOnInit() {
     this.loading = true;
 
     combineLatest([
@@ -404,24 +245,7 @@ export class Dashbord implements OnInit {
     this.savingTask = true;      // 🔒 lock
     this.taskForm.disable();     // 🔒 UI lock
 
-// const raw = this.taskForm.value;
 
-// const payload = {
-//   ...raw,
-//   dueDate: raw.dueDate
-//     ? raw.dueDate.toISOString().split('T')[0] // YYYY-MM-DD
-//     : null,
-// };
-    // const payload = this.taskForm.value;
-
-    // const raw = this.taskForm.value;
-
-    // const payload = {
-    //   ...raw,
-    //   dueDate: raw.dueDate
-    //     ? raw.dueDate.format('YYYY-MM-DD') // ✅ moment-safe
-    //     : null,
-    // };
     const raw = this.taskForm.value;
     console.log('RAW dueDate value:', raw.dueDate);
 
@@ -454,23 +278,7 @@ export class Dashbord implements OnInit {
     });
   }
 
-  // editTask(task: any) {
-  //   this.editingTask = task;
-  //   this.popupVisible = true;
-
-  //   this.taskForm.patchValue({
-  //     title: task.title,
-  //     dueDate: task.dueDate,
-  //     status: task.status,
-  //     priority: task.priority,
-  //     assignedUsers: task.assignedUsers || [],
-  //   });
-
-  //   // document.body.classList.add('overflow-hidden');
  
-  //   this.api.setOverlay(true);
-
-  // }
 
   editTask(task: any) {
     this.editingTask = task;
@@ -516,24 +324,7 @@ export class Dashbord implements OnInit {
    }
 
 
-  // confirmDelete() {
-  //   if (!this.deleteId) return;
-
-  //   this.deletingTaskBusy = true; // 🔒 lock
-
-  //   this.api.deleteTaskOptimistic(this.deleteId).subscribe({
-  //     next: () => {
-  //       this.toastr.success('Task deleted');
-  //       this.closeDeleteModal();
-  //     },
-  //     error: () => {
-  //       this.toastr.error('Delete failed');
-  //     },
-  //     complete: () => {
-  //       this.deletingTaskBusy = false; // 🔓 unlock
-  //     }
-  //   });
-  // }
+ 
 
   confirmDelete() {
     if (!this.deleteId) return;
@@ -648,33 +439,7 @@ export class Dashbord implements OnInit {
     );
   }
 
-  // private normalizeDueDate(value: any): string | null {
-  //   if (!value) return null;
-
-  //   // ngx-daterangepicker (single picker)
-  //   if (value.startDate) {
-  //     return moment(value.startDate).format('YYYY-MM-DD');
-  //   }
-
-  //   // already moment
-  //   if (moment.isMoment(value)) {
-  //     return value.format('YYYY-MM-DD');
-  //   }
-
-  //   // native Date
-  //   if (value instanceof Date) {
-  //     return moment(value).format('YYYY-MM-DD');
-  //   }
-
-  //   // string (DD/MM/YYYY or ISO)
-  //   if (typeof value === 'string') {
-  //     return moment(value, ['DD/MM/YYYY', moment.ISO_8601], true).isValid()
-  //       ? moment(value, ['DD/MM/YYYY', moment.ISO_8601]).format('YYYY-MM-DD')
-  //       : null;
-  //   }
-
-  //   return null;
-  // }
+ 
 
   private normalizeDueDate(value: any): string | null {
     if (!value) return null;
@@ -740,127 +505,7 @@ export class Dashbord implements OnInit {
     this.rebuildBoard();
   }
 
-  // applyAllFilters() {
-  //   let data = [...this.tasks];
-
-  //   // 🔍 Search
-  //   if (this.searchText?.trim()) {
-  //     const t = this.searchText.toLowerCase();
-  //     data = data.filter(task =>
-  //       task.title?.toLowerCase().includes(t)
-  //     );
-  //   }
-
-  //   // 📌 Status
-  //   if (this.statusFilter !== 'all') {
-  //     data = data.filter(task => task.status === this.statusFilter);
-  //   }
-
-  //   // 👤 Assigned users
-  //   if (this.selectedUserFilter.length) {
-  //     data = data.filter(task =>
-  //       task.assignedUsers?.some((id: string) =>
-  //         this.selectedUserFilter.includes(id)
-  //       )
-  //     );
-  //   }
-
-  //   // 📅 Date range (timezone safe)
-  //   // if (this.selectedDateRange?.startDate && this.selectedDateRange?.endDate) {
-  //   //   const start = this.selectedDateRange.startDate.startOf('day').valueOf();
-  //   //   const end = this.selectedDateRange.endDate.endOf('day').valueOf();
-
-  //   //   data = data.filter(task => {
-  //   //     const due = new Date(task.dueDate + 'T12:00:00').getTime();
-  //   //     return due >= start && due <= end;
-  //   //   });
-  //   // }
-  //   // 📅 Date range filter (SAFE + timezone-proof)
-  //   // console.log(this.selectedDateRange);
-  //   // console.log(this.selectedDateRange?.startDate, this.selectedDateRange?.endDate);
-  //   // if (this.selectedDateRange?.startDate && this.selectedDateRange?.endDate) {
-  //   //   const start = moment(this.selectedDateRange.startDate).startOf('day').valueOf();
-  //   //   const end = moment(this.selectedDateRange.endDate).endOf('day').valueOf();
-
-  //   //   console.log(start, end);
-  //   //   data = data.filter(task => {
-  //   //     if (!task.dueDate) return false;
-
-  //   //     // 👇 force local noon to avoid UTC shift
-  //   //     const due = moment(task.dueDate + 'T12:00:00').valueOf();
-
-  //   //     return due >= start && due <= end;
-  //   //   });
-  //   // }
-
-  //   if (this.selectedDateRange?.startDate && this.selectedDateRange?.endDate) {
-  //     const start = this.selectedDateRange.startDate.clone().startOf('day');
-  //     const end = this.selectedDateRange.endDate.clone().endOf('day');
-
-  //     console.log(start, end);
-  //     data = data.filter(task => {
-  //       if (!task.dueDate) return false;
-
-  //       const due = moment(task.dueDate, 'YYYY-MM-DD');
-  //       return due.isSameOrAfter(start) && due.isSameOrBefore(end);
-  //     });
-  //   }
-
-
-  //   this.filteredTasks = data;
-  //   console.log('Filtered tasks:', this.filteredTasks);
-  //   this.updateStats(this.filteredTasks);
-  //   this.rebuildBoard();
-  // }
-
-  // applyAllFilters() {
-  //   let data = [...this.tasks];
-
-  //   // 🔍 Search
-  //   if (this.searchText?.trim()) {
-  //     const t = this.searchText.toLowerCase();
-  //     data = data.filter(task =>
-  //       task.title?.toLowerCase().includes(t)
-  //     );
-  //   }
-
-  //   // 📌 Status
-  //   if (this.statusFilter !== 'all') {
-  //     data = data.filter(task => task.status === this.statusFilter);
-  //   }
-
-  //   // 👤 Assigned users
-  //   if (this.selectedUserFilter.length) {
-  //     data = data.filter(task =>
-  //       task.assignedUsers?.some((id: string) =>
-  //         this.selectedUserFilter.includes(id)
-  //       )
-  //     );
-  //   }
-
-  //   // 📅 Date range — ✅ FIXED & STABLE
-  //   if (this.selectedDateRange) {
-  //     const { startDate, endDate } = this.selectedDateRange;
-  //     console.log(startDate, endDate);
-
-  //     data = data.filter(task => {
-  //       if (!task.dueDate) return false;
-  //       console.log("data after filter by date",task.dueDate);
-
-  //       // STRICT local parse
-  //       const due = moment(task.dueDate, 'YYYY-MM-DD', true);
-  //       if (!due.isValid()) return false;
-
-  //       return due.isSameOrAfter(startDate) &&
-  //         due.isSameOrBefore(endDate);
-  //     });
-  //   }
-  //   console.log("filtered data ",data);
-
-  //   this.filteredTasks = data;
-  //   this.updateStats(this.filteredTasks);
-  //   this.rebuildBoard();
-  // }
+ 
 
   applyAllFilters() {
     let data = [...this.tasks];
@@ -930,89 +575,7 @@ export class Dashbord implements OnInit {
     this.rebuildBoard();
   }
 
-  // onDateRangeChange(range: any) {
-  //   console.log(range);
-  //   if (!range?.startDate || !range?.endDate) {
-  //     this.selectedDateRange = null;
-  //   } else {
-  //     this.selectedDateRange = {
-  //       startDate: moment(range.startDate),
-  //       endDate: moment(range.endDate),
-  //     };
-  //   }
-
-  //   this.applyAllFilters();
-  // }
-
-  // onDateRangeChange(range: any) {
-  //   if (!range || !range.startDate || !range.endDate) {
-  //     this.selectedDateRange = null;
-  //     this.applyAllFilters();
-  //     return;
-  //   }
-
-  //   this.selectedDateRange = {
-  //     startDate: moment(range.startDate),
-  //     endDate: moment(range.endDate),
-  //   };
-
-  //   console.log('normalized range:', this.selectedDateRange);
-  //   this.applyAllFilters();
-  // }
-
-  // onDateRangeChange(range: any) {
-  //   if (!range?.startDate || !range?.endDate) {
-  //     this.selectedDateRange = null;
-  //   } else {
-  //     this.selectedDateRange = {
-  //       startDate: moment(range.startDate),
-  //       endDate: moment(range.endDate),
-  //     };
-  //   }
-
-  //   this.applyAllFilters();
-  // }
-
-  // onDateRangeChange(range: any) {
-  //   if (!range?.startDate || !range?.endDate) {
-  //     this.selectedDateRange = null;
-  //     this.applyAllFilters();
-  //     return;
-  //   }
-
-  //   this.selectedDateRange = {
-  //     startDate: moment(range.startDate, 'MM/DD/YYYY'),
-  //     endDate: moment(range.endDate, 'MM/DD/YYYY'),
-  //   };
-
-  //   console.log('normalized range:', {
-  //     start: this.selectedDateRange.startDate.format('YYYY-MM-DD'),
-  //     end: this.selectedDateRange.endDate.format('YYYY-MM-DD'),
-  //   });
-
-  //   this.applyAllFilters();
-  // }
-
-  // onDateRangeChange(range: any) {
-  //   if (!range?.startDate || !range?.endDate) {
-  //     this.selectedDateRange = null;
-  //     this.applyAllFilters();
-  //     return;
-  //   }
-
-  //   // 🔥 IMPORTANT: range.startDate IS ALREADY A MOMENT
-  //   this.selectedDateRange = {
-  //     startDate: range.startDate.clone().startOf('day'),
-  //     endDate: range.endDate.clone().endOf('day'),
-  //   };
-
-  //   console.log('normalized range:', {
-  //     start: this.selectedDateRange.startDate.format('YYYY-MM-DD'),
-  //     end: this.selectedDateRange.endDate.format('YYYY-MM-DD'),
-  //   });
-
-  //   this.applyAllFilters();
-  // }
+ 
 
   onDateRangeChange(range: any) {
     if (!range?.startDate || !range?.endDate) {
@@ -1024,10 +587,7 @@ export class Dashbord implements OnInit {
 
     console.log(range.startDate, range.endDate);
 
-    // this.selectedDateRange = {
-    //   startDate: moment(range.startDate).startOf('day'),
-    //   endDate: moment(range.endDate).endOf('day'),
-    // };
+   
 
     const start = moment(range.startDate.$d).startOf('day');
     const end = moment(range.endDate.$d).endOf('day');
