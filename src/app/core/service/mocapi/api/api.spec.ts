@@ -115,22 +115,7 @@ describe('ApiService', () => {
   /* =====================================================
      USERS
   ===================================================== */
-
-  // it('should load users once and cache them', () => {
-  //   service.user.set(mockUser);
-
-  //   service.getUsers$().pipe(take(1)).subscribe(users => {
-  //     expect(users.length).toBe(1);
-  //   });
-
-  //   const req = httpMock.expectOne(`${API}/user`);
-  //   req.flush([mockUser]);
-
-  //   // second call → cached → no HTTP
-  //   service.getUsers$().pipe(take(1)).subscribe();
-  //   httpMock.expectNone(`${API}/user`);
-  // });
-
+ 
   it('should load users once and cache them', () => {
     service.user.set(mockUser);
     (service as any).usersLoaded = false;
@@ -183,33 +168,6 @@ describe('ApiService', () => {
   /* =====================================================
      TASKS
   ===================================================== */
-
-  // it('should load tasks and cache them', () => {
-  //   service.user.set(mockUser);
-
-  //   service.getTasks$().pipe(take(1)).subscribe(tasks => {
-  //     expect(tasks.length).toBe(1);
-  //   });
-
-  //   const req = httpMock.expectOne(`${API}/tasks`);
-  //   req.flush([{ id: 't1', createdBy: '1' }]);
-  // });
-
-// it('should load tasks and cache them', () => {
-//   service.user.set(mockUser);
-//   (service as any).tasksLoaded = false;
-
-//   service.getTasks$().pipe(take(1)).subscribe(tasks => {
-//     expect(tasks.length).toBe(1);
-//   });
-
-//   const req = httpMock.expectOne(`${API}/tasks`);
-//   req.flush([{ id: '1', createdBy: '1' }]);
-
-//   // cached second call
-//   service.getTasks$().pipe(take(1)).subscribe();
-//   httpMock.expectNone(`${API}/tasks`);
-// });
 
   it('should load tasks and cache them', () => {
     service.user.set(mockUser);
@@ -326,43 +284,6 @@ describe('ApiService', () => {
      COUNTRIES
   ===================================================== */
 
-  // it('should load countries once', () => {
-  //   service.getCountries$().pipe(take(1)).subscribe(list => {
-  //     expect(list).toEqual(['India', 'USA']);
-  //   });
-
-  //   const req = httpMock.expectOne(
-  //     'https://restcountries.com/v3.1/all?fields=name'
-  //   );
-
-  //   req.flush([
-  //     { name: { common: 'India' } },
-  //     { name: { common: 'USA' } },
-  //   ]);
-  // });
-
-  // it('should load countries once', () => {
-  //   service.getCountries$().pipe(take(1)).subscribe(list => {
-  //     expect(list).toEqual(['India', 'USA']);
-  //   });
-
-  //   const req = httpMock.expectOne(
-  //     'https://restcountries.com/v3.1/all?fields=name'
-  //   );
-
-  //   req.flush([
-  //     { name: { common: 'India' } },
-  //     { name: { common: 'USA' } },
-  //   ]);
-
-  //   // second call → cached → no HTTP
-  //   service.getCountries$().pipe(take(1)).subscribe();
-  //   httpMock.expectNone(
-  //     'https://restcountries.com/v3.1/all?fields=name'
-  //   );
-  // });
-
- 
 
   it('should load countries once', () => {
     (service as any).countriesLoaded = false; // ensure fresh state
