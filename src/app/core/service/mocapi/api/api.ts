@@ -11,6 +11,7 @@ import {
   take,
 } from 'rxjs';
 import { Router } from '@angular/router';
+import { CommonApiService } from './common-api.service';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -40,7 +41,8 @@ export class ApiService {
   overlayOpen$ = this.overlayOpenSubject.asObservable();
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private api: CommonApiService
   ) { }
 
   private currentUserSubject = new BehaviorSubject<any | null>(null);
