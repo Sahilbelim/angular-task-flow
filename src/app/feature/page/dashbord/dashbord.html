@@ -258,23 +258,24 @@
                                     </th>
 
 
-                                <th class="px-5 py-3 font-semibold whitespace-nowrap">
-                                    <div class="flex justify-center">
-                                        <select class="
-                         
-                                        rounded-lg
-                                        border border-blue-200
-                                        bg-white
-                                        px-3 py-1
-                                        text-xs font-semibold
-                                        focus:ring-2 focus:ring-blue-500
-                                      " [(ngModel)]="statusFilter" (ngModelChange)="filterByStatus()">
+                                <th class="  font-semibold whitespace-nowrap">
+                                    <div class="relative inline-block w-40">
+                                        <select class="   appearance-none w-full rounded-lg bg-white  border border-blue-200
+           text-xs font-semibold  
+           focus:ring-1 focus:ring-blue-500
+           px-3 py-2 pr-8 " [(ngModel)]="statusFilter" (ngModelChange)="filterByStatus()">
                                             <option value="all">Status</option>
-                                            <option value="pending">Pending</option>
-                                            <option value="in-progress">In Progress</option>
-                                            <option value="completed">Completed</option>
+                                            <option class="font-medium" value="pending">Pending</option>
+                                            <option class="font-medium" value="in-progress">In Progress</option>
+                                            <option class="font-medium  " value="completed">Completed</option>
                                         </select>
+                                        <div class="pointer-events-none absolute inset-y-0 right-2 flex items-center text-gray-600">
+                                        <i class="bx bx-chevron-down   ">
+                                        </i>
+                                        </div>
+                                      
                                     </div>
+                                    
                                 </th>
 
 
@@ -711,7 +712,7 @@
         <div class=" min-h-full flex items-start lg:items-center justify-center  px-4  py-10 ">
 
             <!-- MODAL CARD -->
-            <div class="
+            <div #taskScrollContainer class="
               relative
               w-full
               max-w-sm
@@ -736,7 +737,7 @@
                 <form [formGroup]="taskForm" (ngSubmit)="saveTask()" class="flex flex-col gap-4">
 
                     <!-- TASK NAME -->
-                    <input type="text" formControlName="title" placeholder="Task Name" class="
+                    <input #titleInput type="text" formControlName="title" placeholder="Task Name" class="
              h-11 w-full
       rounded-xl
       border border-blue-200
@@ -849,7 +850,7 @@
 
 <!-- DUE DATE (SINGLE DATE PICKER – CONSISTENT UI) -->
 <div class="tf-field relative">
-    <input type="text" ngxDaterangepickerMd [singleDatePicker]="true" [autoApply]="true" [showClearButton]="true"
+    <input #dueDateInput type="text" ngxDaterangepickerMd [singleDatePicker]="true" [autoApply]="true" [showClearButton]="true"
         [locale]="{ format: 'DD/MM/YYYY' }" formControlName="dueDate" placeholder="Due date" class="
       h-11 w-full
       rounded-xl
@@ -879,7 +880,7 @@
                     }
 
                     <!-- ASSIGN USERS -->
-                    <div class="tf-field">
+                    <div #assignUsersInput class="tf-field">
 
 
 

@@ -12,6 +12,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Renderer2, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-users-page',
@@ -26,6 +27,13 @@ import { ReactiveFormsModule } from '@angular/forms';
   templateUrl: './user.html',
 })
 export class UsersPage implements OnInit, OnDestroy {
+
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+  @ViewChild('nameInput') nameInput!: ElementRef;
+  @ViewChild('emailInput') emailInput!: ElementRef;
+  @ViewChild('passwordInput') passwordInput!: ElementRef;
+  @ViewChild('permissionBlock') permissionBlock!: ElementRef;
+
 
   /* =====================
      UI STATE
@@ -194,8 +202,18 @@ export class UsersPage implements OnInit, OnDestroy {
 
 
   submitAdminForm() {
+    // if (this.adminForm.invalid || this.userSaving) {
+    //   this.adminForm.markAllAsTouched();
+    //   return;
+    // }
+
     if (this.adminForm.invalid || this.userSaving) {
       this.adminForm.markAllAsTouched();
+
+      setTimeout(() => {
+        this.scrollToFirstError();
+      });
+
       return;
     }
 
@@ -234,6 +252,35 @@ export class UsersPage implements OnInit, OnDestroy {
         this.userSaving = false;   // 🔓 unlock
         this.adminForm.enable();
       }
+    });
+  }
+  private scrollToFirstError() {
+
+    if (this.adminForm.get('name')?.invalid) {
+      this.scrollTo(this.nameInput);
+      return;
+    }
+
+    if (this.adminForm.get('email')?.invalid) {
+      this.scrollTo(this.emailInput);
+      return;
+    }
+
+    if (!this.isEditMode && this.adminForm.get('password')?.invalid) {
+      this.scrollTo(this.passwordInput);
+      return;
+    }
+
+    if (this.adminForm.errors?.['noPermission']) {
+      this.scrollTo(this.permissionBlock);
+      return;
+    }
+  }
+
+  private scrollTo(element: ElementRef) {
+    element.nativeElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
     });
   }
 

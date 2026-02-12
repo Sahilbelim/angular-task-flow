@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../core/service/mocapi/api/api';
+import { ViewChild, ElementRef } from '@angular/core';
 
 @Component({
     selector: 'app-change-password',
@@ -18,6 +19,12 @@ import { ApiService } from '../../../core/service/mocapi/api/api';
     templateUrl: './change-password.html',
 })
 export class ChangePasswordPage {
+
+
+    @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+    @ViewChild('currentPasswordInput') currentPasswordInput!: ElementRef;
+    @ViewChild('newPasswordInput') newPasswordInput!: ElementRef;
+    @ViewChild('confirmPasswordInput') confirmPasswordInput!: ElementRef;
 
     showCurrent = false;
     showNew = false;
@@ -65,12 +72,22 @@ export class ChangePasswordPage {
        🔁 SUBMIT
     ============================ */
     submit() {
+        // if (this.form.invalid) {
+        //     this.form.markAllAsTouched();
+        //     this.toast.warning('Please fix password errors');
+        //     return;
+        // }
+
         if (this.form.invalid) {
             this.form.markAllAsTouched();
-            this.toast.warning('Please fix password errors');
+            // this.toast.warning('Please fix password errors');
+
+            setTimeout(() => {
+                this.scrollToFirstError();
+            });
+
             return;
         }
-
         
 
         const user = this.api.user();
@@ -96,6 +113,37 @@ export class ChangePasswordPage {
             }
         });
     }
+
+    private scrollToFirstError() {
+
+        if (this.form.get('currentPassword')?.invalid) {
+            this.scrollTo(this.currentPasswordInput);
+            return;
+        }
+
+        if (this.form.get('newPassword')?.invalid) {
+            this.scrollTo(this.newPasswordInput);
+            return;
+        }
+
+        if (
+            this.form.get('confirmPassword')?.invalid ||
+            this.form.errors?.['passwordMismatch']
+        ) {
+            this.scrollTo(this.confirmPasswordInput);
+            return;
+        }
+    }
+
+    private scrollTo(element: ElementRef) {
+        element.nativeElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+
+        element.nativeElement.focus(); // 🔥 optional but recommended
+    }
+
 
     /* ============================
        🔍 PASSWORD HELPERS

@@ -149,4 +149,6 @@ describe('Header', () => {
     expect(apiMock.logout).toHaveBeenCalled();
     expect(toastrMock.success).toHaveBeenCalledWith('Logout successful');
   });
+  
+  
 });

@@ -25,6 +25,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import {  filter } from 'rxjs';
 import moment from 'moment';
+import { ViewChild, ElementRef } from '@angular/core';
 
 
 type TaskStatus = 'pending' | 'in-progress' | 'completed';
@@ -50,6 +51,13 @@ type TaskPriority = 'low' | 'medium' | 'high';
   templateUrl: './dashbord.html',
 })
 export class Dashbord implements OnInit {
+
+
+  @ViewChild('taskScrollContainer') taskScrollContainer!: ElementRef;
+
+  @ViewChild('titleInput') titleInput!: ElementRef;
+  @ViewChild('dueDateInput') dueDateInput!: ElementRef;
+  @ViewChild('assignUsersInput') assignUsersInput!: ElementRef;
 
   /* =====================
      UI STATE
@@ -140,7 +148,7 @@ export class Dashbord implements OnInit {
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
       dueDate: [null,
-        // Validators.required
+        Validators.required
       ],
       status: ['pending' as TaskStatus],
       priority: ['medium' as TaskPriority],
@@ -236,12 +244,20 @@ export class Dashbord implements OnInit {
   ===================== */
   
   saveTask() {
+    // if (this.taskForm.invalid) {
+    //   this.taskForm.markAllAsTouched();
+    //   return;
+    // }
+
     if (this.taskForm.invalid) {
       this.taskForm.markAllAsTouched();
+
+      setTimeout(() => {
+        this.scrollToFirstError();
+      });
+
       return;
     }
-
-
     this.savingTask = true;      // 🔒 lock
     this.taskForm.disable();     // 🔒 UI lock
 
@@ -278,7 +294,43 @@ export class Dashbord implements OnInit {
     });
   }
 
- 
+  private scrollToFirstError() {
+
+    if (this.taskForm.get('title')?.invalid) {
+      this.scrollTo(this.titleInput);
+      return;
+    }
+
+    if (this.taskForm.get('dueDate')?.invalid) {
+      this.scrollTo(this.dueDateInput);
+      return;
+    }
+
+    // Optional: require at least one assigned user
+    if (
+      this.taskForm.get('assignedUsers')?.invalid
+    ) {
+      this.scrollTo(this.assignUsersInput);
+      return;
+    }
+  }
+
+  private scrollTo(element: ElementRef) {
+    if (!element) return;
+
+    const container = this.taskScrollContainer?.nativeElement;
+    const el = element.nativeElement;
+
+    if (container && el) {
+      container.scrollTo({
+        top: el.offsetTop - 80,
+        behavior: 'smooth'
+      });
+
+      setTimeout(() => el.focus(), 300);
+    }
+  }
+
 
   editTask(task: any) {
     this.editingTask = task;

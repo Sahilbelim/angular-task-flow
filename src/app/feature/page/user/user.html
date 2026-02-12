@@ -1,4 +1,4 @@
- <div class=" min-h-[calc(100vh-60px)] overflow-x-hidden">
+<div class=" min-h-[calc(100vh-60px)] overflow-x-hidden">
 
 
     <div class="min-h-screen pt-[83px] bg-gradient-to-br from-blue-100 via-sky-100 to-indigo-200">
@@ -6,86 +6,86 @@
         <div class="w-full lg:max-w-7xl xl:max-w-full mx-auto p-6">
 
             <!-- STATS -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                
-                
-                    @if (loading) {
-                
-                    @for(i of [1,2,3,4]; track $index) {
-                    <div class="rounded-2xl bg-white/80 p-6 animate-pulse">
-                        <div class="h-4 w-24 bg-gray-200 rounded mb-3"></div>
-                        <div class="h-8 w-16 bg-gray-300 rounded mb-2"></div>
-                        <div class="h-3 w-32 bg-gray-200 rounded"></div>
-                    </div>
-                    }
-                
-                    }
-                    @else {
-                
-                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                        <div class="absolute top-5 right-5"><i class="bx bx-group text-3xl text-blue-300"></i>
-                        </div>
-                        <p class="text-sm font-medium text-blue-600 mb-1">
-                            Total Users
-                        </p>
-                
-                        <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
-                        {{ totalUsers }}
-                        </h3>
-                
-                        <p class="text-sm text-gray-500">
-                        Users in workspace
-                        </p>
-                    </div>
-                
-                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                        <div class="absolute top-5 right-5"><i class="bx bx-user-check   text-3xl text-green-300"></i>
-                        </div>
-                        <p class="text-sm font-medium text-green-600 mb-1">
-                        Manage Users
-                        </p>
-                
-                        <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
-                    {{ manageUserCount }}
-                        </h3>
-                
-                        <p class="text-sm text-gray-500">
-                Can add / edit users
-                        </p>
-                    </div>
-                
-                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                        <div class="absolute top-5 right-5"><i class="bx bx-task   text-3xl text-orange-300"></i>
-                        </div>
-                        <p class="text-sm font-medium text-orange-400 mb-1">
-                        Create / Edit Tasks
-                        </p>
-                
-                        <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
-                        {{ createEditTaskCount }}
-                        </h3>
-                
-                        <p class="text-sm text-gray-500">
-                            Task management access
-                        </p>
-                    </div>
-                
-                    <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
-                        <div class="absolute top-5 right-5"><i class="bx bx-trash text-3xl text-red-300"></i></div>
-                        <p class="text-sm font-medium text-red-600 mb-1">
-                        Delete Tasks
-                        </p>
-                
-                        <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
-                        {{ deleteTaskCount }}
-                        </h3>
-                
-                        <p class="text-sm text-gray-500">
-                        High-risk permission
-                        </p>
-                    </div>
-                    }   
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+
+
+                @if (loading) {
+
+                @for(i of [1,2,3,4]; track $index) {
+                <div class="rounded-2xl bg-white/80 p-6 animate-pulse">
+                    <div class="h-4 w-24 bg-gray-200 rounded mb-3"></div>
+                    <div class="h-8 w-16 bg-gray-300 rounded mb-2"></div>
+                    <div class="h-3 w-32 bg-gray-200 rounded"></div>
                 </div>
+                }
+
+                }
+                @else {
+
+                <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                    <div class="absolute top-5 right-5"><i class="bx bx-group text-3xl text-blue-300"></i>
+                    </div>
+                    <p class="text-sm font-medium text-blue-600 mb-1">
+                        Total Users
+                    </p>
+
+                    <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                        {{ totalUsers }}
+                    </h3>
+
+                    <p class="text-sm text-gray-500">
+                        Users in workspace
+                    </p>
+                </div>
+
+                <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                    <div class="absolute top-5 right-5"><i class="bx bx-user-check   text-3xl text-green-300"></i>
+                    </div>
+                    <p class="text-sm font-medium text-green-600 mb-1">
+                        Manage Users
+                    </p>
+
+                    <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                        {{ manageUserCount }}
+                    </h3>
+
+                    <p class="text-sm text-gray-500">
+                        Can add / edit users
+                    </p>
+                </div>
+
+                <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                    <div class="absolute top-5 right-5"><i class="bx bx-task   text-3xl text-orange-300"></i>
+                    </div>
+                    <p class="text-sm font-medium text-orange-400 mb-1">
+                        Create / Edit Tasks
+                    </p>
+
+                    <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                        {{ createEditTaskCount }}
+                    </h3>
+
+                    <p class="text-sm text-gray-500">
+                        Task management access
+                    </p>
+                </div>
+
+                <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 ">
+                    <div class="absolute top-5 right-5"><i class="bx bx-trash text-3xl text-red-300"></i></div>
+                    <p class="text-sm font-medium text-red-600 mb-1">
+                        Delete Tasks
+                    </p>
+
+                    <h3 class="text-3xl font-extrabold text-gray-800 mb-2">
+                        {{ deleteTaskCount }}
+                    </h3>
+
+                    <p class="text-sm text-gray-500">
+                        High-risk permission
+                    </p>
+                </div>
+                }
+            </div>
 
             <!-- TABLE CARD -->
             <div class="mt-5 bg-white/90 backdrop-blur-xl rounded-2xl border border-blue-100 p-6 shadow">
@@ -106,7 +106,7 @@
                     } @else {
 
                     <!--  FILTER BAR -->
-                    
+
                     <div class="flex flex-col gap-3
                 sm:flex-row sm:items-center
                 w-full md:w-auto md:flex-1">
@@ -114,10 +114,10 @@
                         <input type="text" placeholder="Search by name or email" [(ngModel)]="searchText"
                             (ngModelChange)="filterBySearch()"
                             class="h-12 w-full sm:flex-1 rounded-xl border border-blue-200 bg-blue-50 px-4 text-sm focus:ring-2 focus:ring-blue-500 transition" />
- 
-                                
-        <div class="relative  ">
-            <select [(ngModel)]="selectedPageSize" (ngModelChange)="onPageSizeChange($event)" class="
+
+
+                        <div class="relative  ">
+                            <select [(ngModel)]="selectedPageSize" (ngModelChange)="onPageSizeChange($event)" class="
               h-12 w-full
               rounded-xl
               border border-blue-200
@@ -128,23 +128,23 @@
               transition
               appearance-none
             ">
-                <option value="" disabled>Select Page Size</option>
-                @for (size of pageSizeOptions; track $index) {
-                <option [value]="size">{{ size }}</option>
-                }
-            </select>
-        
-            <!-- Chevron icon (same logic as password eye) -->
-            <i class="bx bx-chevron-down
+                                <option value="" disabled>Select Page Size</option>
+                                @for (size of pageSizeOptions; track $index) {
+                                <option [value]="size">{{ size }}</option>
+                                }
+                            </select>
+
+                            <!-- Chevron icon (same logic as password eye) -->
+                            <i class="bx bx-chevron-down
                    absolute right-4 top-1/2 -translate-y-1/2
                    text-gray-500 pointer-events-none">
-            </i>
-        </div>
+                            </i>
+                        </div>
 
-                    
+
                         <!-- SAME ICON AS ALL DROPDOWNS -->
-                    
-                        
+
+
                     </div>
 
                     <!-- RIGHT -->
@@ -161,7 +161,7 @@
 
 
                 <!-- TABLE -->
-                <div class="overflow-x-auto mt-4">
+                <div class="overflow-x-auto ">
                     <table class="min-w-[900px] w-full table-auto border-collapse text-sm">
 
                         <!-- ================= HEADER ================= -->
@@ -225,7 +225,7 @@
 
                                 <td class="px-5 py-3">
                                     <div class="flex items-center gap-3">
-                                      
+
                                         <span class="font-medium text-gray-900">
                                             {{ user.name }}
                                         </span>
@@ -238,37 +238,39 @@
 
                                 <td class="px-5 py-3 text-left space-x-2">
                                     @if(user.permissions?.createUser){
-                                        <span class="inline-flex px-3 py-1 rounded-full text-xs bg-green-100 text-green-700 border-green-300 font-semibold border"  >
-                                Manage Users
-                                        </span>
+                                    <span
+                                        class="inline-flex px-3 py-1 rounded-full text-xs bg-green-100 text-green-700 border-green-300 font-semibold border">
+                                        Manage Users
+                                    </span>
                                     }
                                     @if(user.permissions?.createTask){
                                     <span
                                         class="inline-flex px-3 py-1 rounded-full text-xs bg-blue-100 text-blue-700 border-blue-300 font-semibold border">
-                                    Create Task
+                                        Create Task
                                     </span>
                                     }@if(user.permissions?.editTask){
                                     <span
                                         class="inline-flex px-3 py-1 rounded-full text-xs bg-orange-100 text-orange-700 border-orange-300 font-semibold border">
-                                    Edit Task
+                                        Edit Task
                                     </span>
                                     }@if(user.permissions?.deleteTask){
                                     <span
                                         class="inline-flex px-3 py-1 rounded-full text-xs bg-red-100 text-red-700 border-red-300 font-semibold border">
-                                    Delete Task
+                                        Delete Task
                                     </span>
                                     }
-                                    
-                                  
-                                </td>
-                                
-                                
 
-                               
+
+                                </td>
+
+
+
+
                                 <td class="px-5 py-3 text-left space-x-4">
-                                
+
                                     <!-- EDIT -->
-                                    <button (click)="canManageUsers() && openEdit(user)" [disabled]="!canManageUsers()" class="font-medium transition
+                                    <button (click)="canManageUsers() && openEdit(user)" [disabled]="!canManageUsers()"
+                                        class="font-medium transition
                                            text-blue-600 hover:underline
                                            disabled:text-gray-400
                                            disabled:no-underline
@@ -276,9 +278,10 @@
                                         [title]="!canManageUsers() ? 'You do not have permission to edit users' : 'Edit user'">
                                         Edit
                                     </button>
-                                
+
                                     <!-- DELETE -->
-                                    <button (click)="canManageUsers() && deleteUser(user)" [disabled]="!canManageUsers()" class="font-medium transition
+                                    <button (click)="canManageUsers() && deleteUser(user)"
+                                        [disabled]="!canManageUsers()" class="font-medium transition
                                            text-red-600 hover:underline
                                            disabled:text-gray-400
                                            disabled:no-underline
@@ -286,7 +289,7 @@
                                         [title]="!canManageUsers() ? 'You do not have permission to delete users' : 'Delete user'">
                                         Delete
                                     </button>
-                                
+
                                 </td>
 
                             </tr>
@@ -324,7 +327,7 @@
                             Start by adding users to manage access and permissions.
                         </p>
 
-                      
+
                     </div>
                     }
 
@@ -338,10 +341,10 @@
                     </p>
 
                     @if(filteredUsers.length > 5){
-                        <pagination-controls (pageChange)="p = $event" previousLabel="Prev" nextLabel="Next">
-                        </pagination-controls>
+                    <pagination-controls (pageChange)="p = $event" previousLabel="Prev" nextLabel="Next">
+                    </pagination-controls>
                     }
-                   
+
                 </div>
 
             </div>
@@ -353,7 +356,7 @@
         </div>
 
         <!-- SIDEBAR -->
-<div class="fixed top-[64px] right-0
+        <div class="fixed top-[64px] right-0
             h-[calc(100dvh-60px)]
             w-full sm:w-[420px]
             max-w-full
@@ -361,180 +364,192 @@
             shadow-2xl
             overflow-hidden
             flex flex-col">
-<div class="shrink-0 px-6 py-5 border-b border-blue-100 flex justify-between">
-    <div>
-        <h2 class="text-xl font-extrabold text-blue-800">
-            {{ isEditMode ? 'Edit User' : 'Create User' }}
-        </h2>
-        <p class="text-sm text-blue-500">
+            <div class="shrink-0 px-6 py-5 border-b border-blue-100 flex justify-between">
+                <div>
+                    <h2 class="text-xl font-extrabold text-blue-800">
+                        {{ isEditMode ? 'Edit User' : 'Create User' }}
+                    </h2>
+                    <!-- <p class="text-sm text-blue-500">
             {{ isEditMode ? 'Update user permissions' : 'Create a new user' }}
-        </p>
-    </div>
+        </p> -->
+                </div>
 
-    <button (click)="closeSidebar()"   [disabled]="userSaving" class="w-9 h-9 rounded-full bg-red-50 text-red-600 hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed">
-        ✕
-    </button>
-</div>
+                <button (click)="closeSidebar()" [disabled]="userSaving"
+                    class="w-9 h-9 rounded-full bg-red-50 text-red-600 hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed">
+                    ✕
+                </button>
+            </div>
 
+<div #scrollContainer class="flex-1 overflow-y-auto overscroll-contain px-6 py-6">
 
-<div class="flex-1 overflow-y-auto overscroll-contain px-6 py-6">
-        <p class="text-sm text-blue-500 mb-6">
-            {{ isEditMode
-            ? 'Update user permissions and access'
-            : 'Create a new user and assign permissions'
-            }}
-        </p>
-        
-        <!-- FORM -->
-        <form [formGroup]="adminForm" (ngSubmit)="submitAdminForm()" class="space-y-5">
-            <!-- NAME -->
-            <div>
-                <label class="text-sm font-semibold text-blue-700">
-                    Full Name
-                </label>
-                <input formControlName="name" placeholder="John Doe" class="w-full mt-1 rounded-xl
+            <!-- <div class="flex-1 overflow-y-auto overscroll-contain px-6 py-6"> -->
+                <p class="text-sm text-blue-500 mb-6">
+                    {{ isEditMode
+                    ? 'Update user permissions and access'
+                    : 'Create a new user and assign permissions'
+                    }}
+                </p>
+
+                <!-- FORM -->
+                <form [formGroup]="adminForm" (ngSubmit)="submitAdminForm()" class="space-y-5">
+                    <!-- NAME -->
+                    <div>
+                        <label class="text-sm font-semibold text-blue-700">
+                            Full Name
+                        </label>
+                        <input #nameInput formControlName="name" placeholder="John Doe" class="w-full mt-1 rounded-xl
                          bg-blue-50 border border-blue-200
                          px-4 py-3
                          focus:ring-2 focus:ring-blue-500
-                         transition" [class.text-gray-500]="isEditMode"
-  [class.cursor-not-allowed]="isEditMode" />
+                         transition" [class.text-gray-500]="isEditMode" [class.cursor-not-allowed]="isEditMode" />
                         @if (adminForm.get('name')?.touched && adminForm.get('name')?.invalid) {
                         <p class="text-red-500 text-xs mt-1">Full name is required</p>
                         }
 
-            </div>
-        
-            <!-- EMAIL -->
-            <div>
-                <label class="text-sm font-semibold text-blue-700">
-                    Email
-                </label>
-                <input formControlName="email" placeholder="user@example.com" class="w-full mt-1 rounded-xl
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div>
+                        <label class="text-sm font-semibold text-blue-700">
+                            Email
+                        </label>
+                        <input #emailInput formControlName="email" placeholder="user@example.com" class="w-full mt-1 rounded-xl
                          bg-blue-50 border border-blue-200
                          px-4 py-3
                          focus:ring-2 focus:ring-blue-500
-                         transition" [class.text-gray-500]="isEditMode"
-  [class.cursor-not-allowed]="isEditMode"/>
-                    @if (adminForm.get('email')?.touched && adminForm.get('email')?.invalid) {
-                    <p class="text-red-500 text-xs mt-1">
-                        @if (adminForm.get('email')?.errors?.['required']) {
-                        Email is required
+                         transition" [class.text-gray-500]="isEditMode" [class.cursor-not-allowed]="isEditMode" />
+                        @if (adminForm.get('email')?.touched && adminForm.get('email')?.invalid) {
+                        <p class="text-red-500 text-xs mt-1">
+                            @if (adminForm.get('email')?.errors?.['required']) {
+                            Email is required
+                            }
+                            @else if (adminForm.get('email')?.errors?.['email']) {
+                            Invalid email format
+                            }
+                        </p>
                         }
-                        @else if (adminForm.get('email')?.errors?.['email']) {
-                        Invalid email format
-                        }
-                    </p>
-                    }
 
 
-            </div>
-        
-            <!-- PASSWORD (ONLY CREATE MODE) -->
-            @if (!isEditMode) {
-            <div>
-                <label class="text-sm font-semibold text-blue-700">
-                    Password
-                </label>
-                <div class="relative">
-        
-                    <input [type]="showPassword ? 'text' : 'password'" securePassword formControlName="password" placeholder="••••••••" class="w-full mt-1 rounded-xl
+                    </div>
+
+                    <!-- PASSWORD (ONLY CREATE MODE) -->
+                    @if (!isEditMode) {
+                    <div>
+                        <label class="text-sm font-semibold text-blue-700">
+                            Password
+                        </label>
+                        <div class="relative">
+
+                            <input #passwordInput [type]="showPassword ? 'text' : 'password'" securePassword formControlName="password"
+                                placeholder="••••••••" class="w-full mt-1 rounded-xl
                          bg-blue-50 border border-blue-200
                          px-4 py-3
                          focus:ring-2 focus:ring-blue-500
                          transition" />
-                    <button type="button" (click)="showPassword = !showPassword" class="absolute right-4 top-1/2 -translate-y-1/2
+                            <button type="button" (click)="showPassword = !showPassword" class="absolute right-4  top-7 flex items-center -translate-y-1/2
                                          text-gray-500 hover:text-blue-600">
-                        <i class="bx" [class.bx-eye]="!showPassword" [class.bx-eye-slash]="showPassword"></i>
-                    </button>
+                                <i class="bx" [class.bx-eye]="!showPassword" [class.bx-eye-slash]="showPassword"></i>
+                            </button>
 
-                </div>
-                @if (!isEditMode && password?.touched && password?.invalid) {
-                
-                
-                @if (password?.errors?.['required']) {
-                <p class="text-red-500 text-xs mt-1">
-                    Password is required
-                </p>
-                }
-                
-               
-                @else {
-                <div class="mt-3 space-y-1 text-sm">
-                
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasUppercase" [class.text-red-500]="!hasUppercase">
-                        <i class="bx" [class.bx-check-circle]="hasUppercase" [class.bx-x-circle]="!hasUppercase"></i>
-                        Uppercase letter
-                    </div>
-                
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasLowercase" [class.text-red-500]="!hasLowercase">
-                        <i class="bx" [class.bx-check-circle]="hasLowercase" [class.bx-x-circle]="!hasLowercase"></i>
-                        Lowercase letter
-                    </div>
-                
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasNumber" [class.text-red-500]="!hasNumber">
-                        <i class="bx" [class.bx-check-circle]="hasNumber" [class.bx-x-circle]="!hasNumber"></i>
-                        Number
-                    </div>
-                
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasSpecialChar" [class.text-red-500]="!hasSpecialChar">
-                        <i class="bx" [class.bx-check-circle]="hasSpecialChar" [class.bx-x-circle]="!hasSpecialChar"></i>
-                        Special character
-                    </div>
-                
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasMinLength" [class.text-red-500]="!hasMinLength">
-                        <i class="bx" [class.bx-check-circle]="hasMinLength" [class.bx-x-circle]="!hasMinLength"></i>
-                        Min 8 characters
-                    </div>
-                
-                    <div class="flex items-center gap-2" [class.text-green-600]="hasMaxLength" [class.text-red-500]="!hasMaxLength">
-                        <i class="bx" [class.bx-check-circle]="hasMaxLength" [class.bx-x-circle]="!hasMaxLength"></i>
-                        Max 32 characters
-                    </div>
-                
-                </div>
-                }
-                }
+                        </div>
+                        @if (!isEditMode && password?.touched && password?.invalid) {
 
 
-            </div>
-            }
-        
-            <!-- PERMISSIONS -->
-            <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-3">
-                <p class="text-sm font-semibold text-blue-700">
-                    User Permissions
-                </p>
-        
-                <label class="flex items-center gap-3 text-sm text-gray-700">
-                    <input type="checkbox" formControlName="createUser" />
-                    Manage Users
-                </label>
-        
-                <label class="flex items-center gap-3 text-sm text-gray-700">
-                    <input type="checkbox" formControlName="createTask" />
-                    Create Tasks
-                </label>
-        
-                <label class="flex items-center gap-3 text-sm text-gray-700">
-                    <input type="checkbox" formControlName="editTask" />
-                    Edit Tasks
-                </label>
-        
-                <label class="flex items-center gap-3 text-sm text-gray-700">
-                    <input type="checkbox" formControlName="deleteTask" />
-                    Delete Tasks
-                </label>
-                @if (adminForm.errors?.['noPermission'] && adminForm.touched) {
-                <p class="text-red-500 text-xs mt-2">
-                    Select at least one permission
-                </p>
-                }
+                        @if (password?.errors?.['required']) {
+                        <p class="text-red-500 text-xs mt-1">
+                            Password is required
+                        </p>
+                        }
 
-            </div>
-        
-            <!-- SUBMIT -->
-            
-        <button type="submit" [disabled]="userSaving  " class="
+
+                        @else {
+                        <div class="mt-3 space-y-1 text-sm">
+
+                            <div class="flex items-center gap-2" [class.text-green-600]="hasUppercase"
+                                [class.text-red-500]="!hasUppercase">
+                                <i class="bx" [class.bx-check-circle]="hasUppercase"
+                                    [class.bx-x-circle]="!hasUppercase"></i>
+                                Uppercase letter
+                            </div>
+
+                            <div class="flex items-center gap-2" [class.text-green-600]="hasLowercase"
+                                [class.text-red-500]="!hasLowercase">
+                                <i class="bx" [class.bx-check-circle]="hasLowercase"
+                                    [class.bx-x-circle]="!hasLowercase"></i>
+                                Lowercase letter
+                            </div>
+
+                            <div class="flex items-center gap-2" [class.text-green-600]="hasNumber"
+                                [class.text-red-500]="!hasNumber">
+                                <i class="bx" [class.bx-check-circle]="hasNumber" [class.bx-x-circle]="!hasNumber"></i>
+                                Number
+                            </div>
+
+                            <div class="flex items-center gap-2" [class.text-green-600]="hasSpecialChar"
+                                [class.text-red-500]="!hasSpecialChar">
+                                <i class="bx" [class.bx-check-circle]="hasSpecialChar"
+                                    [class.bx-x-circle]="!hasSpecialChar"></i>
+                                Special character
+                            </div>
+
+                            <div class="flex items-center gap-2" [class.text-green-600]="hasMinLength"
+                                [class.text-red-500]="!hasMinLength">
+                                <i class="bx" [class.bx-check-circle]="hasMinLength"
+                                    [class.bx-x-circle]="!hasMinLength"></i>
+                                Min 8 characters
+                            </div>
+
+                            <div class="flex items-center gap-2" [class.text-green-600]="hasMaxLength"
+                                [class.text-red-500]="!hasMaxLength">
+                                <i class="bx" [class.bx-check-circle]="hasMaxLength"
+                                    [class.bx-x-circle]="!hasMaxLength"></i>
+                                Max 32 characters
+                            </div>
+
+                        </div>
+                        }
+                        }
+
+
+                    </div>
+                    }
+
+                    <!-- PERMISSIONS -->
+                    <div #permissionBlock class="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-3">
+                        <p class="text-sm font-semibold text-blue-700">
+                            User Permissions
+                        </p>
+
+                        <label class="flex items-center gap-3 text-sm text-gray-700">
+                            <input type="checkbox" formControlName="createUser" />
+                            Manage Users
+                        </label>
+
+                        <label class="flex items-center gap-3 text-sm text-gray-700">
+                            <input type="checkbox" formControlName="createTask" />
+                            Create Tasks
+                        </label>
+
+                        <label class="flex items-center gap-3 text-sm text-gray-700">
+                            <input type="checkbox" formControlName="editTask" />
+                            Edit Tasks
+                        </label>
+
+                        <label class="flex items-center gap-3 text-sm text-gray-700">
+                            <input type="checkbox" formControlName="deleteTask" />
+                            Delete Tasks
+                        </label>
+                        @if (adminForm.errors?.['noPermission'] && adminForm.touched) {
+                        <p class="text-red-500 text-xs mt-2">
+                            Select at least one permission
+                        </p>
+                        }
+
+                    </div>
+
+                    <!-- SUBMIT -->
+
+                    <button type="submit" [disabled]="userSaving  " class="
             w-full
             bg-gradient-to-r from-blue-600 to-indigo-600
             text-white font-semibold py-3 rounded-xl
@@ -542,29 +557,29 @@
             disabled:opacity-60
             disabled:cursor-not-allowed
           ">
-        
-            @if (userSaving) {
-            {{ isEditMode ? 'Updating...' : 'Creating...' }}
-            } @else {
-            {{ isEditMode ? 'Update User' : 'Create User' }}
-            }
-        </button>
 
-           
-          
-        
-             </form>
-         </div>
+                        @if (userSaving) {
+                        {{ isEditMode ? 'Updating...' : 'Creating...' }}
+                        } @else {
+                        {{ isEditMode ? 'Update User' : 'Create User' }}
+                        }
+                    </button>
+
+
+
+
+                </form>
+            </div>
+        </div>
+        }
     </div>
- }
-</div>
 
     @if (showDeleteConfirmPopup && userToDelete) {
-    
-        
+
+
     <!-- BACKDROP -->
     <div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"></div>
-    
+
     <!-- MODAL -->
     <div class="fixed inset-0 z-50 flex items-center justify-center px-4">
         <div class="
@@ -577,20 +592,20 @@
           shadow-[0_25px_60px_rgba(239,68,68,0.35)]
           animate-[fadeIn_0.2s_ease-out]
         ">
-    
+
             <!-- ICON -->
             <div class="flex justify-center mb-3">
                 <div class="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center">
-                    <i class="bx bx-message-circle-exclamation text-2xl text-red-600"></i>
-                    
+                    <i class="bx bx-trash text-2xl text-red-600"></i>
+
                 </div>
             </div>
-    
+
             <!-- TITLE -->
             <h3 class="text-lg font-bold text-red-700 text-center">
                 Confirm User Deletion
             </h3>
-    
+
             <!-- MESSAGE -->
             <p class="text-sm text-gray-600 text-center mt-3 leading-relaxed">
                 You are about to permanently delete
@@ -602,25 +617,24 @@
                     This action cannot be undone.
                 </span>
             </p>
-    
+
             <!-- ACTIONS -->
-            <div class="mt-6 flex justify-end gap-3 h-15">
-               
-    <button (click)="closeAllPopups()" [disabled]="userDeleting" class="
+            <div class="mt-6 flex justify-end gap-3  ">
+
+                <button (click)="closeAllPopups()" [disabled]="userDeleting" class=" w-1/2
         px-4  mt-2
         rounded-xl
         border border-gray-300
+         hover:bg-gray-50 
         text-gray-600
         disabled:opacity-50
         disabled:cursor-not-allowed
       ">
-        Cancel
-    </button>
+                    Cancel
+                </button>
 
-                
-                <button type="button"   (click)="confirmFinalDelete()"
-                [disabled]="userDeleting"
-                 class="w-full mt-2
+
+                <button type="button" (click)="confirmFinalDelete()" [disabled]="userDeleting" class="w-1/2 mt-2
                     border border-red-300
                     text-red-600 py-3 rounded-xl
                     hover:bg-red-50 transition
@@ -631,19 +645,19 @@
                 </button>
 
             </div>
-    
+
         </div>
     </div>
     }
 
     @if (showTaskBlockPopup && userToDelete) {
-    
-<!-- BACKDROP -->
-<div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"></div>
 
-<!-- MODAL -->
-<div class="fixed inset-0 z-50 flex items-center justify-center px-4">
-    <div class="
+    <!-- BACKDROP -->
+    <div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"></div>
+
+    <!-- MODAL -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center px-4">
+        <div class="
       w-full max-w-md
       bg-white
       rounded-2xl
@@ -654,45 +668,45 @@
       animate-[fadeIn_0.2s_ease-out]
     ">
 
-        <!-- ICON -->
-        <div class="flex justify-center mb-3">
-            <div class="h-12 w-12 rounded-full bg-orange-100 flex items-center justify-center">
-                <i class="bx bx-info-circle text-2xl text-orange-600"></i>
+            <!-- ICON -->
+            <div class="flex justify-center mb-3">
+                <div class="h-12 w-12 rounded-full bg-orange-100 flex items-center justify-center">
+                    <i class="bx bx-info-circle text-2xl text-orange-600"></i>
+                </div>
             </div>
-        </div>
 
-        <!-- TITLE -->
-        <h3 class="text-lg font-bold text-orange-600 text-center">
-            User Cannot Be Deleted
-        </h3>
+            <!-- TITLE -->
+            <h3 class="text-lg font-bold text-orange-600 text-center">
+                User Cannot Be Deleted
+            </h3>
 
-        <!-- MESSAGE -->
-        <p class="text-sm text-gray-600 text-center mt-3 leading-relaxed">
-            <span class="font-semibold text-gray-800">
-                {{ userToDelete.name }}
-            </span>
-            currently has one or more tasks assigned.
-            <br />
-            <span class="text-orange-400 font-medium">
-                Please review or reassign these tasks before deleting the user.
-            </span>
-        </p>
+            <!-- MESSAGE -->
+            <p class="text-sm text-gray-600 text-center mt-3 leading-relaxed">
+                <span class="font-semibold text-gray-800">
+                    {{ userToDelete.name }}
+                </span>
+                currently has one or more tasks assigned.
+                <br />
+                <span class="text-orange-400 font-medium">
+                    Please review or reassign these tasks before deleting the user.
+                </span>
+            </p>
 
-        <!-- ACTIONS -->
-        <div class="mt-6 flex justify-end gap-3">
-            <button (click)="closeAllPopups()" class="
-          px-4 py-2
+            <!-- ACTIONS -->
+            <div class="mt-6 flex justify-end gap-3  ">
+                <button (click)="closeAllPopups()" class=" w-1/2
+          px-4 py-3
           rounded-xl
           border border-gray-300
           text-gray-600
           hover:bg-gray-100
           transition
         ">
-                Cancel
-            </button>
+                    Cancel
+                </button>
 
-            <button (click)="goToUserTasks()" class="
-          px-4 py-2 w-full
+                <button (click)="goToUserTasks()" class="
+          px-4 py-3 w-1/2
         border border-orange-300
                     text-orange-600  rounded-xl
                     hover:bg-orange-50  
@@ -701,10 +715,10 @@
           shadow-md
           transition
         ">
-                View Assigned Tasks
-            </button>
+                    View Assigned Tasks
+                </button>
+            </div>
         </div>
     </div>
-</div>
-}
+    }
 </div>

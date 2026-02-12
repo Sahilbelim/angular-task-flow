@@ -85,6 +85,7 @@ body {
     position: relative;
     width: 100%;
 }
+
 /* REMOVE native select arrow (all browsers) */
 .tf-field select {
     appearance: none;
@@ -119,21 +120,23 @@ body {
    NG-SELECT CORE FIX
 ================================ */
 .ng-select .ng-select-container {
-   
+
     max-height: 20px;
     overflow: scroll !important;
 }
 
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder{
-    top: 10px !important ;
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
+    top: 10px !important;
     padding-left: 8px;
 }
+
 /* hide scrollbar but keep scroll */
 .ng-select .ng-select-container,
 .fixed-ng-select .ng-select-container,
 .fixed-ng-select .ng-value-container,
 .ng-dropdown-panel-items {
     scrollbar-width: none;
+   
 }
 
 .ng-select .ng-select-container::-webkit-scrollbar,
@@ -141,6 +144,7 @@ body {
 .fixed-ng-select .ng-value-container::-webkit-scrollbar,
 .ng-dropdown-panel-items::-webkit-scrollbar {
     display: none;
+   
 }
 
 /* ===============================
@@ -191,13 +195,25 @@ body {
 .ng-dropdown-panel {
     z-index: 10000;
     border-radius: 12px;
-    background: white;
+    background: #EFF6FF;
+    margin-top: 2px;
     box-shadow: 0 10px 30px rgba(59, 130, 246, .15);
 }
+.ng-dropdown-panel.ng-select-bottom {
+    margin-top: 5px;
+    /* border-radius: 20px !important; */
+}
 
+.ng-select.ng-select-opened.ng-select-bottom>.ng-select-container
+{
+    border-bottom-right-radius: 12px !important;
+    border-bottom-left-radius: 12px !important;
+    background-color: #EFF6FF !important;
+}
 .ng-dropdown-panel-items {
     max-height: 220px;
     overflow-y: auto;
+    background-color: #EFF6FF;
 }
 
 .tf-ng .ng-option {
@@ -394,6 +410,7 @@ html {
 .md-drppicker .btn.clear svg {
     display: none !important;
 }
+
 /* =========================================
    FIX: BUTTONS VISIBLE AFTER PICKER CLOSE
 ========================================= */
@@ -421,8 +438,9 @@ html {
 .md-drppicker td.start-date.end-date {
     border-radius: 2em !important;
 }
+
 td.available.active.end-date.in-range:hover {
-    border-radius: 0 2em  2em 0 !important;
+    border-radius: 0 2em 2em 0 !important;
 }
 
 /* td.available.active.start-date:hover {

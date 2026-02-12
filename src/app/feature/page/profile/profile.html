@@ -118,9 +118,16 @@
 
                 <!-- REGION -->
               
-                <select formControlName="region" class="w-full rounded-xl border border-blue-200
-                         bg-white px-4 py-3
-                         focus:ring-2 focus:ring-blue-500 outline-none">
+                <div class="relative">
+                <select formControlName="region" class="  w-full h-12
+              rounded-xl
+              border border-blue-200
+              bg-white
+              px-4 pr-10
+              text-sm text-gray-800
+              focus:outline-none focus:ring-2 focus:ring-blue-500
+              transition
+              appearance-none">
                     <option value="" disabled>
                         Select country
                     </option>
@@ -132,7 +139,12 @@
                     }
                 </select>
 
+                <i class="bx bx-chevron-down
+                                   absolute right-4 top-1/2 -translate-y-1/2
+                                   text-gray-500 pointer-events-none">
+                </i>
 
+</div>
                 <!-- BIO -->
                 <div class="md:col-span-2">
                     <textarea rows="4" formControlName="bio" maxlength="250" placeholder="Bio (max 250 characters)"

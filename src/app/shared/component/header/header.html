@@ -61,7 +61,7 @@
                     </a>
                     <a routerLink="/change-password" (click)="closeUserMenu()" class="flex items-center gap-2 px-4 py-3  text-gray-700 hover:bg-blue-50 transition"
                     routerLinkActive="!text-blue-700 font-bold" [routerLinkActiveOptions]="{ exact: true }">
-                        Chnage Password
+                        Change Password
                     </a>
 
                     <button (click)="logout(); closeUserMenu()" class="w-full text-left flex items-center gap-2
@@ -75,20 +75,23 @@
             </div>
             }
 
-            @if (!isLoggedIn) {
+            <!-- @if (!isLoggedIn) {
             <a routerLink="/login" class="px-4 py-2 rounded-xl
                       bg-gradient-to-r from-blue-600 to-indigo-600
                       text-white shadow-md
                       hover:scale-105 transition">
                 Login
             </a>
-            }
+            } -->
         </div>
 
         <!-- MOBILE MENU ICON -->
-        <button class="md:hidden text-3xl text-gray-700" (click)="toggleMenu()">
-            <i class="bx" [class.bx-menu]="!menuOpen" [class.bx-x]="menuOpen"></i>
-        </button>
+         @if(isLoggedIn){
+
+             <button class="md:hidden text-3xl text-gray-700" (click)="toggleMenu()">
+                 <i class="bx" [class.bx-menu]="!menuOpen" [class.bx-x]="menuOpen"></i>
+                </button>
+            }
 
     </div>
 </nav>
@@ -99,7 +102,7 @@
     }
 
 <!-- ================= MOBILE MENU ================= -->
-@if (menuOpen) {
+@if (menuOpen ) {
 
 <!-- BACKDROP -->
 <div class="fixed inset-0 z-40" (click)="closeMenu()"></div>

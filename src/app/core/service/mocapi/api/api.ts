@@ -375,6 +375,7 @@ export class ApiService {
     currentPassword: string,
     newPassword: string
   ) {
+    
     return this.http.get<any>(`${this.API}/user/${userId}`).pipe(
       switchMap(user => {
         if (user.password !== currentPassword) {

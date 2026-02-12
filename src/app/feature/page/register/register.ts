@@ -12,6 +12,8 @@ import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../core/service/mocapi/api/api';
+import { ViewChild, ElementRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-register',
@@ -27,6 +29,11 @@ export class Register {
   showPassword = false;
   showConfirmPassword = false;
   loading = false;
+
+  @ViewChild('nameInput') nameInput!: ElementRef;
+  @ViewChild('emailInput') emailInput!: ElementRef;
+  @ViewChild('passwordInput') passwordInput!: ElementRef;
+  @ViewChild('confirmPasswordInput') confirmPasswordInput!: ElementRef;
 
   constructor(
     private fb: FormBuilder,
@@ -69,12 +76,22 @@ export class Register {
      🟢 SUBMIT
   ========================= */
   submit() {
+    // if (this.registerForm.invalid) {
+    //   this.registerForm.markAllAsTouched();
+    //   this.toastr.warning('Please fix form errors');
+    //   return;
+    // }
+
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
-      this.toastr.warning('Please fix form errors');
+      // this.toastr.warning('Please fix form errors');
+
+      setTimeout(() => {
+        this.scrollToFirstError();
+      });
+
       return;
     }
-
     const form = this.registerForm.getRawValue();
 
     const payload = {
@@ -111,6 +128,41 @@ export class Register {
       },
     });
   }
+
+  private scrollToFirstError() {
+
+    if (this.registerForm.get('name')?.invalid) {
+      this.scrollTo(this.nameInput);
+      return;
+    }
+
+    if (this.registerForm.get('email')?.invalid) {
+      this.scrollTo(this.emailInput);
+      return;
+    }
+
+    if (this.registerForm.get('password')?.invalid) {
+      this.scrollTo(this.passwordInput);
+      return;
+    }
+
+    if (
+      this.registerForm.get('confrimpassword')?.invalid ||
+      this.registerForm.hasError('passwordMismatch')
+    ) {
+      this.scrollTo(this.confirmPasswordInput);
+      return;
+    }
+  }
+  private scrollTo(element: ElementRef) {
+    element.nativeElement.focus();
+
+    element.nativeElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  }
+
 
   /* =========================
      🔍 PASSWORD UI HELPERS

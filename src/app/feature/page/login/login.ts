@@ -10,6 +10,7 @@ import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../core/service/mocapi/api/api';
+import { ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,10 @@ import { ApiService } from '../../../core/service/mocapi/api/api';
   templateUrl: './login.html',
 })
 export class Login {
+
+  @ViewChild('emailInput') emailInput!: ElementRef;
+  @ViewChild('passwordInput') passwordInput!: ElementRef;
+
 
   showPassword = false;
   loginForm: FormGroup;
@@ -37,9 +42,21 @@ export class Login {
   }
 
   submit() {
+    
+    // if (this.loginForm.invalid) {
+    //   this.loginForm.markAllAsTouched();
+    //   this.toastr.warning('Please fill all fields correctly');
+    //   return;
+    // }
+
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
-      this.toastr.warning('Please fill all fields correctly');
+      // this.toastr.warning('Please fill all fields correctly');
+
+      setTimeout(() => {
+        this.scrollToFirstError();
+      });
+
       return;
     }
 
@@ -68,4 +85,27 @@ export class Login {
       }
     });
   }
+
+  private scrollToFirstError() {
+
+    if (this.loginForm.get('email')?.invalid) {
+      this.scrollTo(this.emailInput);
+      return;
+    }
+
+    if (this.loginForm.get('password')?.invalid) {
+      this.scrollTo(this.passwordInput);
+      return;
+    }
+  }
+
+  private scrollTo(element: ElementRef) {
+    element.nativeElement.focus();
+
+    element.nativeElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  }
+
 }
