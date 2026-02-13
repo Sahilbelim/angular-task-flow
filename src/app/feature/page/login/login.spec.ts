@@ -78,19 +78,36 @@ describe('Login', () => {
     expect(component.loginForm.invalid).toBeTrue();
   });
 
-  it('should show warning if form is invalid', () => {
+  // it('should show warning if form is invalid', () => {
+  //   component.loginForm.patchValue({
+  //     email: '',
+  //     password: '',
+  //   });
+
+  //   component.submit();
+
+  //   expect(toastr.warning).toHaveBeenCalledWith(
+  //     'Please fill all fields correctly'
+  //   );
+  //   expect(api.login).not.toHaveBeenCalled();
+  // });
+
+
+  it('should not submit when form is invalid and should scroll to error', fakeAsync(() => {
+
+    spyOn<any>(component, 'scrollToFirstError');
+
     component.loginForm.patchValue({
       email: '',
       password: '',
     });
 
     component.submit();
+    tick(); // flush setTimeout
 
-    expect(toastr.warning).toHaveBeenCalledWith(
-      'Please fill all fields correctly'
-    );
     expect(api.login).not.toHaveBeenCalled();
-  });
+    expect(component['scrollToFirstError']).toHaveBeenCalled();
+  }));
 
   /* =====================================================
      SUBMIT — SUCCESS

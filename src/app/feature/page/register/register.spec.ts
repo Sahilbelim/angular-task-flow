@@ -119,7 +119,37 @@ describe('Register', () => {
      SUBMIT — INVALID FORM
   ===================================================== */
 
-  it('should show warning if form is invalid', () => {
+  // it('should show warning if form is invalid', () => {
+  //   component.registerForm.patchValue({
+  //     name: '',
+  //     email: '',
+  //   });
+
+  //   component.submit();
+
+  //   expect(toastr.warning).toHaveBeenCalledWith('Please fix form errors');
+  //   expect(api.register).not.toHaveBeenCalled();
+  // });
+
+  // it('should not submit when form is invalid and should scroll to error', () => {
+
+  //   spyOn<any>(component, 'scrollToFirstError');
+
+  //   component.registerForm.patchValue({
+  //     name: '',
+  //     email: '',
+  //   });
+
+  //   component.submit();
+
+  //   expect(api.register).not.toHaveBeenCalled();
+  //   expect(component['scrollToFirstError']).toHaveBeenCalled();
+  // });
+
+  it('should not submit when form is invalid and should scroll to error', fakeAsync(() => {
+
+    spyOn<any>(component, 'scrollToFirstError');
+
     component.registerForm.patchValue({
       name: '',
       email: '',
@@ -127,9 +157,11 @@ describe('Register', () => {
 
     component.submit();
 
-    expect(toastr.warning).toHaveBeenCalledWith('Please fix form errors');
+    tick(); // 🔥 executes setTimeout()
+
     expect(api.register).not.toHaveBeenCalled();
-  });
+    expect(component['scrollToFirstError']).toHaveBeenCalled();
+  }));
 
   /* =====================================================
      SUBMIT — SUCCESS

@@ -83,16 +83,32 @@ describe('ChangePasswordPage', () => {
        SUBMIT — INVALID FORM
     ===================================================== */
 
-    it('should show warning if form is invalid', () => {
+    // it('should show warning if form is invalid', () => {
+    //     component.form.patchValue({
+    //         currentPassword: '',
+    //     });
+
+    //     component.submit();
+
+    //     expect(toast.warning).toHaveBeenCalledWith('Please fix password errors');
+    //     expect(api.changePassword).not.toHaveBeenCalled();
+    // });
+
+    it('should not submit when form is invalid and should scroll to error', fakeAsync(() => {
+
+        spyOn<any>(component, 'scrollToFirstError');
+
         component.form.patchValue({
             currentPassword: '',
         });
 
         component.submit();
 
-        expect(toast.warning).toHaveBeenCalledWith('Please fix password errors');
+        tick(); // ⬅️ flush setTimeout()
+
         expect(api.changePassword).not.toHaveBeenCalled();
-    });
+        expect(component['scrollToFirstError']).toHaveBeenCalled();
+    }));
 
     /* =====================================================
        SUBMIT — NO USER

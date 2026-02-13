@@ -122,11 +122,30 @@ describe('Dashbord', () => {
     expect(api.createTaskOptimistic).not.toHaveBeenCalled();
   });
 
+  // it('should create task successfully', fakeAsync(() => {
+  //   api.createTaskOptimistic.and.returnValue(of({}));
+
+  //   component.taskForm.patchValue({
+  //     title: 'New Task',
+  //     status: 'pending',
+  //     priority: 'medium',
+  //     assignedUsers: [],
+  //   });
+
+  //   component.saveTask();
+  //   tick();
+
+  //   expect(api.createTaskOptimistic).toHaveBeenCalled();
+  //   expect(toastr.success).toHaveBeenCalledWith('Task created');
+  //   expect(component.savingTask).toBeFalse();
+  // }));
+
   it('should create task successfully', fakeAsync(() => {
     api.createTaskOptimistic.and.returnValue(of({}));
 
     component.taskForm.patchValue({
       title: 'New Task',
+      dueDate: new Date(), // ✅ REQUIRED FIX
       status: 'pending',
       priority: 'medium',
       assignedUsers: [],
@@ -139,6 +158,7 @@ describe('Dashbord', () => {
     expect(toastr.success).toHaveBeenCalledWith('Task created');
     expect(component.savingTask).toBeFalse();
   }));
+
 
   it('should populate form when editing task', () => {
     const task = {

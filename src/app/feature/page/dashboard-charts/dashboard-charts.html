@@ -1,0 +1,101 @@
+<div class="min-h-screen bg-slate-900 text-white p-6 font-sans">
+    <div class="mb-8 flex justify-between items-center">
+        <div>
+            <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400">
+                Analytics Dashboard
+            </h1>
+            <p class="text-slate-400 mt-1">Real-time insights into Users & Tasks</p>
+        </div>
+        <div class="flex gap-3">
+            <button
+                class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg border border-slate-700 transition-all text-sm font-medium">
+                Export Report
+            </button>
+            <button
+                class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-lg shadow-indigo-500/20 transition-all text-sm font-medium">
+                + New Task
+            </button>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div
+            class="bg-slate-800/50 backdrop-blur-xl rounded-2xl p-5 border border-slate-700 shadow-xl hover:shadow-2xl transition-all duration-300 relative group">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-lg font-semibold text-slate-200">Task Status Distribution</h3>
+                <span class="p-1.5 rounded-md bg-slate-700/50 text-xs text-slate-400">Live</span>
+            </div>
+            <div class="relative h-64 w-full flex justify-center items-center">
+                <canvas id="chartPolar"></canvas>
+            </div>
+            <div class="mt-4 flex justify-center gap-4 text-xs text-slate-400">
+                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500"></span>Completed
+                </div>
+                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-500"></span>In Progress
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="lg:col-span-2 bg-slate-800/50 backdrop-blur-xl rounded-2xl p-5 border border-slate-700 shadow-xl relative">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-slate-200">User Workload & Priority</h3>
+                <div class="bg-slate-900 rounded-lg p-1 flex text-xs">
+                    <button (click)="toggleBarMode('stacked')"
+                        [class]="barMode === 'stacked' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'"
+                        class="px-3 py-1.5 rounded-md transition-all">
+                        Stacked
+                    </button>
+                    <button (click)="toggleBarMode('grouped')"
+                        [class]="barMode === 'grouped' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'"
+                        class="px-3 py-1.5 rounded-md transition-all">
+                        Grouped
+                    </button>
+                </div>
+            </div>
+            <div class="relative h-64 w-full">
+                <canvas id="chartBar"></canvas>
+            </div>
+        </div>
+
+        <div
+            class="lg:col-span-2 bg-slate-800/50 backdrop-blur-xl rounded-2xl p-5 border border-slate-700 shadow-xl relative">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-slate-200">Task Creation Trends</h3>
+                <select (change)="filterTimeRange($event)"
+                    class="bg-slate-900 border border-slate-700 text-slate-300 text-xs rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-1.5">
+                    <option value="all">All Time</option>
+                    <option value="week">Last 7 Days</option>
+                </select>
+            </div>
+            <div class="relative h-64 w-full">
+                <canvas id="chartLine"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-slate-800/50 backdrop-blur-xl rounded-2xl p-5 border border-slate-700 shadow-xl relative">
+            <h3 class="text-lg font-semibold text-slate-200 mb-4">Permission Landscape</h3>
+            <div class="relative h-64 w-full flex justify-center">
+                <canvas id="chartRadar"></canvas>
+            </div>
+        </div>
+
+        <div
+            class="bg-slate-800/50 backdrop-blur-xl rounded-2xl p-5 border border-slate-700 shadow-xl relative flex flex-col items-center">
+            <h3 class="text-lg font-semibold text-slate-200 w-full mb-2">High Priority Breakdown</h3>
+            <div class="relative h-56 w-56">
+                <canvas id="chartDoughnut"></canvas>
+                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                    <span class="text-3xl font-bold text-white">{{ highPriorityTotal }}</span>
+                    <span class="text-xs text-slate-400 uppercase tracking-wider">Tasks</span>
+                </div>
+            </div>
+            <div class="mt-4 text-center">
+                <p class="text-sm text-slate-400">Pending High Priority tasks are currently <span
+                        class="text-amber-400 font-bold">40%</span> of the load.</p>
+            </div>
+        </div>
+
+    </div>
+</div>

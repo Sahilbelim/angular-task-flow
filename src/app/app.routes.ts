@@ -9,6 +9,7 @@ import { AdminUsersPage } from './feature/page/admin-users-page/admin-users-page
 import { UsersPage } from './feature/page/user/user';
 import { ProfilePage } from './feature/page/profile/profile';
 import { ChangePasswordPage } from './feature/page/change-password/change-password';
+import { DashboardCharts } from './feature/page/dashboard-charts/dashboard-charts';
 export const routes: Routes = [
    
     { path: 'dashboard', component: Home, canActivate: [authGuard], },
@@ -34,6 +35,10 @@ export const routes: Routes = [
         path: 'change-password',
         component: ChangePasswordPage,
         canActivate: [authGuard]
+    },
+    {
+        path: 'charts',
+        component: DashboardCharts
     },
     {
         path: '**',
