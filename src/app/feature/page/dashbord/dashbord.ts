@@ -5,7 +5,7 @@ import {
   Validators,
   ReactiveFormsModule,
   FormsModule,
-  FormControl, 
+  FormControl,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
@@ -23,7 +23,7 @@ import { combineLatest } from 'rxjs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
-import {  filter } from 'rxjs';
+import { filter } from 'rxjs';
 import moment from 'moment';
 import { ViewChild, ElementRef } from '@angular/core';
 
@@ -41,10 +41,10 @@ type TaskPriority = 'low' | 'medium' | 'high';
     NgxDaterangepickerMd,
     NgxPaginationModule,
     NgSelectModule,
-      // 👇 DATE PICKER
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatInputModule,
+    // 👇 DATE PICKER
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
 
     DragDropModule,
   ],
@@ -144,7 +144,7 @@ export class Dashbord implements OnInit {
     private fb: FormBuilder,
     private api: ApiService,
     private toastr: ToastrService
-  ) { 
+  ) {
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
       dueDate: [null,
@@ -159,9 +159,129 @@ export class Dashbord implements OnInit {
   /* =====================
      INIT
   ===================== */
- 
-    ngOnInit() {
+
+  // ngOnInit() {
+  //   this.loading = true;
+
+  //   combineLatest([
+  //     this.api.getTasks$(),
+  //     this.api.getUsers$(),
+  //     this.api.taskFilterUser$
+  //   ])
+  //     .pipe(
+  //       filter(([tasks]) => tasks.length > 0)
+  //     )
+  //     .subscribe(([tasks, users, filterUserId]) => {
+
+  //       // build user map
+  //       this.userMap = {};
+  //       users.forEach(u => (this.userMap[u.id] = u));
+  //       this.assignableUsers = users;
+
+  //       // source data only
+  //       this.tasks = [...tasks].sort(
+  //         (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
+  //       );
+  //       console.log('Loaded tasks:', this.tasks);
+
+  //       // apply redirect filter ONCE
+  //       if (filterUserId && !this.redirectFilterApplied) {
+  //         this.redirectFilterApplied = true;
+  //         this.selectedUserFilter = [filterUserId];
+  //       }
+
+  //       // ✅ ALWAYS apply filters here
+  //       this.applyAllFilters();
+
+  //       this.buildAssignedUsersMap();
+  //       this.loading = false;
+  //       this.dataLoaded = true;
+  //     });
+  // }
+
+  // ngOnInit() {
+  //   this.loading = true;
+
+  //   combineLatest([
+  //     this.api.getTasks$(),
+  //     this.api.getUsers$(),
+  //     this.api.taskFilterUser$
+  //   ])
+  //     .pipe(
+  //       filter(([tasks, users]) => tasks !== null && users !== null)
+  //     )
+  //     .subscribe(([tasks, users, filterUserId]) => {
+
+  //       // build user map
+  //       this.userMap = {};
+  //       users.forEach(u => (this.userMap[u.id] = u));
+  //       this.assignableUsers = users;
+
+  //       // source data only (EMPTY ARRAY ALSO VALID)
+  //       this.tasks = [...tasks].sort(
+  //         (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
+  //       );
+
+  //       console.log('Loaded tasks:', this.tasks);
+
+  //       // apply redirect filter ONCE
+  //       if (filterUserId && !this.redirectFilterApplied) {
+  //         this.redirectFilterApplied = true;
+  //         this.selectedUserFilter = [filterUserId];
+  //       }
+
+  //       // apply filters
+  //       this.applyAllFilters();
+  //       this.buildAssignedUsersMap();
+
+  //       // stop loader ALWAYS after first real response
+  //       this.loading = false;
+  //       this.dataLoaded = true;
+  //     });
+  // }
+  // ngOnInit() {
+  //   this.loading = true;
+  //   this.dataLoaded = false;
+
+  //   combineLatest([
+  //     this.api.getTasks$(),
+  //     this.api.getUsers$(),
+  //     this.api.taskFilterUser$
+  //   ])
+  //     .subscribe(([tasks, users, filterUserId]) => {
+
+  //       // WAIT until users are loaded (real backend response indicator)
+  //       if (!users) return;
+
+  //       // build user map
+  //       this.userMap = {};
+  //       users.forEach(u => (this.userMap[u.id] = u));
+  //       this.assignableUsers = users;
+
+  //       // tasks can be empty array — THAT IS VALID DATA
+  //       this.tasks = [...tasks].sort(
+  //         (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
+  //       );
+
+  //       if (filterUserId && !this.redirectFilterApplied) {
+  //         this.redirectFilterApplied = true;
+  //         this.selectedUserFilter = [filterUserId];
+  //       }
+
+  //       this.applyAllFilters();
+  //       this.buildAssignedUsersMap();
+
+  //       // stop skeleton AFTER first real processing
+  //       if (!this.dataLoaded) {
+  //         this.loading = false;
+  //         this.dataLoaded = true;
+  //       }
+  //     });
+  // }
+
+  ngOnInit() {
     this.loading = true;
+    this.dataLoaded = false;
 
     combineLatest([
       this.api.getTasks$(),
@@ -169,30 +289,31 @@ export class Dashbord implements OnInit {
       this.api.taskFilterUser$
     ])
       .pipe(
-        filter(([tasks]) => tasks.length > 0)
+        // 🚀 ignore initial BehaviorSubject values
+        filter(([tasks, users]) => users.length > 0)
       )
       .subscribe(([tasks, users, filterUserId]) => {
 
         // build user map
         this.userMap = {};
-        users.forEach(u => (this.userMap[u.id] = u));
+        users.forEach(u => this.userMap[u.id] = u);
         this.assignableUsers = users;
 
-        // source data only
+        // tasks CAN be empty → valid state
         this.tasks = [...tasks].sort(
           (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
         );
 
-        // apply redirect filter ONCE
+        // redirect filter
         if (filterUserId && !this.redirectFilterApplied) {
           this.redirectFilterApplied = true;
           this.selectedUserFilter = [filterUserId];
         }
 
-        // ✅ ALWAYS apply filters here
         this.applyAllFilters();
-
         this.buildAssignedUsersMap();
+
+        // stop skeleton ONLY AFTER REAL API
         this.loading = false;
         this.dataLoaded = true;
       });
@@ -235,14 +356,14 @@ export class Dashbord implements OnInit {
   getAssignedUsers(taskId: string) {
     return this.assignedUsersMap[taskId] || [];
   }
-   
+
 
 
 
   /* =====================
      SAVE / UPDATE
   ===================== */
-  
+
   saveTask() {
     // if (this.taskForm.invalid) {
     //   this.taskForm.markAllAsTouched();
@@ -351,10 +472,10 @@ export class Dashbord implements OnInit {
   /* =====================
      DELETE
   ===================== */
-   deleteTask(task: any) {
+  deleteTask(task: any) {
     this.deleteId = task.id;
-     this.deletingTask = true;
- 
+    this.deletingTask = true;
+
     // this.popupVisible = true;
 
     // ✅ PATCH FIRST
@@ -370,13 +491,13 @@ export class Dashbord implements OnInit {
     this.taskForm.disable();
 
     // document.body.classList.add('overflow-hidden');
-     this.api.setOverlay(true);
-    
-
-   }
+    this.api.setOverlay(true);
 
 
- 
+  }
+
+
+
 
   confirmDelete() {
     if (!this.deleteId) return;
@@ -426,7 +547,7 @@ export class Dashbord implements OnInit {
       priority: 'medium',
       assignedUsers: [],
     });
- 
+
     this.api.setOverlay(false);
 
 
@@ -436,7 +557,7 @@ export class Dashbord implements OnInit {
   /* =====================
      DRAG & DROP
   ===================== */
- 
+
   onTaskDrop(event: CdkDragDrop<any[]>, status: TaskStatus) {
     const source = event.previousContainer.data;
     const target = event.container.data;
@@ -491,7 +612,7 @@ export class Dashbord implements OnInit {
     );
   }
 
- 
+
 
   private normalizeDueDate(value: any): string | null {
     if (!value) return null;
@@ -534,7 +655,7 @@ export class Dashbord implements OnInit {
   /* =====================
      FILTERS
   ===================== */
- 
+
   filterBySearch() {
     this.applyAllFilters();
   }
@@ -557,7 +678,7 @@ export class Dashbord implements OnInit {
     this.rebuildBoard();
   }
 
- 
+
 
   applyAllFilters() {
     let data = [...this.tasks];
@@ -627,7 +748,7 @@ export class Dashbord implements OnInit {
     this.rebuildBoard();
   }
 
- 
+
 
   onDateRangeChange(range: any) {
     if (!range?.startDate || !range?.endDate) {
@@ -639,7 +760,7 @@ export class Dashbord implements OnInit {
 
     console.log(range.startDate, range.endDate);
 
-   
+
 
     const start = moment(range.startDate.$d).startOf('day');
     const end = moment(range.endDate.$d).endOf('day');
@@ -697,7 +818,7 @@ export class Dashbord implements OnInit {
   /* =====================
      HELPERS
   ===================== */
-   togglePopup() {
+  togglePopup() {
     this.popupVisible = !this.popupVisible;
     this.api.setOverlay(this.popupVisible);
 
@@ -743,14 +864,14 @@ export class Dashbord implements OnInit {
     this.taskForm.reset({
       title: '',
       dueDate: '',
-      status : 'pending',
+      status: 'pending',
       priority: 'medium',
       assignedUsers: [],
     });
 
     // document.body.classList.add('overflow-hidden');
     this.api.setOverlay(true);
-  
+
 
   }
 
@@ -764,7 +885,7 @@ export class Dashbord implements OnInit {
       priority: 'medium',
       assignedUsers: [],
     });
- 
+
     this.api.setOverlay(false);
 
     // document.body.classList.remove('overflow-hidden');
