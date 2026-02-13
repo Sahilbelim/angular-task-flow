@@ -310,7 +310,7 @@
 //     return this.tasks$;
 //   }
 
- 
+
 //   createTask(payload: any) {
 //     if (!this.hasPermission('createTask')) {
 //       return throwError(() => new Error('Permission denied'));
@@ -377,7 +377,7 @@
 //     currentPassword: string,
 //     newPassword: string
 //   ) {
-    
+
 //     return this.http.get<any>(`${this.API}/user/${userId}`).pipe(
 //       switchMap(user => {
 //         if (user.password !== currentPassword) {
@@ -708,20 +708,24 @@ export class ApiService {
     const me = this.user();
     if (!me) return;
 
-    this.api.getUsers().pipe(
-      map(users => {
-        if (!me.parentId) {
-          return users.filter(u => u.id === me.id || u.parentId === me.id);
-        }
-        return users.filter(u =>
-          u.id === me.id ||
-          u.parentId === me.parentId ||
-          u.parentId === me.id
-        );
-      })
-    ).subscribe(users => {
-      this.usersSubject.next(users);
-      this.usersLoaded = true;
+    // this.api.getUsers().pipe(
+    //   map(users => {
+    //     if (!me.parentId) {
+    //       return users.filter(u => u.id === me.id || u.parentId === me.id);
+    //     }
+    //     return users.filter(u =>
+    //       u.id === me.id ||
+    //       u.parentId === me.parentId ||
+    //       u.parentId === me.id
+    //     );
+    //   })
+    // ).subscribe(users => {
+    //   this.usersSubject.next(users);
+    //   this.usersLoaded = true;
+    // });
+
+    this.api.get('user').subscribe(users => {
+      console.log('Fetched users:', users);
     });
   }
 
