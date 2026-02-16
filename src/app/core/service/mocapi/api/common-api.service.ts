@@ -1,90 +1,202 @@
+// // // // import { Injectable } from '@angular/core';
+// // // // import { HttpClient, HttpParams } from '@angular/common/http';
+// // // // import { Observable } from 'rxjs';
+// // // // import { API_BASE } from './api-endpoints';
+
+// // // // @Injectable({ providedIn: 'root' })
+// // // // export class CommonApiService {
+
+// // // //     constructor(private http: HttpClient) { }
+
+// // // //     get<T>(endpoint: string, params?: any): Observable<T> {
+// // // //         return this.http.get<T>(`${API_BASE}/${endpoint}`, {
+// // // //             params: params ? new HttpParams({ fromObject: params }) : undefined
+// // // //         });
+// // // //     }
+
+// // // //     post<T>(endpoint: string, body: any): Observable<T> {
+// // // //         return this.http.post<T>(`${API_BASE}/${endpoint}`, body);
+// // // //     }
+
+// // // //     put<T>(endpoint: string, body: any): Observable<T> {
+// // // //         return this.http.put<T>(`${API_BASE}/${endpoint}`, body);
+// // // //     }
+
+// // // //     delete<T>(endpoint: string): Observable<T> {
+// // // //         return this.http.delete<T>(`${API_BASE}/${endpoint}`);
+// // // //     }
+// // // // }
+
+
+// // // import { Injectable } from '@angular/core';
+// // // import { HttpClient, HttpParams } from '@angular/common/http';
+// // // import { Observable } from 'rxjs';
+
+// // // @Injectable({ providedIn: 'root' })
+// // // export class CommonApiService {
+
+// // //     private API = 'https://696dca5ad7bacd2dd7148b1a.mockapi.io/task';
+
+// // //     constructor(private http: HttpClient) { }
+
+// // //     /* ================= USER ================= */
+
+// // //     getUsers(params?: any): Observable<any[]> {
+// // //         return this.http.get<any[]>(`${this.API}/user`, { params });
+// // //     }
+
+// // //     getUserById(id: string | number): Observable<any> {
+// // //         return this.http.get<any>(`${this.API}/user/${id}`);
+// // //     }
+
+// // //     createUser(body: any): Observable<any> {
+// // //         return this.http.post<any>(`${this.API}/user`, body);
+// // //     }
+
+// // //     updateUser(id: string | number, body: any): Observable<any> {
+// // //         return this.http.put<any>(`${this.API}/user/${id}`, body);
+// // //     }
+
+// // //     deleteUser(id: string | number): Observable<any> {
+// // //         return this.http.delete<any>(`${this.API}/user/${id}`);
+// // //     }
+
+// // //     /* ================= TASKS ================= */
+
+// // //     getTasks(): Observable<any[]> {
+// // //         return this.http.get<any[]>(`${this.API}/tasks`);
+// // //     }
+
+// // //     createTask(body: any): Observable<any> {
+// // //         return this.http.post<any>(`${this.API}/tasks`, body);
+// // //     }
+
+// // //     updateTask(id: string | number, body: any): Observable<any> {
+// // //         return this.http.put<any>(`${this.API}/tasks/${id}`, body);
+// // //     }
+
+// // //     deleteTask(id: string | number): Observable<any> {
+// // //         return this.http.delete<any>(`${this.API}/tasks/${id}`);
+// // //     }
+
+// // //     /* ================= COUNTRIES ================= */
+
+// // //     getCountries(): Observable<any[]> {
+// // //         return this.http.get<any[]>('https://restcountries.com/v3.1/all?fields=name');
+// // //     }
+// // // }
+
 // // import { Injectable } from '@angular/core';
 // // import { HttpClient, HttpParams } from '@angular/common/http';
 // // import { Observable } from 'rxjs';
-// // import { API_BASE } from './api-endpoints';
 
 // // @Injectable({ providedIn: 'root' })
 // // export class CommonApiService {
 
+// //     private API = 'https://696dca5ad7bacd2dd7148b1a.mockapi.io/task';
+
 // //     constructor(private http: HttpClient) { }
 
-// //     get<T>(endpoint: string, params?: any): Observable<T> {
-// //         return this.http.get<T>(`${API_BASE}/${endpoint}`, {
-// //             params: params ? new HttpParams({ fromObject: params }) : undefined
-// //         });
+// //     /* ================= USERS ================= */
+
+    
+// //     // get<T>(endpoint: string, params?: any): Observable<T> {
+// //     //     return this.http.get<T>(`${this.API}/${endpoint}`, {
+// //     //         params: params ? new HttpParams({ fromObject: params }) : undefined
+// //     //     });
+// //     // }
+// //     getUsers(params?: any): Observable<any[]> {
+// //         return this.http.get<any[]>(`${this.API}/user`, { params });
 // //     }
 
-// //     post<T>(endpoint: string, body: any): Observable<T> {
-// //         return this.http.post<T>(`${API_BASE}/${endpoint}`, body);
+// //     getUserById(id: string | number): Observable<any> {
+// //         return this.http.get<any>(`${this.API}/user/${id}`);
 // //     }
 
-// //     put<T>(endpoint: string, body: any): Observable<T> {
-// //         return this.http.put<T>(`${API_BASE}/${endpoint}`, body);
+// //     createUser(body: any): Observable<any> {
+// //         return this.http.post<any>(`${this.API}/user`, body);
 // //     }
 
-// //     delete<T>(endpoint: string): Observable<T> {
-// //         return this.http.delete<T>(`${API_BASE}/${endpoint}`);
+// //     updateUser(id: string | number, body: any): Observable<any> {
+// //         return this.http.put<any>(`${this.API}/user/${id}`, body);
+// //     }
+
+// //     deleteUser(id: string | number): Observable<any> {
+// //         return this.http.delete<any>(`${this.API}/user/${id}`);
+// //     }
+
+// //     /* ================= TASKS ================= */
+
+// //     getTasks(): Observable<any[]> {
+// //         return this.http.get<any[]>(`${this.API}/tasks`);
+// //     }
+
+// //     createTask(body: any): Observable<any> {
+// //         return this.http.post<any>(`${this.API}/tasks`, body);
+// //     }
+
+// //     updateTask(id: string | number, body: any): Observable<any> {
+// //         return this.http.put<any>(`${this.API}/tasks/${id}`, body);
+// //     }
+
+// //     deleteTask(id: string | number): Observable<any> {
+// //         return this.http.delete<any>(`${this.API}/tasks/${id}`);
+// //     }
+
+// //     /* ================= COUNTRIES ================= */
+
+// //     getCountries(): Observable<any[]> {
+// //         return this.http.get<any[]>(
+// //             'https://restcountries.com/v3.1/all?fields=name'
+// //         );
 // //     }
 // // }
-
 
 // import { Injectable } from '@angular/core';
 // import { HttpClient, HttpParams } from '@angular/common/http';
 // import { Observable } from 'rxjs';
+// import { API_BASE } from './api.config';
+
+// export const ENDPOINTS = {
+//     USERS: 'user',
+//     USER_BY_ID: (id: string | number) => `user/${id}`,
+
+//     TASKS: 'tasks',
+//     TASK_BY_ID: (id: string | number) => `tasks/${id}`,
+
+//     COUNTRIES: 'https://restcountries.com/v3.1/all?fields=name'
+// };
+
 
 // @Injectable({ providedIn: 'root' })
 // export class CommonApiService {
 
-//     private API = 'https://696dca5ad7bacd2dd7148b1a.mockapi.io/task';
-
 //     constructor(private http: HttpClient) { }
 
-//     /* ================= USER ================= */
-
-//     getUsers(params?: any): Observable<any[]> {
-//         return this.http.get<any[]>(`${this.API}/user`, { params });
+//     private url(endpoint: string) {
+//         if (endpoint.startsWith('http')) return endpoint;
+//         return `${API_BASE}/${endpoint}`;
 //     }
 
-//     getUserById(id: string | number): Observable<any> {
-//         return this.http.get<any>(`${this.API}/user/${id}`);
+//     get<T>(endpoint: string, params?: any): Observable<T> {
+//         return this.http.get<T>(this.url(endpoint), {
+//             params: params ? new HttpParams({ fromObject: params }) : undefined
+//         });
 //     }
 
-//     createUser(body: any): Observable<any> {
-//         return this.http.post<any>(`${this.API}/user`, body);
+//     post<T>(endpoint: string, body: any): Observable<T> {
+//         return this.http.post<T>(this.url(endpoint), body);
 //     }
 
-//     updateUser(id: string | number, body: any): Observable<any> {
-//         return this.http.put<any>(`${this.API}/user/${id}`, body);
+//     put<T>(endpoint: string, body: any): Observable<T> {
+//         return this.http.put<T>(this.url(endpoint), body);
 //     }
 
-//     deleteUser(id: string | number): Observable<any> {
-//         return this.http.delete<any>(`${this.API}/user/${id}`);
-//     }
-
-//     /* ================= TASKS ================= */
-
-//     getTasks(): Observable<any[]> {
-//         return this.http.get<any[]>(`${this.API}/tasks`);
-//     }
-
-//     createTask(body: any): Observable<any> {
-//         return this.http.post<any>(`${this.API}/tasks`, body);
-//     }
-
-//     updateTask(id: string | number, body: any): Observable<any> {
-//         return this.http.put<any>(`${this.API}/tasks/${id}`, body);
-//     }
-
-//     deleteTask(id: string | number): Observable<any> {
-//         return this.http.delete<any>(`${this.API}/tasks/${id}`);
-//     }
-
-//     /* ================= COUNTRIES ================= */
-
-//     getCountries(): Observable<any[]> {
-//         return this.http.get<any[]>('https://restcountries.com/v3.1/all?fields=name');
+//     delete<T>(endpoint: string): Observable<T> {
+//         return this.http.delete<T>(this.url(endpoint));
 //     }
 // }
+
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -97,57 +209,46 @@ export class CommonApiService {
 
     constructor(private http: HttpClient) { }
 
-    /* ================= USERS ================= */
+    /* ================= GENERIC GET ================= */
 
-    
     get<T>(endpoint: string, params?: any): Observable<T> {
-        return this.http.get<T>(`${this.API}/${endpoint}`, {
-            params: params ? new HttpParams({ fromObject: params }) : undefined
-        });
-    }
-    getUsers(params?: any): Observable<any[]> {
-        return this.http.get<any[]>(`${this.API}/user`, { params });
-    }
 
-    getUserById(id: string | number): Observable<any> {
-        return this.http.get<any>(`${this.API}/user/${id}`);
-    }
+        let url = `${this.API}/${endpoint}`;
 
-    createUser(body: any): Observable<any> {
-        return this.http.post<any>(`${this.API}/user`, body);
-    }
+        // if id exists → append /id
+        if (params?.id) {
+            url += `/${params.id}`;
+            delete params.id;
+        }
 
-    updateUser(id: string | number, body: any): Observable<any> {
-        return this.http.put<any>(`${this.API}/user/${id}`, body);
+        const httpParams = params
+            ? new HttpParams({ fromObject: params })
+            : undefined;
+
+        return this.http.get<T>(url, { params: httpParams });
     }
 
-    deleteUser(id: string | number): Observable<any> {
-        return this.http.delete<any>(`${this.API}/user/${id}`);
+    /* ================= GENERIC POST ================= */
+
+    post<T>(endpoint: string, body: any): Observable<T> {
+        return this.http.post<T>(`${this.API}/${endpoint}`, body);
     }
 
-    /* ================= TASKS ================= */
+    /* ================= GENERIC PUT ================= */
 
-    getTasks(): Observable<any[]> {
-        return this.http.get<any[]>(`${this.API}/tasks`);
+    put<T>(endpoint: string, id: string | number, body: any): Observable<T> {
+        return this.http.put<T>(`${this.API}/${endpoint}/${id}`, body);
     }
 
-    createTask(body: any): Observable<any> {
-        return this.http.post<any>(`${this.API}/tasks`, body);
+    /* ================= GENERIC DELETE ================= */
+
+    delete<T>(endpoint: string, id: string | number): Observable<T> {
+        return this.http.delete<T>(`${this.API}/${endpoint}/${id}`);
     }
 
-    updateTask(id: string | number, body: any): Observable<any> {
-        return this.http.put<any>(`${this.API}/tasks/${id}`, body);
-    }
+    /* ================= EXTERNAL ================= */
 
-    deleteTask(id: string | number): Observable<any> {
-        return this.http.delete<any>(`${this.API}/tasks/${id}`);
-    }
-
-    /* ================= COUNTRIES ================= */
-
-    getCountries(): Observable<any[]> {
-        return this.http.get<any[]>(
-            'https://restcountries.com/v3.1/all?fields=name'
-        );
+    external<T>(url: string): Observable<T> {
+        return this.http.get<T>(url);
     }
 }

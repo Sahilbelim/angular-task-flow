@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../core/service/mocapi/api/api';
 import { ViewChild, ElementRef } from '@angular/core';
+import { CommonApiService } from '../../../core/service/mocapi/api/common-api.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,8 @@ export class Login {
     private fb: FormBuilder,
     private api: ApiService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private commonApi:CommonApiService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -41,51 +43,91 @@ export class Login {
     
   }
 
-  submit() {
+  // submit() {
     
-    // if (this.loginForm.invalid) {
-    //   this.loginForm.markAllAsTouched();
-    //   this.toastr.warning('Please fill all fields correctly');
-    //   return;
-    // }
+  //   // if (this.loginForm.invalid) {
+  //   //   this.loginForm.markAllAsTouched();
+  //   //   this.toastr.warning('Please fill all fields correctly');
+  //   //   return;
+  //   // }
+
+  //   if (this.loginForm.invalid) {
+  //     this.loginForm.markAllAsTouched();
+  //     // this.toastr.warning('Please fill all fields correctly');
+
+  //     setTimeout(() => {
+  //       this.scrollToFirstError();
+  //     });
+
+  //     return;
+  //   }
+
+  //   const { email, password } = this.loginForm.getRawValue();
+
+  //   // ✅ Type safety (fixes TS2345)
+  //   if (!email || !password) return;
+
+  //   this.loading = true;          // 🔒 lock
+  //   this.loginForm.disable();     // 🔒 lock inputs
+
+  //   this.api.login(email, password).subscribe({
+  //     next: () => {
+  //       // ✅ user already stored in ApiService (signal + localStorage)
+  //       this.toastr.success('Login successful');
+  //       this.router.navigate(['/dashboard']);
+  //     },
+  //     error: (err: Error) => {
+  //       this.toastr.error(err.message || 'Login failed');
+  //       this.loading = false;
+  //       this.loginForm.enable();  // 🔓 unlock on error
+  //     },
+  //     complete: () => {
+  //       this.loading = false;
+  //       this.loginForm.enable();  // 🔓 unlock on error
+  //     }
+  //   });
+  // }
+
+  submit() {
 
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
-      // this.toastr.warning('Please fill all fields correctly');
-
-      setTimeout(() => {
-        this.scrollToFirstError();
-      });
-
+      setTimeout(() => this.scrollToFirstError());
       return;
     }
 
     const { email, password } = this.loginForm.getRawValue();
 
-    // ✅ Type safety (fixes TS2345)
-    if (!email || !password) return;
+    this.loading = true;
+    this.loginForm.disable();
 
-    this.loading = true;          // 🔒 lock
-    this.loginForm.disable();     // 🔒 lock inputs
+    this.commonApi.get<any[]>('user', { email }).subscribe({
+      next: users => {
 
-    this.api.login(email, password).subscribe({
-      next: () => {
-        // ✅ user already stored in ApiService (signal + localStorage)
+        if (!users.length)
+          throw new Error('User not found');
+
+        if (users[0].password !== password)
+          throw new Error('Invalid password');
+
+        this.api.setSession(users[0]); // 🔥 store globally only
+
         this.toastr.success('Login successful');
         this.router.navigate(['/dashboard']);
       },
-      error: (err: Error) => {
-        this.toastr.error(err.message || 'Login failed');
-        this.loading = false;
-        this.loginForm.enable();  // 🔓 unlock on error
-      },
-      complete: () => {
-        this.loading = false;
-        this.loginForm.enable();  // 🔓 unlock on error
-      }
+      error: err => this.handleError(err),
+      complete: () => this.unlock()
     });
   }
+  private unlock() {
+    this.loading = false;
+    this.loginForm.enable();
+  }
 
+  private handleError(err: any) {
+    this.unlock();
+    this.toastr.error(err.message || 'Login failed');
+  }
   private scrollToFirstError() {
 
     if (this.loginForm.get('email')?.invalid) {

@@ -100,7 +100,7 @@ export class Header {
 
     // ✅ REACTIVE AUTH STATE
     effect(() => {
-      this.user = this.api.user();
+      this.user = this.api.currentUser();
       this.isLoggedIn = !!this.user;
     });
   }

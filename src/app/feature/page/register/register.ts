@@ -13,6 +13,8 @@ import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../core/service/mocapi/api/api';
 import { ViewChild, ElementRef } from '@angular/core';
+import { CommonApiService } from '../../../core/service/mocapi/api/common-api.service';
+import { switchMap } from 'rxjs';
 
 
 @Component({
@@ -39,7 +41,8 @@ export class Register {
     private fb: FormBuilder,
     private api: ApiService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+   private commonApi:CommonApiService
   ) {
     this.registerForm = this.fb.group(
       {
@@ -75,58 +78,171 @@ export class Register {
   /* =========================
      🟢 SUBMIT
   ========================= */
+  // submit() {
+  //   // if (this.registerForm.invalid) {
+  //   //   this.registerForm.markAllAsTouched();
+  //   //   this.toastr.warning('Please fix form errors');
+  //   //   return;
+  //   // }
+
+  //   if (this.registerForm.invalid) {
+  //     this.registerForm.markAllAsTouched();
+  //     // this.toastr.warning('Please fix form errors');
+
+  //     setTimeout(() => {
+  //       this.scrollToFirstError();
+  //     });
+
+  //     return;
+  //   }
+  //   const form = this.registerForm.getRawValue();
+
+  //   const payload = {
+  //     name: form.name,
+  //     email: form.email,
+  //     password: form.password,
+  //     parentId: null,
+  //     bio: 'bio',
+  //     permissions: {
+  //       createTask: true,
+  //       editTask: true,
+  //       deleteTask: true,
+  //       createUser: true,
+  //     },
+  //     createdAt: new Date().toISOString(),
+  //   };
+
+  //   this.loading = true;              // 🔒 lock
+  //   this.registerForm.disable();      // 🔒 disable all inputs
+
+  //   this.api.register(payload).subscribe({
+  //     next: () => {
+  //       this.toastr.success('Registration successful');
+  //       this.router.navigate(['/login']);
+  //     },
+  //     error: (err: Error) => {
+  //       this.toastr.error(err.message || 'Registration failed');
+  //       this.loading = false;
+  //       this.registerForm.enable();   // 🔓 unlock on error
+  //     },
+  //     complete: () => {
+  //       this.loading = false;
+  //       this.registerForm.enable();   // 🔓 unlock on error
+  //     },
+  //   });
+  // }
+
+
+  // submit() {
+
+  //   if (this.registerForm.invalid) {
+  //     this.registerForm.markAllAsTouched();
+  //     setTimeout(() => this.scrollToFirstError());
+  //     return;
+  //   }
+
+  //   const form = this.registerForm.getRawValue();
+
+  //   this.loading = true;
+  //   this.registerForm.disable();
+
+  //   // Step 1: check existing user
+  //   this.commonApi.get<any[]>('user', { email: form.email }).pipe(
+
+  //     switchMap(users => {
+  //       if (users.length) {
+  //         throw new Error('Email already registered');
+  //       }
+
+  //       // Step 2: create user
+  //       return this.commonApi.post('user', {
+  //         name: form.name,
+  //         email: form.email,
+  //         password: form.password,
+  //         parentId: null,
+  //         createdAt: new Date().toISOString(),
+  //         permissions: {
+  //           createTask: true,
+  //           editTask: true,
+  //           deleteTask: true,
+  //           createUser: true
+  //         }
+  //       });
+  //     })
+
+  //   ).subscribe({
+  //     next: (user) => {
+  //       this.api.setSession(user);   // 🔥 ONLY STATE GOES TO ApiService
+  //       this.toastr.success('Registration successful');
+  //       this.router.navigate(['/login']);
+  //     },
+  //     error: (err) => this.handleError(err),
+  //     complete: () => this.unlock()
+  //   });
+  // }
+
   submit() {
-    // if (this.registerForm.invalid) {
-    //   this.registerForm.markAllAsTouched();
-    //   this.toastr.warning('Please fix form errors');
-    //   return;
-    // }
 
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
-      // this.toastr.warning('Please fix form errors');
-
-      setTimeout(() => {
-        this.scrollToFirstError();
-      });
-
+      setTimeout(() => this.scrollToFirstError());
       return;
     }
+
     const form = this.registerForm.getRawValue();
 
-    const payload = {
-      name: form.name,
-      email: form.email,
-      password: form.password,
-      parentId: null,
-      bio: 'bio',
-      permissions: {
-        createTask: true,
-        editTask: true,
-        deleteTask: true,
-        createUser: true,
-      },
-      createdAt: new Date().toISOString(),
-    };
+    this.loading = true;
+    this.registerForm.disable();
 
-    this.loading = true;              // 🔒 lock
-    this.registerForm.disable();      // 🔒 disable all inputs
+    // Step 1 — load all users (mockapi limitation)
+    this.commonApi.get<any[]>('user').pipe(
 
-    this.api.register(payload).subscribe({
-      next: () => {
+      switchMap(users => {
+
+        const exists = users.some(
+          u => u.email?.toLowerCase() === form.email.toLowerCase()
+        );
+
+        if (exists) {
+          throw new Error('Email already registered');
+        }
+
+        // Step 2 — create user
+        return this.commonApi.post<any>('user', {
+          name: form.name,
+          email: form.email,
+          password: form.password,
+          parentId: null,
+          createdAt: new Date().toISOString(),
+          permissions: {
+            createTask: true,
+            editTask: true,
+            deleteTask: true,
+            createUser: true
+          }
+        });
+
+      })
+
+    ).subscribe({
+      next: (user) => {
+        this.api.setSession(user);
         this.toastr.success('Registration successful');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/dashboard']);
       },
-      error: (err: Error) => {
-        this.toastr.error(err.message || 'Registration failed');
-        this.loading = false;
-        this.registerForm.enable();   // 🔓 unlock on error
-      },
-      complete: () => {
-        this.loading = false;
-        this.registerForm.enable();   // 🔓 unlock on error
-      },
+      error: (err) => this.handleError(err),
+      complete: () => this.unlock()
     });
+  }
+
+  private unlock() {
+    this.loading = false;
+    this.registerForm.enable();
+  }
+
+  private handleError(err: any) {
+    this.unlock();
+    this.toastr.error(err.message || 'Registration failed');
   }
 
   private scrollToFirstError() {

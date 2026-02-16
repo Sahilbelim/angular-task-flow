@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { ApiService } from '../../../core/service/mocapi/api/api';
 import { ViewChild, ElementRef } from '@angular/core';
+import { CommonApiService } from '../../../core/service/mocapi/api/common-api.service';
 
 @Component({
     selector: 'app-change-password',
@@ -34,6 +35,7 @@ export class ChangePasswordPage {
     constructor(
         private fb: FormBuilder,
         private api: ApiService,
+        private http: CommonApiService, 
         private toast: ToastrService
     ) {
         this.form = this.fb.group(
@@ -70,49 +72,146 @@ export class ChangePasswordPage {
 
     /* ============================
        🔁 SUBMIT
-    ============================ */
+    // ============================ */
+    // submit() {
+    //     // if (this.form.invalid) {
+    //     //     this.form.markAllAsTouched();
+    //     //     this.toast.warning('Please fix password errors');
+    //     //     return;
+    //     // }
+
+    //     if (this.form.invalid) {
+    //         this.form.markAllAsTouched();
+    //         // this.toast.warning('Please fix password errors');
+
+    //         setTimeout(() => {
+    //             this.scrollToFirstError();
+    //         });
+
+    //         return;
+    //     }
+        
+
+    //     const user = this.api.user();
+    //     if (!user) return;
+
+    //     this.isSubmitting = true;     // 🔒 lock
+    //     this.form.disable();          // 🔒 lock inputs
+
+    //     const currentPassword = this.form.get('currentPassword')!.value as string;
+    //     const newPassword = this.form.get('newPassword')!.value as string;
+
+    //     this.api.changePassword(user.id, currentPassword, newPassword).subscribe({
+    //         next: () => {
+    //             this.toast.success('Password updated successfully');
+    //             this.form.reset();
+    //         },
+    //         error: (err: Error) => {
+    //             this.toast.error(err?.message || 'Current password is incorrect');
+    //         },
+    //         complete: () => {
+    //             this.isSubmitting = false; // 🔓 unlock
+    //             this.form.enable();        // 🔓 enable inputs
+    //         }
+    //     });
+    // }
+
+    // submit() {
+
+    //     if (this.form.invalid) {
+    //         this.form.markAllAsTouched();
+    //         setTimeout(() => this.scrollToFirstError());
+    //         return;
+    //     }
+
+    //     const user = this.api.currentUser();
+    //     if (!user) return;
+
+    //     this.isSubmitting = true;
+    //     this.form.disable();
+
+    //     const currentPassword: any = this.form.get('currentPassword')!.value;
+    //     const newPassword: any = this.form.get('newPassword')!.value;
+
+    //     this.api.changePassword(user.id, currentPassword, newPassword).subscribe({
+    //         next: () => {
+    //             this.toast.success('Password updated successfully');
+
+    //             // clear only password fields (better UX)
+    //             this.form.patchValue({
+    //                 currentPassword: '',
+    //                 newPassword: '',
+    //                 confirmPassword: '',
+    //             });
+    //             this.form.markAsPristine();
+    //         },
+    //         error: (err: Error) => {
+    //             this.toast.error(err?.message || 'Current password is incorrect');
+    //         },
+    //         complete: () => {
+    //             this.isSubmitting = false;
+    //             this.form.enable();
+    //         }
+    //     });
+    // }
+
     submit() {
-        // if (this.form.invalid) {
-        //     this.form.markAllAsTouched();
-        //     this.toast.warning('Please fix password errors');
-        //     return;
-        // }
 
         if (this.form.invalid) {
             this.form.markAllAsTouched();
-            // this.toast.warning('Please fix password errors');
-
-            setTimeout(() => {
-                this.scrollToFirstError();
-            });
-
+            setTimeout(() => this.scrollToFirstError());
             return;
         }
-        
 
-        const user = this.api.user();
+        const user = this.api.currentUser();
         if (!user) return;
 
-        this.isSubmitting = true;     // 🔒 lock
-        this.form.disable();          // 🔒 lock inputs
+        this.isSubmitting = true;
+        this.form.disable();
 
-        const currentPassword = this.form.get('currentPassword')!.value as string;
-        const newPassword = this.form.get('newPassword')!.value as string;
+        const currentPassword = this.form.get('currentPassword')!.value;
+        const newPassword = this.form.get('newPassword')!.value;
 
-        this.api.changePassword(user.id, currentPassword, newPassword).subscribe({
-            next: () => {
-                this.toast.success('Password updated successfully');
-                this.form.reset();
+        /* STEP 1 — verify password from backend */
+        this.http.get<any>('user', { id: user.id }).subscribe({
+
+            next: (dbUser) => {
+
+                if (dbUser.password !== currentPassword) {
+                    this.toast.error('Current password is incorrect');
+                    this.unlockForm();
+                    return;
+                }
+
+                /* STEP 2 — update password */
+                this.http.put('user', user.id, { password: newPassword }).subscribe({
+
+                    next: () => {
+                        this.toast.success('Password updated successfully');
+
+                        this.form.reset();
+                    },
+
+                    error: () => {
+                        this.toast.error('Failed to update password');
+                        this.unlockForm();
+                    },
+
+                    complete: () => this.unlockForm()
+                });
             },
-            error: (err: Error) => {
-                this.toast.error(err?.message || 'Current password is incorrect');
-            },
-            complete: () => {
-                this.isSubmitting = false; // 🔓 unlock
-                this.form.enable();        // 🔓 enable inputs
+
+            error: () => {
+                this.toast.error('User verification failed');
+                this.unlockForm();
             }
         });
     }
+    private unlockForm() {
+        this.isSubmitting = false;
+        this.form.enable();
+    }
+
 
     private scrollToFirstError() {
 

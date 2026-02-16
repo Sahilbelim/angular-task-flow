@@ -4,15 +4,16 @@ import { AbstractControl, FormsModule, ValidationErrors } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { ApiService } from '../../../core/service/mocapi/api/api';
-import { AdminAddUser } from '../admin-add-user/admin-add-user';
+// import { AdminAddUser } from '../admin-add-user/admin-add-user';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 import { Renderer2, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ViewChild, ElementRef } from '@angular/core';
+import { CommonApiService } from '../../../core/service/mocapi/api/common-api.service';
 
 @Component({
   selector: 'app-users-page',
@@ -41,7 +42,7 @@ export class UsersPage implements OnInit, OnDestroy {
   sidebarOpen = false;
   editUser: any | null = null;
   loading = true;
-  dataLoaded = false; 
+  dataLoaded = false;
 
   /* =====================
      DATA (STORE)
@@ -85,11 +86,12 @@ export class UsersPage implements OnInit, OnDestroy {
   private renderer = inject(Renderer2);
   constructor(
     private api: ApiService,
+    private http: CommonApiService,
     private toastr: ToastrService,
     private router: Router,
-  private fb: FormBuilder
+    private fb: FormBuilder
   ) {
-   
+
     this.adminForm = this.fb.group(
       {
         name: ['', Validators.required],
@@ -118,12 +120,12 @@ export class UsersPage implements OnInit, OnDestroy {
       { validators: this.permissionValidator }
     );
 
-   }
+  }
 
   /* =====================
      INIT
   ===================== */
- 
+
 
   ngOnInit(): void {
     this.initUsersPage();
@@ -136,15 +138,15 @@ export class UsersPage implements OnInit, OnDestroy {
   /* =====================
      ➕ ADD USER
   ===================== */
-    openAdd() {
+  openAdd() {
     if (!this.canManageUsers()) {
       this.toastr.warning('You do not have permission');
       return;
     }
 
     this.isEditMode = false;
-      this.editUser = null;
-      this.enableAllAdminControls();
+    this.editUser = null;
+    this.enableAllAdminControls();
 
     this.adminForm.reset();
     this.sidebarOpen = true;
@@ -182,6 +184,7 @@ export class UsersPage implements OnInit, OnDestroy {
     this.sidebarOpen = false;
     this.editUser = null;
     this.isEditMode = false;
+    // alert(this.isEditMode)
     this.enableAllAdminControls();
     this.adminForm.reset();
     document.body.classList.remove('overflow-hidden');
@@ -201,24 +204,126 @@ export class UsersPage implements OnInit, OnDestroy {
   }
 
 
+  // submitAdminForm() {
+  //   // if (this.adminForm.invalid || this.userSaving) {
+  //   //   this.adminForm.markAllAsTouched();
+  //   //   return;
+  //   // }
+
+  //   if (this.adminForm.invalid || this.userSaving) {
+  //     this.adminForm.markAllAsTouched();
+
+  //     setTimeout(() => {
+  //       this.scrollToFirstError();
+  //     });
+
+  //     return;
+  //   }
+
+  //   this.userSaving = true;        // 🔒 lock
+  //   this.adminForm.disable();     // 🔒 UI lock
+
+  //   const raw = this.adminForm.getRawValue();
+
+  //   const permissions = {
+  //     createUser: !!raw.createUser,
+  //     createTask: !!raw.createTask,
+  //     editTask: !!raw.editTask,
+  //     deleteTask: !!raw.deleteTask,
+  //   };
+
+  //   const req$ = this.isEditMode && this.editUser
+  //     ? this.api.updateUser(this.editUser.id, { permissions })
+  //     : this.api.createUser({
+  //       name: raw.name,
+  //       email: raw.email,
+  //       password: raw.password,
+  //       permissions,
+  //     });
+
+  //   req$.subscribe({
+  //     next: () => {
+  //       this.toastr.success(
+  //         this.isEditMode ? 'User updated' : 'User created'
+  //       );
+  //       this.closeSidebar();
+  //     },
+  //     error: () => {
+  //       this.toastr.error('Operation failed');
+  //     },
+  //     complete: () => {
+  //       this.userSaving = false;   // 🔓 unlock
+  //       this.adminForm.enable();
+  //     }
+  //   });
+  // }
+
+  // submitAdminForm() {
+  //   console.log(this.adminForm);
+
+  //   if (this.adminForm.invalid || this.userSaving) {
+  //     this.adminForm.markAllAsTouched();
+  //     setTimeout(() => this.scrollToFirstError());
+  //     return;
+  //   }
+
+  //   this.userSaving = true;
+  //   this.adminForm.disable();
+
+  //   const raw = this.adminForm.getRawValue();
+
+  //   const permissions = {
+  //     createUser: !!raw.createUser,
+  //     createTask: !!raw.createTask,
+  //     editTask: !!raw.editTask,
+  //     deleteTask: !!raw.deleteTask,
+  //   };
+
+  //   const payload = this.isEditMode
+  //     ? { permissions }
+  //     : {
+  //       name: raw.name,
+  //       email: raw.email,
+  //       password: raw.password,
+  //       permissions,
+  //       parentId: this.api.currentUser()?.id,
+  //       createdAt: new Date().toISOString()
+  //     };
+
+  //   const request$ = this.isEditMode && this.editUser
+  //     ? this.http.put('user', this.editUser.id, payload)
+  //     : this.http.post('user', payload);
+
+  //   console.log('Request:', request$);
+  //   request$.subscribe({
+  //     next: () => {
+  //       alert('save');
+  //       this.toastr.success(
+  //         this.isEditMode ? 'User updated' : 'User created'
+  //       );
+  //       alert(this.isEditMode);
+
+  //       this.closeSidebar();
+  //       // this.api.refreshUsers();   // 🔥 IMPORTANT
+  //     },
+  //     error: () => {
+  //       this.toastr.error('Operation failed');
+  //       this.userSaving = false;
+  //       this.adminForm.enable();
+  //     }
+  //   });
+  // }
+
   submitAdminForm() {
-    // if (this.adminForm.invalid || this.userSaving) {
-    //   this.adminForm.markAllAsTouched();
-    //   return;
-    // }
 
     if (this.adminForm.invalid || this.userSaving) {
       this.adminForm.markAllAsTouched();
-
-      setTimeout(() => {
-        this.scrollToFirstError();
-      });
-
+      setTimeout(() => this.scrollToFirstError());
       return;
     }
 
-    this.userSaving = true;        // 🔒 lock
-    this.adminForm.disable();     // 🔒 UI lock
+    this.userSaving = true;
+    this.adminForm.disable();
 
     const raw = this.adminForm.getRawValue();
 
@@ -229,31 +334,56 @@ export class UsersPage implements OnInit, OnDestroy {
       deleteTask: !!raw.deleteTask,
     };
 
-    const req$ = this.isEditMode && this.editUser
-      ? this.api.updateUser(this.editUser.id, { permissions })
-      : this.api.createUser({
+    const payload = this.isEditMode
+      ? { permissions }
+      : {
         name: raw.name,
         email: raw.email,
         password: raw.password,
         permissions,
-      });
+        parentId: this.api.currentUser()?.id,
+        createdAt: new Date().toISOString()
+      };
 
-    req$.subscribe({
-      next: () => {
-        this.toastr.success(
-          this.isEditMode ? 'User updated' : 'User created'
-        );
+    const request$ = this.isEditMode && this.editUser
+      ? this.http.put('user', this.editUser.id, payload)
+      : this.http.post('user', payload);
+
+    request$.subscribe({
+      // next: () => {
+      //   this.toastr.success(this.isEditMode ? 'User updated' : 'User created');
+
+      //   // 🔥 IMPORTANT: reload shared cache
+      //   this.api.refreshUsers();
+
+      //   this.closeSidebar();
+      // },
+      next: (savedUser: any) => {
+
+        this.toastr.success(this.isEditMode ? 'User updated' : 'User created');
+
+        if (this.isEditMode) {
+          this.api.updateUser(this.editUser.id, savedUser);
+        } else {
+          this.api.addUser(savedUser);
+        }
+
         this.closeSidebar();
       },
+
       error: () => {
         this.toastr.error('Operation failed');
+        this.userSaving = false;
+        this.adminForm.enable();
       },
       complete: () => {
-        this.userSaving = false;   // 🔓 unlock
+        this.userSaving = false;
         this.adminForm.enable();
       }
     });
   }
+
+
   private scrollToFirstError() {
 
     if (this.adminForm.get('name')?.invalid) {
@@ -324,7 +454,7 @@ export class UsersPage implements OnInit, OnDestroy {
   /* =====================
      🗑 DELETE USER
   ===================== */
-  
+
   deleteUser(user: any) {
     if (!this.canManageUsers()) {
       this.toastr.warning('You do not have permission');
@@ -337,7 +467,10 @@ export class UsersPage implements OnInit, OnDestroy {
     this.userToDelete = user;
     document.body.classList.add('overflow-hidden');
 
-    this.api.ensureTasksLoaded$().subscribe(tasks => {
+    // this.api.ensureTasksLoaded$().subscribe(tasks => {
+    // this.api.getTasks$().pipe(take(1)).subscribe(tasks => {
+    this.api.tasks$.pipe(take(1)).subscribe(tasks => {
+
       const userId = String(user.id);
 
       const hasTasks = tasks.some(
@@ -361,7 +494,7 @@ export class UsersPage implements OnInit, OnDestroy {
     document.body.classList.remove('overflow-hidden');
   }
 
- 
+
 
   closeAllPopups() {
     this.showTaskBlockPopup = false;
@@ -378,52 +511,133 @@ export class UsersPage implements OnInit, OnDestroy {
     this.userDeleting = true;
     const userId = String(this.userToDelete.id);
 
-    this.api.deleteUser(userId).subscribe({
+    // this.api.deleteUser(userId).subscribe({
+    //   next: () => {
+    //     this.toastr.success('User deleted successfully');
+    //     this.closeAllPopups();
+    //   },
+    //   error: () => {
+    //     this.toastr.error('Failed to delete user');
+    //     this.userDeleting = false;
+    //   }
+    // });
+
+    this.http.delete('user', userId).subscribe({
+      // next: () => {
+      //   this.toastr.success('User deleted successfully');
+      //   this.api.refreshUsers();  // 🔥 update store
+      //   this.closeAllPopups();
+      // },
+
       next: () => {
         this.toastr.success('User deleted successfully');
+
+        this.api.deleteUser(userId);
+
         this.closeAllPopups();
       },
+
       error: () => {
         this.toastr.error('Failed to delete user');
         this.userDeleting = false;
       }
     });
+
   }
+
+  // goToUserTasks() {
+  //   if (!this.userToDelete) return;
+
+  //   this.api.setTaskFilterUser(this.userToDelete.id);
+  //   this.closeAllPopups();
+  //   this.router.navigate(['/tasks']);
+  // }
 
   goToUserTasks() {
     if (!this.userToDelete) return;
 
-    this.api.setTaskFilterUser(this.userToDelete.id);
+    const id = this.userToDelete.id;
+
     this.closeAllPopups();
-    this.router.navigate(['/tasks']);
+
+    // navigate FIRST
+    this.router.navigate(['/tasks']).then(() => {
+      this.api.setTaskFilterUser(id);
+    });
   }
 
-  private initUsersPage(): void {
-    this.loading = true;
-    this.dataLoaded = false;
 
-    this.sub = this.api.getUsers$()
-      .pipe(
-        // 🔥 ignore first empty emission
-        filter((users: any[]) => users.length > 0)
-      )
-      .subscribe({
-        next: (users: any[]) => {
+  // private initUsersPage(): void {
+  //   this.loading = true;
+  //   this.dataLoaded = false;
+
+  //   this.sub = this.api.getUsers$()
+  //     .pipe(
+  //       // 🔥 ignore first empty emission
+  //       filter((users: any[]) => users.length > 0)
+  //     )
+  //     .subscribe({
+  //       next: (users: any[]) => {
+  //         const meId = this.currentUserId;
+
+  //         // exclude current user
+  //         this.users = users.filter(u => u.id !== meId);
+
+  //         this.applyFilter();
+
+  //         // ✅ STOP skeleton ONLY when real data arrives
+  //         this.loading = false;
+  //         this.dataLoaded = true;
+  //       },
+  //       error: () => {
+  //         this.loading = false;
+  //         this.dataLoaded = true;
+  //       }
+  //     });
+  // }
+
+  // private initUsersPage(): void {
+
+  //   this.sub = this.api.users$.subscribe(users => {
+
+  //     const meId = this.currentUserId;
+
+  //     this.users = users.filter(u => u.id !== meId);
+
+  //     this.applyFilter();
+
+  //     this.loading = false;
+  //     this.dataLoaded = true;
+  //   });
+
+  // }
+
+  private initUsersPage(): void {
+
+    this.loading = true;
+
+    this.sub = this.api.initialDataResolved$
+      .subscribe(resolved => {
+
+        // ⛔ until backend finishes → keep skeleton
+        if (!resolved) {
+          this.loading = true;
+          return;
+        }
+
+        // ✅ backend finished → now listen to store
+        this.api.users$.subscribe(users => {
+
           const meId = this.currentUserId;
 
-          // exclude current user
           this.users = users.filter(u => u.id !== meId);
 
           this.applyFilter();
 
-          // ✅ STOP skeleton ONLY when real data arrives
           this.loading = false;
           this.dataLoaded = true;
-        },
-        error: () => {
-          this.loading = false;
-          this.dataLoaded = true;
-        }
+        });
+
       });
   }
 
@@ -488,7 +702,7 @@ export class UsersPage implements OnInit, OnDestroy {
   }
 
   get currentUserId() {
-    return this.api.user()?.id;
+    return this.api.currentUser()?.id;
   }
 
   private enableAllAdminControls() {

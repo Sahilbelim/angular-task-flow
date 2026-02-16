@@ -11,6 +11,7 @@ import { ApiService } from '../../../core/service/mocapi/api/api';
 import { combineLatest, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { CommonApiService } from '../../../core/service/mocapi/api/common-api.service';
 
 Chart.register(...registerables);
 
@@ -47,66 +48,231 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private taskChart?: Chart;
   private userChart?: Chart;
-  private viewReady = false;
+  // private viewReady = false;
+  private domReady = false;
+  private latestTasks: any[] = [];
+  private latestUsers: any[] = [];
 
-  constructor(private api: ApiService) { }
+
+  constructor(private api: ApiService,
+    private http: CommonApiService
+  ) { }
 
   /* =====================
      INIT
   ===================== */
 
 
+  // ngOnInit() {
+
+  //   combineLatest([
+  //     this.api.getTasks$(),
+  //     this.api.getUsers$(),
+  //   ])
+  //     .pipe(takeUntil(this.destroy$))
+  //     .subscribe(([tasks, users]) => {
+
+  //       this.latestTasks = tasks;
+  //       this.latestUsers = users;
+
+  //       this.computeTaskStats(tasks);
+  //       this.computeUserStats(users);
+
+  //       this.hasTaskData = tasks.length > 0;
+  //       this.hasUserData = users.length > 0;
+
+  //       this.loading = false;
+  //       this.dataReady = true;
+
+  //       this.tryRenderCharts();
+  //     });
+  // }
+
+  // ngOnInit() {
+
+  //   // load once from backend
+  //   this.loadInitialData();
+
+  //   // listen to store only
+  //   combineLatest([
+  //     this.api.tasks$,
+  //     this.api.users$
+  //   ])
+  //     .pipe(takeUntil(this.destroy$))
+  //     .subscribe(([tasks, users]) => {
+
+  //       this.latestTasks = tasks;
+  //       this.latestUsers = users;
+
+  //       this.computeTaskStats(tasks);
+  //       this.computeUserStats(users);
+
+  //       this.hasTaskData = tasks.length > 0;
+  //       this.hasUserData = users.length > 0;
+
+  //       this.loading = false;
+  //       this.dataReady = true;
+
+  //       this.tryRenderCharts();
+  //     });
+  // }
+
+  // ngOnInit() {
+
+  //   this.loading = true;
+
+  //   combineLatest([
+  //     this.api.tasks$,
+  //     this.api.users$
+  //   ])
+  //     .pipe(takeUntil(this.destroy$))
+  //     .subscribe(([tasks, users]) => {
+
+  //       this.latestTasks = tasks;
+  //       this.latestUsers = users;
+
+  //       this.computeTaskStats(tasks);
+  //       this.computeUserStats(users);
+
+  //       this.hasTaskData = tasks.length > 0;
+  //       this.hasUserData = users.length > 0;
+
+  //       this.loading = false;
+  //       this.dataReady = true;
+
+  //       this.tryRenderCharts();
+  //     });
+
+  // }
+
 
   ngOnInit() {
+
     this.loading = true;
     this.dataReady = false;
 
-    combineLatest([
-      this.api.getTasks$(),
-      this.api.getUsers$(),
-    ])
+    // 1️⃣ wait for REAL backend hydration
+    this.api.initialDataResolved$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([tasks, users]) => {
+      .subscribe(resolved => {
 
-        // 🚫 IGNORE FIRST EMPTY CACHE EMISSION
-        if (!this.hasRealData(tasks, users)) {
+        if (!resolved) {
+          this.loading = true;
           return;
         }
 
-        // ✅ REAL DATA ONLY FROM HERE
-        this.computeTaskStats(tasks);
-        this.computeUserStats(users);
+        // 2️⃣ now listen to store normally
+        combineLatest([
+          this.api.tasks$,
+          this.api.users$
+        ])
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(([tasks, users]) => {
 
-        this.hasTaskData = tasks.length > 0;
-        this.hasUserData = users.length > 0;
+            this.latestTasks = tasks;
+            this.latestUsers = users;
 
-        this.loading = false;
-        this.dataReady = true;
+            this.computeTaskStats(tasks);
+            this.computeUserStats(users);
 
-        // ⛑️ SAFE render AFTER DOM + data
-        setTimeout(() => {
-          if (this.viewReady) {
-            this.renderCharts();
-          }
-        });
+            this.hasTaskData = tasks.length > 0;
+            this.hasUserData = users.length > 0;
+
+            this.loading = false;
+            this.dataReady = true;
+
+            this.tryRenderCharts();
+          });
       });
   }
 
   ngAfterViewInit() {
-    this.viewReady = true;
-
-    if (this.dataReady) {
-      this.renderCharts();
-    }
+    this.domReady = true;
+    this.tryRenderCharts();
   }
+  // private tryRenderCharts() {
+  //   if (!this.domReady || !this.dataReady) return;
+  //   this.renderCharts();
+  // }
 
+  private tryRenderCharts() {
+    if (!this.domReady || !this.dataReady) return;
+    this.renderChartsSafely();
+  }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-
     this.destroyCharts();
   }
+
+
+  private loadInitialData() {
+
+    // users
+    this.http.get<any[]>('user').subscribe(users => {
+      this.api.setUsers(users);
+    });
+
+    // tasks
+    this.http.get<any[]>('tasks').subscribe(tasks => {
+      this.api.setTasks(tasks);
+    });
+
+  }
+
+
+  // ngOnInit() {
+  //   this.loading = true;
+  //   this.dataReady = false;
+
+  //   combineLatest([
+  //     this.api.getTasks$(),
+  //     this.api.getUsers$(),
+  //   ])
+  //     .pipe(takeUntil(this.destroy$))
+  //     .subscribe(([tasks, users]) => {
+
+  //       // 🚫 IGNORE FIRST EMPTY CACHE EMISSION
+  //       if (!this.hasRealData(tasks, users)) {
+  //         return;
+  //       }
+
+  //       // ✅ REAL DATA ONLY FROM HERE
+  //       this.computeTaskStats(tasks);
+  //       this.computeUserStats(users);
+
+  //       this.hasTaskData = tasks.length > 0;
+  //       this.hasUserData = users.length > 0;
+
+  //       this.loading = false;
+  //       this.dataReady = true;
+
+  //       // ⛑️ SAFE render AFTER DOM + data
+  //       setTimeout(() => {
+  //         if (this.viewReady) {
+  //           this.renderCharts();
+  //         }
+  //       });
+  //     });
+  // }
+
+  // ngAfterViewInit() {
+  //   this.viewReady = true;
+
+  //   if (this.dataReady) {
+  //     this.renderCharts();
+  //   }
+  // }
+
+
+  // ngOnDestroy() {
+  //   this.destroy$.next();
+  //   this.destroy$.complete();
+
+  //   this.destroyCharts();
+  // }
+
 
   /* =====================
      STATS
@@ -240,9 +406,9 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
 
 
 
-  private hasRealData(tasks: any[], users: any[]): boolean {
-    return tasks.length > 0 || users.length > 0;
-  }
+  // private hasRealData(tasks: any[], users: any[]): boolean {
+  //   return tasks.length > 0 || users.length > 0;
+  // }
 
 
 
@@ -358,6 +524,26 @@ export class Home implements OnInit, AfterViewInit, OnDestroy {
           ctx.restore();
         },
       }],
+    });
+  }
+
+  private renderChartsSafely() {
+
+    // wait for Angular DOM render
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+
+        if (!this.domReady || !this.dataReady) return;
+
+        const pie = document.getElementById('taskPie');
+        const bar = document.getElementById('userBar');
+
+        // canvas still not in DOM
+        if (!pie && !bar) return;
+
+        this.renderCharts();
+
+      });
     });
   }
 
