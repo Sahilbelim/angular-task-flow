@@ -266,6 +266,65 @@ export class ApiService {
   //   return of(true);
   // }
 
+  // initializeApp(): Observable<boolean> {
+
+  //   const storedUser = this.getStoredUser();
+
+  //   // not logged in
+  //   if (!storedUser) {
+  //     this.currentUserSubject.next(null);
+  //     this.initialResolvedSubject.next(true);
+  //     return of(true);
+  //   }
+
+  //   // restore session WITHOUT triggering reload loops
+  //   this.userSignal.set(storedUser);
+  //   this.currentUserSubject.next(storedUser);
+
+  //   // 🔥 HYDRATE DATA AFTER REFRESH
+  //   this.loadUsersOnce();
+  //   this.loadTasksOnce();
+
+  //   return this.initialDataResolved$;
+  // }
+
+
+  // initializeApp(): Observable<boolean> {
+
+  //   const storedUser = this.getStoredUser();
+
+  //   // Not logged in
+  //   if (!storedUser) {
+  //     queueMicrotask(() => {
+  //       this.userSignal.set(null);
+  //       this.currentUserSubject.next(null);
+  //       this.initialResolvedSubject.next(true);
+  //     });
+  //     return this.initialDataResolved$;
+  //   }
+
+  //   // 🔥 CRITICAL FIX — DELAY EMISSION UNTIL APP READY
+  //   queueMicrotask(() => {
+
+  //     // restore session
+  //     this.userSignal.set(storedUser);
+  //     this.currentUserSubject.next(storedUser);
+
+  //     // reset state
+  //     this.usersLoaded = false;
+  //     this.tasksLoaded = false;
+  //     this.initialDataResolved = false;
+  //     this.initialResolvedSubject.next(false);
+
+  //     // hydrate dependent data
+  //     this.loadUsersOnce();
+  //     this.loadTasksOnce();
+  //   });
+
+  //   return this.initialDataResolved$;
+  // }
+
+
   initializeApp(): Observable<boolean> {
 
     const storedUser = this.getStoredUser();
@@ -277,17 +336,15 @@ export class ApiService {
       return of(true);
     }
 
-    // restore session WITHOUT triggering reload loops
-    this.userSignal.set(storedUser);
-    this.currentUserSubject.next(storedUser);
+    // reset loading state
+    this.initialDataResolved = false;
+    this.initialResolvedSubject.next(false);
 
-    // 🔥 HYDRATE DATA AFTER REFRESH
-    this.loadUsersOnce();
-    this.loadTasksOnce();
+    // 🔥 CRITICAL: validate session with backend
+    this.refreshCurrentUserFromServer(storedUser);
 
     return this.initialDataResolved$;
   }
-
 
 
   /* =====================================================
@@ -438,4 +495,34 @@ export class ApiService {
     this.userSignal.set(user);
     this.currentUserSubject.next(user);
   }
+
+
+  private refreshCurrentUserFromServer(user: any) {
+
+    // fetch real user from backend
+    this.http.get<any[]>('user', { id: user.id }).subscribe({
+      next: users => {
+
+        // session expired / deleted user
+        if (!users.length) {
+          this.logout();
+          return;
+        }
+
+        const freshUser = users[0];
+
+        // update everywhere
+        localStorage.setItem('user', JSON.stringify(freshUser));
+        this.userSignal.set(freshUser);
+        this.currentUserSubject.next(freshUser);
+
+        // NOW load dependent data
+        this.loadUsersOnce();
+        this.loadTasksOnce();
+      },
+
+      error: () => this.logout()
+    });
+  }
+
 }
