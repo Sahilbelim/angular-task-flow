@@ -53,7 +53,7 @@ describe('CommonApiService', () => {
 
         const mock = { id: '5', title: 'Single Task' };
 
-        service.get<any>('tasks', { id: 5 }).subscribe(res => {
+        service.get<any>('tasks/5').subscribe(res => {
             expect(res).toEqual(mock);
         });
 
