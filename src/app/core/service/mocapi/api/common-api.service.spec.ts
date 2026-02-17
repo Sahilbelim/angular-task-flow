@@ -1,3 +1,145 @@
+// import { TestBed } from '@angular/core/testing';
+// import { CommonApiService } from './common-api.service';
+// import {
+//     HttpClientTestingModule,
+//     HttpTestingController
+// } from '@angular/common/http/testing';
+
+// describe('CommonApiService', () => {
+
+//     let service: CommonApiService;
+//     let httpMock: HttpTestingController;
+
+//     const API = 'https://696dca5ad7bacd2dd7148b1a.mockapi.io/task';
+
+//     beforeEach(() => {
+//         TestBed.configureTestingModule({
+//             imports: [HttpClientTestingModule],
+//             providers: [CommonApiService]
+//         });
+
+//         service = TestBed.inject(CommonApiService);
+//         httpMock = TestBed.inject(HttpTestingController);
+//     });
+
+//     afterEach(() => {
+//         httpMock.verify(); // ensure no pending requests
+//     });
+
+//     it('should fetch user by id', () => {
+//         const mockUser = { id: '2', name: 'Alex' };
+
+//         service.getUserById('2').subscribe(res => {
+//             expect(res).toEqual(mockUser);
+//         });
+
+//         const req = httpMock.expectOne(`${API}/user/2`);
+//         expect(req.request.method).toBe('GET');
+
+//         req.flush(mockUser);
+//     });
+
+//     it('should create user', () => {
+//         const body = { name: 'New User' };
+
+//         service.createUser(body).subscribe(res => {
+//             expect(res).toEqual(body);
+//         });
+
+//         const req = httpMock.expectOne(`${API}/user`);
+//         expect(req.request.method).toBe('POST');
+//         expect(req.request.body).toEqual(body);
+
+//         req.flush(body);
+//     });
+//     it('should update user', () => {
+//         const body = { name: 'Updated' };
+
+//         service.updateUser(1, body).subscribe(res => {
+//             expect(res).toEqual(body);
+//         });
+
+//         const req = httpMock.expectOne(`${API}/user/1`);
+//         expect(req.request.method).toBe('PUT');
+//         expect(req.request.body).toEqual(body);
+
+//         req.flush(body);
+//     });
+//     it('should delete user', () => {
+//         service.deleteUser(5).subscribe(res => {
+//             expect(res).toBeTruthy();
+//         });
+
+//         const req = httpMock.expectOne(`${API}/user/5`);
+//         expect(req.request.method).toBe('DELETE');
+
+//         req.flush({});
+//     });
+//     it('should fetch tasks', () => {
+//         const mockTasks = [{ id: '1', title: 'Task' }];
+
+//         service.getTasks().subscribe(res => {
+//             expect(res).toEqual(mockTasks);
+//         });
+
+//         const req = httpMock.expectOne(`${API}/tasks`);
+//         expect(req.request.method).toBe('GET');
+
+//         req.flush(mockTasks);
+//     });
+//     it('should create task', () => {
+//         const body = { title: 'New Task' };
+
+//         service.createTask(body).subscribe(res => {
+//             expect(res).toEqual(body);
+//         });
+
+//         const req = httpMock.expectOne(`${API}/tasks`);
+//         expect(req.request.method).toBe('POST');
+//         expect(req.request.body).toEqual(body);
+
+//         req.flush(body);
+//     });
+//     it('should update task', () => {
+//         const body = { title: 'Updated Task' };
+
+//         service.updateTask(3, body).subscribe(res => {
+//             expect(res).toEqual(body);
+//         });
+
+//         const req = httpMock.expectOne(`${API}/tasks/3`);
+//         expect(req.request.method).toBe('PUT');
+
+//         req.flush(body);
+//     });
+//     it('should delete task', () => {
+//         service.deleteTask(9).subscribe(res => {
+//             expect(res).toBeTruthy();
+//         });
+
+//         const req = httpMock.expectOne(`${API}/tasks/9`);
+//         expect(req.request.method).toBe('DELETE');
+
+//         req.flush({});
+//     });
+//     it('should fetch countries', () => {
+//         const mock = [{ name: { common: 'India' } }];
+
+//         service.getCountries().subscribe(res => {
+//             expect(res).toEqual(mock);
+//         });
+
+//         const req = httpMock.expectOne(
+//             'https://restcountries.com/v3.1/all?fields=name'
+//         );
+
+//         expect(req.request.method).toBe('GET');
+
+//         req.flush(mock);
+//     });
+// });
+
+
 import { TestBed } from '@angular/core/testing';
 import { CommonApiService } from './common-api.service';
 import {
@@ -23,74 +165,72 @@ describe('CommonApiService', () => {
     });
 
     afterEach(() => {
-        httpMock.verify(); // ensure no pending requests
+        httpMock.verify();
     });
 
-    it('should fetch user by id', () => {
-        const mockUser = { id: '2', name: 'Alex' };
+    /* =====================================================
+       GET — LIST
+       Should call GET /tasks
+    ===================================================== */
+    it('should fetch list of tasks', () => {
 
-        service.getUserById('2').subscribe(res => {
-            expect(res).toEqual(mockUser);
-        });
+        const mock = [{ id: '1', title: 'Task' }];
 
-        const req = httpMock.expectOne(`${API}/user/2`);
-        expect(req.request.method).toBe('GET');
-
-        req.flush(mockUser);
-    });
-
-    it('should create user', () => {
-        const body = { name: 'New User' };
-
-        service.createUser(body).subscribe(res => {
-            expect(res).toEqual(body);
-        });
-
-        const req = httpMock.expectOne(`${API}/user`);
-        expect(req.request.method).toBe('POST');
-        expect(req.request.body).toEqual(body);
-
-        req.flush(body);
-    });
-    it('should update user', () => {
-        const body = { name: 'Updated' };
-
-        service.updateUser(1, body).subscribe(res => {
-            expect(res).toEqual(body);
-        });
-
-        const req = httpMock.expectOne(`${API}/user/1`);
-        expect(req.request.method).toBe('PUT');
-        expect(req.request.body).toEqual(body);
-
-        req.flush(body);
-    });
-    it('should delete user', () => {
-        service.deleteUser(5).subscribe(res => {
-            expect(res).toBeTruthy();
-        });
-
-        const req = httpMock.expectOne(`${API}/user/5`);
-        expect(req.request.method).toBe('DELETE');
-
-        req.flush({});
-    });
-    it('should fetch tasks', () => {
-        const mockTasks = [{ id: '1', title: 'Task' }];
-
-        service.getTasks().subscribe(res => {
-            expect(res).toEqual(mockTasks);
+        service.get<any[]>('tasks').subscribe(res => {
+            expect(res).toEqual(mock);
         });
 
         const req = httpMock.expectOne(`${API}/tasks`);
         expect(req.request.method).toBe('GET');
 
-        req.flush(mockTasks);
+        req.flush(mock);
     });
-    it('should create task', () => {
+
+    /* =====================================================
+       GET — SINGLE BY ID
+       Should convert id to REST path
+       /tasks/5 instead of ?id=5
+    ===================================================== */
+    it('should fetch single task by id', () => {
+
+        const mock = { id: '5', title: 'Single Task' };
+
+        service.get<any>('tasks', { id: 5 }).subscribe(res => {
+            expect(res).toEqual(mock);
+        });
+
+        const req = httpMock.expectOne(`${API}/tasks/5`);
+        expect(req.request.method).toBe('GET');
+
+        req.flush(mock);
+    });
+
+    /* =====================================================
+       GET — QUERY PARAMS
+       Should attach params to URL
+    ===================================================== */
+    it('should send query params', () => {
+
+        service.get<any[]>('tasks', { status: 'pending', page: 2 }).subscribe();
+
+        const req = httpMock.expectOne(r =>
+            r.url === `${API}/tasks` &&
+            r.params.get('status') === 'pending' &&
+            r.params.get('page') === '2'
+        );
+
+        expect(req.request.method).toBe('GET');
+        req.flush([]);
+    });
+
+    /* =====================================================
+       POST — CREATE
+    ===================================================== */
+    it('should create record using POST', () => {
+
         const body = { title: 'New Task' };
 
-        service.createTask(body).subscribe(res => {
+        service.post('tasks', body).subscribe(res => {
             expect(res).toEqual(body);
         });
 
@@ -100,41 +240,52 @@ describe('CommonApiService', () => {
 
         req.flush(body);
     });
-    it('should update task', () => {
-        const body = { title: 'Updated Task' };
 
-        service.updateTask(3, body).subscribe(res => {
+    /* =====================================================
+       PUT — UPDATE
+    ===================================================== */
+    it('should update record using PUT', () => {
+
+        const body = { title: 'Updated' };
+
+        service.put('tasks', 10, body).subscribe(res => {
             expect(res).toEqual(body);
         });
 
-        const req = httpMock.expectOne(`${API}/tasks/3`);
+        const req = httpMock.expectOne(`${API}/tasks/10`);
         expect(req.request.method).toBe('PUT');
+        expect(req.request.body).toEqual(body);
 
         req.flush(body);
     });
-    it('should delete task', () => {
-        service.deleteTask(9).subscribe(res => {
-            expect(res).toBeTruthy();
-        });
+
+    /* =====================================================
+       DELETE — REMOVE
+    ===================================================== */
+    it('should delete record using DELETE', () => {
+
+        service.delete('tasks', 9).subscribe();
 
         const req = httpMock.expectOne(`${API}/tasks/9`);
         expect(req.request.method).toBe('DELETE');
 
         req.flush({});
     });
-    it('should fetch countries', () => {
-        const mock = [{ name: { common: 'India' } }];
 
-        service.getCountries().subscribe(res => {
-            expect(res).toEqual(mock);
-        });
+    /* =====================================================
+       EXTERNAL API CALL
+       Should call full external URL (no base API)
+    ===================================================== */
+    it('should call external API', () => {
 
-        const req = httpMock.expectOne(
-            'https://restcountries.com/v3.1/all?fields=name'
-        );
+        const externalUrl = 'https://restcountries.com/v3.1/all?fields=name';
 
+        service.external<any[]>(externalUrl).subscribe();
+
+        const req = httpMock.expectOne(externalUrl);
         expect(req.request.method).toBe('GET');
 
-        req.flush(mock);
+        req.flush([]);
     });
+
 });

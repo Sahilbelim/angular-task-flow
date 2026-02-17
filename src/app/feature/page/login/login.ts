@@ -213,9 +213,47 @@ export class Login {
      4. Store session
      5. Navigate dashboard
   ===================================================== */
+  // submit() {
+
+  //   // Stop if form invalid and focus first error
+  //   if (this.loginForm.invalid) {
+  //     this.loginForm.markAllAsTouched();
+  //     setTimeout(() => this.scrollToFirstError());
+  //     return;
+  //   }
+
+  //   const { email, password } = this.loginForm.getRawValue();
+
+  //   // Lock UI
+  //   this.loading = true;
+  //   this.loginForm.disable();
+
+  //   // Fetch user from backend
+  //   this.commonApi.get<any[]>('user', { email }).subscribe({
+  //     next: users => {
+
+  //       // Validate user existence
+  //       if (!users.length)
+  //         throw new Error('User not found');
+
+  //       // Validate password
+  //       if (users[0].password !== password)
+  //         throw new Error('Invalid password');
+
+  //       // Store logged-in session globally
+  //       this.api.setSession(users[0]);
+
+  //       // Success feedback
+  //       this.toastr.success('Login successful');
+  //       this.router.navigate(['/dashboard']);
+  //     },
+  //     error: err => this.handleError(err),
+  //     complete: () => this.unlock()
+  //   });
+  // }
+
   submit() {
 
-    // Stop if form invalid and focus first error
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       setTimeout(() => this.scrollToFirstError());
@@ -224,33 +262,34 @@ export class Login {
 
     const { email, password } = this.loginForm.getRawValue();
 
-    // Lock UI
     this.loading = true;
     this.loginForm.disable();
 
-    // Fetch user from backend
     this.commonApi.get<any[]>('user', { email }).subscribe({
       next: users => {
 
-        // Validate user existence
-        if (!users.length)
-          throw new Error('User not found');
+        if (!users.length) {
+          this.handleError({ message: 'User not found' });
+          return;
+        }
 
-        // Validate password
-        if (users[0].password !== password)
-          throw new Error('Invalid password');
+        if (users[0].password !== password) {
+          this.handleError({ message: 'Invalid password' });
+          return;
+        }
 
-        // Store logged-in session globally
         this.api.setSession(users[0]);
-
-        // Success feedback
+        // 🔥 LOAD DATA AFTER LOGIN
+        this.api.hydrateUserData();
         this.toastr.success('Login successful');
         this.router.navigate(['/dashboard']);
+        this.unlock();
       },
+
       error: err => this.handleError(err),
-      complete: () => this.unlock()
     });
   }
+
 
   /* =====================================================
      HELPERS

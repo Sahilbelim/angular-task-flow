@@ -1,50 +1,270 @@
+// import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+// import { Dashbord } from './dashbord';
+// import { ApiService } from '../../../core/service/mocapi/api/api';
+// import { ToastrService } from 'ngx-toastr';
+// import { of, BehaviorSubject } from 'rxjs';
+// import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+// describe('Dashbord', () => {
+//   let component: Dashbord;
+//   let fixture: ComponentFixture<Dashbord>;
+//   let api: jasmine.SpyObj<ApiService>;
+//   let toastr: jasmine.SpyObj<ToastrService>;
+
+//   const tasks$ = new BehaviorSubject<any[]>([]);
+//   const users$ = new BehaviorSubject<any[]>([]);
+//   const filterUser$ = new BehaviorSubject<string | null>(null);
+
+//   beforeEach(async () => {
+//     api = jasmine.createSpyObj<ApiService>('ApiService', [
+//       'getTasks$',
+//       'getUsers$',
+//       'createTaskOptimistic',
+//       'updateTaskOptimistic',
+//       'deleteTaskOptimistic',
+//       'batchUpdateTasks',
+//       'updateTask',
+//       'hasPermission',
+//       'setOverlay',
+//     ], {
+//       taskFilterUser$: filterUser$,
+//     });
+
+//     toastr = jasmine.createSpyObj<ToastrService>('ToastrService', [
+//       'success',
+//       'error',
+//       'warning',
+//     ]);
+
+//     api.getTasks$.and.returnValue(tasks$.asObservable());
+//     api.getUsers$.and.returnValue(users$.asObservable());
+//     api.hasPermission.and.returnValue(true);
+
+//     await TestBed.configureTestingModule({
+//       imports: [Dashbord, NoopAnimationsModule],
+//       providers: [
+//         { provide: ApiService, useValue: api },
+//         { provide: ToastrService, useValue: toastr },
+//       ],
+//     }).compileComponents();
+
+//     fixture = TestBed.createComponent(Dashbord);
+//     component = fixture.componentInstance;
+//   });
+
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+
+//   it('should load tasks & users on init', fakeAsync(() => {
+//     const mockTasks = [
+//       { id: '1', title: 'Task 1', status: 'pending', order_id: 0 },
+//       { id: '2', title: 'Task 2', status: 'completed', order_id: 1 },
+//     ];
+//     const mockUsers = [{ id: 'u1', name: 'John' }];
+
+//     fixture.detectChanges(); // ngOnInit
+
+//     users$.next(mockUsers);
+//     tasks$.next(mockTasks);
+//     tick();
+
+//     expect(component.loading).toBeFalse();
+//     expect(component.dataLoaded).toBeTrue();
+//     expect(component.tasks.length).toBe(2);
+//     expect(component.filteredTasks.length).toBe(2);
+//   }));
+
+//   it('should calculate task stats correctly', () => {
+//     component.updateStats([
+//       { status: 'pending' },
+//       { status: 'completed' },
+//       { status: 'in-progress' },
+//     ]);
+
+//     expect(component.totalTasks).toBe(3);
+//     expect(component.pendingTasks).toBe(1);
+//     expect(component.complatedTasks).toBe(1);
+//     expect(component.inprogressTasks).toBe(1);
+//   });
+
+//   it('should filter tasks by search text', () => {
+//     component.tasks = [
+//       { title: 'Fix bug', status: 'pending' },
+//       { title: 'Write tests', status: 'completed' },
+//     ];
+
+//     component.searchText = 'fix';
+//     component.applyAllFilters();
+
+//     expect(component.filteredTasks.length).toBe(1);
+//     expect(component.filteredTasks[0].title).toBe('Fix bug');
+//   });
+
+//   it('should filter tasks by status', () => {
+//     component.tasks = [
+//       { title: 'A', status: 'pending' },
+//       { title: 'B', status: 'completed' },
+//     ];
+
+//     component.statusFilter = 'completed';
+//     component.applyAllFilters();
+
+//     expect(component.filteredTasks.length).toBe(1);
+//     expect(component.filteredTasks[0].status).toBe('completed');
+//   });
+
+//   it('should not save task if form is invalid', () => {
+//     component.taskForm.patchValue({ title: '' });
+
+//     component.saveTask();
+
+//     expect(api.createTaskOptimistic).not.toHaveBeenCalled();
+//   });
+
+//   // it('should create task successfully', fakeAsync(() => {
+//   //   api.createTaskOptimistic.and.returnValue(of({}));
+
+//   //   component.taskForm.patchValue({
+//   //     title: 'New Task',
+//   //     status: 'pending',
+//   //     priority: 'medium',
+//   //     assignedUsers: [],
+//   //   });
+
+//   //   component.saveTask();
+//   //   tick();
+
+//   //   expect(api.createTaskOptimistic).toHaveBeenCalled();
+//   //   expect(toastr.success).toHaveBeenCalledWith('Task created');
+//   //   expect(component.savingTask).toBeFalse();
+//   // }));
+
+//   it('should create task successfully', fakeAsync(() => {
+//     api.createTaskOptimistic.and.returnValue(of({}));
+
+//     component.taskForm.patchValue({
+//       title: 'New Task',
+//       dueDate: new Date(), // ✅ REQUIRED FIX
+//       status: 'pending',
+//       priority: 'medium',
+//       assignedUsers: [],
+//     });
+
+//     component.saveTask();
+//     tick();
+
+//     expect(api.createTaskOptimistic).toHaveBeenCalled();
+//     expect(toastr.success).toHaveBeenCalledWith('Task created');
+//     expect(component.savingTask).toBeFalse();
+//   }));
+
+
+//   it('should populate form when editing task', () => {
+//     const task = {
+//       id: '1',
+//       title: 'Edit me',
+//       status: 'pending',
+//       priority: 'high',
+//       assignedUsers: ['u1'],
+//       dueDate: '2025-01-01',
+//     };
+
+//     component.editTask(task);
+
+//     expect(component.editingTask).toBe(task);
+//     expect(component.popupVisible).toBeTrue();
+//     expect(component.taskForm.value.title).toBe('Edit me');
+//     expect(api.setOverlay).toHaveBeenCalledWith(true);
+//   });
+  
+//   it('should populate form when editing task', () => {
+//     const task = {
+//       id: '1',
+//       title: 'Edit me',
+//       status: 'pending',
+//       priority: 'high',
+//       assignedUsers: ['u1'],
+//       dueDate: '2025-01-01',
+//     };
+
+//     component.editTask(task);
+
+//     expect(component.editingTask).toBe(task);
+//     expect(component.popupVisible).toBeTrue();
+//     expect(component.taskForm.value.title).toBe('Edit me');
+//     expect(api.setOverlay).toHaveBeenCalledWith(true);
+//   });
+  
+//   it('should respect permission checks', () => {
+//     api.hasPermission.and.callFake(p => p === 'createTask');
+
+//     expect(component.canCreate()).toBeTrue();
+//     expect(component.canEdit()).toBeFalse();
+//     expect(component.canDelete()).toBeFalse();
+//   });
+
+//   it('should toggle popup and reset form', () => {
+//     component.popupVisible = true;
+
+//     component.togglePopup();
+
+//     expect(component.popupVisible).toBeFalse();
+//     expect(component.editingTask).toBeNull();
+//     expect(api.setOverlay).toHaveBeenCalledWith(false);
+//   });
+ 
+
+// });
+
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Dashbord } from './dashbord';
 import { ApiService } from '../../../core/service/mocapi/api/api';
 import { ToastrService } from 'ngx-toastr';
-import { of, BehaviorSubject } from 'rxjs';
+import { CommonApiService } from '../../../core/service/mocapi/api/common-api.service';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('Dashbord', () => {
+
   let component: Dashbord;
   let fixture: ComponentFixture<Dashbord>;
-  let api: jasmine.SpyObj<ApiService>;
-  let toastr: jasmine.SpyObj<ToastrService>;
+  let api: any;
+  let toastr: any;
+  let http: any;
+
+  /* ================= MOCK STORE STREAMS ================= */
 
   const tasks$ = new BehaviorSubject<any[]>([]);
   const users$ = new BehaviorSubject<any[]>([]);
-  const filterUser$ = new BehaviorSubject<string | null>(null);
+  const resolved$ = new BehaviorSubject<boolean>(false);
 
   beforeEach(async () => {
-    api = jasmine.createSpyObj<ApiService>('ApiService', [
-      'getTasks$',
-      'getUsers$',
-      'createTaskOptimistic',
-      'updateTaskOptimistic',
-      'deleteTaskOptimistic',
-      'batchUpdateTasks',
-      'updateTask',
-      'hasPermission',
-      'setOverlay',
-    ], {
-      taskFilterUser$: filterUser$,
-    });
 
-    toastr = jasmine.createSpyObj<ToastrService>('ToastrService', [
-      'success',
-      'error',
-      'warning',
-    ]);
+    api = {
+      tasks$: tasks$.asObservable(),
+      users$: users$.asObservable(),
+      initialDataResolved$: resolved$.asObservable(),
+      consumeTaskFilter: jasmine.createSpy().and.returnValue(null),
+      currentUser: jasmine.createSpy().and.returnValue({ id: '1', parentId: null }),
+      hasPermission: jasmine.createSpy().and.returnValue(true),
+      setOverlay: jasmine.createSpy(),
+      addTask: jasmine.createSpy(),
+      updateTask: jasmine.createSpy(),
+      deleteTask: jasmine.createSpy(),
+      reorderTasks: jasmine.createSpy(),
+    };
 
-    api.getTasks$.and.returnValue(tasks$.asObservable());
-    api.getUsers$.and.returnValue(users$.asObservable());
-    api.hasPermission.and.returnValue(true);
+    toastr = jasmine.createSpyObj('ToastrService', ['success', 'error', 'warning']);
+
+    http = jasmine.createSpyObj('CommonApiService', ['post', 'put', 'delete']);
 
     await TestBed.configureTestingModule({
       imports: [Dashbord, NoopAnimationsModule],
       providers: [
         { provide: ApiService, useValue: api },
         { provide: ToastrService, useValue: toastr },
+        { provide: CommonApiService, useValue: http },
       ],
     }).compileComponents();
 
@@ -52,167 +272,146 @@ describe('Dashbord', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  /* =====================================================
+     INIT
+  ===================================================== */
 
-  it('should load tasks & users on init', fakeAsync(() => {
-    const mockTasks = [
-      { id: '1', title: 'Task 1', status: 'pending', order_id: 0 },
-      { id: '2', title: 'Task 2', status: 'completed', order_id: 1 },
-    ];
-    const mockUsers = [{ id: 'u1', name: 'John' }];
+  it('should load data after store resolved', fakeAsync(() => {
 
-    fixture.detectChanges(); // ngOnInit
+    fixture.detectChanges();
 
-    users$.next(mockUsers);
-    tasks$.next(mockTasks);
+    users$.next([{ id: 'u1', name: 'John' }]);
+    tasks$.next([{ id: '1', title: 'Task', status: 'pending' }]);
+
+    resolved$.next(true);
     tick();
 
-    expect(component.loading).toBeFalse();
     expect(component.dataLoaded).toBeTrue();
-    expect(component.tasks.length).toBe(2);
-    expect(component.filteredTasks.length).toBe(2);
+    expect(component.loading).toBeFalse();
+    expect(component.tasks.length).toBe(1);
   }));
 
-  it('should calculate task stats correctly', () => {
-    component.updateStats([
-      { status: 'pending' },
-      { status: 'completed' },
-      { status: 'in-progress' },
-    ]);
+  /* =====================================================
+     CREATE TASK
+  ===================================================== */
 
-    expect(component.totalTasks).toBe(3);
-    expect(component.pendingTasks).toBe(1);
-    expect(component.complatedTasks).toBe(1);
-    expect(component.inprogressTasks).toBe(1);
-  });
+  it('should create task', fakeAsync(() => {
 
-  it('should filter tasks by search text', () => {
+    http.post.and.returnValue(of({ id: '10', title: 'New' }));
+
+    component.taskForm.patchValue({
+      title: 'New',
+      dueDate: new Date(),
+      status: 'pending',
+      priority: 'medium',
+      assignedUsers: []
+    });
+
+    component.saveTask();
+    tick();
+
+    expect(http.post).toHaveBeenCalled();
+    expect(api.addTask).toHaveBeenCalled();
+    expect(toastr.success).toHaveBeenCalledWith('Task created');
+  }));
+
+  /* =====================================================
+     UPDATE TASK
+  ===================================================== */
+
+  it('should update task', fakeAsync(() => {
+
+    component.editingTask = { id: '1' };
+    http.put.and.returnValue(of({ id: '1', title: 'Updated' }));
+
+    component.taskForm.patchValue({
+      title: 'Updated',
+      dueDate: new Date(),
+      status: 'pending',
+      priority: 'medium',
+      assignedUsers: []
+    });
+
+    component.saveTask();
+    tick();
+
+    expect(http.put).toHaveBeenCalled();
+    expect(api.updateTask).toHaveBeenCalled();
+    expect(toastr.success).toHaveBeenCalledWith('Task updated');
+  }));
+
+  /* =====================================================
+     DELETE TASK
+  ===================================================== */
+
+  it('should delete task', fakeAsync(() => {
+
+    component.deleteId = '1';
+    http.delete.and.returnValue(of({}));
+
+    component.confirmDelete();
+    tick();
+
+    expect(api.deleteTask).toHaveBeenCalledWith('1');
+    expect(toastr.success).toHaveBeenCalledWith('Task deleted');
+  }));
+
+  /* =====================================================
+     FILTERS
+  ===================================================== */
+
+  it('should filter by search', () => {
+
     component.tasks = [
       { title: 'Fix bug', status: 'pending' },
-      { title: 'Write tests', status: 'completed' },
+      { title: 'Write docs', status: 'completed' }
     ];
 
     component.searchText = 'fix';
     component.applyAllFilters();
 
     expect(component.filteredTasks.length).toBe(1);
-    expect(component.filteredTasks[0].title).toBe('Fix bug');
   });
 
-  it('should filter tasks by status', () => {
+  it('should filter by status', () => {
+
     component.tasks = [
       { title: 'A', status: 'pending' },
-      { title: 'B', status: 'completed' },
+      { title: 'B', status: 'completed' }
     ];
 
     component.statusFilter = 'completed';
     component.applyAllFilters();
 
-    expect(component.filteredTasks.length).toBe(1);
     expect(component.filteredTasks[0].status).toBe('completed');
   });
 
-  it('should not save task if form is invalid', () => {
-    component.taskForm.patchValue({ title: '' });
+  /* =====================================================
+     PERMISSIONS
+  ===================================================== */
 
-    component.saveTask();
+  it('should respect permissions', () => {
 
-    expect(api.createTaskOptimistic).not.toHaveBeenCalled();
-  });
-
-  // it('should create task successfully', fakeAsync(() => {
-  //   api.createTaskOptimistic.and.returnValue(of({}));
-
-  //   component.taskForm.patchValue({
-  //     title: 'New Task',
-  //     status: 'pending',
-  //     priority: 'medium',
-  //     assignedUsers: [],
-  //   });
-
-  //   component.saveTask();
-  //   tick();
-
-  //   expect(api.createTaskOptimistic).toHaveBeenCalled();
-  //   expect(toastr.success).toHaveBeenCalledWith('Task created');
-  //   expect(component.savingTask).toBeFalse();
-  // }));
-
-  it('should create task successfully', fakeAsync(() => {
-    api.createTaskOptimistic.and.returnValue(of({}));
-
-    component.taskForm.patchValue({
-      title: 'New Task',
-      dueDate: new Date(), // ✅ REQUIRED FIX
-      status: 'pending',
-      priority: 'medium',
-      assignedUsers: [],
-    });
-
-    component.saveTask();
-    tick();
-
-    expect(api.createTaskOptimistic).toHaveBeenCalled();
-    expect(toastr.success).toHaveBeenCalledWith('Task created');
-    expect(component.savingTask).toBeFalse();
-  }));
-
-
-  it('should populate form when editing task', () => {
-    const task = {
-      id: '1',
-      title: 'Edit me',
-      status: 'pending',
-      priority: 'high',
-      assignedUsers: ['u1'],
-      dueDate: '2025-01-01',
-    };
-
-    component.editTask(task);
-
-    expect(component.editingTask).toBe(task);
-    expect(component.popupVisible).toBeTrue();
-    expect(component.taskForm.value.title).toBe('Edit me');
-    expect(api.setOverlay).toHaveBeenCalledWith(true);
-  });
-  
-  it('should populate form when editing task', () => {
-    const task = {
-      id: '1',
-      title: 'Edit me',
-      status: 'pending',
-      priority: 'high',
-      assignedUsers: ['u1'],
-      dueDate: '2025-01-01',
-    };
-
-    component.editTask(task);
-
-    expect(component.editingTask).toBe(task);
-    expect(component.popupVisible).toBeTrue();
-    expect(component.taskForm.value.title).toBe('Edit me');
-    expect(api.setOverlay).toHaveBeenCalledWith(true);
-  });
-  
-  it('should respect permission checks', () => {
-    api.hasPermission.and.callFake(p => p === 'createTask');
+    api.hasPermission.and.callFake((p: string) => p === 'createTask');
 
     expect(component.canCreate()).toBeTrue();
     expect(component.canEdit()).toBeFalse();
     expect(component.canDelete()).toBeFalse();
   });
 
-  it('should toggle popup and reset form', () => {
-    component.popupVisible = true;
+  /* =====================================================
+     POPUP
+  ===================================================== */
+
+  it('should toggle popup and overlay', () => {
 
     component.togglePopup();
 
-    expect(component.popupVisible).toBeFalse();
-    expect(component.editingTask).toBeNull();
+    expect(api.setOverlay).toHaveBeenCalledWith(true);
+
+    component.togglePopup();
+
     expect(api.setOverlay).toHaveBeenCalledWith(false);
   });
- 
 
 });

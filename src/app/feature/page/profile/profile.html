@@ -113,8 +113,13 @@
                  text-gray-500 cursor-not-allowed" />
 
                 <!-- PHONE -->
-                <input formControlName="phone" placeholder="Phone number" class="rounded-xl border border-blue-200 px-4 py-3
-                 focus:ring-2 focus:ring-blue-500 outline-none" />
+                <!-- <input type="number" maxlength="10" formControlName="phone" placeholder="Phone number" class="rounded-xl border border-blue-200 px-4 py-3
+                 focus:ring-2 focus:ring-blue-500 outline-none" /> -->
+
+
+                <input type="tel" formControlName="phone" maxlength="10" pattern="[0-9]{10}" inputmode="numeric"
+                    oninput="this.value = this.value.replace(/[^0-9]/g,'').slice(0,10)" placeholder="Phone number" class="rounded-xl border border-blue-200 px-4 py-3
+                         focus:ring-2 focus:ring-blue-500 outline-none" />
 
                 <!-- REGION -->
               

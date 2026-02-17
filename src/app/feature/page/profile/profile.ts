@@ -374,7 +374,7 @@ import { ApiService } from '../../../core/service/mocapi/api/api';
 import { CommonApiService } from '../../../core/service/mocapi/api/common-api.service';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
-
+import { finalize } from 'rxjs/operators';
 
 
 /* =========================================================
@@ -421,7 +421,7 @@ export class ProfilePage implements OnInit {
   ) {
     this.profileForm = this.fb.group({
       name: ['', Validators.required],
-      phone: [''],
+      phone: ['' ],
       region: [''],
       bio: ['', Validators.maxLength(250)],
     });
@@ -506,16 +506,57 @@ export class ProfilePage implements OnInit {
   /* =========================================================
      💾 SAVE PROFILE
      ========================================================= */
-  saveProfile() {
+  // saveProfile() {
 
-    if (this.profileForm.invalid || !this.user || this.saving) return;
+  //   if (this.profileForm.invalid || !this.user || this.saving) return;
 
-    this.saving = true;
-    this.profileForm.disable();
+  //   this.saving = true;
+  //   this.profileForm.disable();
 
-    const payload = this.profileForm.value;
+  //   const payload = this.profileForm.value;
 
-    this.http.put('user', this.user.id, payload).subscribe({
+  //   this.http.put('user', this.user.id, payload).subscribe({
+  //     next: (updated: any) => {
+
+  //       // Update session user
+  //       this.api.updateCurrentUser(updated);
+
+  //       // Update user list cache
+  //       this.api.updateUser(updated.id, updated);
+
+  //       this.toast.success('Profile updated');
+  //       this.flipCard();
+  //     },
+  //     error: () => {
+  //       this.toast.error('Failed to update profile');
+  //     },
+  //     complete: () => {
+  //       this.profileForm.enable();
+  //       this.saving = false;
+  //     }
+  //   });
+  // }
+
+ 
+
+saveProfile() {
+
+  if (this.profileForm.invalid || !this.user || this.saving) return;
+
+  this.saving = true;
+  this.profileForm.disable();
+
+  const payload = this.profileForm.value;
+
+  this.http.put('user', this.user.id, payload)
+    .pipe(
+      finalize(() => {
+        // ALWAYS runs (success OR error)
+        this.profileForm.enable();
+        this.saving = false;
+      })
+    )
+    .subscribe({
       next: (updated: any) => {
 
         // Update session user
@@ -529,13 +570,9 @@ export class ProfilePage implements OnInit {
       },
       error: () => {
         this.toast.error('Failed to update profile');
-      },
-      complete: () => {
-        this.profileForm.enable();
-        this.saving = false;
       }
     });
-  }
+}
 
 
 
