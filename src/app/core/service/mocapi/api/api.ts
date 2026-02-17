@@ -2163,8 +2163,8 @@ export class ApiService {
     this.initialResolvedSubject.next(false);
 
     // Reload filtered data for new user
-    // this.loadUsersOnce();
-    // this.loadTasksOnce();
+    this.loadUsersOnce();
+    this.loadTasksOnce();
   }
 
   /** Hydrate all user dependent data */
