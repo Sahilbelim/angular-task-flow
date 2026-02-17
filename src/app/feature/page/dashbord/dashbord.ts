@@ -406,39 +406,6 @@ export class Dashbord implements OnInit {
   /* =====================
      DRAG & DROP
   ===================== */
-
-  // onTaskDrop(event: CdkDragDrop<any[]>, status: TaskStatus) {
-
-  //   const source = event.previousContainer.data;
-  //   const target = event.container.data;
-
-  //   if (event.previousContainer === event.container) {
-  //     moveItemInArray(target, event.previousIndex, event.currentIndex);
-  //   } else {
-  //     transferArrayItem(source, target, event.previousIndex, event.currentIndex);
-  //   }
-
-  //   // 🔥 1 — UPDATE STORE FIRST (instant UI)
-  //   const updatedTasks = [...this.tasks];
-
-  //   [...source, ...target].forEach((task, index) => {
-  //     task.order_id = index;
-  //     if (target.includes(task)) task.status = status;
-  //   });
-
-  //   this.api.setTasks(updatedTasks); // ⭐ instant UI update
-
-
-  //   // 🔥 2 — SYNC BACKEND (background)
-  //   [...source, ...target].forEach(task => {
-  //     this.commonApi.put('tasks', task.id, {
-  //       status: task.status,
-  //       order_id: task.order_id
-  //     }).subscribe();
-  //   });
-
-  // }
-
   onTaskDrop(event: CdkDragDrop<any[]>, status: TaskStatus) {
 
     const source = event.previousContainer.data;
@@ -483,19 +450,6 @@ export class Dashbord implements OnInit {
     this.rebuildBoard();
   }
 
-  // private persistOrder(tasks: any[]) {
-
-  //   // update store instantly
-  //   this.api.reorderTasks(tasks);
-
-  //   // sync backend
-  //   tasks.forEach((t, i) => {
-  //     this.commonApi.put('tasks', t.id, {
-  //       status: t.status,
-  //       order_id: i
-  //     }).subscribe();
-  //   });
-  // }
 
   /* ======================================================
    SAVE ORDER ONE BY ONE (NO PARALLEL REQUESTS)
