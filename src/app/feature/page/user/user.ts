@@ -6,9 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { ApiService } from '../../../core/service/mocapi/api/api';
-// import { AdminAddUser } from '../admin-add-user/admin-add-user';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-
 import { Renderer2, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,8 +21,7 @@ import { CommonApiService } from '../../../core/service/mocapi/api/common-api.se
     FormsModule,
     NgxPaginationModule,
     ReactiveFormsModule,
-    // AdminAddUser,
-  ],
+   ],
   templateUrl: './user.html',
 })
 export class UsersPage implements OnInit, OnDestroy {
@@ -78,12 +75,12 @@ export class UsersPage implements OnInit, OnDestroy {
   showPassword = false;
   formLoading = false;
 
-  userSaving = false;     // add + edit user
-  userDeleting = false;  // delete user
+  userSaving = false;      
+  userDeleting = false;  
 
 
 
-  private renderer = inject(Renderer2);
+  // private renderer = inject(Renderer2);
   constructor(
     private api: ApiService,
     private http: CommonApiService,
@@ -203,116 +200,6 @@ export class UsersPage implements OnInit, OnDestroy {
       : { noPermission: true };
   }
 
-
-  // submitAdminForm() {
-  //   // if (this.adminForm.invalid || this.userSaving) {
-  //   //   this.adminForm.markAllAsTouched();
-  //   //   return;
-  //   // }
-
-  //   if (this.adminForm.invalid || this.userSaving) {
-  //     this.adminForm.markAllAsTouched();
-
-  //     setTimeout(() => {
-  //       this.scrollToFirstError();
-  //     });
-
-  //     return;
-  //   }
-
-  //   this.userSaving = true;        // 🔒 lock
-  //   this.adminForm.disable();     // 🔒 UI lock
-
-  //   const raw = this.adminForm.getRawValue();
-
-  //   const permissions = {
-  //     createUser: !!raw.createUser,
-  //     createTask: !!raw.createTask,
-  //     editTask: !!raw.editTask,
-  //     deleteTask: !!raw.deleteTask,
-  //   };
-
-  //   const req$ = this.isEditMode && this.editUser
-  //     ? this.api.updateUser(this.editUser.id, { permissions })
-  //     : this.api.createUser({
-  //       name: raw.name,
-  //       email: raw.email,
-  //       password: raw.password,
-  //       permissions,
-  //     });
-
-  //   req$.subscribe({
-  //     next: () => {
-  //       this.toastr.success(
-  //         this.isEditMode ? 'User updated' : 'User created'
-  //       );
-  //       this.closeSidebar();
-  //     },
-  //     error: () => {
-  //       this.toastr.error('Operation failed');
-  //     },
-  //     complete: () => {
-  //       this.userSaving = false;   // 🔓 unlock
-  //       this.adminForm.enable();
-  //     }
-  //   });
-  // }
-
-  // submitAdminForm() {
-  //   console.log(this.adminForm);
-
-  //   if (this.adminForm.invalid || this.userSaving) {
-  //     this.adminForm.markAllAsTouched();
-  //     setTimeout(() => this.scrollToFirstError());
-  //     return;
-  //   }
-
-  //   this.userSaving = true;
-  //   this.adminForm.disable();
-
-  //   const raw = this.adminForm.getRawValue();
-
-  //   const permissions = {
-  //     createUser: !!raw.createUser,
-  //     createTask: !!raw.createTask,
-  //     editTask: !!raw.editTask,
-  //     deleteTask: !!raw.deleteTask,
-  //   };
-
-  //   const payload = this.isEditMode
-  //     ? { permissions }
-  //     : {
-  //       name: raw.name,
-  //       email: raw.email,
-  //       password: raw.password,
-  //       permissions,
-  //       parentId: this.api.currentUser()?.id,
-  //       createdAt: new Date().toISOString()
-  //     };
-
-  //   const request$ = this.isEditMode && this.editUser
-  //     ? this.http.put('user', this.editUser.id, payload)
-  //     : this.http.post('user', payload);
-
-  //   console.log('Request:', request$);
-  //   request$.subscribe({
-  //     next: () => {
-  //       alert('save');
-  //       this.toastr.success(
-  //         this.isEditMode ? 'User updated' : 'User created'
-  //       );
-  //       alert(this.isEditMode);
-
-  //       this.closeSidebar();
-  //       // this.api.refreshUsers();   // 🔥 IMPORTANT
-  //     },
-  //     error: () => {
-  //       this.toastr.error('Operation failed');
-  //       this.userSaving = false;
-  //       this.adminForm.enable();
-  //     }
-  //   });
-  // }
 
   submitAdminForm() {
 
@@ -487,14 +374,11 @@ export class UsersPage implements OnInit, OnDestroy {
     });
   }
 
-
   closeTaskPopup() {
     this.showTaskBlockPopup = false;
     this.userToDelete = null;
     document.body.classList.remove('overflow-hidden');
   }
-
-
 
   closeAllPopups() {
     this.showTaskBlockPopup = false;
@@ -545,14 +429,6 @@ export class UsersPage implements OnInit, OnDestroy {
 
   }
 
-  // goToUserTasks() {
-  //   if (!this.userToDelete) return;
-
-  //   this.api.setTaskFilterUser(this.userToDelete.id);
-  //   this.closeAllPopups();
-  //   this.router.navigate(['/tasks']);
-  // }
-
   goToUserTasks() {
     if (!this.userToDelete) return;
 
@@ -566,51 +442,6 @@ export class UsersPage implements OnInit, OnDestroy {
     });
   }
 
-
-  // private initUsersPage(): void {
-  //   this.loading = true;
-  //   this.dataLoaded = false;
-
-  //   this.sub = this.api.getUsers$()
-  //     .pipe(
-  //       // 🔥 ignore first empty emission
-  //       filter((users: any[]) => users.length > 0)
-  //     )
-  //     .subscribe({
-  //       next: (users: any[]) => {
-  //         const meId = this.currentUserId;
-
-  //         // exclude current user
-  //         this.users = users.filter(u => u.id !== meId);
-
-  //         this.applyFilter();
-
-  //         // ✅ STOP skeleton ONLY when real data arrives
-  //         this.loading = false;
-  //         this.dataLoaded = true;
-  //       },
-  //       error: () => {
-  //         this.loading = false;
-  //         this.dataLoaded = true;
-  //       }
-  //     });
-  // }
-
-  // private initUsersPage(): void {
-
-  //   this.sub = this.api.users$.subscribe(users => {
-
-  //     const meId = this.currentUserId;
-
-  //     this.users = users.filter(u => u.id !== meId);
-
-  //     this.applyFilter();
-
-  //     this.loading = false;
-  //     this.dataLoaded = true;
-  //   });
-
-  // }
 
   private initUsersPage(): void {
 

@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -23,11 +22,10 @@ import { combineLatest } from 'rxjs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
-import { filter } from 'rxjs';
 import moment from 'moment';
 import { ViewChild, ElementRef } from '@angular/core';
-
 import { CommonApiService } from '../../../core/service/mocapi/api/common-api.service';
+
 
 type TaskStatus = 'pending' | 'in-progress' | 'completed';
 type TaskPriority = 'low' | 'medium' | 'high';
@@ -161,292 +159,6 @@ export class Dashbord implements OnInit {
   /* =====================
      INIT
   ===================== */
-
-  // ngOnInit() {
-  //   this.loading = true;
-
-  //   combineLatest([
-  //     this.api.getTasks$(),
-  //     this.api.getUsers$(),
-  //     this.api.taskFilterUser$
-  //   ])
-  //     .pipe(
-  //       filter(([tasks]) => tasks.length > 0)
-  //     )
-  //     .subscribe(([tasks, users, filterUserId]) => {
-
-  //       // build user map
-  //       this.userMap = {};
-  //       users.forEach(u => (this.userMap[u.id] = u));
-  //       this.assignableUsers = users;
-
-  //       // source data only
-  //       this.tasks = [...tasks].sort(
-  //         (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
-  //       );
-  //       console.log('Loaded tasks:', this.tasks);
-
-  //       // apply redirect filter ONCE
-  //       if (filterUserId && !this.redirectFilterApplied) {
-  //         this.redirectFilterApplied = true;
-  //         this.selectedUserFilter = [filterUserId];
-  //       }
-
-  //       // ✅ ALWAYS apply filters here
-  //       this.applyAllFilters();
-
-  //       this.buildAssignedUsersMap();
-  //       this.loading = false;
-  //       this.dataLoaded = true;
-  //     });
-  // }
-
-  // ngOnInit() {
-  //   this.loading = true;
-
-  //   combineLatest([
-  //     this.api.getTasks$(),
-  //     this.api.getUsers$(),
-  //     this.api.taskFilterUser$
-  //   ])
-  //     .pipe(
-  //       filter(([tasks, users]) => tasks !== null && users !== null)
-  //     )
-  //     .subscribe(([tasks, users, filterUserId]) => {
-
-  //       // build user map
-  //       this.userMap = {};
-  //       users.forEach(u => (this.userMap[u.id] = u));
-  //       this.assignableUsers = users;
-
-  //       // source data only (EMPTY ARRAY ALSO VALID)
-  //       this.tasks = [...tasks].sort(
-  //         (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
-  //       );
-
-  //       console.log('Loaded tasks:', this.tasks);
-
-  //       // apply redirect filter ONCE
-  //       if (filterUserId && !this.redirectFilterApplied) {
-  //         this.redirectFilterApplied = true;
-  //         this.selectedUserFilter = [filterUserId];
-  //       }
-
-  //       // apply filters
-  //       this.applyAllFilters();
-  //       this.buildAssignedUsersMap();
-
-  //       // stop loader ALWAYS after first real response
-  //       this.loading = false;
-  //       this.dataLoaded = true;
-  //     });
-  // }
-  // ngOnInit() {
-  //   this.loading = true;
-  //   this.dataLoaded = false;
-
-  //   combineLatest([
-  //     this.api.getTasks$(),
-  //     this.api.getUsers$(),
-  //     this.api.taskFilterUser$
-  //   ])
-  //     .subscribe(([tasks, users, filterUserId]) => {
-
-  //       // WAIT until users are loaded (real backend response indicator)
-  //       if (!users) return;
-
-  //       // build user map
-  //       this.userMap = {};
-  //       users.forEach(u => (this.userMap[u.id] = u));
-  //       this.assignableUsers = users;
-
-  //       // tasks can be empty array — THAT IS VALID DATA
-  //       this.tasks = [...tasks].sort(
-  //         (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
-  //       );
-
-  //       if (filterUserId && !this.redirectFilterApplied) {
-  //         this.redirectFilterApplied = true;
-  //         this.selectedUserFilter = [filterUserId];
-  //       }
-
-  //       this.applyAllFilters();
-  //       this.buildAssignedUsersMap();
-
-  //       // stop skeleton AFTER first real processing
-  //       if (!this.dataLoaded) {
-  //         this.loading = false;
-  //         this.dataLoaded = true;
-  //       }
-  //     });
-  // }
-
-  // ngOnInit() {
-  //   this.loading = true;
-  //   this.dataLoaded = false;
-
-  //   combineLatest([
-  //     this.api.getTasks$(),
-  //     this.api.getUsers$(),
-  //     this.api.taskFilterUser$
-  //   ])
-  //     .pipe(
-  //       // 🚀 ignore initial BehaviorSubject values
-  //       filter(([tasks, users]) => users.length > 0)
-  //     )
-  //     .subscribe(([tasks, users, filterUserId]) => {
-
-  //       // build user map
-  //       this.userMap = {};
-  //       users.forEach(u => this.userMap[u.id] = u);
-  //       this.assignableUsers = users;
-
-  //       // tasks CAN be empty → valid state
-  //       this.tasks = [...tasks].sort(
-  //         (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
-  //       );
-
-  //       // redirect filter
-  //       if (filterUserId && !this.redirectFilterApplied) {
-  //         this.redirectFilterApplied = true;
-  //         this.selectedUserFilter = [filterUserId];
-  //       }
-
-  //       this.applyAllFilters();
-  //       this.buildAssignedUsersMap();
-
-  //       // stop skeleton ONLY AFTER REAL API
-  //       this.loading = false;
-  //       this.dataLoaded = true;
-  //     });
-  // }
-
-  // ngOnInit() {
-
-  //   combineLatest([
-  //     this.api.getTasks$(),
-  //     this.api.getUsers$(),
-  //     this.api.taskFilterUser$
-  //   ])
-  //     .subscribe(([tasks, users, filterUserId]) => {
-
-  //       this.userMap = {};
-  //       users.forEach(u => this.userMap[u.id] = u);
-  //       this.assignableUsers = users;
-
-  //       this.tasks = [...tasks].sort(
-  //         (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
-  //       );
-
-  //       if (filterUserId && !this.redirectFilterApplied) {
-  //         this.redirectFilterApplied = true;
-  //         this.selectedUserFilter = [filterUserId];
-  //       }
-
-  //       this.applyAllFilters();
-  //       this.buildAssignedUsersMap();
-
-  //       this.loading = false;
-  //       this.dataLoaded = true;
-  //     });
-  // }
-
-  // ngOnInit() {
-
-  //   this.api.refreshAll(); // 🔥 load users + tasks once
-
-  //   combineLatest([
-  //     this.api.tasks$,
-  //     this.api.users$
-  //   ]).subscribe(([tasks, users]) => {
-
-  //     this.userMap = {};
-  //     users.forEach(u => this.userMap[u.id] = u);
-  //     this.assignableUsers = users;
-
-  //     this.tasks = [...tasks].sort((a, b) => (a.order_id ?? 0) - (b.order_id ?? 0));
-
-  //     this.applyAllFilters();
-  //     this.buildAssignedUsersMap();
-
-  //     this.loading = false;
-  //     this.dataLoaded = true;
-  //   });
-  // }
-
-  // ngOnInit() {
-
-  //   // 🔥 FIRST LOAD FROM BACKEND
-  //   // combineLatest([
-  //   //   this.commonApi.get<any[]>('tasks'),
-  //   //   this.commonApi.get<any[]>('user')
-  //   combineLatest([
-  //     this.api.tasks$,
-  //     this.api.users$
-    
-  //   ]).subscribe(([tasks, users]) => {
-
-  //     this.api.setTasks(tasks);
-  //     this.api.setUsers(users);
-  //   });
-
-  //   // 🔥 THEN ONLY LISTEN TO STORE
-  //   combineLatest([
-  //     this.api.tasks$,
-  //     this.api.users$
-  //   ]).subscribe(([tasks, users]) => {
-
-  //     this.userMap = {};
-  //     users.forEach(u => this.userMap[u.id] = u);
-  //     this.assignableUsers = users;
-
-  //     this.tasks = [...tasks].sort((a, b) => (a.order_id ?? 0) - (b.order_id ?? 0));
-
-  //     this.applyAllFilters();
-  //     this.buildAssignedUsersMap();
-
-  //     this.loading = false;
-  //     this.dataLoaded = true;
-  //   });
-  // }
-
-
-  // ngOnInit() {
-
-  //   this.loading = true;
-
-  //   combineLatest([
-  //     this.api.tasks$,
-  //     this.api.users$,
-  //     this.api.initialDataResolved$
-  //   ])
-  //     .subscribe(([tasks, users, resolved]) => {
-
-  //       // 🚀 show skeleton only until backend finishes
-  //       if (!resolved) {
-  //         this.loading = true;
-  //         return;
-  //       }
-
-  //       // AFTER FIRST LOAD → NEVER AGAIN
-  //       this.loading = false;
-  //       this.dataLoaded = true;
-
-  //       this.userMap = {};
-  //       users.forEach(u => this.userMap[u.id] = u);
-  //       this.assignableUsers = users;
-
-  //       this.tasks = [...tasks].sort(
-  //         (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
-  //       );
-
-  //       this.applyAllFilters();
-  //       this.buildAssignedUsersMap();
-
-  //     });
-  // }
-
-
   ngOnInit() {
 
     this.loading = true;
@@ -486,25 +198,7 @@ export class Dashbord implements OnInit {
   /* =====================
      LOAD TASKS
   ===================== */
-  // loadTasks() {
-  //   this.loading = true;
-
-  //   this.api.getTasks$().subscribe((tasks: any[]) => {
-  //     this.tasks = [...tasks].sort(
-  //       (a, b) => (a.order_id ?? 0) - (b.order_id ?? 0)
-  //     );
-
-  //     this.applyAllFilters();
-  //     this.buildAssignedUsersMap();
-  //     this.updateStats(this.tasks);
-  //     this.rebuildBoard();
-
-  //     this.loading = false;
-  //   });
-
-  // }
-
-  loadTasks() {
+   loadTasks() {
     this.loading = true;
 
     this.api.tasks$.subscribe(tasks => {
@@ -522,7 +216,6 @@ export class Dashbord implements OnInit {
     });
   }
 
-
   /* =====================
      ASSIGNED USERS (NO N+1)
   ===================== */
@@ -539,141 +232,9 @@ export class Dashbord implements OnInit {
     return this.assignedUsersMap[taskId] || [];
   }
 
-
-
-
   /* =====================
      SAVE / UPDATE
   ===================== */
-
-  // saveTask() {
-  //   // if (this.taskForm.invalid) {
-  //   //   this.taskForm.markAllAsTouched();
-  //   //   return;
-  //   // }
-
-  //   if (this.taskForm.invalid) {
-  //     this.taskForm.markAllAsTouched();
-
-  //     setTimeout(() => {
-  //       this.scrollToFirstError();
-  //     });
-
-  //     return;
-  //   }
-  //   this.savingTask = true;      // 🔒 lock
-  //   this.taskForm.disable();     // 🔒 UI lock
-
-
-  //   const raw = this.taskForm.value;
-  //   console.log('RAW dueDate value:', raw.dueDate);
-
-
-  //   const payload = {
-  //     ...raw,
-  //     dueDate: this.normalizeDueDate(raw.dueDate),
-  //   };
-
-
-  //   const req$ = this.editingTask
-  //     ? this.api.updateTaskOptimistic(this.editingTask.id, payload)
-  //     : this.api.createTaskOptimistic(payload);
-
-
-  //   req$.subscribe({
-  //     next: () => {
-  //       this.toastr.success(
-  //         this.editingTask ? 'Task updated' : 'Task created'
-  //       );
-  //       this.resetForm();
-  //     },
-  //     error: () => {
-  //       this.toastr.error('Operation failed');
-  //     },
-  //     complete: () => {
-  //       this.savingTask = false; // 🔓 unlock
-  //       this.taskForm.enable();
-  //     }
-  //   });
-  // }
-
-  // saveTask() {
-
-  //   if (this.taskForm.invalid) {
-  //     this.taskForm.markAllAsTouched();
-  //     setTimeout(() => this.scrollToFirstError());
-  //     return;
-  //   }
-
-  //   this.savingTask = true;
-  //   this.taskForm.disable();
-
-  //   const raw = this.taskForm.value;
-
-  //   const payload = {
-  //     ...raw,
-  //     dueDate: this.normalizeDueDate(raw.dueDate),
-  //   };
-
-  //   const req$ :any = this.editingTask
-  //     ? this.api.updateTask(this.editingTask.id, payload)
-  //     : this.api.createTask(payload);
-
-  //   req$.subscribe({
-  //     next: () => {
-  //       this.toastr.success(this.editingTask ? 'Task updated' : 'Task created');
-  //       this.resetForm();
-  //     },
-  //     error: () => this.toastr.error('Operation failed'),
-  //     complete: () => {
-  //       this.savingTask = false;
-  //       this.taskForm.enable();
-  //     }
-  //   });
-  // }
-
-  // saveTask() {
-
-  //   if (this.taskForm.invalid) {
-  //     this.taskForm.markAllAsTouched();
-  //     setTimeout(() => this.scrollToFirstError());
-  //     return;
-  //   }
-
-  //   this.savingTask = true;
-  //   this.taskForm.disable();
-
-  //   const raw = this.taskForm.value;
-
-  //   const payload = {
-  //     ...raw,
-  //     dueDate: this.normalizeDueDate(raw.dueDate),
-  //     createdBy: this.api.user()?.id,
-  //     parentId: this.api.user()?.parentId ?? this.api.user()?.id,
-  //     createdAt: new Date().toISOString()
-  //   };
-
-  //   const req$ = this.editingTask
-  //     ? this.commonApi.put('tasks', this.editingTask.id, payload)
-  //     : this.commonApi.post('tasks', payload);
-
-  //   req$.subscribe({
-  //     next: () => {
-  //       if (this.editingTask) {
-  //         this.api.updateTask(this.editingTask.id, payload);
-  //       }
-  //       this.toastr.success(this.editingTask ? 'Task updated' : 'Task created');
-  //       this.api.refreshAll(); // 🔥 reload store
-  //       this.resetForm();
-  //     },
-  //     error: () => this.toastr.error('Operation failed'),
-  //     complete: () => {
-  //       this.savingTask = false;
-  //       this.taskForm.enable();
-  //     }
-  //   });
-  // }
-
   saveTask() {
 
     if (this.taskForm.invalid) {
@@ -728,7 +289,6 @@ export class Dashbord implements OnInit {
     }
   }
 
-
   private scrollToFirstError() {
 
     if (this.taskForm.get('title')?.invalid) {
@@ -765,8 +325,6 @@ export class Dashbord implements OnInit {
       setTimeout(() => el.focus(), 300);
     }
   }
-
-
   editTask(task: any) {
     this.editingTask = task;
     this.popupVisible = true;
@@ -781,7 +339,6 @@ export class Dashbord implements OnInit {
 
     this.api.setOverlay(true);
   }
-
 
   /* =====================
      DELETE
@@ -809,76 +366,6 @@ export class Dashbord implements OnInit {
 
 
   }
-
-
-
-
-  // confirmDelete() {
-  //   if (!this.deleteId) return;
-
-  //   this.deletingTaskBusy = true;
-
-  //   const deletedId = this.deleteId;
-
-  //   this.api.deleteTaskOptimistic(deletedId).subscribe({
-  //     next: () => {
-
-  //       // ✅ HARD SYNC DERIVED STATE
-  //       this.tasks = this.tasks.filter(t => t.id !== deletedId);
-  //       this.filteredTasks = this.filteredTasks.filter(t => t.id !== deletedId);
-
-  //       // 🔥 REMOVE STALE ASSIGNED USERS CACHE
-  //       delete this.assignedUsersMap[deletedId];
-
-  //       // 🔥 REBUILD EVERYTHING THAT DEPENDS ON TASKS
-  //       this.buildAssignedUsersMap();
-  //       this.updateStats(this.filteredTasks);
-  //       this.rebuildBoard();
-
-  //       this.toastr.success('Task deleted');
-  //       this.closeDeleteModal();
-  //     },
-  //     error: () => {
-  //       this.toastr.error('Delete failed');
-  //     },
-  //     complete: () => {
-  //       this.deletingTaskBusy = false;
-  //     }
-  //   });
-  // }
-
-  // confirmDelete() {
-  //   if (!this.deleteId) return;
-
-  //   this.deletingTaskBusy = true;
-
-  //   this.api.deleteTask(this.deleteId).subscribe({
-  //     next: () => {
-  //       this.toastr.success('Task deleted');
-  //       this.closeDeleteModal();
-  //     },
-  //     error: () => this.toastr.error('Delete failed'),
-  //     complete: () => this.deletingTaskBusy = false
-  //   });
-  // }
-
-
-  // confirmDelete() {
-  //   if (!this.deleteId) return;
-
-  //   this.deletingTaskBusy = true;
-
-  //   this.commonApi.delete('tasks', this.deleteId).subscribe({
-  //     next: () => {
-  //       this.toastr.success('Task deleted');
-  //       this.api.refreshAll(); // 🔥 reload
-  //       this.closeDeleteModal();
-  //     },
-  //     error: () => this.toastr.error('Delete failed'),
-  //     complete: () => this.deletingTaskBusy = false
-  //   });
-  // }
-
 
   confirmDelete() {
     if (!this.deleteId) return;
@@ -921,37 +408,35 @@ export class Dashbord implements OnInit {
   ===================== */
 
   // onTaskDrop(event: CdkDragDrop<any[]>, status: TaskStatus) {
+
   //   const source = event.previousContainer.data;
   //   const target = event.container.data;
 
   //   if (event.previousContainer === event.container) {
   //     moveItemInArray(target, event.previousIndex, event.currentIndex);
   //   } else {
-  //     transferArrayItem(
-  //       source,
-  //       target,
-  //       event.previousIndex,
-  //       event.currentIndex
-  //     );
+  //     transferArrayItem(source, target, event.previousIndex, event.currentIndex);
   //   }
 
-  //   const patches: { id: string; changes: any }[] = [];
+  //   // 🔥 1 — UPDATE STORE FIRST (instant UI)
+  //   const updatedTasks = [...this.tasks];
 
   //   [...source, ...target].forEach((task, index) => {
   //     task.order_id = index;
-
-  //     const changes: any = { order_id: index };
-
-  //     if (target.includes(task)) {
-  //       task.status = status;
-  //       changes.status = status;
-  //     }
-
-  //     patches.push({ id: task.id, changes });
+  //     if (target.includes(task)) task.status = status;
   //   });
 
-  //   // 🔥 ONE backend sync
-  //   this.api.batchUpdateTasks(patches);
+  //   this.api.setTasks(updatedTasks); // ⭐ instant UI update
+
+
+  //   // 🔥 2 — SYNC BACKEND (background)
+  //   [...source, ...target].forEach(task => {
+  //     this.commonApi.put('tasks', task.id, {
+  //       status: task.status,
+  //       order_id: task.order_id
+  //     }).subscribe();
+  //   });
+
   // }
 
   onTaskDrop(event: CdkDragDrop<any[]>, status: TaskStatus) {
@@ -965,25 +450,30 @@ export class Dashbord implements OnInit {
       transferArrayItem(source, target, event.previousIndex, event.currentIndex);
     }
 
-    // 🔥 1 — UPDATE STORE FIRST (instant UI)
-    const updatedTasks = [...this.tasks];
+    /* ---------------------------------------
+       STEP 1: Recalculate FULL GLOBAL ORDER
+    ---------------------------------------- */
 
-    [...source, ...target].forEach((task, index) => {
+    const all = [
+      ...this.pendingBoard,
+      ...this.inProgressBoard,
+      ...this.completedBoard
+    ];
+
+    all.forEach((task, index) => {
       task.order_id = index;
       if (target.includes(task)) task.status = status;
     });
 
-    this.api.setTasks(updatedTasks); // ⭐ instant UI update
+    // instant UI update
+    this.api.reorderTasks(all);
 
+    /* ---------------------------------------
+       STEP 2: SAVE ORDER SEQUENTIALLY
+       (VERY IMPORTANT — prevents race condition)
+    ---------------------------------------- */
 
-    // 🔥 2 — SYNC BACKEND (background)
-    [...source, ...target].forEach(task => {
-      this.commonApi.put('tasks', task.id, {
-        status: task.status,
-        order_id: task.order_id
-      }).subscribe();
-    });
-
+    this.saveOrderSequentially(all);
   }
 
   onTableDrop(event: CdkDragDrop<any[]>) {
@@ -994,53 +484,52 @@ export class Dashbord implements OnInit {
   }
 
   // private persistOrder(tasks: any[]) {
-  //   tasks.reduce(
-  //     (p, t) =>
-  //       p.then(() =>
-  //         this.api.updateTask(t.id, {
-  //           status: t.status,
-  //           order_id: t.order_id,
-  //         }).toPromise()
-  //       ),
-  //     Promise.resolve()
-  //   );
-  // }
 
+  //   // update store instantly
+  //   this.api.reorderTasks(tasks);
 
-  // private persistOrder(tasks: any[]) {
-  //   const patches = tasks.map((t, i) => ({
-  //     id: t.id,
-  //     changes: { status: t.status, order_id: i }
-  //   }));
-
-  //   this.api.batchUpdateTasks(patches);
-  // }
-
-  // private persistOrder(tasks: any[]) {
+  //   // sync backend
   //   tasks.forEach((t, i) => {
   //     this.commonApi.put('tasks', t.id, {
   //       status: t.status,
   //       order_id: i
   //     }).subscribe();
   //   });
-
-  //   this.api.refreshAll();
   // }
+
+  /* ======================================================
+   SAVE ORDER ONE BY ONE (NO PARALLEL REQUESTS)
+   Prevents backend overwriting order randomly
+====================================================== */
+  private saveOrderSequentially(tasks: any[]) {
+
+    const queue = [...tasks];
+
+    const saveNext = () => {
+
+      if (!queue.length) return;
+
+      const t = queue.shift();
+
+      this.commonApi.put('tasks', t.id, {
+        status: t.status,
+        order_id: t.order_id
+      }).subscribe({
+        next: () => saveNext(),   // next after success
+        error: () => saveNext()   // skip failed but continue
+      });
+    };
+
+    saveNext();
+  }
+
 
   private persistOrder(tasks: any[]) {
 
-    // update store instantly
     this.api.reorderTasks(tasks);
 
-    // sync backend
-    tasks.forEach((t, i) => {
-      this.commonApi.put('tasks', t.id, {
-        status: t.status,
-        order_id: i
-      }).subscribe();
-    });
+    this.saveOrderSequentially(tasks);
   }
-
 
   private normalizeDueDate(value: any): string | null {
     if (!value) return null;
@@ -1073,8 +562,6 @@ export class Dashbord implements OnInit {
 
     return null;
   }
-
-
   private toMoment(date: string | Date | null) {
     return date ? moment(date) : null;
   }
@@ -1105,8 +592,6 @@ export class Dashbord implements OnInit {
     }
     this.rebuildBoard();
   }
-
-
 
   applyAllFilters() {
     let data = [...this.tasks];
@@ -1192,58 +677,12 @@ export class Dashbord implements OnInit {
     this.rebuildBoard();
   }
 
-
-
-  // onDateRangeChange(range: any) {
-  //   if (!range?.startDate || !range?.endDate) {
-  //     this.selectedDateRange = null;
-  //     this.applyAllFilters();
-  //     return;
-  //   }
-  //   console.log(range);
-
-  //   console.log(range.startDate, range.endDate);
-
-
-
-  //   const start = moment(range.startDate.$d).startOf('day');
-  //   const end = moment(range.endDate.$d).endOf('day');
-
-  //   this.filterDateRange = range; // 🔥 keeps input in sync
-  //   this.selectedDateRange = { startDate: start, endDate: end };
-
-  //   console.log('normalized range:', {
-  //     start: this.selectedDateRange.startDate.format('YYYY-MM-DD'),
-  //     end: this.selectedDateRange.endDate.format('YYYY-MM-DD'),
-  //   });
-
-  //   this.applyAllFilters();
-  // }
-
-  // onDateRangeChange(range: any) {
-  //   if (!range?.startDate || !range?.endDate) {
-  //     this.selectedDateRange = null;
-  //     this.applyAllFilters();
-  //     return;
-  //   }
-
-  //   const start = moment(range.startDate.$d).format('YYYY-MM-DD');
-  //   const end = moment(range.endDate.$d).format('YYYY-MM-DD');
-
-  //   this.filterDateRange = range;
-  //   this.selectedDateRange = { startDate: start, endDate: end };
-
-  //   this.applyAllFilters();
-  // }
-
-  onDateRangeChange(range: any) {
+  onDateRangeChange(range: any) { 
     if (!range?.startDate || !range?.endDate) {
       this.selectedDateRange = null;
       this.applyAllFilters();
       return;
     }
-
-    // ⭐ IMPORTANT — NEVER USE $d
     const start = range.startDate.format('YYYY-MM-DD');
     const end = range.endDate.format('YYYY-MM-DD');
 
